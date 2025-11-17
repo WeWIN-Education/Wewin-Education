@@ -4,11 +4,11 @@ A modern full-stack system for education management, IELTS testing, class manage
 
 This project includes:
 
--   **Frontend:** Next.js 14+, App Router, Tailwind CSS, Framer Motion,
-    Google OAuth, Lucide Icons\
--   **Backend:** NestJS, pnpm workspace-friendly\
--   **Architecture:** Clean, modular, modern
-------------------------------------------------------------------------
+- **Frontend:** Next.js 14+, App Router, Tailwind CSS, Framer Motion, Google OAuth, Lucide Icons\
+- **Backend:** NestJS, pnpm workspace-friendly\
+- **Architecture:** Clean, modular, modern
+
+---
 
 ## 📁 Folder Structure
 
@@ -31,13 +31,13 @@ This project includes:
     └── .gitignore
     └── README.md
 
-------------------------------------------------------------------------
+---
 
 # ⚡ Frontend (Next.js + Tailwind + OAuth)
 
 ### ▶️ Run development
 
-``` bash
+```bash
 cd frontend
 pnpm install
 pnpm run dev
@@ -45,21 +45,21 @@ pnpm run dev
 
 ### ✨ Features
 
--   Next.js App Router\
--   Tailwind CSS\
--   Framer Motion animations\
--   Google OAuth (NextAuth)\
--   Global Layout + Navbar + Sidebar\
--   Lucide React icons\
--   API clients, reusable components, hooks
+- Next.js App Router\
+- Tailwind CSS\
+- Framer Motion animations\
+- Google OAuth (NextAuth)\
+- Global Layout + Navbar + Sidebar\
+- Lucide React icons\
+- API clients, reusable components, hooks
 
-------------------------------------------------------------------------
+---
 
 # 🔥 Backend (NestJS)
 
 ### ▶️ Run development
 
-``` bash
+```bash
 cd backend
 pnpm install
 pnpm run start:dev
@@ -67,14 +67,14 @@ pnpm run start:dev
 
 ### ✨ Features
 
--   Modular architecture (Controller, Service, Module)
--   TypeScript 100%
--   Validation pipes
--   Ready for TypeORM / Prisma integration\
--   Environment-based configuration\
--   API ready for integration with frontend
+- Modular architecture (Controller, Service, Module)
+- TypeScript 100%
+- Validation pipes
+- Ready for TypeORM / Prisma integration\
+- Environment-based configuration\
+- API ready for integration with frontend
 
-------------------------------------------------------------------------
+---
 
 # 🧪 Environment Variables
 
@@ -92,13 +92,13 @@ pnpm run start:dev
     DATABASE_URL=your-db-url-here
     JWT_SECRET=your-secret
 
-------------------------------------------------------------------------
+---
 
 # 🛠️ Commands Summary
 
 ### Frontend
 
-``` bash
+```bash
 pnpm i
 pnpm dev
 pnpm build
@@ -107,30 +107,28 @@ pnpm start
 
 ### Backend
 
-``` bash
+```bash
 pnpm i
 pnpm start:dev
 pnpm build
 pnpm start
 ```
 
-------------------------------------------------------------------------
+---
 
 # 🚀 Deployment
 
 ### Frontend
 
--   Vercel (recommended)\
--   Netlify or Docker
+- Vercel (recommended)\
+- Netlify or Docker
 
 ### Backend
 
--   Docker\
--   Render\
--   Railway\
--   VPS
+- Docker\
+- Neon\
 
-------------------------------------------------------------------------
+---
 
 # 🤝 Contributing
 
@@ -139,9 +137,3 @@ If you want to contribute:
     git checkout -b feature/my-feature
     git commit -m "Add new feature"
     git push origin feature/my-feature
-
-------------------------------------------------------------------------
-
-# 📄 License
-
-MIT License --- free to modify & use.
