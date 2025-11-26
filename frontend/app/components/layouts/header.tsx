@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useSession, signIn } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
@@ -20,7 +20,17 @@ export default function Navbar() {
   const [showNavbar, setShowNavbar] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
 
+  const navRef = useRef<HTMLDivElement>(null);
+  const [navHeight, setNavHeight] = useState(0);
+
   const isAdmin = allowedEmails.includes(session?.user?.email || "");
+
+  // Detect Navbar height (dynamically)
+  useEffect(() => {
+    if (navRef.current) {
+      setNavHeight(navRef.current.offsetHeight);
+    }
+  }, [showNavbar]);
 
   // 🔹 Hiệu ứng ẩn/hiện khi cuộn
   useEffect(() => {
@@ -38,6 +48,7 @@ export default function Navbar() {
       <AnimatePresence>
         {showNavbar && (
           <motion.nav
+            ref={navRef}
             initial={{ opacity: 0, y: -40 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -40 }}
@@ -94,7 +105,7 @@ export default function Navbar() {
       </AnimatePresence>
 
       {/* spacer tránh bị che */}
-      <div className="h-[8.5vh]" />
+      <div style={{ height: `${navHeight}px` }} />
     </>
   );
 }
