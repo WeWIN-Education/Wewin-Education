@@ -150,7 +150,7 @@ export default function Footer() {
         {/* Copyright */}
         <p className="text-center text-xs lg:text-sm opacity-80">
           © {new Date().getFullYear()}{" "}
-          <span className="font-semibold text-[#E4C28E]">WeWIN HTO</span>. All
+          <span className="font-semibold text-[#E4C28E]">WeWIN</span>. All
           rights reserved.
         </p>
       </div>
