@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useSession, signIn } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
@@ -20,7 +20,17 @@ export default function Navbar() {
   const [showNavbar, setShowNavbar] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
 
+  const navRef = useRef<HTMLDivElement>(null);
+  const [navHeight, setNavHeight] = useState(0);
+
   const isAdmin = allowedEmails.includes(session?.user?.email || "");
+
+  // Detect Navbar height (dynamically)
+  useEffect(() => {
+    if (navRef.current) {
+      setNavHeight(navRef.current.offsetHeight);
+    }
+  }, [showNavbar]);
 
   // 🔹 Hiệu ứng ẩn/hiện khi cuộn
   useEffect(() => {
@@ -38,6 +48,7 @@ export default function Navbar() {
       <AnimatePresence>
         {showNavbar && (
           <motion.nav
+            ref={navRef}
             initial={{ opacity: 0, y: -40 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -40 }}
@@ -64,7 +75,16 @@ export default function Navbar() {
                       title="Resources"
                       icon={<IconDoc />}
                       items={[
-                        { href: Routes.RESOURCES_LISTS, label: "🎙 KIDS" },
+                        { href: Routes.RESOURCES_KIDS, label: "Kids" },
+                        {
+                          href: Routes.RESOURCES_STARTERS_FOUNDATION,
+                          label: "Starters Foundation",
+                        },
+                        { href: Routes.RESOURCES_STARTERS, label: "Starters" },
+                        { href: Routes.RESOURCES_MOVERS, label: "Movers" },
+                        { href: Routes.RESOURCES_FLYERS, label: "Flyers" },
+                        { href: Routes.RESOURCES_AUDIO, label: "Audio" },
+                        { href: Routes.RESOURCES_VIDEO, label: "Video" },
                       ]}
                     />
                   )}
@@ -94,7 +114,7 @@ export default function Navbar() {
       </AnimatePresence>
 
       {/* spacer tránh bị che */}
-      <div className="h-[8.5vh]" />
+      <div style={{ height: `${navHeight}px` }} />
     </>
   );
 }
@@ -240,7 +260,6 @@ function MobileMenu({ menuOpen, setMenuOpen, session, isAdmin }: any) {
                    from-[#007BCE] to-[#00A6FB] border-t border-white/20"
       >
         <div className="px-6 py-6 space-y-4">
-
           {/* ------------------------------------
               Logo mini giữ nguyên UI
           -------------------------------------- */}
@@ -262,9 +281,39 @@ function MobileMenu({ menuOpen, setMenuOpen, session, isAdmin }: any) {
             title="Resources"
             items={[
               {
-                href: Routes.RESOURCES_LISTS,
+                href: Routes.RESOURCES_KIDS,
                 icon: <BookOpen className="w-5 h-5" />,
-                label: "Learning Resources",
+                label: "Kids",
+              },
+              {
+                href: Routes.RESOURCES_STARTERS_FOUNDATION,
+                icon: <BookOpen className="w-5 h-5" />,
+                label: "Starters Foundation",
+              },
+              {
+                href: Routes.RESOURCES_STARTERS,
+                icon: <BookOpen className="w-5 h-5" />,
+                label: "Starters",
+              },
+              {
+                href: Routes.RESOURCES_MOVERS,
+                icon: <BookOpen className="w-5 h-5" />,
+                label: "Movers",
+              },
+              {
+                href: Routes.RESOURCES_FLYERS,
+                icon: <BookOpen className="w-5 h-5" />,
+                label: "Flyers",
+              },
+              {
+                href: Routes.RESOURCES_AUDIO,
+                icon: <BookOpen className="w-5 h-5" />,
+                label: "Audio",
+              },
+              {
+                href: Routes.RESOURCES_VIDEO,
+                icon: <BookOpen className="w-5 h-5" />,
+                label: "Video",
               },
             ]}
             setMenuOpen={setMenuOpen}
@@ -338,7 +387,6 @@ function MobileMenu({ menuOpen, setMenuOpen, session, isAdmin }: any) {
               </>
             ) : (
               <div className="space-y-3">
-
                 {/* User info */}
                 <div className="bg-white/10 rounded-lg px-4 py-3 flex items-center gap-3 border border-white/20">
                   <div className="w-10 h-10 rounded-full bg-linear-to-br from-amber-400 to-yellow-500 flex items-center justify-center text-white font-bold shadow-lg">
@@ -367,5 +415,3 @@ function MobileMenu({ menuOpen, setMenuOpen, session, isAdmin }: any) {
     </AnimatePresence>
   );
 }
-
-
