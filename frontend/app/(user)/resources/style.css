@@ -1,0 +1,208 @@
+@import url('https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600;700&display=swap');
+
+.kids-learning-page {
+  font-family: "Lexend", sans-serif;
+  background: #f5f8fc;
+  color: #1a1a1a;
+  min-height: 100vh;
+}
+
+.container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 40px 20px;
+}
+
+/* HEADING */
+h1.page-title {
+  text-align: center;
+  font-size: 36px;
+  font-weight: 700;
+  color: #0e4ba9;
+  margin-bottom: 30px;
+  letter-spacing: -0.5px;
+}
+
+/* LAYOUT GRID */
+.detail-wrapper {
+  display: grid;
+  grid-template-columns: 1fr 300px;
+  gap: 30px;
+  align-items: start;
+}
+
+@media (max-width: 900px) {
+  .detail-wrapper {
+    grid-template-columns: 1fr;
+  }
+  .detail-sidebar {
+    display: none;
+  }
+}
+
+/* MAIN CONTENT CARD */
+.detail-card {
+  background: white;
+  padding: 35px;
+  border-radius: 24px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+  border: 1px solid #e4eaf3;
+}
+
+/* PROJECT BLOCK STYLES */
+.project-block {
+  margin-top: 24px;
+  padding: 22px 25px;
+  border-radius: 20px;
+  background: #f9fbff;
+  border: 1px solid #d7e3ff;
+  margin-bottom: 30px;
+}
+
+.project-block h3 {
+  margin: 0 0 5px;
+  color: #0e4ba9;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+/* WEEK BLOCK STYLES */
+.week-block {
+  margin-top: 20px;
+  padding-top: 12px;
+  border-top: 1px dashed #c5d5ff;
+}
+
+.week-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.week-block h4 {
+  margin: 0;
+  color: #1a1a1a;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+/* SECTION / CONTENT STYLES */
+.week-section {
+  margin-top: 14px;
+  padding: 16px 20px;
+  background: white;
+  border-radius: 16px;
+  border: 1px solid #e5ebf8;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.03);
+  transition: transform 0.2s;
+}
+
+.week-section:hover {
+  border-color: #0e4ba9;
+}
+
+.week-section h5 {
+  margin: 0 0 10px;
+  color: #0e4ba9;
+  font-size: 16px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+/* HTML CONTENT STYLING */
+.content-html ul {
+  margin-top: 6px;
+  padding-left: 20px;
+  line-height: 1.6;
+}
+
+.content-html li {
+  margin-bottom: 6px;
+}
+
+.tag-note {
+  font-size: 13px;
+  opacity: 0.8;
+  font-style: italic;
+  margin-top: 8px;
+  display: block;
+}
+
+/* SIDEBAR STYLES */
+.detail-sidebar {
+  position: sticky;
+  top: 20px;
+  max-height: calc(100vh - 40px);
+  overflow-y: auto;
+  padding: 20px;
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+}
+
+.detail-sidebar h3 {
+  font-size: 18px;
+  color: #0e4ba9;
+  margin-bottom: 15px;
+  font-weight: 700;
+}
+
+.sidebar-nav-item {
+  display: block;
+  padding: 10px 12px;
+  background: #f0f5ff;
+  border-radius: 10px;
+  color: #0e4ba9;
+  font-weight: 500;
+  text-decoration: none;
+  margin-bottom: 8px;
+  transition: 0.2s;
+  font-size: 14px;
+}
+
+.sidebar-nav-item:hover {
+  background: #0e4ba9;
+  color: white;
+}
+
+/* AUDIO PLAYER */
+audio {
+  height: 36px;
+  border-radius: 20px;
+}
+
+.audio-player {
+  background: #f1f5f9;
+  padding: 10px;
+  border-radius: 12px;
+  margin-top: 10px;
+}
+
+/* ANIMATION */
+.fade-in {
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* BUTTON BACK */
+.back-btn {
+  display: inline-flex;
+  align-items: center;
+  margin-bottom: 20px;
+  padding: 8px 16px;
+  background: white;
+  border-radius: 12px;
+  color: #0e4ba9;
+  font-weight: 600;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  cursor: pointer;
+  transition: 0.2s;
+}
+.back-btn:hover {
+  background: #0e4ba9;
+  color: white;
+}
