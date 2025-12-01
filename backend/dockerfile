@@ -1,0 +1,27 @@
+# Use Node 18
+FROM node:18-alpine
+
+# Set working directory
+WORKDIR /app
+
+# Copy package JSON
+COPY package*.json ./
+COPY pnpm-lock.yaml* ./
+
+# Install pnpm
+RUN npm install -g pnpm
+
+# Install dependencies
+RUN pnpm install
+
+# Copy all source
+COPY . .
+
+# Build NestJS
+RUN pnpm run build
+
+# Expose port
+EXPOSE 8000
+
+# Start app
+CMD ["node", "dist/main.js"]

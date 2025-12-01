@@ -1,9 +1,11 @@
 // 🧭 Enum định nghĩa các route chính của hệ thống
 export const Routes = {
   HOME: "/",
+  LOGIN_PAGE: "/login",
   TEST_IELTS: "/test/ielts",
   RESOURCES_LISTS: "/resources/kids",
   MANAGE_CLASS: "/class",
   MANAGE_CLASS_CATEGORY: "/class/category",
   MANAGE_STUDENT: "/student",
+  CHATBOT: "/chatbot",
 };

@@ -1,23 +1,44 @@
-import { getServerSession } from "next-auth";
-import { redirect } from "next/navigation";
-import { allowedEmails } from "@/app/constants/email";
-import { authOptions } from "../api/auth/authOptions";
+"use client";
 
-export default async function UserLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
-  // 🔐 Kiểm tra session
-  const session = await getServerSession(authOptions);
+import { useAuthUnified } from "@/hooks/useAuthUnified";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { adminEmails } from "@/app/constants/email";
+import { Routes } from "../constants/routes";
 
-  // ❌ Nếu chưa login → quay lại login
-  if (!session) redirect("/login");
+export default function UserLayout({ children }: { children: React.ReactNode }) {
+  const { user } = useAuthUnified();
+  const router = useRouter();
 
-  // ❌ Nếu không phải admin → cũng quay lại login
-  const isAdmin = allowedEmails.includes(session.user?.email || "");
-  if (isAdmin) redirect("/");
+  const [mounted, setMounted] = useState(false);
 
-  // ✅ Nếu là admin → hiển thị nội dung
+  // Mount only
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  // Redirect logic
+  useEffect(() => {
+    if (!mounted) return;          // Không redirect khi chưa mount
+    if (user === undefined) return; // Đang loading
+
+    if (user === null) {
+      router.replace(Routes.LOGIN_PAGE);
+      return;
+    }
+
+    if (!adminEmails.includes(user.email)) {
+      router.replace(Routes.HOME);
+    }
+  }, [mounted, user, router]);
+
+  // Chờ xác thực
+  if (!mounted || user === undefined) {
+    return null;
+  }
+
+  // Nếu user null → redirect đang chạy, return null để tránh flash
+  if (user === null) return null;
+
   return <>{children}</>;
 }

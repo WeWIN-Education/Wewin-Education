@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: wewin-backend
+    env: node
+    region: singapore
+    plan: free
+    buildCommand: "pnpm install && pnpm run build"
+    startCommand: "node dist/main.js"
+    envVars:
+      - key: DATABASE_URL
+        fromEnv: DATABASE_URL
+      - key: PORT
+        value: 3000

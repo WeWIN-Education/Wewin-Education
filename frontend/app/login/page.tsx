@@ -6,17 +6,21 @@ import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Routes } from "../constants/routes";
 import { FloatingInput } from "../components/floatingInput";
+import { authAPI } from "../utils/api/authAPI";
+import { storage } from "../utils/storage";
+import { useQueryClient } from "@tanstack/react-query";
 
 export default function LoginPage() {
   const { data: session, status } = useSession();
   const router = useRouter();
+  const queryClient = useQueryClient();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
-  useEffect(() => {
+   useEffect(() => {
     if (status === "authenticated") {
       router.push(Routes.HOME);
     }
@@ -26,18 +30,28 @@ export default function LoginPage() {
     setIsLoading(true);
     setErrorMessage("");
 
-    const res = await signIn("credentials", {
-      redirect: false,
-      email,
-      password,
-    });
+    try {
+      // Use NextAuth signIn instead of calling API directly
+      const result = await signIn("credentials", {
+        email,
+        password,
+        redirect: false,
+      });
 
-    setIsLoading(false);
+      if (result?.error) {
+        setErrorMessage("Sai email hoặc mật khẩu!");
+        setIsLoading(false);
+        return;
+      }
 
-    if (res?.error) {
+      if (result?.ok) {
+        // NextAuth will handle session, just redirect
+        router.push(Routes.HOME);
+      }
+    } catch (err: any) {
+      console.error("[Login Error]", err);
       setErrorMessage("Sai email hoặc mật khẩu!");
-    } else {
-      router.push(Routes.HOME);
+      setIsLoading(false);
     }
   };
 
@@ -75,7 +89,7 @@ export default function LoginPage() {
           className="mb-8 text-center"
         >
           <h1 className="md:text-3xl text-2xl font-black mb-2 text-[#E4C28E]">
-              WeWIN Education App
+            WeWIN Education App
           </h1>
           <p className="text-[#0E4BA9] text-sm">
             Đăng nhập để truy cập học liệu

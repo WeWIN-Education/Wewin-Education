@@ -8,7 +8,7 @@ export interface ApiOptions {
   token?: string;
 }
 
-export async function apiCall<T>(
+export async function apiCall<T = any>(
   url: string,
   { method = "GET", headers = {}, body, formData, token }: ApiOptions = {}
 ): Promise<T> {
@@ -32,6 +32,5 @@ export async function apiCall<T>(
     );
   }
 
-  const data = (await response.json().catch(() => null)) as T;
-  return data;
+  return (await response.json().catch(() => null)) as T;
 }

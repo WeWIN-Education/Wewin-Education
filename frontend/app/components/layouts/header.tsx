@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useSession, signIn } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
@@ -10,19 +9,24 @@ import Dropdown from "../dropdown";
 import Section from "../section";
 import { allowedEmails } from "@/app/constants/email";
 import { BookOpen, FolderOpen } from "lucide-react";
-import NavButton from "../navButton";
-import { handleLogout } from "@/app/api/auth/[...nextauth]/route";
 import { useRouter } from "next/navigation";
+import { useAuthUnified } from "@/hooks/useAuthUnified";
+import { useLogout } from "@/hooks/useLogout";
 
 export default function Navbar() {
-  const { data: session } = useSession();
+  const { user, loginType } = useAuthUnified();
   const [menuOpen, setMenuOpen] = useState(false);
   const [showNavbar, setShowNavbar] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
+  const [mounted, setMounted] = useState(false);
 
-  const isAdmin = allowedEmails.includes(session?.user?.email || "");
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
-  // 🔹 Hiệu ứng ẩn/hiện khi cuộn
+  const isAdmin = user && allowedEmails.includes(user.email);
+
+  // 🔹 Hiệu ứng ẩn/hiện navbar khi cuộn
   useEffect(() => {
     const handleScroll = () => {
       const current = window.scrollY;
@@ -43,82 +47,72 @@ export default function Navbar() {
             exit={{ opacity: 0, y: -40 }}
             transition={{ duration: 0.4, ease: "easeOut" }}
             className="fixed top-0 left-0 right-0 z-50 bg-linear-to-r 
-                       from-[#1057C1]/95 via-[#0E4BA9]/95 to-[#1057C1]/95 
-                       backdrop-blur-md shadow-md"
+                        from-[#1057C1]/95 via-[#0E4BA9]/95 to-[#1057C1]/95 
+                        backdrop-blur-md shadow-md"
           >
             <div
               className="max-w-8xl mx-auto flex items-center justify-between 
-                            px-4 sm:px-6 md:px-8 lg:px-10 py-3 gap-3"
+                         px-4 sm:px-6 md:px-8 lg:px-10 py-3 gap-3"
             >
-              {/* 🔹 Logo */}
-              <div className="flex items-center gap-2 sm:gap-3 shrink-0">
-                <Logo />
+              {/* Logo */}
+              <Logo />
+
+              {/* Menu chính */}
+              <div className="hidden lg:flex items-center justify-center gap-4 xl:gap-6 mx-auto">
+                {user && !isAdmin && (
+                  <Dropdown
+                    title="Resources"
+                    icon={<IconDoc />}
+                    items={[{ href: Routes.RESOURCES_LISTS, label: "🎙 KIDS" }]}
+                  />
+                )}
               </div>
 
-              {/* 🔹 Menu chính (ẩn với admin) */}
-              {
-                <div className="hidden lg:flex items-center justify-center gap-4 xl:gap-6 mx-auto">
-                  {/* Menu 1: Tests */}
-                  {session && !isAdmin && (
-                    <Dropdown
-                      title="Resources"
-                      icon={<IconDoc />}
-                      items={[
-                        { href: Routes.RESOURCES_LISTS, label: "🎙 KIDS" },
-                      ]}
-                    />
-                  )}
-                </div>
-              }
-
-              {/* 🔹 User / Login */}
+              {/* User / Login */}
               <div className="flex items-center gap-3 shrink-0">
                 <UserSection
-                  session={session}
-                  isAdmin={isAdmin}
+                  user={user}
+                  loginType={loginType}
                   setMenuOpen={setMenuOpen}
                 />
                 <BurgerButton menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
               </div>
             </div>
 
-            {/* 🔹 Mobile Menu */}
             <MobileMenu
               menuOpen={menuOpen}
               setMenuOpen={setMenuOpen}
-              session={session}
+              user={user}
+              loginType={loginType}
               isAdmin={isAdmin}
             />
           </motion.nav>
         )}
       </AnimatePresence>
 
-      {/* spacer tránh bị che */}
       <div className="h-[8.5vh]" />
     </>
   );
 }
 
-/* 🔹 Components phụ tách gọn */
+/* ---------- COMPONENTS PHỤ ---------- */
 
 function Logo() {
   return (
-    <>
-      <Link href={Routes.HOME} className="ml-2 sm:block relative group">
-        <div
-          className="absolute inset-0 bg-linear-to-r from-blue-300 to-cyan-300 
-                        rounded-full blur-md opacity-0 group-hover:opacity-50 
-                        transition-opacity duration-300"
-        />
-        <Image
-          src="/logo.png"
-          alt="WeWIN Logo"
-          width={200}
-          height={180}
-          className="relative p-1.5 shadow-md transition-all duration-300"
-        />
-      </Link>
-    </>
+    <Link href={Routes.HOME} className="ml-2 sm:block relative group">
+      <div
+        className="absolute inset-0 bg-linear-to-r from-blue-300 to-cyan-300 
+                   rounded-full blur-md opacity-0 group-hover:opacity-50 
+                   transition-opacity duration-300"
+      />
+      <Image
+        src="/logo.png"
+        alt="WeWIN Logo"
+        width={200}
+        height={180}
+        className="relative p-1.5 shadow-md transition-all duration-300"
+      />
+    </Link>
   );
 }
 
@@ -140,24 +134,33 @@ function IconDoc() {
   );
 }
 
-function UserSection({ session, setMenuOpen }: any) {
+function UserSection({ user, loginType }: any) {
   const router = useRouter();
+  const { logout } = useLogout();
+  const [mounted, setMounted] = useState(false);
 
-  if (!session)
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  // ❗ Trong SSR → mounted = false → Luôn render placeholder giống server
+  if (!mounted) {
+    return (
+      <div className="hidden lg:flex items-center gap-3">
+        <div className="w-8 h-8 rounded-full bg-white/10" />
+      </div>
+    );
+  }
+
+  if (!user)
     return (
       <motion.button
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
-        onClick={() => router.push("/login")} // ⭐ CHỈ SỬA CHỖ NÀY
-        className="
-        hidden lg:flex         
-        items-center gap-2 
-        px-5 py-2.5 rounded-xl 
-        font-semibold 
-        bg-white text-[#0E4BA9] 
-        shadow-lg hover:shadow-xl 
-        transition-all duration-300
-      "
+        onClick={() => router.push("/login")}
+        className="hidden lg:flex items-center gap-2 px-5 py-2.5 rounded-xl 
+                   font-semibold bg-white text-[#0E4BA9] shadow-lg hover:shadow-xl 
+                   transition-all duration-300"
       >
         🔐 Đăng nhập
       </motion.button>
@@ -171,19 +174,20 @@ function UserSection({ session, setMenuOpen }: any) {
       >
         <div
           className="w-8 h-8 rounded-full bg-linear-to-br from-amber-400 to-yellow-500 
-                        flex items-center justify-center text-white font-bold text-sm shadow-lg"
+                     flex items-center justify-center text-white font-bold text-sm shadow-lg"
         >
-          {session.user?.name?.charAt(0).toUpperCase()}
+          {user.name?.charAt(0)?.toUpperCase()}
         </div>
+
         <span className="hidden lg:block font-semibold text-sm truncate max-w-[120px]">
-          {session.user?.name}
+          {user.name}
         </span>
       </div>
 
       <motion.button
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
-        onClick={() => handleLogout()}
+        onClick={() => logout(loginType)}
         className="hidden lg:block px-5 py-2.5 rounded-xl font-bold shadow-lg 
                    bg-[#E4C28E] text-[#0E4BA9] hover:bg-[#ffd666] transition-all"
       >
@@ -198,7 +202,7 @@ function BurgerButton({ menuOpen, setMenuOpen }: any) {
     <motion.button
       whileTap={{ scale: 0.92 }}
       onClick={() => setMenuOpen(!menuOpen)}
-      className={`relative w-10 h-10 flex items-center justify-center rounded-full transition-all duration-300 lg:hidden
+      className={`relative w-10 h-10 flex items-center justify-center rounded-full transition-all lg:hidden
         ${
           menuOpen
             ? "bg-[#c29450] shadow-lg"
@@ -207,25 +211,23 @@ function BurgerButton({ menuOpen, setMenuOpen }: any) {
     >
       <motion.span
         animate={menuOpen ? { rotate: 45, y: 0 } : { rotate: 0, y: -6 }}
-        transition={{ duration: 0.25 }}
         className="absolute w-6 h-[3px] rounded-full bg-white"
       />
       <motion.span
         animate={menuOpen ? { opacity: 0 } : { opacity: 1 }}
-        transition={{ duration: 0.15 }}
         className="absolute w-6 h-[3px] rounded-full bg-white"
       />
       <motion.span
         animate={menuOpen ? { rotate: -45, y: 0 } : { rotate: 0, y: 6 }}
-        transition={{ duration: 0.25 }}
         className="absolute w-6 h-[3px] rounded-full bg-white"
       />
     </motion.button>
   );
 }
 
-function MobileMenu({ menuOpen, setMenuOpen, session, isAdmin }: any) {
+function MobileMenu({ menuOpen, setMenuOpen, user, loginType, isAdmin }: any) {
   const router = useRouter();
+  const { logout } = useLogout();
 
   if (!menuOpen) return null;
 
@@ -240,14 +242,11 @@ function MobileMenu({ menuOpen, setMenuOpen, session, isAdmin }: any) {
                    from-[#007BCE] to-[#00A6FB] border-t border-white/20"
       >
         <div className="px-6 py-6 space-y-4">
-
-          {/* ------------------------------------
-              Logo mini giữ nguyên UI
-          -------------------------------------- */}
+          {/* Logo nhỏ */}
           <Link href="/" onClick={() => setMenuOpen(false)}>
             <div
               className="bg-white/10 backdrop-blur-md rounded-xl px-5 py-3 
-                            border border-white/30 text-center"
+                         border border-white/30 text-center"
             >
               <span className="text-xl font-bold text-[#E4C28E]">
                 WeWIN Education
@@ -255,25 +254,23 @@ function MobileMenu({ menuOpen, setMenuOpen, session, isAdmin }: any) {
             </div>
           </Link>
 
-          {/* ------------------------------------
-              PUBLIC MENU: RESOURCES (XUẤT HIỆN CHO MỌI NGƯỜI)
-          -------------------------------------- */}
-          <Section
-            title="Resources"
-            items={[
-              {
-                href: Routes.RESOURCES_LISTS,
-                icon: <BookOpen className="w-5 h-5" />,
-                label: "Learning Resources",
-              },
-            ]}
-            setMenuOpen={setMenuOpen}
-          />
+          {/* Menu Resources */}
+          {user && !isAdmin && (
+            <Section
+              title="Resources"
+              items={[
+                {
+                  href: Routes.RESOURCES_LISTS,
+                  icon: <BookOpen className="w-5 h-5" />,
+                  label: "Learning Resources",
+                },
+              ]}
+              setMenuOpen={setMenuOpen}
+            />
+          )}
 
-          {/* ------------------------------------
-              USER THƯỜNG → có Tests thêm vào
-          -------------------------------------- */}
-          {session && !isAdmin && (
+          {/* Tests (user thường) */}
+          {user && !isAdmin && (
             <Section
               title="Tests"
               items={[
@@ -283,10 +280,8 @@ function MobileMenu({ menuOpen, setMenuOpen, session, isAdmin }: any) {
             />
           )}
 
-          {/* ------------------------------------
-              ADMIN → Class + Student
-          -------------------------------------- */}
-          {session && isAdmin && (
+          {/* Admin menu */}
+          {user && isAdmin && (
             <>
               <Section
                 title="Class Management"
@@ -319,42 +314,29 @@ function MobileMenu({ menuOpen, setMenuOpen, session, isAdmin }: any) {
             </>
           )}
 
-          {/* ------------------------------------
-              USER INFO + LOGIN / LOGOUT
-          -------------------------------------- */}
+          {/* Login / Logout */}
           <div className="pt-4 border-t border-white/20">
-            {!session ? (
-              <>
-                {/* Guest → show nút login */}
-                <button
-                  onClick={() => {
-                    setMenuOpen(false);
-                    router.push("/login");
-                  }}
-                  className="w-full bg-white text-[#0E4BA9] py-3 rounded-xl font-bold shadow-lg"
-                >
-                  🔐 Đăng nhập
-                </button>
-              </>
+            {!user ? (
+              <button
+                onClick={() => {
+                  setMenuOpen(false);
+                  router.push("/login");
+                }}
+                className="w-full bg-white text-[#0E4BA9] py-3 rounded-xl font-bold shadow-lg"
+              >
+                🔐 Đăng nhập
+              </button>
             ) : (
               <div className="space-y-3">
-
-                {/* User info */}
                 <div className="bg-white/10 rounded-lg px-4 py-3 flex items-center gap-3 border border-white/20">
                   <div className="w-10 h-10 rounded-full bg-linear-to-br from-amber-400 to-yellow-500 flex items-center justify-center text-white font-bold shadow-lg">
-                    {session.user?.name?.charAt(0).toUpperCase()}
+                    {user.name?.charAt(0)?.toUpperCase()}
                   </div>
-                  <span className="text-white font-semibold">
-                    {session.user?.name}
-                  </span>
+                  <span className="text-white font-semibold">{user.name}</span>
                 </div>
 
-                {/* Logout */}
                 <button
-                  onClick={() => {
-                    setMenuOpen(false);
-                    handleLogout();
-                  }}
+                  onClick={() => logout(loginType)}
                   className="w-full bg-[#E4C28E] text-[#0E4BA9] py-3 rounded-xl font-bold shadow-lg"
                 >
                   Đăng xuất
@@ -367,5 +349,3 @@ function MobileMenu({ menuOpen, setMenuOpen, session, isAdmin }: any) {
     </AnimatePresence>
   );
 }
-
-
