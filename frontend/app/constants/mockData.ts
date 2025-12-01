@@ -1,3 +1,4 @@
+import { spring } from "framer-motion";
 import { Book, Project, LearningNode, LessonBlock } from "./types";
 
 export const mockBooks: Book[] = [
@@ -134,26 +135,27 @@ export const mockProjects: Project[] = [
     order: 15,
   },
   {
-  id: "proj16",
-  bookId: "book_kids",
-  name: `PROJECT 16: "MID-AUTUMN FESTIVAL PLANNER"`,
-  description: "Mid-Autumn Festival – lanterns – mooncakes – storytelling – celebration",
-  order: 16,
-},
-{
-  id: "proj17",
-  bookId: "book_kids",
-  name: `PROJECT 17: "MY BODY BOOK"`,
-  description: "Body parts – five senses – clothes – personal description",
-  order: 17,
-},
-{
-  id: "proj_final",
-  bookId: "book_kids",
-  name: `YEAR-END REVIEW: "WEWIN GRADUATION PARTY"`,
-  description: "Final review – exhibition – awards – celebration",
-  order: 18, 
-}
+    id: "proj16",
+    bookId: "book_kids",
+    name: `PROJECT 16: "MID-AUTUMN FESTIVAL PLANNER"`,
+    description:
+      "Mid-Autumn Festival – lanterns – mooncakes – storytelling – celebration",
+    order: 16,
+  },
+  {
+    id: "proj17",
+    bookId: "book_kids",
+    name: `PROJECT 17: "MY BODY BOOK"`,
+    description: "Body parts – five senses – clothes – personal description",
+    order: 17,
+  },
+  {
+    id: "proj_final",
+    bookId: "book_kids",
+    name: `YEAR-END REVIEW: "WEWIN GRADUATION PARTY"`,
+    description: "Final review – exhibition – awards – celebration",
+    order: 18,
+  },
 ];
 
 export const mockLearningNodes: LearningNode[] = [
@@ -301,7 +303,7 @@ export const mockLearningNodes: LearningNode[] = [
     type: "week",
     order: 17,
   },
-{
+  {
     id: "w_final",
     projectId: "proj_final",
     title: "Year-End Celebration - WeWIN Graduation Party – Year-End Review",
@@ -318,7 +320,7 @@ export const projectFinalWeekBlocks: LessonBlock[] = [
     title: "🎯 MỤC TIÊU / OBJECTIVE",
     type: "list",
     order: 1,
-    data: [
+    dataType: [
       "Tổng kết hành trình học tập trong năm học.",
       "Ôn lại hơn 10 chủ đề tiếng Anh đã học.",
       "Trưng bày sản phẩm sáng tạo của học sinh.",
@@ -334,7 +336,7 @@ export const projectFinalWeekBlocks: LessonBlock[] = [
     title: "🌍 HOẠT ĐỘNG CHÍNH / MAIN ACTIVITIES",
     type: "list",
     order: 2,
-    data: [
+    dataType: [
       "1. WeWIN World Tour Game:",
       "• Mỗi trạm tương ứng 1 chủ đề đã học (Career, Farm, Ocean…).",
       "• Nhiệm vụ: “Say 3 animals!”, “Find the pizza!”, “Match the clothes!”.",
@@ -365,7 +367,7 @@ export const projectFinalWeekBlocks: LessonBlock[] = [
     title: "🎉 GRAND EVENT – WEWIN GRADUATION PARTY",
     type: "list",
     order: 3,
-    data: [
+    dataType: [
       "Opening Dance – Tiết mục mở màn sôi động.",
       "Welcome Speech – Giới thiệu từ WeWIN.",
       "World Tour Review Game.",
@@ -382,7 +384,7 @@ export const projectFinalWeekBlocks: LessonBlock[] = [
     title: "📚 HƯỚNG DẪN GIÁO VIÊN",
     type: "list",
     order: 4,
-    data: [
+    dataType: [
       "1. Chuẩn bị layout lớp theo trạm chủ đề.",
       "2. Ôn lại từ vựng & mẫu câu bằng mini games.",
       "3. Hướng dẫn học sinh giới thiệu sản phẩm 1–2 câu.",
@@ -398,7 +400,7 @@ export const projectFinalWeekBlocks: LessonBlock[] = [
     title: "📋 CHECKLIST CHUẨN BỊ",
     type: "list",
     order: 5,
-    data: [
+    dataType: [
       "• Bản đồ lớp & thẻ nhiệm vụ.",
       "• Sticker & passport book.",
       "• Sản phẩm học sinh và bảng tên.",
@@ -418,7 +420,7 @@ export const projectFinalWeekBlocks: LessonBlock[] = [
     title: "📊 KẾT QUẢ HỌC TẬP KỲ VỌNG",
     type: "list",
     order: 6,
-    data: [
+    dataType: [
       "Học sinh tự tin ôn lại kiến thức của cả năm.",
       "Giao tiếp tiếng Anh trong môi trường lễ hội thực tế.",
       "Trình bày sản phẩm cá nhân bằng 1–3 câu tiếng Anh.",
@@ -435,7 +437,7 @@ export const project17WeekBlocks: LessonBlock[] = [
     title: "🎯 MỤC TIÊU / OBJECTIVE",
     type: "list",
     order: 1,
-    data: [
+    dataType: [
       "Học từ vựng về cơ thể, 5 giác quan và trang phục.",
       "Luyện phát âm /h/, /n/, /s/, /ʃ/ qua bài hát và vận động.",
       "Luyện mô tả hành động, cảm giác và trang phục.",
@@ -450,7 +452,7 @@ export const project17WeekBlocks: LessonBlock[] = [
     title: "🧠 TỪ VỰNG / VOCABULARY",
     type: "list",
     order: 2,
-    data: [
+    dataType: [
       "Body Parts: head, eyes, ears, nose, mouth, arms, hands, legs, feet, fingers.",
       "Five Senses: see, hear, smell, taste, touch.",
       "Clothes: T-shirt, pants, dress, shoes, cap, jacket, shorts, scarf.",
@@ -464,7 +466,7 @@ export const project17WeekBlocks: LessonBlock[] = [
     title: "🔊 PHÁT ÂM / PRONUNCIATION",
     type: "list",
     order: 3,
-    data: [
+    dataType: [
       "/h/ – head, hand → “h–head!”",
       "/n/ – nose, neck → “nnn–nose!”",
       "/s/ – see, shoes → “sss–ee!”",
@@ -480,7 +482,7 @@ export const project17WeekBlocks: LessonBlock[] = [
     title: "📘 CẤU TRÚC CÂU / SENTENCE STRUCTURES",
     type: "list",
     order: 4,
-    data: [
+    dataType: [
       "Main Patterns:",
       "• What is this? → It’s my hand.",
       "• What do you use to see? → I use my eyes.",
@@ -500,7 +502,7 @@ export const project17WeekBlocks: LessonBlock[] = [
     title: "🗣 MẪU CÂU GIAO TIẾP / COMMUNICATION PRACTICE",
     type: "list",
     order: 5,
-    data: [
+    dataType: [
       "Mini Dialogue – Getting Ready for School:",
       "• What are you wearing today? → I’m wearing a blue T-shirt.",
       "• What can you smell? → I can smell my soap!",
@@ -514,7 +516,7 @@ export const project17WeekBlocks: LessonBlock[] = [
     title: "🧍 ACTIVITY 1 – Life-Size Portrait",
     type: "list",
     order: 6,
-    data: [
+    dataType: [
       "• Bé nằm lên giấy A0 để vẽ đường viền cơ thể.",
       "• Tô màu và dán nhãn: head, arms, legs, feet…",
     ],
@@ -526,10 +528,7 @@ export const project17WeekBlocks: LessonBlock[] = [
     title: "🧩 ACTIVITY 2 – Body Part Puzzle",
     type: "list",
     order: 7,
-    data: [
-      "• Ghép mảnh puzzle thành hình người.",
-      "• “This is the arm.”",
-    ],
+    dataType: ["• Ghép mảnh puzzle thành hình người.", "• “This is the arm.”"],
   },
 
   {
@@ -538,7 +537,7 @@ export const project17WeekBlocks: LessonBlock[] = [
     title: "🎮 ACTIVITY 3 – Simon Says",
     type: "list",
     order: 8,
-    data: [
+    dataType: [
       "• Touch your nose! / Clap your hands!",
       "• Luyện nghe – hiểu + phản xạ vận động.",
     ],
@@ -550,7 +549,7 @@ export const project17WeekBlocks: LessonBlock[] = [
     title: "👁 ACTIVITY 4 – Sense Stations (5 Giác quan)",
     type: "list",
     order: 9,
-    data: [
+    dataType: [
       "• See: tìm hình đúng.",
       "• Hear: đoán âm thanh.",
       "• Smell: ngửi hoa / cam / xà phòng.",
@@ -565,7 +564,7 @@ export const project17WeekBlocks: LessonBlock[] = [
     title: "👗 ACTIVITY 5 – Paper Doll Dress-Up",
     type: "list",
     order: 10,
-    data: [
+    dataType: [
       "• Cắt và dán quần áo lên búp bê giấy.",
       "• “Put on the T-shirt.” / “She’s wearing a dress.”",
     ],
@@ -577,7 +576,7 @@ export const project17WeekBlocks: LessonBlock[] = [
     title: "💃 ACTIVITY 6 – Fashion Show",
     type: "list",
     order: 11,
-    data: [
+    dataType: [
       "• Bé chọn trang phục thật.",
       "• Giới thiệu: “I’m wearing a red dress and white shoes!”",
     ],
@@ -589,7 +588,7 @@ export const project17WeekBlocks: LessonBlock[] = [
     title: "🏆 SẢN PHẨM / FINAL PRODUCT",
     type: "list",
     order: 12,
-    data: [
+    dataType: [
       "All About Me Book (6 trang):",
       "• My Body",
       "• My Five Senses",
@@ -609,7 +608,7 @@ export const project17WeekBlocks: LessonBlock[] = [
     title: "📚 HƯỚNG DẪN GIÁO VIÊN",
     type: "list",
     order: 13,
-    data: [
+    dataType: [
       "1. Mở đầu bằng bài hát “Head, Shoulders, Knees and Toes.”",
       "2. Luyện âm /h/, /n/, /s/, /ʃ/ kết hợp vận động.",
       "3. Dạy mẫu câu “What do you use to…?” và “What are you wearing?”.",
@@ -624,7 +623,7 @@ export const project17WeekBlocks: LessonBlock[] = [
     title: "📋 CHECKLIST CHUẨN BỊ",
     type: "list",
     order: 14,
-    data: [
+    dataType: [
       "• Giấy A0, bút màu, kéo.",
       "• Flashcards cơ thể & quần áo.",
       "• Vật mẫu cho Sense Stations.",
@@ -640,7 +639,7 @@ export const project17WeekBlocks: LessonBlock[] = [
     title: "📊 KẾT QUẢ HỌC TẬP KỲ VỌNG",
     type: "list",
     order: 15,
-    data: [
+    dataType: [
       "Phát âm rõ /h/, /n/, /s/, /ʃ/.",
       "Hỏi–đáp được: “What is this?” / “What do you use to…?” / “What are you wearing?”",
       "Mô tả được cơ thể, giác quan, và trang phục.",
@@ -656,7 +655,7 @@ export const project16WeekBlocks: LessonBlock[] = [
     title: "🎯 MỤC TIÊU / OBJECTIVE",
     type: "list",
     order: 1,
-    data: [
+    dataType: [
       "Học từ vựng về lễ hội Trung Thu.",
       "Luyện phát âm /m/, /l/, /r/, /b/ theo nhịp chant.",
       "Luyện mô tả màu sắc, hình dạng, cảm xúc, hành động.",
@@ -671,7 +670,7 @@ export const project16WeekBlocks: LessonBlock[] = [
     title: "🧠 TỪ VỰNG / VOCABULARY",
     type: "list",
     order: 2,
-    data: [
+    dataType: [
       "Festival Words: moon, mooncake, lantern, rabbit, star, mask, Banyan tree, festival, drum, parade.",
       "Tính từ mở rộng: bright, round, full, happy, excited.",
       "Động từ: light, dance, celebrate.",
@@ -684,7 +683,7 @@ export const project16WeekBlocks: LessonBlock[] = [
     title: "🔊 PHÁT ÂM / PRONUNCIATION FOCUS",
     type: "list",
     order: 3,
-    data: [
+    dataType: [
       "/m/ – moon, mask → “mmm–moon.”",
       "/l/ – lantern, light → “llll–light.”",
       "/r/ – rabbit, round → “r–rabbit.”",
@@ -700,7 +699,7 @@ export const project16WeekBlocks: LessonBlock[] = [
     title: "📘 CẤU TRÚC CÂU / SENTENCE STRUCTURES",
     type: "list",
     order: 4,
-    data: [
+    dataType: [
       "Main Patterns:",
       "• What can you see? → I can see a lantern.",
       "• What color is your lantern? → It’s red and yellow.",
@@ -719,7 +718,7 @@ export const project16WeekBlocks: LessonBlock[] = [
     title: "🗣 MẪU CÂU GIAO TIẾP / COMMUNICATION PRACTICE",
     type: "list",
     order: 5,
-    data: [
+    dataType: [
       "Mini Dialogue – At the Moon Festival:",
       "• What do you have? → I have a lantern!",
       "• What color is it? → It’s yellow!",
@@ -733,7 +732,7 @@ export const project16WeekBlocks: LessonBlock[] = [
     title: "🏮 ACTIVITY 1 – Lantern Making",
     type: "list",
     order: 6,
-    data: [
+    dataType: [
       "• Làm đèn lồng bằng giấy màu, dây treo.",
       "• “This is my lantern. It’s red and bright.”",
     ],
@@ -745,7 +744,7 @@ export const project16WeekBlocks: LessonBlock[] = [
     title: "🥮 ACTIVITY 2 – Mooncake Craft",
     type: "list",
     order: 7,
-    data: [
+    dataType: [
       "• Nặn bánh trung thu bằng đất nặn hoặc làm bằng giấy.",
       "• “I’m making a mooncake.”",
     ],
@@ -757,7 +756,7 @@ export const project16WeekBlocks: LessonBlock[] = [
     title: "🐇 ACTIVITY 3 – Moon Rabbit Story",
     type: "list",
     order: 8,
-    data: [
+    dataType: [
       "• Nghe/cô kể chuyện Chú Cuội – Thỏ Ngọc.",
       "• Vẽ lại cảnh yêu thích.",
       "• “The rabbit lives on the moon.”",
@@ -770,7 +769,7 @@ export const project16WeekBlocks: LessonBlock[] = [
     title: "⭐ ACTIVITY 4 – Star Counting",
     type: "list",
     order: 9,
-    data: ["• Bé đếm sao hoặc dán sticker.", "• “Ten stars in the sky!”"],
+    dataType: ["• Bé đếm sao hoặc dán sticker.", "• “Ten stars in the sky!”"],
   },
 
   {
@@ -779,7 +778,7 @@ export const project16WeekBlocks: LessonBlock[] = [
     title: "😺 ACTIVITY 5 – Mask Decorating",
     type: "list",
     order: 10,
-    data: [
+    dataType: [
       "• Trang trí mặt nạ múa lân bằng giấy bóng kính, sequin.",
       "• “My mask is colorful!”",
     ],
@@ -791,7 +790,7 @@ export const project16WeekBlocks: LessonBlock[] = [
     title: "🎉 SỰ KIỆN – WEWIN MID-AUTUMN CELEBRATION",
     type: "list",
     order: 11,
-    data: [
+    dataType: [
       "• Lantern Parade – Diễu hành đèn lồng.",
       "• Thi ‘Best Lantern’.",
       "• Biểu diễn bài hát Trung Thu tiếng Anh.",
@@ -805,7 +804,7 @@ export const project16WeekBlocks: LessonBlock[] = [
     title: "🏆 SẢN PHẨM / FINAL PRODUCT",
     type: "list",
     order: 12,
-    data: [
+    dataType: [
       "My Lantern Book / Moon Festival Craft Set:",
       "• Trang 1: Lantern – màu sắc + mô tả.",
       "• Trang 2: Mask – màu + hình dạng.",
@@ -820,7 +819,7 @@ export const project16WeekBlocks: LessonBlock[] = [
     title: "📚 HƯỚNG DẪN GIÁO VIÊN",
     type: "list",
     order: 13,
-    data: [
+    dataType: [
       "1. Bắt đầu bằng bài hát “Happy Mid-Autumn Festival”.",
       "2. Luyện âm /m/, /l/, /r/, /b/ qua trò “Say and Shine”.",
       "3. Dạy câu “What can you see?” với flashcards.",
@@ -835,7 +834,7 @@ export const project16WeekBlocks: LessonBlock[] = [
     title: "📋 CHECKLIST CHUẨN BỊ",
     type: "list",
     order: 14,
-    data: [
+    dataType: [
       "• Giấy màu, bìa cứng, dây treo.",
       "• Đất nặn & khuôn bánh trung thu.",
       "• Mặt nạ giấy bóng kính & sequin.",
@@ -851,7 +850,7 @@ export const project16WeekBlocks: LessonBlock[] = [
     title: "📊 KẾT QUẢ HỌC TẬP KỲ VỌNG",
     type: "list",
     order: 15,
-    data: [
+    dataType: [
       "Phát âm rõ /m/, /l/, /r/, /b/.",
       "Hỏi – đáp tự nhiên: “What can you see?” / “Do you like…?”.",
       "Mô tả 3–5 đồ vật/hành động Trung Thu bằng tiếng Anh.",
@@ -867,7 +866,7 @@ export const project15WeekBlocks: LessonBlock[] = [
     title: "🎯 MỤC TIÊU / OBJECTIVE",
     type: "list",
     order: 1,
-    data: [
+    dataType: [
       "Học và ôn từ vựng đồ dùng học tập.",
       "Luyện phát âm /b/, /p/, /k/, /s/.",
       "Luyện mô tả màu sắc, vị trí và sở hữu (my/your).",
@@ -882,7 +881,7 @@ export const project15WeekBlocks: LessonBlock[] = [
     title: "🧠 TỪ VỰNG / VOCABULARY",
     type: "list",
     order: 2,
-    data: [
+    dataType: [
       "Basic School Things: pencil, pen, book, notebook, crayon, ruler, eraser, school bag, marker.",
       "Extra Tools: compass, glue, scissors, clip, folder, board, backpack.",
       "Động từ đi kèm: open, close, put, take, draw, write, cut, glue, color.",
@@ -895,7 +894,7 @@ export const project15WeekBlocks: LessonBlock[] = [
     title: "🔊 PHÁT ÂM / PRONUNCIATION FOCUS",
     type: "list",
     order: 3,
-    data: [
+    dataType: [
       "/b/ – bag, book → “b–bag.”",
       "/p/ – pen, pencil → “p–p–pen.”",
       "/k/ – color, clip → “k–k–clip.”",
@@ -911,7 +910,7 @@ export const project15WeekBlocks: LessonBlock[] = [
     title: "📘 CẤU TRÚC CÂU / SENTENCE STRUCTURES",
     type: "list",
     order: 4,
-    data: [
+    dataType: [
       "Main Patterns:",
       "• What is this? → It’s a pencil.",
       "• What color is your bag? → It’s blue.",
@@ -931,7 +930,7 @@ export const project15WeekBlocks: LessonBlock[] = [
     title: "🗣 MẪU CÂU GIAO TIẾP / COMMUNICATION PRACTICE",
     type: "list",
     order: 5,
-    data: [
+    dataType: [
       "Mini Dialogue – In the Classroom:",
       "• What do you have in your bag?",
       "• I have a book and a pencil case.",
@@ -948,7 +947,7 @@ export const project15WeekBlocks: LessonBlock[] = [
     title: "🎒 ACTIVITY 1 – School Bag Packing",
     type: "list",
     order: 6,
-    data: [
+    dataType: [
       "• Trẻ học cách xếp đồ vào cặp đúng thứ tự.",
       "• “Put the book in the bag.” / “Take out your pencil.”",
       "• Luyện nghe – phản xạ mệnh lệnh.",
@@ -961,7 +960,7 @@ export const project15WeekBlocks: LessonBlock[] = [
     title: "🖍 ACTIVITY 2 – Pencil Case Design",
     type: "list",
     order: 7,
-    data: [
+    dataType: [
       "• Làm hộp bút bằng giấy/bìa tái chế.",
       "• Bé viết: “My Pencil Case.”",
       "• Luyện sáng tạo + viết tiếng Anh.",
@@ -974,7 +973,7 @@ export const project15WeekBlocks: LessonBlock[] = [
     title: "🧩 ACTIVITY 3 – Tool Matching",
     type: "list",
     order: 8,
-    data: [
+    dataType: [
       "• Ghép flashcard hình ↔ từ.",
       "• Trò chơi nhóm: “What’s missing?”",
       "• Tăng phản xạ nhận diện từ vựng.",
@@ -987,7 +986,7 @@ export const project15WeekBlocks: LessonBlock[] = [
     title: "🏷 ACTIVITY 4 – Name Label Making",
     type: "list",
     order: 9,
-    data: [
+    dataType: [
       "• Bé viết tên và dán lên đồ dùng.",
       "• “This is my pen.” / “That is your bag.”",
       "• Luyện sở hữu cách: my / your / his / her.",
@@ -1000,7 +999,7 @@ export const project15WeekBlocks: LessonBlock[] = [
     title: "🔍 ACTIVITY 5 – School Things Hunt",
     type: "list",
     order: 10,
-    data: [
+    dataType: [
       "• Cô giấu đồ trong lớp.",
       "• Bé tìm và nói: “I found a ruler!”",
       "• Luyện giới từ vị trí: under / on / in.",
@@ -1013,7 +1012,7 @@ export const project15WeekBlocks: LessonBlock[] = [
     title: "🏆 SẢN PHẨM / FINAL PRODUCT",
     type: "list",
     order: 11,
-    data: [
+    dataType: [
       "My School Kit Folder:",
       "• Ảnh/vẽ đồ dùng học tập.",
       "• Mỗi vật có 1 câu mô tả:",
@@ -1029,7 +1028,7 @@ export const project15WeekBlocks: LessonBlock[] = [
     title: "📚 HƯỚNG DẪN GIÁO VIÊN",
     type: "list",
     order: 12,
-    data: [
+    dataType: [
       "1. Mở đầu bằng bài hát “What’s in Your Bag?”.",
       "2. Luyện âm /b/, /p/, /k/, /s/ với trò “Say & Touch”.",
       "3. Dạy câu “What is this?” bằng đồ thật.",
@@ -1044,7 +1043,7 @@ export const project15WeekBlocks: LessonBlock[] = [
     title: "📋 CHECKLIST CHUẨN BỊ",
     type: "list",
     order: 13,
-    data: [
+    dataType: [
       "• Flashcards đồ dùng học tập.",
       "• Giấy màu, bìa cứng, keo dán.",
       "• Cặp/túi thật cho hoạt động Packing.",
@@ -1060,7 +1059,7 @@ export const project15WeekBlocks: LessonBlock[] = [
     title: "📊 KẾT QUẢ HỌC TẬP KỲ VỌNG",
     type: "list",
     order: 14,
-    data: [
+    dataType: [
       "Phát âm rõ /b/, /p/, /k/, /s/.",
       "Hỏi–đáp trôi chảy: “What is this?” / “Where is it?”.",
       "Sử dụng đúng my / your / this / that.",
@@ -1076,7 +1075,7 @@ export const project14WeekBlocks: LessonBlock[] = [
     title: "🎯 MỤC TIÊU / OBJECTIVE",
     type: "list",
     order: 1,
-    data: [
+    dataType: [
       "Học từ vựng về kẹo và món tráng miệng.",
       "Luyện phát âm /k/, /s/, /l/, /ʧ/ qua trò chơi.",
       "Luyện đếm, mô tả màu, vị và hình dạng.",
@@ -1091,7 +1090,7 @@ export const project14WeekBlocks: LessonBlock[] = [
     title: "🧠 TỪ VỰNG / VOCABULARY",
     type: "list",
     order: 2,
-    data: [
+    dataType: [
       "Sweets & Desserts: lollipop, chocolate, cookie, cake, cupcake, donut, ice cream, candy, jelly, marshmallow.",
       "Tính từ mô tả: sweet, yummy, round, soft, cold, hot.",
     ],
@@ -1103,7 +1102,7 @@ export const project14WeekBlocks: LessonBlock[] = [
     title: "🔊 PHÁT ÂM / PRONUNCIATION FOCUS",
     type: "list",
     order: 3,
-    data: [
+    dataType: [
       "/k/ – cookie, cake, candy → “k–k–cookie!”",
       "/s/ – sweet, soft → “sss–weet!”",
       "/l/ – lollipop → “llll–ollipop.”",
@@ -1119,7 +1118,7 @@ export const project14WeekBlocks: LessonBlock[] = [
     title: "📘 CẤU TRÚC CÂU / SENTENCE STRUCTURES",
     type: "list",
     order: 4,
-    data: [
+    dataType: [
       "Main Patterns:",
       "• What do you want to buy? → I want a donut.",
       "• How many candies do you have? → I have five.",
@@ -1139,7 +1138,7 @@ export const project14WeekBlocks: LessonBlock[] = [
     title: "🗣 MẪU CÂU GIAO TIẾP / COMMUNICATION PRACTICE",
     type: "list",
     order: 5,
-    data: [
+    dataType: [
       "Mini Dialogue – At the Candy Shop:",
       "• Welcome to my candy shop!",
       "• What do you have? → I have cookies and lollipops.",
@@ -1154,7 +1153,7 @@ export const project14WeekBlocks: LessonBlock[] = [
     title: "🍬 ACTIVITY 1 – Clay Sweet Making",
     type: "list",
     order: 6,
-    data: [
+    dataType: [
       "• Nặn donut, cupcake, ice cream bằng đất nặn.",
       "• “I’m making a donut. It’s pink and round.”",
     ],
@@ -1166,7 +1165,7 @@ export const project14WeekBlocks: LessonBlock[] = [
     title: "🍭 ACTIVITY 2 – Candy Sorting",
     type: "list",
     order: 7,
-    data: [
+    dataType: [
       "• Phân loại theo màu / hình dạng / vị.",
       "• “Three round lollipops, two cookies.”",
     ],
@@ -1178,7 +1177,7 @@ export const project14WeekBlocks: LessonBlock[] = [
     title: "🏪 ACTIVITY 3 – Sweet Shop Role-Play",
     type: "list",
     order: 8,
-    data: [
+    dataType: [
       "• Set up quầy kẹo mini + bảng giá sticker.",
       "• “What do you want to buy?” – “I want a chocolate.”",
       "• Trẻ luyện giao tiếp mua–bán thật.",
@@ -1191,7 +1190,7 @@ export const project14WeekBlocks: LessonBlock[] = [
     title: "🧁 ACTIVITY 4 – Cupcake Decorating",
     type: "list",
     order: 9,
-    data: [
+    dataType: [
       "• Dán topping, vẽ kem và sprinkles.",
       "• “This is my cupcake. It’s pink and sweet.”",
     ],
@@ -1203,7 +1202,7 @@ export const project14WeekBlocks: LessonBlock[] = [
     title: "💲 ACTIVITY 5 – Price Tag Making",
     type: "list",
     order: 10,
-    data: [
+    dataType: [
       "• Viết giá đơn giản: Candy – $1 / Cake – $2.",
       "• Luyện con số + giá trị tiền tệ.",
     ],
@@ -1215,7 +1214,7 @@ export const project14WeekBlocks: LessonBlock[] = [
     title: "🎉 SỰ KIỆN – SWEET FAIR",
     type: "list",
     order: 11,
-    data: [
+    dataType: [
       "• Trẻ trưng bày quầy kẹo mini.",
       "• Giao tiếp tiếng Anh với khách:",
       "  “Welcome to my candy shop!”",
@@ -1230,7 +1229,7 @@ export const project14WeekBlocks: LessonBlock[] = [
     title: "🏆 SẢN PHẨM / FINAL PRODUCT",
     type: "list",
     order: 12,
-    data: [
+    dataType: [
       "My Candy Menu + Candy Art Box:",
       "• Danh sách món + giá.",
       "• 3–5 câu mô tả:",
@@ -1245,7 +1244,7 @@ export const project14WeekBlocks: LessonBlock[] = [
     title: "📚 HƯỚNG DẪN GIÁO VIÊN",
     type: "list",
     order: 13,
-    data: [
+    dataType: [
       "1. Mở đầu bằng bài hát “I Like Candy” hoặc “Do You Like Ice Cream?”.",
       "2. Luyện âm /k/, /s/, /l/, /ʧ/ qua trò “Say & Eat!”.",
       "3. Tổ chức 3 góc học tập: Clay – Menu – Role-Play.",
@@ -1260,7 +1259,7 @@ export const project14WeekBlocks: LessonBlock[] = [
     title: "📋 CHECKLIST CHUẨN BỊ",
     type: "list",
     order: 14,
-    data: [
+    dataType: [
       "• Đất nặn, giấy màu, hồ dán.",
       "• Sticker $, thẻ giá.",
       "• Flashcards đồ ngọt.",
@@ -1276,7 +1275,7 @@ export const project14WeekBlocks: LessonBlock[] = [
     title: "📊 KẾT QUẢ HỌC TẬP KỲ VỌNG",
     type: "list",
     order: 15,
-    data: [
+    dataType: [
       "Phát âm đúng /k/, /s/, /l/, /ʧ/.",
       "Nói được 3–5 câu mô tả món ngọt.",
       "Hỏi–đáp trôi chảy về sở thích và mua–bán.",
@@ -1292,7 +1291,7 @@ export const project13WeekBlocks: LessonBlock[] = [
     title: "🎯 MỤC TIÊU / OBJECTIVE",
     type: "list",
     order: 1,
-    data: [
+    dataType: [
       "Khám phá cảnh quan thiên nhiên: mountain, river, forest, desert, volcano…",
       "Học mô tả màu sắc, vị trí, đặc điểm thiên nhiên.",
       "Rèn phát âm /v/, /r/, /f/, /l/.",
@@ -1307,7 +1306,7 @@ export const project13WeekBlocks: LessonBlock[] = [
     title: "🧠 TỪ VỰNG / VOCABULARY",
     type: "list",
     order: 2,
-    data: [
+    dataType: [
       "Landforms: mountain, river, lake, forest, beach, desert, valley, volcano, island, waterfall.",
       "Nature Elements: tree, flower, rock, sand, grass, soil, ice, cave, field.",
       "Tính từ mô tả: tall, green, cold, hot, dry.",
@@ -1321,7 +1320,7 @@ export const project13WeekBlocks: LessonBlock[] = [
     title: "🔊 PHÁT ÂM / PRONUNCIATION FOCUS",
     type: "list",
     order: 3,
-    data: [
+    dataType: [
       "/v/ – volcano, valley → 'v–valley' (cắn nhẹ môi dưới).",
       "/r/ – river, rock → 'r–river' (cuộn nhẹ lưỡi).",
       "/f/ – forest, flower → 'fff–forest'.",
@@ -1337,7 +1336,7 @@ export const project13WeekBlocks: LessonBlock[] = [
     title: "📘 CẤU TRÚC NGỮ PHÁP / SENTENCE STRUCTURES",
     type: "list",
     order: 4,
-    data: [
+    dataType: [
       "Main Patterns:",
       "• What is it? → It’s a mountain.",
       "• What color is it? → It’s green.",
@@ -1357,7 +1356,7 @@ export const project13WeekBlocks: LessonBlock[] = [
     title: "🗣 MẪU CÂU GIAO TIẾP / COMMUNICATION PRACTICE",
     type: "list",
     order: 5,
-    data: [
+    dataType: [
       "Mini Dialogue – “Exploring Nature”:",
       "• What can you see? → I can see a mountain.",
       "• Where is the river? → It’s next to the mountain.",
@@ -1371,7 +1370,7 @@ export const project13WeekBlocks: LessonBlock[] = [
     title: "🔍 ACTIVITY 1 – Nature Scavenger Hunt",
     type: "list",
     order: 6,
-    data: [
+    dataType: [
       "• Xem video / tranh thiên nhiên và đánh dấu vật tìm thấy.",
       "• “Tree ✓, flower ✓, river ✓.”",
       "Rèn kỹ năng quan sát và tên gọi thiên nhiên.",
@@ -1384,7 +1383,7 @@ export const project13WeekBlocks: LessonBlock[] = [
     title: "🎨 ACTIVITY 2 – Landscape Painting",
     type: "list",
     order: 7,
-    data: [
+    dataType: [
       "• Vẽ mountain, river, forest bằng màu nước.",
       "• Dán bông gòn làm mây, giấy nhăn làm cây.",
       "• Mô tả: “This is my mountain. It’s tall and green.”",
@@ -1397,7 +1396,7 @@ export const project13WeekBlocks: LessonBlock[] = [
     title: "🍃 ACTIVITY 3 – Texture Rubbing",
     type: "list",
     order: 8,
-    data: [
+    dataType: [
       "• Dùng lá cây, sỏi, vỏ cây để chà tạo texture.",
       "• “This is a leaf. It’s rough.”",
       "Học tính từ cảm giác (soft, hard, rough).",
@@ -1410,7 +1409,7 @@ export const project13WeekBlocks: LessonBlock[] = [
     title: "🌿 ACTIVITY 4 – Nature Collage",
     type: "list",
     order: 9,
-    data: [
+    dataType: [
       "• Dán lá khô, hoa, cỏ, sỏi + vẽ thêm.",
       "• “I made a forest. It’s green and big.”",
       "Kết hợp nghệ thuật & mô tả tiếng Anh.",
@@ -1423,7 +1422,7 @@ export const project13WeekBlocks: LessonBlock[] = [
     title: "🌋 ACTIVITY 5 – Volcano Experiment",
     type: "list",
     order: 10,
-    data: [
+    dataType: [
       "• Làm núi bằng giấy nhăn.",
       "• Dùng baking soda + giấm tạo 'lava'.",
       "• “The volcano is erupting!”",
@@ -1437,7 +1436,7 @@ export const project13WeekBlocks: LessonBlock[] = [
     title: "🏆 SẢN PHẨM / FINAL PRODUCT – My Nature Photo Album",
     type: "list",
     order: 11,
-    data: [
+    dataType: [
       "Album 6–8 trang gồm:",
       "• Ảnh / tranh phong cảnh",
       "• Texture thật (lá, sỏi...)",
@@ -1453,7 +1452,7 @@ export const project13WeekBlocks: LessonBlock[] = [
     title: "📚 HƯỚNG DẪN GIÁO VIÊN",
     type: "list",
     order: 12,
-    data: [
+    dataType: [
       "1. Mở đầu bằng bài hát “The Earth Is Our Home.”",
       "2. Luyện âm /v/, /r/, /f/, /l/ qua trò “Feel & Say.”",
       "3. Dạy mô tả vị trí: on / next to / in / by.",
@@ -1468,7 +1467,7 @@ export const project13WeekBlocks: LessonBlock[] = [
     title: "📋 CHECKLIST CHUẨN BỊ",
     type: "list",
     order: 13,
-    data: [
+    dataType: [
       "• Lá cây, sỏi, vỏ cây, hoa khô.",
       "• Giấy A4, màu nước, hồ dán.",
       "• Baking soda, giấm, mô hình núi.",
@@ -1484,7 +1483,7 @@ export const project13WeekBlocks: LessonBlock[] = [
     title: "📊 KẾT QUẢ HỌC TẬP KỲ VỌNG",
     type: "list",
     order: 14,
-    data: [
+    dataType: [
       "Phát âm chuẩn /v/, /r/, /f/, /l/.",
       "Sử dụng đúng cấu trúc mô tả cảnh vật.",
       "Mô tả được 3–5 yếu tố thiên nhiên bằng tiếng Anh.",
@@ -1501,7 +1500,7 @@ export const project12WeekBlocks: LessonBlock[] = [
     title: "🎯 MỤC TIÊU / OBJECTIVE",
     type: "list",
     order: 1,
-    data: [
+    dataType: [
       "Khám phá thế giới đại dương: động vật biển & đồ vật bãi biển.",
       "Học mô tả môi trường sống, màu sắc và hành động (swim, crawl...).",
       "Rèn phát âm /ʃ/, /k/, /d/, /s/.",
@@ -1516,7 +1515,7 @@ export const project12WeekBlocks: LessonBlock[] = [
     title: "🧠 TỪ VỰNG / VOCABULARY",
     type: "list",
     order: 2,
-    data: [
+    dataType: [
       "Sea Animals: octopus, fish, crab, jellyfish, starfish, dolphin, turtle, coral, shell.",
       "Beach Words: beach, wave, sand, coconut, surfing, sunglasses, sunscreen, sandcastle, ukulele, hula dance.",
       "Phân nhóm: 'in the sea' & 'on the beach'.",
@@ -1529,7 +1528,7 @@ export const project12WeekBlocks: LessonBlock[] = [
     title: "🔊 PHÁT ÂM / PRONUNCIATION FOCUS",
     type: "list",
     order: 3,
-    data: [
+    dataType: [
       "/ʃ/ – shell, fish → 'shhh–ell.'",
       "/k/ – crab, coral → 'k–crab!'",
       "/d/ – dolphin → 'd–dolphin.'",
@@ -1544,7 +1543,7 @@ export const project12WeekBlocks: LessonBlock[] = [
     title: "📘 CẤU TRÚC NGỮ PHÁP / SENTENCE STRUCTURES",
     type: "list",
     order: 4,
-    data: [
+    dataType: [
       "Main Patterns:",
       "• What is it? → It’s a fish.",
       "• Where does it live? → It lives in the sea.",
@@ -1562,7 +1561,7 @@ export const project12WeekBlocks: LessonBlock[] = [
     title: "🗣 MẪU CÂU GIAO TIẾP / COMMUNICATION PRACTICE",
     type: "list",
     order: 5,
-    data: [
+    dataType: [
       "Mini Dialogue – “At the Beach”:",
       "• What is that? → It’s a turtle.",
       "• Where does it live? → In the sea!",
@@ -1577,7 +1576,7 @@ export const project12WeekBlocks: LessonBlock[] = [
     title: "🎨 ACTIVITY 1 – Aquarium Craft",
     type: "list",
     order: 6,
-    data: [
+    dataType: [
       "• Dùng hộp giấy làm bể cá mini.",
       "• Dán cá, rong biển, sỏi giấy.",
       "• Câu nói mục tiêu: “This is my fish tank.” / “Fish live here.”",
@@ -1590,7 +1589,7 @@ export const project12WeekBlocks: LessonBlock[] = [
     title: "🎨 ACTIVITY 2 – Fish Painting (Handprint Art)",
     type: "list",
     order: 7,
-    data: [
+    dataType: [
       "• In bàn tay bằng màu tạo hình cá.",
       "• Mô tả sản phẩm: “This is my fish. It’s yellow.”",
     ],
@@ -1602,7 +1601,7 @@ export const project12WeekBlocks: LessonBlock[] = [
     title: "🎨 ACTIVITY 3 – Underwater Scene",
     type: "list",
     order: 8,
-    data: [
+    dataType: [
       "• Nhóm học sinh vẽ tranh đại dương lớn.",
       "• Bé chọn 1 con vật để giới thiệu: “I have a starfish. It’s red.”",
     ],
@@ -1614,7 +1613,7 @@ export const project12WeekBlocks: LessonBlock[] = [
     title: "🐚 ACTIVITY 4 – Shell Sorting",
     type: "list",
     order: 9,
-    data: [
+    dataType: [
       "• Phân loại vỏ sò theo size & màu.",
       "• Đếm & mô tả: “Three big shells, two small shells.”",
     ],
@@ -1626,7 +1625,7 @@ export const project12WeekBlocks: LessonBlock[] = [
     title: "🏰 ACTIVITY 5 – Sandcastle Craft",
     type: "list",
     order: 10,
-    data: [
+    dataType: [
       "• Làm lâu đài cát bằng giấy nhám / carton.",
       "• Mô tả hành động: “I’m building a sandcastle.”",
     ],
@@ -1638,7 +1637,7 @@ export const project12WeekBlocks: LessonBlock[] = [
     title: "🌴 SỰ KIỆN: UNDERWATER FAIR – MINI BEACH PARTY",
     type: "list",
     order: 11,
-    data: [
+    dataType: [
       "• Trang trí lớp theo chủ đề biển.",
       "• Trẻ đội mũ, đeo kính râm, cầm cá / sao biển.",
       "• Trò chơi: “Find My Shell”, “Swim Like a Fish”.",
@@ -1652,7 +1651,7 @@ export const project12WeekBlocks: LessonBlock[] = [
     title: "🏆 SẢN PHẨM / FINAL PRODUCT – My Ocean Box",
     type: "list",
     order: 12,
-    data: [
+    dataType: [
       "• Hộp đại dương gồm cá giấy, vỏ sò, rong biển.",
       "• Dán 3–5 câu mô tả xung quanh hộp:",
       "  “This is a dolphin. It can swim. It lives in the sea.”",
@@ -1666,7 +1665,7 @@ export const project12WeekBlocks: LessonBlock[] = [
     title: "📚 HƯỚNG DẪN GIÁO VIÊN",
     type: "list",
     order: 13,
-    data: [
+    dataType: [
       "1. Mở đầu bằng video biển hoặc bài hát “Baby Shark”.",
       "2. Luyện âm /ʃ/, /k/, /d/, /s/ với trò “Move Like a Fish.”",
       "3. Dạy câu “Where does it live?” bằng flashcards.",
@@ -1681,7 +1680,7 @@ export const project12WeekBlocks: LessonBlock[] = [
     title: "📋 CHECKLIST CHUẨN BỊ",
     type: "list",
     order: 14,
-    data: [
+    dataType: [
       "• Hộp giấy, giấy màu, vỏ sò.",
       "• Màu nước, keo, cát giấy.",
       "• Flashcards động vật biển.",
@@ -1697,7 +1696,7 @@ export const project12WeekBlocks: LessonBlock[] = [
     title: "📊 KẾT QUẢ HỌC TẬP KỲ VỌNG",
     type: "list",
     order: 15,
-    data: [
+    dataType: [
       "Phát âm đúng /ʃ/, /k/, /d/, /s/.",
       "Dùng đúng “Where does it live?” / “Can it swim?”",
       "Nói 3–5 câu mô tả động vật biển / hoạt động bãi biển.",
@@ -1714,7 +1713,7 @@ export const springReviewBlocks: LessonBlock[] = [
     title: "🎯 MỤC TIÊU / OBJECTIVE",
     type: "list",
     order: 1,
-    data: [
+    dataType: [
       "Ôn tập 5 chủ đề từ tháng 3–5: Insects, Food, Farm, Transportation, Fast Food.",
       "Củng cố phát âm /f/, /b/, /k/, /s/.",
       "Luyện 5 mẫu câu giao tiếp chính.",
@@ -1729,7 +1728,7 @@ export const springReviewBlocks: LessonBlock[] = [
     title: "🧠 REVIEWED TOPICS / CHỦ ĐỀ ÔN TẬP",
     type: "list",
     order: 2,
-    data: [
+    dataType: [
       "• Insects & Bugs",
       "• What I Eat in a Week",
       "• Farm Animals",
@@ -1745,7 +1744,7 @@ export const springReviewBlocks: LessonBlock[] = [
     title: "🔊 PHÁT ÂM ÔN TẬP / PRONUNCIATION",
     type: "list",
     order: 3,
-    data: [
+    dataType: [
       "/f/ – farm, food, fast → 'fff–farm.'",
       "/b/ – bus, bird, burger → 'b–bus.'",
       "/k/ – car, cow, cook → 'k–car.'",
@@ -1760,7 +1759,7 @@ export const springReviewBlocks: LessonBlock[] = [
     title: "📘 CẤU TRÚC CÂU ÔN TẬP / SENTENCE STRUCTURES",
     type: "list",
     order: 4,
-    data: [
+    dataType: [
       "Insects: What is it? → It’s a bee. / Can it fly? → Yes, it can!",
       "Food: What do you eat on Monday? → I eat apples.",
       "Farm: Where do cows live? → On the farm.",
@@ -1776,7 +1775,7 @@ export const springReviewBlocks: LessonBlock[] = [
     title: "🗣 GIAO TIẾP / COMMUNICATION PRACTICE",
     type: "list",
     order: 5,
-    data: [
+    dataType: [
       "Mini Dialogue – “At the Spring Fair”:",
       "• “What can you see?” → “I can see a cow and a bus!”",
       "• “What do you like to eat?” → “I like burgers and fries!”",
@@ -1791,7 +1790,7 @@ export const springReviewBlocks: LessonBlock[] = [
     title: "🎡 ACTIVITY 1 – Review Carnival",
     type: "list",
     order: 6,
-    data: [
+    dataType: [
       "4 trạm trò chơi theo chủ đề:",
       "• Booth 1: Insect Quiz",
       "• Booth 2: Food Memory Game",
@@ -1807,7 +1806,7 @@ export const springReviewBlocks: LessonBlock[] = [
     title: "🖼 ACTIVITY 2 – Portfolio Presentation",
     type: "list",
     order: 7,
-    data: [
+    dataType: [
       "Mỗi bé chọn 2 sản phẩm yêu thích trong 3 tháng:",
       "• “This is my farm model.”",
       "• “I made a burger from clay.”",
@@ -1821,7 +1820,7 @@ export const springReviewBlocks: LessonBlock[] = [
     title: "📖 ACTIVITY 3 – Create “Spring Book”",
     type: "list",
     order: 8,
-    data: [
+    dataType: [
       "Dán ảnh sản phẩm, vẽ hình, viết câu ngắn:",
       "• “I like my bee craft.”",
       "• “I go to school by bus.”",
@@ -1835,7 +1834,7 @@ export const springReviewBlocks: LessonBlock[] = [
     title: "🤸‍♂️ ACTIVITY 4 – Team Challenge",
     type: "list",
     order: 9,
-    data: [
+    dataType: [
       "Trò chơi “Guess and Act”:",
       "• “Fly like a bee!”",
       "• “Drive a car!”",
@@ -1849,7 +1848,7 @@ export const springReviewBlocks: LessonBlock[] = [
     title: "🎉 EVENT – WEWIN SPRING FESTIVAL",
     type: "list",
     order: 10,
-    data: [
+    dataType: [
       "• Trạm trò chơi ôn tập",
       "• Góc triển lãm sản phẩm",
       "• Biểu diễn: “My Favorite Theme” (30 giây/nếu)",
@@ -1864,7 +1863,7 @@ export const springReviewBlocks: LessonBlock[] = [
     title: "🏆 SẢN PHẨM / FINAL PRODUCT – My Spring Book",
     type: "list",
     order: 11,
-    data: [
+    dataType: [
       "Sổ kỷ niệm gồm 5 trang:",
       "• My Favorite Theme",
       "• My Favorite Food",
@@ -1881,7 +1880,7 @@ export const springReviewBlocks: LessonBlock[] = [
     title: "📚 HƯỚNG DẪN GIÁO VIÊN",
     type: "list",
     order: 12,
-    data: [
+    dataType: [
       "1. Mở đầu bằng bài hát “Spring is Here.”",
       "2. Chia nhóm – mỗi nhóm phụ trách 1 booth.",
       "3. Nhắc học sinh nói câu tiếng Anh khi chơi.",
@@ -1896,7 +1895,7 @@ export const springReviewBlocks: LessonBlock[] = [
     title: "📋 CHECKLIST CHUẨN BỊ",
     type: "list",
     order: 13,
-    data: [
+    dataType: [
       "• Flashcards 5 chủ đề",
       "• Giấy màu, hồ dán, ảnh chụp sản phẩm",
       "• Sticker thưởng, đồ chơi nhỏ",
@@ -1911,7 +1910,7 @@ export const springReviewBlocks: LessonBlock[] = [
     title: "📊 KẾT QUẢ HỌC TẬP KỲ VỌNG",
     type: "list",
     order: 14,
-    data: [
+    dataType: [
       "Phát âm đúng /f/, /b/, /k/, /s/.",
       "Nói được 3–5 câu mô tả theo chủ đề.",
       "Nhận diện & dùng linh hoạt cấu trúc đã học.",
@@ -1928,7 +1927,7 @@ export const project11WeekBlocks: LessonBlock[] = [
     title: "🎯 MỤC TIÊU / OBJECTIVE",
     type: "list",
     order: 1,
-    data: [
+    dataType: [
       "Học từ vựng về đồ ăn nhanh.",
       "Luyện phát âm /f/, /s/, /h/, /k/.",
       "Luyện hỏi – đáp: What do you want to eat? / Is it hot or cold?",
@@ -1943,7 +1942,7 @@ export const project11WeekBlocks: LessonBlock[] = [
     title: "🧠 TỪ VỰNG / VOCABULARY",
     type: "list",
     order: 2,
-    data: [
+    dataType: [
       "Fast Food Items:",
       "• fries, sandwich, hamburger, pizza, hot dog",
       "• spaghetti, ice cream, donut, cake, soda",
@@ -1958,7 +1957,7 @@ export const project11WeekBlocks: LessonBlock[] = [
     title: "🔊 PHÁT ÂM / PRONUNCIATION FOCUS",
     type: "list",
     order: 3,
-    data: [
+    dataType: [
       "/f/ – fries, food → 'fff–ries.'",
       "/s/ – sandwich, sausage → 'sss–andwich.'",
       "/h/ – hot dog → 'h–hot!'",
@@ -1974,7 +1973,7 @@ export const project11WeekBlocks: LessonBlock[] = [
     title: "📘 CẤU TRÚC NGỮ PHÁP / SENTENCE STRUCTURES",
     type: "list",
     order: 4,
-    data: [
+    dataType: [
       "Main Patterns:",
       "• What do you want to eat? → I want a hamburger.",
       "• What do you like? → I like pizza.",
@@ -1993,7 +1992,7 @@ export const project11WeekBlocks: LessonBlock[] = [
     title: "🗣 MẪU CÂU GIAO TIẾP / COMMUNICATION PRACTICE",
     type: "list",
     order: 5,
-    data: [
+    dataType: [
       "Mini Dialogue – At the Restaurant:",
       "• “Welcome! What do you want to eat?”",
       "• “I want a hamburger, please.”",
@@ -2009,7 +2008,7 @@ export const project11WeekBlocks: LessonBlock[] = [
     title: "🍕 ACTIVITY 1 – Play-Dough Food",
     type: "list",
     order: 6,
-    data: [
+    dataType: [
       "Nặn hamburger, pizza, donut bằng đất nặn.",
       "Câu mẫu:",
       "• “I’m making a pizza!”",
@@ -2023,7 +2022,7 @@ export const project11WeekBlocks: LessonBlock[] = [
     title: "🍔 ACTIVITY 2 – Restaurant Role-Play",
     type: "list",
     order: 7,
-    data: [
+    dataType: [
       "Set up quầy bán hàng, menu, bảng giá.",
       "Hội thoại:",
       "• “What do you want?” → “I want fries!”",
@@ -2037,7 +2036,7 @@ export const project11WeekBlocks: LessonBlock[] = [
     title: "📄 ACTIVITY 3 – Menu Design",
     type: "list",
     order: 8,
-    data: [
+    dataType: [
       "Vẽ menu • thêm hình – giá bằng sticker.",
       "Câu mẫu:",
       "• “Pizza – two dollars!”",
@@ -2051,7 +2050,7 @@ export const project11WeekBlocks: LessonBlock[] = [
     title: "🔥 ACTIVITY 4 – Hot vs Cold Sorting",
     type: "list",
     order: 9,
-    data: [
+    dataType: [
       "Phân loại:",
       "• hot dog → hot",
       "• ice cream → cold",
@@ -2067,7 +2066,7 @@ export const project11WeekBlocks: LessonBlock[] = [
     title: "🍽 ACTIVITY 5 – Paper Plate Food",
     type: "list",
     order: 10,
-    data: [
+    dataType: [
       "Làm món ăn từ giấy.",
       "Câu mẫu:",
       "• “This is my pizza.”",
@@ -2081,7 +2080,7 @@ export const project11WeekBlocks: LessonBlock[] = [
     title: "🎉 SỰ KIỆN – WEWIN FAST FOOD DAY",
     type: "list",
     order: 11,
-    data: [
+    dataType: [
       "Mini fast food party:",
       "• Bé đóng vai đầu bếp / khách hàng.",
       "• Dùng tiền giả để mua đồ ăn.",
@@ -2097,7 +2096,7 @@ export const project11WeekBlocks: LessonBlock[] = [
     title: "🏆 SẢN PHẨM / FINAL PRODUCT",
     type: "list",
     order: 12,
-    data: [
+    dataType: [
       "My Fast Food Menu + Paper Plate Food:",
       "• Tên món",
       "• Giá (sticker $)",
@@ -2111,7 +2110,7 @@ export const project11WeekBlocks: LessonBlock[] = [
     title: "📚 HƯỚNG DẪN GIÁO VIÊN",
     type: "list",
     order: 13,
-    data: [
+    dataType: [
       "1. Mở đầu bằng bài hát “Do You Like Broccoli Ice Cream?”",
       "2. Luyện âm /f/, /s/, /h/, /k/ qua trò “Say It & Eat It.”",
       "3. Chia góc: Menu – Play-Dough – Role-Play.",
@@ -2126,7 +2125,7 @@ export const project11WeekBlocks: LessonBlock[] = [
     title: "📋 CHECKLIST CHUẨN BỊ",
     type: "list",
     order: 14,
-    data: [
+    dataType: [
       "Đất nặn, đĩa giấy, giấy màu",
       "Menu trống, sticker $",
       "Flashcards đồ ăn nhanh",
@@ -2142,7 +2141,7 @@ export const project11WeekBlocks: LessonBlock[] = [
     title: "📊 KẾT QUẢ HỌC TẬP KỲ VỌNG",
     type: "list",
     order: 15,
-    data: [
+    dataType: [
       "Phát âm đúng /f/, /s/, /h/, /k/.",
       "Giao tiếp: “What do you want to eat?” – “I want a pizza.”",
       "Phân biệt hot / cold.",
@@ -2159,7 +2158,7 @@ export const project10WeekBlocks: LessonBlock[] = [
     title: "🎯 MỤC TIÊU / OBJECTIVE",
     type: "list",
     order: 1,
-    data: [
+    dataType: [
       "Học từ vựng về phương tiện giao thông & địa điểm trong thành phố.",
       "Luyện phát âm /b/, /t/, /r/, /p/.",
       "Luyện hỏi – đáp: How do you go to school? / Where is the bus?",
@@ -2174,7 +2173,7 @@ export const project10WeekBlocks: LessonBlock[] = [
     title: "🧠 TỪ VỰNG / VOCABULARY",
     type: "list",
     order: 2,
-    data: [
+    dataType: [
       "Transportation:",
       "• on foot, by car, by motorcycle, by taxi, by bus, by bike, by plane",
       "• train, rocket, ship, truck, submarine, tractor, helicopter",
@@ -2192,7 +2191,7 @@ export const project10WeekBlocks: LessonBlock[] = [
     title: "🔊 PHÁT ÂM / PRONUNCIATION FOCUS",
     type: "list",
     order: 3,
-    data: [
+    dataType: [
       "/b/ – bus, bike, bridge → 'b–b–bus!'",
       "/t/ – taxi, train, truck → 't–t–truck!'",
       "/r/ – rocket, road, river → 'r–rocket!'",
@@ -2208,7 +2207,7 @@ export const project10WeekBlocks: LessonBlock[] = [
     title: "📘 CẤU TRÚC NGỮ PHÁP / SENTENCE STRUCTURES",
     type: "list",
     order: 4,
-    data: [
+    dataType: [
       "Main Patterns:",
       "• How do you go to school? → I go to school by bus.",
       "• Where is the bus? → It’s on the road.",
@@ -2229,7 +2228,7 @@ export const project10WeekBlocks: LessonBlock[] = [
     title: "🗣 MẪU CÂU GIAO TIẾP / COMMUNICATION PRACTICE",
     type: "list",
     order: 5,
-    data: [
+    dataType: [
       "Mini Dialogue – How Do You Go?",
       "• “How do you go to school?”",
       "• “I go by bus.”",
@@ -2246,7 +2245,7 @@ export const project10WeekBlocks: LessonBlock[] = [
     title: "🚗 ACTIVITY 1 – Transportation Collage",
     type: "list",
     order: 6,
-    data: [
+    dataType: [
       "Cắt – dán hình xe cộ từ tạp chí.",
       "Bé mô tả:",
       "• “This is a bus.”",
@@ -2261,7 +2260,7 @@ export const project10WeekBlocks: LessonBlock[] = [
     title: "🗺 ACTIVITY 2 – Build a City (Vẽ bản đồ)",
     type: "list",
     order: 7,
-    data: [
+    dataType: [
       "Nhóm học sinh vẽ đường phố lớn trên giấy A1.",
       "Dán xe & địa điểm:",
       "• “The plane flies in the sky.”",
@@ -2276,7 +2275,7 @@ export const project10WeekBlocks: LessonBlock[] = [
     title: "🏎 ACTIVITY 3 – Vehicle Race Game",
     type: "list",
     order: 8,
-    data: [
+    dataType: [
       "Dùng xe đồ chơi & đường dán bằng băng keo.",
       "Câu mẫu khi chơi:",
       "• “Go, bus, go!”",
@@ -2291,7 +2290,7 @@ export const project10WeekBlocks: LessonBlock[] = [
     title: "🚦 ACTIVITY 4 – Traffic Light Craft",
     type: "list",
     order: 9,
-    data: [
+    dataType: [
       "Làm đèn giao thông bằng giấy tròn.",
       "Học câu:",
       "• “Red means stop.”",
@@ -2306,7 +2305,7 @@ export const project10WeekBlocks: LessonBlock[] = [
     title: "✏️ ACTIVITY 5 – Connect the Dots",
     type: "list",
     order: 10,
-    data: [
+    dataType: [
       "Nối số tạo hình xe, tàu, máy bay.",
       "Câu mẫu:",
       "• “This is a helicopter.”",
@@ -2321,7 +2320,7 @@ export const project10WeekBlocks: LessonBlock[] = [
     title: "🏆 SẢN PHẨM / FINAL PRODUCT",
     type: "list",
     order: 11,
-    data: [
+    dataType: [
       "My City Map – bản đồ thành phố gồm:",
       "• Tuyến đường – địa điểm – phương tiện.",
       "• Câu mô tả dán kèm:",
@@ -2336,7 +2335,7 @@ export const project10WeekBlocks: LessonBlock[] = [
     title: "📚 HƯỚNG DẪN GIÁO VIÊN",
     type: "list",
     order: 12,
-    data: [
+    dataType: [
       "1. Warm-up bằng trò: 'Sound of the City' – đoán tiếng xe.",
       "2. Luyện âm /b/, /t/, /r/, /p/ qua trò 'Say & Move.'",
       "3. Luyện câu 'How do you go…?' theo nhóm.",
@@ -2351,7 +2350,7 @@ export const project10WeekBlocks: LessonBlock[] = [
     title: "📋 CHECKLIST CHUẨN BỊ",
     type: "list",
     order: 13,
-    data: [
+    dataType: [
       "Hình xe, tạp chí, giấy A1",
       "Băng keo màu, kéo, hồ dán",
       "Xe đồ chơi",
@@ -2367,7 +2366,7 @@ export const project10WeekBlocks: LessonBlock[] = [
     title: "📊 KẾT QUẢ HỌC TẬP KỲ VỌNG",
     type: "list",
     order: 14,
-    data: [
+    dataType: [
       "Phát âm chuẩn /b/, /t/, /r/, /p/.",
       "Nói trôi chảy cấu trúc: How do you go to school?",
       "Sử dụng đúng giới từ nơi chốn.",
@@ -2383,7 +2382,7 @@ export const project9WeekBlocks: LessonBlock[] = [
     title: "🎯 MỤC TIÊU / OBJECTIVE",
     type: "list",
     order: 1,
-    data: [
+    dataType: [
       "Học từ vựng về động vật trang trại và thú cưng.",
       "Luyện phát âm /p/, /ʃ/, /k/, /d/.",
       "Mô tả âm thanh, hành động, nơi sống của động vật.",
@@ -2398,7 +2397,7 @@ export const project9WeekBlocks: LessonBlock[] = [
     title: "🧠 TỪ VỰNG / VOCABULARY",
     type: "list",
     order: 2,
-    data: [
+    dataType: [
       "Farm Animals: cow, horse, pig, duck, sheep, goat, rooster, turkey, farmer, buffalo",
       "Pet Animals: dog, cat, rabbit, turtle, fish, parrot",
       "Phân biệt môi trường sống, âm thanh và hành động của từng loài.",
@@ -2411,7 +2410,7 @@ export const project9WeekBlocks: LessonBlock[] = [
     title: "🔊 PHÁT ÂM / PRONUNCIATION FOCUS",
     type: "list",
     order: 3,
-    data: [
+    dataType: [
       "/p/ – pig, puppy → 'p–p–pig!'",
       "/ʃ/ – sheep → 'shhh–eep!'",
       "/k/ – cat, cow → 'k–k–cow!'",
@@ -2427,7 +2426,7 @@ export const project9WeekBlocks: LessonBlock[] = [
     title: "📘 CẤU TRÚC NGỮ PHÁP / SENTENCE STRUCTURES",
     type: "list",
     order: 4,
-    data: [
+    dataType: [
       "Main Patterns:",
       "• What is this? → It’s a cow.",
       "• What does it say? → It says moo.",
@@ -2446,7 +2445,7 @@ export const project9WeekBlocks: LessonBlock[] = [
     title: "🗣 MẪU CÂU GIAO TIẾP / COMMUNICATION PRACTICE",
     type: "list",
     order: 5,
-    data: [
+    dataType: [
       "Mini Dialogue – At the Farm:",
       "• “What is this?” → “It’s a pig.”",
       "• “What does it say?” → “Oink, oink!”",
@@ -2461,7 +2460,7 @@ export const project9WeekBlocks: LessonBlock[] = [
     title: "🏡 ACTIVITY 1 – Farm Diorama",
     type: "list",
     order: 6,
-    data: [
+    dataType: [
       "Làm mô hình nông trại bằng giấy, bìa, ống hút.",
       "Bé dán động vật và giới thiệu:",
       "• “This is my farm.”",
@@ -2475,7 +2474,7 @@ export const project9WeekBlocks: LessonBlock[] = [
     title: "🔊 ACTIVITY 2 – Animal Sound Bingo",
     type: "list",
     order: 7,
-    data: [
+    dataType: [
       "Nghe âm thanh: moo, quack, baa, neigh…",
       "Bé chọn đúng hình con vật:",
       "• “Cow!”",
@@ -2490,7 +2489,7 @@ export const project9WeekBlocks: LessonBlock[] = [
     title: "👩‍🌾 ACTIVITY 3 – Farmer Costume",
     type: "list",
     order: 8,
-    data: [
+    dataType: [
       "Đội mũ rơm, mang găng tay, cầm công cụ.",
       "Câu mẫu:",
       "• “I’m a farmer.”",
@@ -2505,7 +2504,7 @@ export const project9WeekBlocks: LessonBlock[] = [
     title: "🔢 ACTIVITY 4 – Animal Counting",
     type: "list",
     order: 9,
-    data: [
+    dataType: [
       "Đếm động vật trong tranh:",
       "• “Three pigs.”",
       "• “Five ducks.”",
@@ -2519,7 +2518,7 @@ export const project9WeekBlocks: LessonBlock[] = [
     title: "🎭 ACTIVITY 5 – Stick Puppet Show",
     type: "list",
     order: 10,
-    data: [
+    dataType: [
       "Làm rối bằng que gỗ và giấy.",
       "Biểu diễn hội thoại:",
       "• “Hello! I’m a sheep. I can run.”",
@@ -2533,7 +2532,7 @@ export const project9WeekBlocks: LessonBlock[] = [
     title: "🏆 SẢN PHẨM / FINAL PRODUCT",
     type: "list",
     order: 11,
-    data: [
+    dataType: [
       "My Farm Book – Sách 6 trang:",
       "• Trang bìa: My Farm",
       "• Trang 2–5: Mỗi con vật + câu mô tả:",
@@ -2548,7 +2547,7 @@ export const project9WeekBlocks: LessonBlock[] = [
     title: "📚 HƯỚNG DẪN GIÁO VIÊN",
     type: "list",
     order: 12,
-    data: [
+    dataType: [
       "1. Mở đầu bằng bài hát 'Old MacDonald Had a Farm.'",
       "2. Luyện âm /p/, /ʃ/, /k/, /d/ qua 'Say & Move.'",
       "3. Cho học sinh bắt chước tiếng động vật thật.",
@@ -2563,7 +2562,7 @@ export const project9WeekBlocks: LessonBlock[] = [
     title: "📋 CHECKLIST CHUẨN BỊ",
     type: "list",
     order: 13,
-    data: [
+    dataType: [
       "Flashcards động vật + âm thanh",
       "Giấy bìa, hộp giấy, keo",
       "Que gỗ, giấy màu cho Puppet Show",
@@ -2579,7 +2578,7 @@ export const project9WeekBlocks: LessonBlock[] = [
     title: "📊 KẾT QUẢ HỌC TẬP KỲ VỌNG",
     type: "list",
     order: 14,
-    data: [
+    dataType: [
       "Phát âm đúng /p/, /ʃ/, /k/, /d/.",
       "Hỏi – đáp trôi chảy về động vật: What is this? / It says…",
       "Mô tả được nơi sống và hành động của động vật.",
@@ -2595,7 +2594,7 @@ export const project8WeekBlocks: LessonBlock[] = [
     title: "🎯 MỤC TIÊU / OBJECTIVE",
     type: "list",
     order: 1,
-    data: [
+    dataType: [
       "Học từ vựng về trái cây và món ăn.",
       "Luyện phát âm /k/, /s/, /b/, /f/.",
       "Rèn kỹ năng đếm và danh từ số nhiều.",
@@ -2611,7 +2610,7 @@ export const project8WeekBlocks: LessonBlock[] = [
     title: "🧠 TỪ VỰNG / VOCABULARY",
     type: "list",
     order: 2,
-    data: [
+    dataType: [
       "Fruits & Foods: apple, pear, plum, orange, strawberry, watermelon, cake, cheese, sausage, ice cream, cucumber, salami, cupcake",
       "Story Words: egg, caterpillar, leaf, cocoon, butterfly, sun, moon",
       "Kết hợp chủ điểm: thức ăn – ngày trong tuần – vòng đời bướm.",
@@ -2624,7 +2623,7 @@ export const project8WeekBlocks: LessonBlock[] = [
     title: "🔊 PHÁT ÂM / PRONUNCIATION FOCUS",
     type: "list",
     order: 3,
-    data: [
+    dataType: [
       "/k/ – cake, cucumber, cocoon → 'k–k–cake!'",
       "/s/ – sausage, strawberry, sun → 'sss–ausage!'",
       "/b/ – butterfly, banana → 'b–b–butterfly'",
@@ -2639,7 +2638,7 @@ export const project8WeekBlocks: LessonBlock[] = [
     title: "📘 CẤU TRÚC NGỮ PHÁP / SENTENCE STRUCTURES",
     type: "list",
     order: 4,
-    data: [
+    dataType: [
       "Main Patterns:",
       "• What is this? → It’s an apple.",
       "• How many apples are there? → There are three.",
@@ -2658,7 +2657,7 @@ export const project8WeekBlocks: LessonBlock[] = [
     title: "🗣 MẪU CÂU GIAO TIẾP / COMMUNICATION PRACTICE",
     type: "list",
     order: 5,
-    data: [
+    dataType: [
       "Mini Dialogue – What Do You Eat?:",
       "• “What do you eat on Monday?” → “I eat one apple.”",
       "• “What about Tuesday?” → “I eat two pears.”",
@@ -2672,7 +2671,7 @@ export const project8WeekBlocks: LessonBlock[] = [
     title: "📖 ACTIVITY 1 – Story Retelling",
     type: "list",
     order: 6,
-    data: [
+    dataType: [
       "Cô kể truyện bằng flashcard/video.",
       "Học sinh sắp xếp tranh theo thứ tự câu chuyện.",
       "Rèn kỹ năng nghe – nhớ – kể lại.",
@@ -2685,7 +2684,7 @@ export const project8WeekBlocks: LessonBlock[] = [
     title: "🥗 ACTIVITY 2 – Food Sorting (Healthy vs Treat)",
     type: "list",
     order: 7,
-    data: [
+    dataType: [
       "Phân loại thực phẩm:",
       "Healthy: apple, pear, cucumber",
       "Treat: cake, ice cream, sausage",
@@ -2701,7 +2700,7 @@ export const project8WeekBlocks: LessonBlock[] = [
     title: "🐛 ACTIVITY 3 – Caterpillar Craft",
     type: "list",
     order: 8,
-    data: [
+    dataType: [
       "Làm sâu bằng que kem + pompom.",
       "Câu mẫu:",
       "• “This is my caterpillar.”",
@@ -2715,7 +2714,7 @@ export const project8WeekBlocks: LessonBlock[] = [
     title: "🔢 ACTIVITY 4 – Food Counting",
     type: "list",
     order: 9,
-    data: [
+    dataType: [
       "Dán sticker số lượng theo truyện:",
       "• 1 apple",
       "• 2 pears",
@@ -2730,7 +2729,7 @@ export const project8WeekBlocks: LessonBlock[] = [
     title: "📘 ACTIVITY 5 – My Weekly Food Diary",
     type: "list",
     order: 10,
-    data: [
+    dataType: [
       "Mỗi trang = 1 ngày:",
       "• “On Monday, I eat an apple.”",
       "• “On Tuesday, I eat two pears.”",
@@ -2744,7 +2743,7 @@ export const project8WeekBlocks: LessonBlock[] = [
     title: "🏆 SẢN PHẨM / FINAL PRODUCT",
     type: "list",
     order: 11,
-    data: [
+    dataType: [
       "My Hungry Week Book – gồm 7 trang:",
       "• Giới thiệu: egg → caterpillar",
       "• 5–7 trang về thức ăn mỗi ngày",
@@ -2759,7 +2758,7 @@ export const project8WeekBlocks: LessonBlock[] = [
     title: "📚 HƯỚNG DẪN GIÁO VIÊN",
     type: "list",
     order: 12,
-    data: [
+    dataType: [
       "1. Luyện âm /k/, /s/, /b/, /f/ với trò 'Say It with Action.'",
       "2. Dạy mẫu câu bằng flashcard + nhịp điệu (clap – speak – repeat).",
       "3. Tổ chức 3 góc: Storytelling – Craft – Food Sorting.",
@@ -2774,7 +2773,7 @@ export const project8WeekBlocks: LessonBlock[] = [
     title: "📋 CHECKLIST CHUẨN BỊ",
     type: "list",
     order: 13,
-    data: [
+    dataType: [
       "Thẻ tranh truyện & audio",
       "Giấy màu, que kem, pompom",
       "Sticker trái cây & món ăn",
@@ -2791,7 +2790,7 @@ export const project8WeekBlocks: LessonBlock[] = [
     title: "📊 KẾT QUẢ HỌC TẬP KỲ VỌNG",
     type: "list",
     order: 14,
-    data: [
+    dataType: [
       "Phát âm chuẩn 4 âm /k/, /s/, /b/, /f/.",
       "Sử dụng đúng cấu trúc I eat… / How many…?",
       "Kể lại được 4–6 phần câu chuyện.",
@@ -2807,7 +2806,7 @@ export const project7WeekBlocks: LessonBlock[] = [
     title: "🎯 MỤC TIÊU / OBJECTIVE",
     type: "list",
     order: 1,
-    data: [
+    dataType: [
       "Khám phá thế giới côn trùng xung quanh.",
       "Học từ vựng theo hành động: fly, crawl, jump.",
       "Luyện phát âm /b/, /f/, /s/, /ɡ/.",
@@ -2822,7 +2821,7 @@ export const project7WeekBlocks: LessonBlock[] = [
     title: "🧠 TỪ VỰNG / VOCABULARY",
     type: "list",
     order: 2,
-    data: [
+    dataType: [
       "ladybug",
       "spider",
       "bee",
@@ -2841,7 +2840,7 @@ export const project7WeekBlocks: LessonBlock[] = [
     title: "🔊 PHÁT ÂM / PRONUNCIATION FOCUS",
     type: "list",
     order: 3,
-    data: [
+    dataType: [
       "/b/ – bee, butterfly → 'b–bee!'",
       "/f/ – fly, flower → 'fff–ly'",
       "/s/ – spider, mosquito → 'sss–pider'",
@@ -2859,7 +2858,7 @@ export const project7WeekBlocks: LessonBlock[] = [
     title: "📘 CẤU TRÚC NGỮ PHÁP / SENTENCE STRUCTURES",
     type: "list",
     order: 4,
-    data: [
+    dataType: [
       "Main Patterns:",
       "• What is it? → It’s a butterfly.",
       "• What color is it? → It’s yellow.",
@@ -2878,7 +2877,7 @@ export const project7WeekBlocks: LessonBlock[] = [
     title: "🗣 MẪU CÂU GIAO TIẾP / COMMUNICATION PRACTICE",
     type: "list",
     order: 5,
-    data: [
+    dataType: [
       "Mini Dialogue – Talking About Bugs:",
       "• “What is it?” → “It’s a ladybug.”",
       "• “Can it fly?” → “Yes, it can!”",
@@ -2893,7 +2892,7 @@ export const project7WeekBlocks: LessonBlock[] = [
     title: "🔍 ACTIVITY 1 – Bug Hunt Outdoor",
     type: "list",
     order: 6,
-    data: [
+    dataType: [
       "Quan sát côn trùng thật ngoài sân / video.",
       "Vẽ lại côn trùng yêu thích.",
       "Câu mẫu:",
@@ -2907,7 +2906,7 @@ export const project7WeekBlocks: LessonBlock[] = [
     title: "🦋 ACTIVITY 2 – Butterfly Life Cycle",
     type: "list",
     order: 7,
-    data: [
+    dataType: [
       "Làm mô hình: egg → caterpillar → cocoon → butterfly.",
       "Câu mẫu:",
       "• “It’s a butterfly.”",
@@ -2922,7 +2921,7 @@ export const project7WeekBlocks: LessonBlock[] = [
     title: "🐝 ACTIVITY 3 – Insect Craft",
     type: "list",
     order: 8,
-    data: [
+    dataType: [
       "Làm ong từ chai nhựa, bướm từ giấy & kẹp.",
       "Câu mẫu:",
       "• “I made a bee!”",
@@ -2936,7 +2935,7 @@ export const project7WeekBlocks: LessonBlock[] = [
     title: "🧩 ACTIVITY 4 – Dot-to-Dot Insects",
     type: "list",
     order: 9,
-    data: [
+    dataType: [
       "Nối số 1–20 tạo hình insect.",
       "Tô màu và dán vào “My Insect Journal.”",
     ],
@@ -2948,7 +2947,7 @@ export const project7WeekBlocks: LessonBlock[] = [
     title: "🏨 ACTIVITY 5 – Bug Hotel",
     type: "list",
     order: 10,
-    data: [
+    dataType: [
       "Làm Bug Hotel từ hộp giấy, ống hút, lá cây.",
       "Bé đặt nhãn:",
       "• “Bee Room”",
@@ -2965,7 +2964,7 @@ export const project7WeekBlocks: LessonBlock[] = [
     title: "🏆 SẢN PHẨM / FINAL PRODUCT",
     type: "list",
     order: 11,
-    data: [
+    dataType: [
       "My Insect Journal – 5 trang:",
       "• Tên côn trùng",
       "• Màu sắc",
@@ -2982,7 +2981,7 @@ export const project7WeekBlocks: LessonBlock[] = [
     title: "📚 HƯỚNG DẪN GIÁO VIÊN",
     type: "list",
     order: 12,
-    data: [
+    dataType: [
       "1. Mở đầu bằng video 'Bugs Around Us' hoặc bài hát 'The Ants Go Marching.'",
       "2. Luyện âm /b/, /f/, /s/, /ɡ/ qua trò 'Buzz and Freeze.'",
       "3. Luyện câu 'Can it fly?' bằng Yes/No Jumping Game.",
@@ -2997,7 +2996,7 @@ export const project7WeekBlocks: LessonBlock[] = [
     title: "📋 CHECKLIST CHUẨN BỊ",
     type: "list",
     order: 13,
-    data: [
+    dataType: [
       "Ảnh / video côn trùng",
       "Giấy màu, bông gòn, chai nhựa",
       "Ống hút, hộp giấy",
@@ -3014,7 +3013,7 @@ export const project7WeekBlocks: LessonBlock[] = [
     title: "📊 KẾT QUẢ HỌC TẬP KỲ VỌNG",
     type: "list",
     order: 14,
-    data: [
+    dataType: [
       "Phát âm đúng /b/, /f/, /s/, /ɡ/.",
       "Đặt & trả lời được 3–5 câu mô tả côn trùng.",
       "Giới thiệu sản phẩm bằng 1–2 câu trôi chảy.",
@@ -3030,7 +3029,7 @@ export const reviewWeekBlocks: LessonBlock[] = [
     title: "🎯 OBJECTIVE / MỤC TIÊU",
     type: "list",
     order: 1,
-    data: [
+    dataType: [
       "Review toàn bộ chủ đề từ tháng 11–1.",
       "Games, pronunciation practice, communication tasks, creative exhibitions.",
       "Students review vocabulary, structures, pronunciation & communication.",
@@ -3043,7 +3042,7 @@ export const reviewWeekBlocks: LessonBlock[] = [
     title: "🧠 REVIEWED TOPICS",
     type: "list",
     order: 2,
-    data: [
+    dataType: [
       "Career Project – When I Grow Up",
       "Bird World – My Bird Book",
       "Christmas – Mini Christmas Party",
@@ -3058,7 +3057,7 @@ export const reviewWeekBlocks: LessonBlock[] = [
     title: "🔊 PRONUNCIATION REVIEW",
     type: "list",
     order: 3,
-    data: [
+    dataType: [
       "/b/ – bird, bus, bag",
       "/f/ – flower, fireman",
       "/s/ – snow, snake",
@@ -3073,7 +3072,7 @@ export const reviewWeekBlocks: LessonBlock[] = [
     title: "📘 SENTENCE STRUCTURES",
     type: "list",
     order: 4,
-    data: [
+    dataType: [
       "Career: What do you want to be? → I want to be a doctor.",
       "Birds: Can it fly? → Yes, it can.",
       "Christmas: What can you see? → I can see a snowman.",
@@ -3088,7 +3087,7 @@ export const reviewWeekBlocks: LessonBlock[] = [
     title: "🗣 COMMUNICATION PRACTICE",
     type: "list",
     order: 5,
-    data: [
+    dataType: [
       "Mini Dialogue – At the Winter Festival:",
       "• “What did you learn last month?”",
       "• “I learned about birds and flowers!”",
@@ -3102,7 +3101,7 @@ export const reviewWeekBlocks: LessonBlock[] = [
     title: "🎮 CLASS ACTIVITIES – REVIEW STATIONS",
     type: "list",
     order: 6,
-    data: [
+    dataType: [
       "Station 1: Career Quiz – Ghép nghề & dụng cụ.",
       "Station 2: Bird Puzzle.",
       "Station 3: Tet Memory Game.",
@@ -3116,7 +3115,7 @@ export const reviewWeekBlocks: LessonBlock[] = [
     title: "🏆 BIG REVIEW GAME SHOW",
     type: "list",
     order: 7,
-    data: [
+    dataType: [
       "Game: 'Who Wants to Be a Champion?'",
       "Câu hỏi về từ vựng – cấu trúc – phát âm.",
       "Ví dụ: “What can fly?” → “A bird!”",
@@ -3129,7 +3128,7 @@ export const reviewWeekBlocks: LessonBlock[] = [
     title: "📘 PORTFOLIO REVIEW",
     type: "list",
     order: 8,
-    data: [
+    dataType: [
       "Xem lại sản phẩm 3 tháng qua:",
       "Bird Book, Christmas Book, Tết Book, Flower Shop…",
       "Câu mẫu: “This is my Bird Book.”",
@@ -3142,7 +3141,7 @@ export const reviewWeekBlocks: LessonBlock[] = [
     title: "📖 MEMORY BOOK ACTIVITY",
     type: "list",
     order: 9,
-    data: [
+    dataType: [
       "Dán ảnh – trang trí – viết câu:",
       "• “I like Christmas.”",
       "• “I made a pink flower.”",
@@ -3155,7 +3154,7 @@ export const reviewWeekBlocks: LessonBlock[] = [
     title: "🎤 EVENT – WeWIN Winter Showcase",
     type: "list",
     order: 10,
-    data: [
+    dataType: [
       "Trưng bày sản phẩm học tập.",
       "Góc trò chơi ôn luyện.",
       "Biểu diễn 'My Favorite Topic' – 30s.",
@@ -3168,7 +3167,7 @@ export const reviewWeekBlocks: LessonBlock[] = [
     title: "🏅 FINAL PRODUCT",
     type: "list",
     order: 11,
-    data: [
+    dataType: [
       "My Winter Memory Book – 6 trang:",
       "• My Favorite Theme",
       "• My Best Work",
@@ -3185,7 +3184,7 @@ export const reviewWeekBlocks: LessonBlock[] = [
     title: "📊 LEARNING OUTCOMES",
     type: "list",
     order: 12,
-    data: [
+    dataType: [
       "Phát âm chuẩn /b/, /f/, /s/, /l/.",
       "Giao tiếp với 3–5 mẫu câu.",
       "Nhận diện & sử dụng từ vựng 5 chủ đề.",
@@ -3201,7 +3200,7 @@ export const project6WeekBlocks: LessonBlock[] = [
     title: "🎯 MỤC TIÊU / OBJECTIVE",
     type: "list",
     order: 1,
-    data: [
+    dataType: [
       "Giúp học sinh làm quen với các loài hoa mùa xuân.",
       "Học mô tả màu sắc, hình dạng, mùi hương.",
       "Luyện phát âm /f/, /s/, /r/, /l/ chủ đề hoa.",
@@ -3215,7 +3214,7 @@ export const project6WeekBlocks: LessonBlock[] = [
     title: "🧠 TỪ VỰNG / VOCABULARY",
     type: "list",
     order: 2,
-    data: [
+    dataType: [
       "apricot flower (hoa mai)",
       "peach flower (hoa đào)",
       "daisy",
@@ -3232,7 +3231,7 @@ export const project6WeekBlocks: LessonBlock[] = [
     title: "🔊 PHÁT ÂM / PRONUNCIATION FOCUS",
     type: "list",
     order: 3,
-    data: [
+    dataType: [
       "/f/ – flower, fun → Thổi hơi dài: 'ffff–lower!'",
       "/s/ – sunflower, scent → 'ssss–unflower!'",
       "/r/ – rose, red → cuộn lưỡi: 'r–rose.'",
@@ -3247,7 +3246,7 @@ export const project6WeekBlocks: LessonBlock[] = [
     title: "📘 CẤU TRÚC NGỮ PHÁP / SENTENCE STRUCTURES",
     type: "list",
     order: 4,
-    data: [
+    dataType: [
       "Main Patterns:",
       "• What flower is this? → It’s a rose.",
       "• What color is it? → It’s red.",
@@ -3267,7 +3266,7 @@ export const project6WeekBlocks: LessonBlock[] = [
     title: "🗣 MẪU CÂU GIAO TIẾP / COMMUNICATION PRACTICE",
     type: "list",
     order: 5,
-    data: [
+    dataType: [
       "Role-Play: At the Flower Shop",
       "• “Hello! What flower do you want?”",
       "• “I want a sunflower, please.”",
@@ -3283,7 +3282,7 @@ export const project6WeekBlocks: LessonBlock[] = [
     title: "🌼 ACTIVITY 1 – Paper Flower Craft",
     type: "list",
     order: 6,
-    data: [
+    dataType: [
       "Gấp hoa bằng giấy crepe / giấy màu.",
       "Câu mẫu:",
       "• “This is my flower.”",
@@ -3298,7 +3297,7 @@ export const project6WeekBlocks: LessonBlock[] = [
     title: "🎨 ACTIVITY 2 – Flower Color Sorting",
     type: "list",
     order: 7,
-    data: [
+    dataType: [
       "Dán hoa theo nhóm màu: red, yellow, pink, white.",
       "Nói to: “Sunflower is yellow!”",
       "Giúp trẻ liên kết từ – màu – hình ảnh.",
@@ -3311,7 +3310,7 @@ export const project6WeekBlocks: LessonBlock[] = [
     title: "🏪 ACTIVITY 3 – Flower Shop Role-Play",
     type: "list",
     order: 8,
-    data: [
+    dataType: [
       "Set up quầy hoa mini với bảng giá ($ sticker).",
       "Hội thoại luyện tập:",
       "• “What flower do you want?”",
@@ -3326,7 +3325,7 @@ export const project6WeekBlocks: LessonBlock[] = [
     title: "🔢 ACTIVITY 4 – Connect the Flowers",
     type: "list",
     order: 9,
-    data: ["Nối số 1–20 tạo hình hoa.", "Củng cố đếm + từ vựng."],
+    dataType: ["Nối số 1–20 tạo hình hoa.", "Củng cố đếm + từ vựng."],
   },
 
   {
@@ -3335,7 +3334,7 @@ export const project6WeekBlocks: LessonBlock[] = [
     title: "🌺 ACTIVITY 5 – Flower Stamping Art",
     type: "list",
     order: 10,
-    data: [
+    dataType: [
       "Dùng rau củ (cần tây, cà rốt…) in hình hoa.",
       "Nói:",
       "• “I made a rose with celery!",
@@ -3349,7 +3348,7 @@ export const project6WeekBlocks: LessonBlock[] = [
     title: "🏆 SẢN PHẨM / FINAL PRODUCT",
     type: "list",
     order: 11,
-    data: [
+    dataType: [
       "My Flower Shop gồm:",
       "• Bó hoa giấy do bé làm",
       "• Price Tag tiếng Anh",
@@ -3364,7 +3363,7 @@ export const project6WeekBlocks: LessonBlock[] = [
     title: "📚 HƯỚNG DẪN GIÁO VIÊN",
     type: "list",
     order: 12,
-    data: [
+    dataType: [
       "1. Bắt đầu bằng bài hát “Flowers Grow.”",
       "2. Luyện âm /f/, /s/, /r/, /l/ qua trò “Say it, touch it.”",
       "3. Học theo 3 góc: Craft – Sorting – Role-Play.",
@@ -3379,7 +3378,7 @@ export const project6WeekBlocks: LessonBlock[] = [
     title: "📋 CHECKLIST CHUẨN BỊ",
     type: "list",
     order: 13,
-    data: [
+    dataType: [
       "Giấy crepe, giấy màu, keo, kéo",
       "Sticker $, thẻ giá",
       "Rau củ để in hoa",
@@ -3396,7 +3395,7 @@ export const project6WeekBlocks: LessonBlock[] = [
     title: "📊 KẾT QUẢ HỌC TẬP KỲ VỌNG",
     type: "list",
     order: 14,
-    data: [
+    dataType: [
       "Phát âm chuẩn /f/, /s/, /r/, /l/.",
       "Nói được câu hỏi – đáp về hoa & màu.",
       "Giao tiếp mua – bán đơn giản bằng tiếng Anh.",
@@ -3412,7 +3411,7 @@ export const project5WeekBlocks: LessonBlock[] = [
     title: "🎯 MỤC TIÊU / OBJECTIVE",
     type: "list",
     order: 1,
-    data: [
+    dataType: [
       "Tìm hiểu Tết cổ truyền Việt Nam bằng tiếng Anh.",
       "Học từ vựng: trái cây Tết, lucky money, dragon dance, 12 con giáp.",
       "Practice pronunciation, communication, and cultural expression.",
@@ -3426,7 +3425,7 @@ export const project5WeekBlocks: LessonBlock[] = [
     title: "🧠 TỪ VỰNG / VOCABULARY",
     type: "list",
     order: 2,
-    data: [
+    dataType: [
       "Lunar New Year (Tuần 1–2): papaya, coconut, mango, fig, lucky money, watermelon, sticky rice cake, dragon dance.",
       "Zodiac Animals (Tuần 3–4): rat, dragon, goat, rooster, snake, horse, duck, ox, monkey, pig.",
     ],
@@ -3438,7 +3437,7 @@ export const project5WeekBlocks: LessonBlock[] = [
     title: "🔊 PHÁT ÂM / PRONUNCIATION FOCUS",
     type: "list",
     order: 3,
-    data: [
+    dataType: [
       "/l/ – lucky, lion, light → Đặt đầu lưỡi chạm răng trên: 'llll–ucky!'",
       "/k/ – cake, coconut → bật âm cuối rõ.",
       "/m/ – monkey, mango → mím môi ngân nhẹ.",
@@ -3454,7 +3453,7 @@ export const project5WeekBlocks: LessonBlock[] = [
     title: "📘 CẤU TRÚC NGỮ PHÁP / SENTENCE STRUCTURES",
     type: "list",
     order: 4,
-    data: [
+    dataType: [
       "Main Patterns:",
       "• What is this? → This is a watermelon.",
       "• What color is it? → It’s red / green.",
@@ -3474,7 +3473,7 @@ export const project5WeekBlocks: LessonBlock[] = [
     title: "🗣 MẪU CÂU GIAO TIẾP / COMMUNICATION PRACTICE",
     type: "list",
     order: 5,
-    data: [
+    dataType: [
       "Mini Dialogue – Talking About Tết:",
       "• “What do you like at Tết?” → “I like lucky money!”",
       "• “What color is your envelope?” → “It’s red!”",
@@ -3488,7 +3487,7 @@ export const project5WeekBlocks: LessonBlock[] = [
     title: "🍉 ACTIVITY 1 – Five Fruits Platter (Mâm Ngũ Quả)",
     type: "list",
     order: 6,
-    data: [
+    dataType: [
       "Cắt – dán – tô màu 5 loại trái cây.",
       "Mẫu câu:",
       "• “This is a mango.”",
@@ -3504,7 +3503,7 @@ export const project5WeekBlocks: LessonBlock[] = [
     title: "🧧 ACTIVITY 2 – Lucky Money Envelope",
     type: "list",
     order: 7,
-    data: [
+    dataType: [
       "Gấp bao lì xì giấy đỏ, dán hoa mai / hoa đào.",
       "Mẫu câu:",
       "• “Happy New Year!”",
@@ -3519,7 +3518,7 @@ export const project5WeekBlocks: LessonBlock[] = [
     title: "🐉 ACTIVITY 3 – Dragon Dance Practice",
     type: "list",
     order: 8,
-    data: [
+    dataType: [
       "Làm đầu rồng + thân dài bằng giấy.",
       "Vừa múa vừa hô:",
       "• “Go, dragon, go!”",
@@ -3534,7 +3533,7 @@ export const project5WeekBlocks: LessonBlock[] = [
     title: "🔢 ACTIVITY 4 – Number Tracing (Nối Số Hình Trái Cây)",
     type: "list",
     order: 9,
-    data: [
+    dataType: [
       "Nối số 1–10 tạo hình trái cây Tết.",
       "Luyện đếm + củng cố từ vựng.",
     ],
@@ -3546,7 +3545,7 @@ export const project5WeekBlocks: LessonBlock[] = [
     title: "🐲 ACTIVITY 5 – Zodiac Wheel Craft (Vòng 12 Con Giáp)",
     type: "list",
     order: 10,
-    data: [
+    dataType: [
       "Tạo vòng quay 12 con giáp.",
       "Mẫu câu:",
       "• “I’m a tiger!”",
@@ -3561,7 +3560,7 @@ export const project5WeekBlocks: LessonBlock[] = [
     title: "🦁 ACTIVITY 6 – Animal Movement Game",
     type: "list",
     order: 11,
-    data: [
+    dataType: [
       "Trò chơi hành động:",
       "• “Slither like a snake!”",
       "• “Jump like a monkey!”",
@@ -3575,7 +3574,7 @@ export const project5WeekBlocks: LessonBlock[] = [
     title: "📖 ACTIVITY 7 – Zodiac Story Time",
     type: "list",
     order: 12,
-    data: [
+    dataType: [
       "Nghe truyện tiếng Anh 'The Great Race'.",
       "Đóng vai:",
       "• “I’m the rat! I’m fast!”",
@@ -3589,7 +3588,7 @@ export const project5WeekBlocks: LessonBlock[] = [
     title: "🎪 SỰ KIỆN – Tết Fair (Hội Chợ Tết WeWIN)",
     type: "list",
     order: 13,
-    data: [
+    dataType: [
       "Trưng bày mâm ngũ quả, bao lì xì, vòng hoàng đạo.",
       "Học sinh giới thiệu bằng tiếng Anh:",
       "• “This is our fruit plate.”",
@@ -3603,7 +3602,7 @@ export const project5WeekBlocks: LessonBlock[] = [
     title: "🏆 SẢN PHẨM / FINAL PRODUCT",
     type: "list",
     order: 14,
-    data: [
+    dataType: [
       "My Tết Book – 6 trang:",
       "• Trái cây Tết",
       "• Bao lì xì",
@@ -3620,7 +3619,7 @@ export const project5WeekBlocks: LessonBlock[] = [
     title: "📚 HƯỚNG DẪN GIÁO VIÊN",
     type: "list",
     order: 15,
-    data: [
+    dataType: [
       "1. Ôn âm /l/, /m/, /k/, /s/ với lucky, mango, cake, snake.",
       "2. Giới thiệu Tết qua video và hình ảnh.",
       "3. Hai tuần đầu: craft + art; hai tuần sau: zodiac + storytelling.",
@@ -3635,7 +3634,7 @@ export const project5WeekBlocks: LessonBlock[] = [
     title: "📋 CHECKLIST CHUẨN BỊ",
     type: "list",
     order: 16,
-    data: [
+    dataType: [
       "Giấy màu, kéo, hồ, sticker.",
       "Giấy đỏ & ruy băng.",
       "Video 'The Great Race'.",
@@ -3653,7 +3652,7 @@ export const project5WeekBlocks: LessonBlock[] = [
     title: "📊 KẾT QUẢ HỌC TẬP KỲ VỌNG",
     type: "list",
     order: 17,
-    data: [
+    dataType: [
       "Phát âm chuẩn các âm /l/, /k/, /m/, /s/.",
       "Nói 3–5 câu mô tả về Tết bằng tiếng Anh.",
       "Hiểu & dùng “can / color / animal” trong ngữ cảnh văn hoá.",
@@ -3669,7 +3668,7 @@ export const project4WeekBlocks: LessonBlock[] = [
     title: "🎯 MỤC TIÊU / OBJECTIVE",
     type: "list",
     order: 1,
-    data: [
+    dataType: [
       "Giúp học sinh làm quen từ vựng, bài hát và hoạt động chủ đề Giáng Sinh.",
       "Rèn kỹ năng phát âm, câu đơn giản và hỏi – đáp về đồ vật lễ hội.",
       "Students learn Christmas vocabulary, pronunciation, Q&A patterns and join a mini party in English.",
@@ -3682,7 +3681,7 @@ export const project4WeekBlocks: LessonBlock[] = [
     title: "🧠 TỪ VỰNG / VOCABULARY",
     type: "list",
     order: 2,
-    data: [
+    dataType: [
       "Week 1: Santa Claus, snowman, sleigh, gift, Christmas tree, bell",
       "Week 2: wreath, gingerbread, stocking, elf, candle, candy cane, reindeer",
     ],
@@ -3694,7 +3693,7 @@ export const project4WeekBlocks: LessonBlock[] = [
     title: "🔊 PHÁT ÂM / PRONUNCIATION FOCUS",
     type: "list",
     order: 3,
-    data: [
+    dataType: [
       "/s/ – Santa, sleigh, stocking → 'ssss–' như hơi tuyết.",
       "/r/ – reindeer, wreath → cuộn lưỡi không rung.",
       "/g/ – gift, gingerbread → bật âm cuối rõ.",
@@ -3710,7 +3709,7 @@ export const project4WeekBlocks: LessonBlock[] = [
     title: "📘 CẤU TRÚC NGỮ PHÁP / SENTENCE STRUCTURES",
     type: "list",
     order: 4,
-    data: [
+    dataType: [
       "Main Patterns:",
       "• What is this? → It’s a [Christmas tree].",
       "• What color is it? → It’s [green / red / white].",
@@ -3729,7 +3728,7 @@ export const project4WeekBlocks: LessonBlock[] = [
     title: "🗣 MẪU CÂU GIAO TIẾP / COMMUNICATION PRACTICE",
     type: "list",
     order: 5,
-    data: [
+    dataType: [
       "Mini Dialogue – At the Christmas Party:",
       "• “What do you see?” → “I see a snowman!”",
       "• “Do you like it?” → “Yes, it's cute!”",
@@ -3743,7 +3742,7 @@ export const project4WeekBlocks: LessonBlock[] = [
     title: "🎯 HOẠT ĐỘNG TRẢI NGHIỆM / CLASS ACTIVITIES",
     type: "list",
     order: 6,
-    data: [
+    dataType: [
       "1. Santa Costume Design:",
       "• Vẽ và tô trang phục Santa / elf, dán bông gòn và kim tuyến.",
       "• Mẫu câu: “This is Santa’s hat.” / “It’s red and white.”",
@@ -3771,7 +3770,7 @@ export const project4WeekBlocks: LessonBlock[] = [
     title: "🎄 MINI CHRISTMAS PARTY",
     type: "list",
     order: 7,
-    data: [
+    dataType: [
       "• Bé mặc trang phục Santa hoặc elf.",
       "• Hát: “We Wish You a Merry Christmas”.",
       "• Trò chơi: Pass the Gift:",
@@ -3786,7 +3785,7 @@ export const project4WeekBlocks: LessonBlock[] = [
     title: "🏆 SẢN PHẨM / FINAL PRODUCT",
     type: "list",
     order: 8,
-    data: [
+    dataType: [
       "My Christmas Book – 5 trang:",
       "• “This is Santa.”",
       "• “This is my Christmas tree.”",
@@ -3802,7 +3801,7 @@ export const project4WeekBlocks: LessonBlock[] = [
     title: "📚 HƯỚNG DẪN GIÁO VIÊN / TEACHER GUIDE",
     type: "list",
     order: 9,
-    data: [
+    dataType: [
       "1. Ôn từ bằng flashcard / bài hát 'Santa, Tree, Bell'.",
       "2. Luyện âm /s/, /r/, /b/, /g/ qua 'Say and Touch'.",
       "3. Dạy mẫu: “What is this?” → “It’s a gift.”",
@@ -3817,7 +3816,7 @@ export const project4WeekBlocks: LessonBlock[] = [
     title: "📋 CHECKLIST CHUẨN BỊ",
     type: "list",
     order: 10,
-    data: [
+    dataType: [
       "Giấy màu, bông gòn, keo, kéo.",
       "Sticker Noel, ornament mini.",
       "Phiếu nối số & shadow cards.",
@@ -3834,7 +3833,7 @@ export const project4WeekBlocks: LessonBlock[] = [
     title: "📊 KẾT QUẢ HỌC TẬP KỲ VỌNG",
     type: "list",
     order: 11,
-    data: [
+    dataType: [
       "Phát âm chuẩn 4 âm /s/, /r/, /b/, /g/.",
       "Hỏi – đáp được: “What is this?” / “It’s a [Christmas word].”",
       "Đếm & mô tả màu sắc trong ngữ cảnh Noel.",
@@ -3851,7 +3850,7 @@ export const project3WeekBlocks: LessonBlock[] = [
     title: "🎯 MỤC TIÊU / OBJECTIVE",
     type: "list",
     order: 1,
-    data: [
+    dataType: [
       "Giúp học sinh nhận biết các loài chim và đặc điểm của chúng.",
       "Rèn phát âm, mô tả hành động bay / đi / hót bằng tiếng Anh.",
       "Students learn bird vocabulary and characteristics using speaking and action verbs.",
@@ -3865,7 +3864,7 @@ export const project3WeekBlocks: LessonBlock[] = [
     title: "🧠 TỪ VỰNG / VOCABULARY",
     type: "list",
     order: 2,
-    data: [
+    dataType: [
       "owl • eagle • dove • ostrich • penguin • flamingo • swan • turkey • peacock • sparrow",
       "Tập trung loài chim + khả năng bay / không bay + màu sắc.",
     ],
@@ -3877,7 +3876,7 @@ export const project3WeekBlocks: LessonBlock[] = [
     title: "🔊 PHÁT ÂM / PRONUNCIATION FOCUS",
     type: "list",
     order: 3,
-    data: [
+    dataType: [
       "/b/ – bird, beak → 'b-b-bird' (bật hơi mạnh).",
       "/w/ – wing, white → khẩu hình môi tròn: 'wuh–ing'.",
       "/f/ – feather, flamingo → răng chạm môi: 'ffff–'.",
@@ -3893,7 +3892,7 @@ export const project3WeekBlocks: LessonBlock[] = [
     title: "📘 CẤU TRÚC NGỮ PHÁP / SENTENCE STRUCTURES",
     type: "list",
     order: 4,
-    data: [
+    dataType: [
       "Main Structures:",
       "• What is this? → This is a [bird name].",
       "• Can it fly? → Yes, it can. / No, it can’t.",
@@ -3911,7 +3910,7 @@ export const project3WeekBlocks: LessonBlock[] = [
     title: "🗣 MẪU CÂU GIAO TIẾP / COMMUNICATION PRACTICE",
     type: "list",
     order: 5,
-    data: [
+    dataType: [
       "Bird Talk Conversation:",
       "• “What’s this?” → “It’s a peacock!”",
       "• “Can it fly?” → “Yes, it can!”",
@@ -3926,7 +3925,7 @@ export const project3WeekBlocks: LessonBlock[] = [
     title: "🎯 HOẠT ĐỘNG TRẢI NGHIỆM / CLASS ACTIVITIES",
     type: "list",
     order: 6,
-    data: [
+    dataType: [
       "1. Bird Identification Game:",
       "• Xem ảnh/video → nói: “This is an owl.” / “Can it fly?”",
       "",
@@ -3955,7 +3954,7 @@ export const project3WeekBlocks: LessonBlock[] = [
     title: "🏆 SẢN PHẨM / FINAL PRODUCT",
     type: "list",
     order: 7,
-    data: [
+    dataType: [
       "My Bird Book – sách mini 5 trang:",
       "“This is a penguin. It can’t fly. It can swim.”",
       "“This is a peacock. It’s colorful!”",
@@ -3968,7 +3967,7 @@ export const project3WeekBlocks: LessonBlock[] = [
     title: "📚 HƯỚNG DẪN GIÁO VIÊN",
     type: "list",
     order: 8,
-    data: [
+    dataType: [
       "1. Mở đầu với âm thanh chim hót để tạo hứng thú.",
       "2. Luyện âm /b/, /p/, /f/, /w/ qua trò 'Touch your lips!'.",
       "3. Tổ chức trạm học tập: Identification – Art – Mask – Movement.",
@@ -3983,7 +3982,7 @@ export const project3WeekBlocks: LessonBlock[] = [
     title: "📋 CHECKLIST CHUẨN BỊ",
     type: "list",
     order: 9,
-    data: [
+    dataType: [
       "Flashcards chim + video.",
       "Lông vũ, màu nước, giấy A4.",
       "Giấy cứng, dây, sticker.",
@@ -4001,7 +4000,7 @@ export const project3WeekBlocks: LessonBlock[] = [
     title: "📊 KẾT QUẢ HỌC TẬP KỲ VỌNG",
     type: "list",
     order: 10,
-    data: [
+    dataType: [
       "Phát âm chuẩn 4 âm /b/, /p/, /f/, /w/.",
       "Hỏi – đáp trôi chảy: “Can it fly?” / “Yes, it can.”",
       "Mô tả được 3 đặc điểm của 1 loài chim.",
@@ -4016,7 +4015,7 @@ export const project2WeekBlocks: LessonBlock[] = [
     title: "🎯 MỤC TIÊU / OBJECTIVE",
     type: "list",
     order: 1,
-    data: [
+    dataType: [
       "Giúp học sinh nhận biết và thể hiện năng khiếu, tài năng của bản thân qua tiếng Anh.",
       "Rèn kỹ năng phát âm, giao tiếp, mô tả hành động và trình bày trên sân khấu.",
       "Students talk about their talents and actions in English, improving pronunciation, fluency, and self-expression.",
@@ -4029,7 +4028,7 @@ export const project2WeekBlocks: LessonBlock[] = [
     title: "🧠 TỪ VỰNG / VOCABULARY",
     type: "list",
     order: 2,
-    data: [
+    dataType: [
       "vet • cook • scientist • astronaut • singer • dancer • artist • waiter",
       "Từ vựng tập trung vào tài năng, nghề sáng tạo và hành động mô tả.",
     ],
@@ -4041,7 +4040,7 @@ export const project2WeekBlocks: LessonBlock[] = [
     title: "🔊 PHÁT ÂM / PRONUNCIATION FOCUS",
     type: "list",
     order: 3,
-    data: [
+    dataType: [
       "/s/ – singer, scientist → Rít nhẹ: 'ssss–inger!'",
       "/k/ – cook, rocket → Gõ âm cuối: 'k–k–cook!'",
       "/d/ – dancer, doctor → Nhấn âm đầu: 'd–an–cer!'",
@@ -4056,7 +4055,7 @@ export const project2WeekBlocks: LessonBlock[] = [
     title: "📘 CẤU TRÚC NGỮ PHÁP / SENTENCE STRUCTURES",
     type: "list",
     order: 4,
-    data: [
+    dataType: [
       "Main Pattern:",
       "• What can you do?",
       "• I can [sing / dance / paint / cook / draw].",
@@ -4075,7 +4074,7 @@ export const project2WeekBlocks: LessonBlock[] = [
     title: "🗣 MẪU CÂU GIAO TIẾP / COMMUNICATION PRACTICE",
     type: "list",
     order: 5,
-    data: [
+    dataType: [
       "Talent Interview:",
       "• “What can you do?” → “I can sing!”",
       "• “Show me, please!” → (học sinh biểu diễn)",
@@ -4088,7 +4087,7 @@ export const project2WeekBlocks: LessonBlock[] = [
     title: "🎯 HOẠT ĐỘNG TRẢI NGHIỆM / CLASS ACTIVITIES",
     type: "list",
     order: 6,
-    data: [
+    dataType: [
       "1. Talent Station – 4 góc tài năng:",
       "• Singer Zone → hát với micro",
       "• Artist Zone → vẽ tranh / tô tượng",
@@ -4116,7 +4115,7 @@ export const project2WeekBlocks: LessonBlock[] = [
     title: "🏆 SẢN PHẨM / FINAL PRODUCT",
     type: "list",
     order: 7,
-    data: [
+    dataType: [
       "My Talent Album gồm:",
       "• Trang giới thiệu",
       "• Ảnh hoặc tranh biểu diễn",
@@ -4130,7 +4129,7 @@ export const project2WeekBlocks: LessonBlock[] = [
     title: "📚 HƯỚNG DẪN GIÁO VIÊN",
     type: "list",
     order: 8,
-    data: [
+    dataType: [
       "1. Ôn động từ hành động.",
       "2. Dạy phát âm /s/ /t/ /k/.",
       "3. Luyện hội thoại tại Talent Stations.",
@@ -4145,7 +4144,7 @@ export const project2WeekBlocks: LessonBlock[] = [
     title: "📋 CHECKLIST CHUẨN BỊ",
     type: "list",
     order: 9,
-    data: [
+    dataType: [
       "Flashcards nghề & hành động",
       "Micro & loa",
       "Giấy màu, sticker",
@@ -4162,7 +4161,7 @@ export const project2WeekBlocks: LessonBlock[] = [
     title: "📊 KẾT QUẢ KỲ VỌNG",
     type: "list",
     order: 10,
-    data: [
+    dataType: [
       "Phát âm chuẩn 6/8 từ tài năng.",
       "Nói 2–3 câu mô tả tài năng.",
       "Biểu diễn tự tin trước lớp.",
@@ -4170,19 +4169,14 @@ export const project2WeekBlocks: LessonBlock[] = [
     ],
   },
 ];
-
-/* ------------------------------------
-   TUẦN 1 — DREAM JOB
------------------------------------- */
-
-export const mockLessonContents: LessonBlock[] = [
+export const project1WeekBlocks: LessonBlock[] = [
   {
     id: "w1_objectives",
     learningNodeId: "w1",
     title: "🎯 MỤC TIÊU MỞ RỘNG / EXTENDED OBJECTIVES",
     type: "list",
     order: 1,
-    data: [
+    dataType: [
       "Phát triển nghe – nói – phát âm chuẩn qua các từ nghề nghiệp.",
       "Luyện mẫu câu giao tiếp cơ bản xoay quanh chủ đề nghề nghiệp.",
       "Giúp học sinh nghe hiểu, trả lời tự nhiên, tự tin diễn đạt ước mơ bằng tiếng Anh.",
@@ -4195,7 +4189,7 @@ export const mockLessonContents: LessonBlock[] = [
     title: "🔊 PHÁT ÂM / PRONUNCIATION FOCUS",
     type: "list",
     order: 2,
-    data: [
+    dataType: [
       "Sound Focus:",
       "/tʃ/ – teacher, child, chair — “I’m a teacher.” – Tee–cher!",
       "/dɒ/ – doctor, dog, doll — “Doctor helps people.”",
@@ -4214,7 +4208,7 @@ export const mockLessonContents: LessonBlock[] = [
     title: "📘 CẤU TRÚC CÂU / SENTENCE STRUCTURES",
     type: "list",
     order: 3,
-    data: [
+    dataType: [
       "Main pattern:",
       "What do you want to become?",
       "I want to be a [job].",
@@ -4234,7 +4228,7 @@ export const mockLessonContents: LessonBlock[] = [
     title: "🗣 MẪU CÂU GIAO TIẾP / COMMUNICATION PRACTICE",
     type: "list",
     order: 4,
-    data: [
+    dataType: [
       "Role-Play Corner:",
       "• Bé đóng vai nghề mình chọn (đội mũ bác sĩ / áo phi công).",
       "Thực hành hội thoại:",
@@ -4254,7 +4248,7 @@ export const mockLessonContents: LessonBlock[] = [
     title: "🎵 SONG / CHANT ĐỀ XUẤT",
     type: "list",
     order: 5,
-    data: [
+    dataType: [
       "“When I Grow Up” Chant (WeWIN remix):",
       "I want to be, I want to be,",
       "A teacher, doctor, pilot, see!",
@@ -4270,7 +4264,7 @@ export const mockLessonContents: LessonBlock[] = [
     title: "💬 MINI DIALOGUES PRACTICE",
     type: "list",
     order: 6,
-    data: [
+    dataType: [
       "Teacher: What do you want to be, Nam?",
       "Student: I want to be a policeman!",
       "Teacher: What does a policeman do?",
@@ -4285,7 +4279,7 @@ export const mockLessonContents: LessonBlock[] = [
     title: "🧩 TÍCH HỢP VÀO BÀI HỌC HIỆN CÓ",
     type: "list",
     order: 7,
-    data: [
+    dataType: [
       "Color & Create: Bé tô tranh – đọc từ nghề.",
       "Tool Matching: “Doctor uses a stethoscope.”",
       "Dress-Up Corner: “I’m a pilot!”",
@@ -4299,7 +4293,7 @@ export const mockLessonContents: LessonBlock[] = [
     title: "🎤 PHONICS + SPEAKING DRILL (3 phút cuối)",
     type: "list",
     order: 8,
-    data: [
+    dataType: [
       "Say it Fast Game: flashcard → phát âm 3 lần → đặt câu.",
       "Pass the Mic Game: ai cầm mic phải nói 1 câu hoàn chỉnh.",
     ],
@@ -4311,7 +4305,7 @@ export const mockLessonContents: LessonBlock[] = [
     title: "📋 BỔ SUNG CHECKLIST (PHẦN NGÔN NGỮ)",
     type: "list",
     order: 9,
-    data: [
+    dataType: [
       "Flashcards IPA (job words)",
       "Gương nhỏ (phonics mirror)",
       "Micro đồ chơi",
@@ -4326,7 +4320,7 @@ export const mockLessonContents: LessonBlock[] = [
     title: "📊 KẾT QUẢ HỌC TẬP KỲ VỌNG",
     type: "list",
     order: 10,
-    data: [
+    dataType: [
       "Phát âm đúng tối thiểu 6/8 từ nghề.",
       "Nói trọn câu “I want to be a [job].”.",
       "Phản xạ câu hỏi “What do you want to become?”.",
@@ -4343,7 +4337,7 @@ export const mockLessonContents: LessonBlock[] = [
     title: "🎯 MỤC TIÊU / OBJECTIVE",
     type: "list",
     order: 1,
-    data: [
+    dataType: [
       "Học sinh được thực hành giao tiếp thật về chủ đề nghề nghiệp: hỏi – đáp, mô tả dụng cụ làm việc, trình bày nghề mơ ước trước lớp.",
       "Students apply and communicate knowledge of jobs using speaking practice, phonics, and mini presentations.",
     ],
@@ -4355,7 +4349,7 @@ export const mockLessonContents: LessonBlock[] = [
     title: "🧠 TỪ VỰNG / VOCABULARY",
     type: "list",
     order: 2,
-    data: [
+    dataType: [
       "teacher • doctor • pilot • fireman • nurse • farmer • policeman • student",
       "Review từ vựng tuần 1 + mở rộng câu mô tả công việc.",
     ],
@@ -4367,7 +4361,7 @@ export const mockLessonContents: LessonBlock[] = [
     title: "🔊 PHÁT ÂM / PRONUNCIATION FOCUS",
     type: "list",
     order: 3,
-    data: [
+    dataType: [
       "/tʃ/ – teacher, child, chair → Nói chậm 3 lần, gõ tay theo nhịp: “tea–cher, tea–cher!”",
       "/p/ – pilot, policeman, people → Thổi hơi mạnh: p–p–pilot!",
       "/f/ – farmer, firefighter → Đặt tay trước miệng để cảm nhận hơi “f–”",
@@ -4384,7 +4378,7 @@ export const mockLessonContents: LessonBlock[] = [
     title: "📘 CẤU TRÚC NGỮ PHÁP / SENTENCE STRUCTURES",
     type: "list",
     order: 4,
-    data: [
+    dataType: [
       "Main Pattern Review:",
       "• What do you want to become?",
       "• I want to be a [teacher].",
@@ -4404,7 +4398,7 @@ export const mockLessonContents: LessonBlock[] = [
     title: "🗣 MẪU CÂU GIAO TIẾP / COMMUNICATION PRACTICE",
     type: "list",
     order: 5,
-    data: [
+    dataType: [
       "Role-Play Interview:",
       "Cặp đôi hỏi – đáp:",
       "• “What do you want to be?” → “I want to be a doctor.”",
@@ -4421,7 +4415,7 @@ export const mockLessonContents: LessonBlock[] = [
     title: "🎯 HOẠT ĐỘNG TRẢI NGHIỆM / CLASS ACTIVITIES",
     type: "list",
     order: 6,
-    data: [
+    dataType: [
       "1) Job Interview Role-Play:",
       "• Bé bắt cặp – đóng vai phỏng vấn.",
       "• 3 câu hỏi chính: “What do you want to be?” / “Why?” / “Where do you work?”",
@@ -4447,7 +4441,7 @@ export const mockLessonContents: LessonBlock[] = [
     title: "🏆 SẢN PHẨM / FINAL PRODUCT",
     type: "list",
     order: 7,
-    data: [
+    dataType: [
       "My Dream Job Booth:",
       "• Huy hiệu nghề",
       "• 1–2 câu giới thiệu bằng tiếng Anh",
@@ -4462,7 +4456,7 @@ export const mockLessonContents: LessonBlock[] = [
     title: "🎤 PHẦN PHÁT ÂM – HỘI THOẠI 3 PHÚT CUỐI GIỜ",
     type: "list",
     order: 8,
-    data: [
+    dataType: [
       "Pass the Mic Game:",
       "• Truyền micro – ai nhận phải nói 1 câu hoàn chỉnh.",
       "Ví dụ: “I'm a doctor!” / “I work at a hospital!”",
@@ -4479,7 +4473,7 @@ export const mockLessonContents: LessonBlock[] = [
     title: "📚 HƯỚNG DẪN GIÁO VIÊN / TEACHER GUIDE",
     type: "list",
     order: 9,
-    data: [
+    dataType: [
       "1. Ôn từ vựng nghề + dụng cụ bằng flashcard & hành động.",
       "2. Giới thiệu cấu trúc “What does a [job] do?” + “A [job] works at [place].”",
       "3. Luyện hội thoại theo cặp trước Career Fair.",
@@ -4494,7 +4488,7 @@ export const mockLessonContents: LessonBlock[] = [
     title: "📋 CHECKLIST CHUẨN BỊ / PREPARATION CHECKLIST",
     type: "list",
     order: 10,
-    data: [
+    dataType: [
       "Flashcards nghề & dụng cụ",
       "Micro & bảng câu hỏi",
       "Giấy, dây, sticker cho Job Badge",
@@ -4511,7 +4505,7 @@ export const mockLessonContents: LessonBlock[] = [
     title: "📊 KẾT QUẢ HỌC TẬP KỲ VỌNG",
     type: "list",
     order: 11,
-    data: [
+    dataType: [
       "Phát âm đúng tối thiểu 6/8 từ nghề.",
       "Đặt được câu hỏi & trả lời: “What do you want to be?” / “I want to be …”",
       "Nói được 2–3 câu mô tả nghề.",
@@ -4519,6 +4513,22 @@ export const mockLessonContents: LessonBlock[] = [
     ],
   },
 
+  {
+    id: "w1_2_homework",
+    learningNodeId: "w1_2",
+    title: "BÀI TẬP VỀ NHÀ",
+    type: "homework",
+    order: 11,
+    dataType: [
+    "Hoàn thành Worksheet",
+    "https://youtu.be/ZaI2IlHwmgQ",
+    "https://wewin.edu.vn/wp-content/uploads/2025/11/jobs_unit_game.html"
+  ],
+  },
+];
+
+export const mockLessonContents: LessonBlock[] = [
+  ...project1WeekBlocks,
   ...project2WeekBlocks,
   ...project3WeekBlocks,
   ...project4WeekBlocks,
@@ -4529,6 +4539,7 @@ export const mockLessonContents: LessonBlock[] = [
   ...project9WeekBlocks,
   ...project10WeekBlocks,
   ...project11WeekBlocks,
+  ...springReviewBlocks,
   ...project12WeekBlocks,
   ...project13WeekBlocks,
   ...project14WeekBlocks,
