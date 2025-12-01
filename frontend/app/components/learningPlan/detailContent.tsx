@@ -12,14 +12,33 @@ import {
 } from "../../constants/mockData";
 import { ClassId } from "@/app/constants/types";
 
-export default function DetailContent({ classId }: { classId: string }) {
-  const detail = getClassDetail(classId as ClassId);
+/* MAP CLASS → BOOK */
+const CLASS_TO_BOOK: Record<ClassId, string> = {
+  KIDS: "book_kids",
+  STARTERS_FOUNDATION: "book_starters_foundation",
+  // STARTERS: "book_starters",
+  // MOVERS: "book_movers",
+  // FLYERS: "book_flyers",
+  GAMES: "book_games",
+  AUDIO: "book_audio",
+  VIDEOS: "book_videos",
+};
 
-  // load mock book
-  const book = mockBooks.find((b) => b.id === "book_kids");
+export default function DetailContent({ classId }: { classId: ClassId }) {
+  const detail = getClassDetail(classId);
 
-  // filter projects belonging to book
-  const projects = mockProjects.filter((p) => p.bookId === book?.id);
+  // 1) Map class → bookId đúng
+  const mappedBookId = CLASS_TO_BOOK[classId];
+
+  // 2) Lấy book theo class
+  const book = mockBooks.find((b) => b.id === mappedBookId);
+
+  if (!book) {
+    return <div className="text-red-500">Không tìm thấy sách tương ứng.</div>;
+  }
+
+  // 3) Lấy project theo book
+  const projects = mockProjects.filter((p) => p.bookId === book.id);
 
   return (
     <div className="animate-fadeIn">
@@ -37,12 +56,16 @@ export default function DetailContent({ classId }: { classId: string }) {
             (n) => n.projectId === project.id
           );
 
+          const lessonBlocks = mockLessonContents.filter((c) =>
+            nodes.some((node) => node.id === c.learningNodeId)
+          );
+
           return (
             <ProjectBlock
               key={project.id}
               project={project}
               nodes={nodes}
-              contents={mockLessonContents}
+              contents={lessonBlocks}
             />
           );
         })}
