@@ -25,9 +25,9 @@ export default function DetailPage({ classId, onGoBack }: DetailPageProps) {
           <DetailContent classId={classId} />
         </div>
 
-        <div className="relative">
+        {/* <div className="relative"> */}
           <Sidebar classId={classId} />
-        </div>
+        {/* </div> */}
       </div>
 
       <SidebarMobile classId={classId} />
