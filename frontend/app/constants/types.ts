@@ -45,13 +45,14 @@ export interface LearningNode {
   type: "week" | "section";
   order: number;
 }
-
 export interface LessonBlock {
   id: string;
   learningNodeId: string;
   title: string;
   type: "list" | "paragraph" | "audio" | "homework";
   order: number;
-  dataType: string[] | string | { url: string }; 
+  content: string;
+  audioUrl?: string;
 }
+
 
