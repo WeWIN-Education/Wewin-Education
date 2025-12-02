@@ -8,8 +8,10 @@ export default function Sidebar({ classId }: { classId: string }) {
   const projects = mockProjects.filter((p) => p.bookId === book.id);
 
   return (
-    <div className="sticky top-5 max-h-[calc(100vh-40px)] overflow-y-auto
-      p-5 bg-white rounded-xl shadow-[0_6px_16px_rgba(0,0,0,0.08)] hidden md:block"
+    <div
+      className="hidden md:block fixed top-5 right-[max(calc(50vw-640px),24px)] w-[300px]
+    max-h-[calc(100vh-40px)] overflow-y-auto
+    p-5 bg-white rounded-xl shadow"
     >
       <h3 className="text-[18px] text-[#0e4ba9] font-bold mb-4">
         📌 Giai đoạn
