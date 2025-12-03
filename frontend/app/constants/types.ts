@@ -1,5 +1,10 @@
 // export type ClassId = "KIDS" | "STARTERS_FOUNDATION" | "STARTERS" | "MOVERS" | "FLYERS" | "GAMES" | "AUDIO" | "VIDEOS";
-export type ClassId = "KIDS" | "STARTERS_FOUNDATION" | "GAMES" | "AUDIO" | "VIDEOS";
+export type ClassId =
+  | "KIDS"
+  | "STARTERS_FOUNDATION"
+  | "GAMES"
+  | "AUDIO"
+  | "VIDEOS";
 
 /* Overview (giới thiệu book) */
 export interface OverviewSection {
@@ -40,12 +45,14 @@ export interface LearningNode {
   type: "week" | "section";
   order: number;
 }
-
 export interface LessonBlock {
   id: string;
   learningNodeId: string;
   title: string;
-  type: "list" | "paragraph" | "audio";
+  type: "list" | "paragraph" | "audio" | "homework";
   order: number;
-  data: string[] | string | { url: string };
+  content: string;
+  audioUrl?: string;
 }
+
+
