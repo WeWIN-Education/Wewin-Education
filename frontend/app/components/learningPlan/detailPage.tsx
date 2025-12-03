@@ -27,8 +27,6 @@ export default function DetailPage({ classId, onGoBack }: DetailPageProps) {
 
         <Sidebar classId={classId} />
       </div>
-
-      <SidebarMobile classId={classId} />
     </div>
   );
 }
