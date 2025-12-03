@@ -664,6 +664,19 @@ Ví dụ:
 • Hoàn thành All About Me Book & thuyết trình trong Fashion Show.
     `,
   },
+  {
+    id: "p17_w17_homework",
+    learningNodeId: "w17",
+    title: "BÀI TẬP VỀ NHÀ",
+    type: "homework",
+    order: 12,
+    content: `
+• Hoàn thành Worksheet
+• https://wewin.edu.vn/wp-content/uploads/2025/11/body_parts_unit_game.html
+• https://wewin.edu.vn/wp-content/uploads/2025/11/five_senses_unit_game.html
+• https://wewin.edu.vn/wp-content/uploads/2025/11/clothes_unit_game.html
+    `,
+  },
 ];
 
 export const project16WeekBlocks: LessonBlock[] = [
@@ -887,6 +900,17 @@ Ví dụ:
 • Hoàn thành My Lantern Book & tham gia WeWIN Moon Parade.
     `,
   },
+  {
+    id: "p16_w16_homework",
+    learningNodeId: "w16",
+    title: "BÀI TẬP VỀ NHÀ",
+    type: "homework",
+    order: 12,
+    content: `
+• Hoàn thành Worksheet
+• https://wewin.edu.vn/wp-content/uploads/2025/11/festival_midautumn_unit_game.html
+    `,
+  },
 ];
 
 export const project15WeekBlocks: LessonBlock[] = [
@@ -1101,6 +1125,18 @@ My School Kit Folder:
 • Hỏi–đáp trôi chảy: “What is this?” / “Where is it?”.
 • Sử dụng đúng my / your / this / that.
 • Hoàn thành My School Kit Folder và thuyết trình.
+    `,
+  },
+  {
+    id: "p15_w15_homework",
+    learningNodeId: "w15",
+    title: "BÀI TẬP VỀ NHÀ",
+    type: "homework",
+    order: 12,
+    content: `
+• Hoàn thành Worksheet
+• https://wewin.edu.vn/wp-content/uploads/2025/11/school_things_basic_unit_game.html
+• https://wewin.edu.vn/wp-content/uploads/2025/11/extra_tools_unit_game.html
     `,
   },
 ];
@@ -1323,6 +1359,17 @@ My Candy Menu + Candy Art Box:
 • Hoàn thành My Candy Menu & tham gia Sweet Fair.
     `,
   },
+  {
+    id: "p14_w14_homework",
+    learningNodeId: "w14",
+    title: "BÀI TẬP VỀ NHÀ",
+    type: "homework",
+    order: 12,
+    content: `
+• Hoàn thành Worksheet
+• https://wewin.edu.vn/wp-content/uploads/2025/11/sweets_desserts_unit_game.html
+    `,
+  },
 ];
 
 export const project13WeekBlocks: LessonBlock[] = [
@@ -1531,6 +1578,18 @@ Album 6–8 trang gồm:
 • Mô tả được 3–5 yếu tố thiên nhiên bằng tiếng Anh.
 • Hoàn thành “My Nature Photo Album.”
 • Tự tin thuyết trình trước lớp.
+    `,
+  },
+  {
+    id: "p13_w13_homework",
+    learningNodeId: "w13",
+    title: "BÀI TẬP VỀ NHÀ",
+    type: "homework",
+    order: 12,
+    content: `
+• Hoàn thành Worksheet
+• https://wewin.edu.vn/wp-content/uploads/2025/11/landforms_unit_game.html
+• https://wewin.edu.vn/wp-content/uploads/2025/11/nature_elements_unit_game.html
     `,
   },
 ];
@@ -1972,6 +2031,18 @@ Ví dụ: “I like my burger.” / “I can drive a car in my city map.”
 • Biểu diễn tự tin tại Spring Festival.
     `,
   },
+  {
+    id: "p12_w12_homework",
+    learningNodeId: "w12",
+    title: "BÀI TẬP VỀ NHÀ",
+    type: "homework",
+    order: 12,
+    content: `
+• Hoàn thành Worksheet
+• https://wewin.edu.vn/wp-content/uploads/2025/11/sea_animals_unit_game.html
+• https://wewin.edu.vn/wp-content/uploads/2025/11/beach_words_unit_game.html
+    `,
+  },
 ];
 
 export const project11WeekBlocks: LessonBlock[] = [
@@ -2208,6 +2279,17 @@ My Fast Food Menu + Paper Plate Food:
 • Tham gia Fast Food Day tự tin.
     `,
   },
+  {
+    id: "p11_w11_homework",
+    learningNodeId: "w11",
+    title: "BÀI TẬP VỀ NHÀ",
+    type: "homework",
+    order: 12,
+    content: `
+• Hoàn thành Worksheet
+• https://wewin.edu.vn/wp-content/uploads/2025/11/fast_food_unit_game.html
+    `,
+  },
 ];
 
 export const project10WeekBlocks: LessonBlock[] = [
@@ -2435,6 +2517,18 @@ Sản phẩm thể hiện khả năng nói – hiểu – sáng tạo.
 • Hoàn thành My City Map với mô tả bằng tiếng Anh.
     `,
   },
+  {
+    id: "p10_w10_homework",
+    learningNodeId: "w10",
+    title: "BÀI TẬP VỀ NHÀ",
+    type: "homework",
+    order: 12,
+    content: `
+• Hoàn thành Worksheet
+• https://wewin.edu.vn/wp-content/uploads/2025/11/transportation_unit_game.html
+• https://wewin.edu.vn/wp-content/uploads/2025/11/city_elements_unit_game.html
+    `,
+  },
 ];
 
 export const project9WeekBlocks: LessonBlock[] = [
@@ -2648,6 +2742,18 @@ export const project9WeekBlocks: LessonBlock[] = [
 • Hoàn thành “My Farm Book” và tham gia Farm Day tự tin.
     `,
   },
+  {
+    id: "p9_w9_homework",
+    learningNodeId: "w9",
+    title: "BÀI TẬP VỀ NHÀ",
+    type: "homework",
+    order: 12,
+    content: `
+• Hoàn thành Worksheet
+• https://wewin.edu.vn/wp-content/uploads/2025/11/farm_animals_unit_game.html
+• https://wewin.edu.vn/wp-content/uploads/2025/11/pet_animals_unit_game.html
+    `,
+  },
 ];
 
 export const project8WeekBlocks: LessonBlock[] = [
@@ -2858,6 +2964,18 @@ export const project8WeekBlocks: LessonBlock[] = [
 • Sử dụng đúng cấu trúc I eat… / How many…?
 • Kể lại được 4–6 phần câu chuyện.
 • Hoàn thành “My Hungry Week Book.”
+    `,
+  },
+  {
+    id: "p8_w8_homework",
+    learningNodeId: "w8",
+    title: "BÀI TẬP VỀ NHÀ",
+    type: "homework",
+    order: 12,
+    content: `
+• Hoàn thành Worksheet
+• https://wewin.edu.vn/wp-content/uploads/2025/11/fruits_food_unit_game.html
+• https://wewin.edu.vn/wp-content/uploads/2025/11/story_words_unit_game.html
     `,
   },
 ];
@@ -3257,6 +3375,17 @@ export const reviewWeekBlocks: LessonBlock[] = [
 • Biểu diễn tại Winter Showcase.
     `,
   },
+  {
+    id: "p7_w7_homework",
+    learningNodeId: "w7",
+    title: "📚 BÀI TẬP VỀ NHÀ",
+    type: "homework",
+    order: 12,
+    content: `
+• Hoàn thành Worksheet
+• https://wewin.edu.vn/wp-content/uploads/2025/11/insects_unit_game.html
+    `,
+  },
 ];
 
 export const project6WeekBlocks: LessonBlock[] = [
@@ -3470,6 +3599,17 @@ export const project6WeekBlocks: LessonBlock[] = [
 • Nói được câu hỏi – đáp về hoa & màu.
 • Giao tiếp mua – bán đơn giản bằng tiếng Anh.
 • Hoàn thành “My Flower Shop” + Price Tag.
+    `,
+  },
+  {
+    id: "p6_w6_homework",
+    learningNodeId: "w6",
+    title: "📚 BÀI TẬP VỀ NHÀ",
+    type: "homework",
+    order: 12,
+    content: `
+• Hoàn thành Worksheet
+• https://wewin.edu.vn/wp-content/uploads/2025/11/flowers_unit_game.html
     `,
   },
 ];
@@ -3729,6 +3869,18 @@ export const project5WeekBlocks: LessonBlock[] = [
 • Giới thiệu sản phẩm tại Tết Fair bằng 1–2 câu tiếng Anh.
     `,
   },
+  {
+    id: "p5_w5_homework",
+    learningNodeId: "w5",
+    title: "📚 BÀI TẬP VỀ NHÀ",
+    type: "homework",
+    order: 12,
+    content: `
+• Hoàn thành Worksheet
+• https://wewin.edu.vn/wp-content/uploads/2025/11/tet_festival_unit_game.html
+• https://wewin.edu.vn/wp-content/uploads/2025/11/zodiac_unit_game.html
+    `,
+  },
 ];
 
 export const project4WeekBlocks: LessonBlock[] = [
@@ -3910,6 +4062,18 @@ export const project4WeekBlocks: LessonBlock[] = [
 • Hoàn thành “My Christmas Book”.
     `,
   },
+  {
+    id: "p4_w4_homework",
+    learningNodeId: "w4",
+    title: "📚 BÀI TẬP VỀ NHÀ",
+    type: "homework",
+    order: 12,
+    content: `
+• Hoàn thành Worksheet
+• https://wewin.edu.vn/wp-content/uploads/2025/11/christmas_unit_game.html
+• https://wewin.edu.vn/wp-content/uploads/2025/11/christmas_extra_unit_game.html
+    `,
+  },
 ];
 export const project3WeekBlocks: LessonBlock[] = [
   {
@@ -4075,6 +4239,17 @@ export const project3WeekBlocks: LessonBlock[] = [
 • Hoàn thành sản phẩm “My Bird Book”.
     `,
   },
+  {
+    id: "p3_w3_homework",
+    learningNodeId: "w3",
+    title: "📚 BÀI TẬP VỀ NHÀ",
+    type: "homework",
+    order: 12,
+    content: `
+• Hoàn thành Worksheet
+• https://wewin.edu.vn/wp-content/uploads/2025/11/birds_unit_game.html
+    `,
+  },
 ];
 
 export const project2WeekBlocks: LessonBlock[] = [
@@ -4235,6 +4410,18 @@ export const project2WeekBlocks: LessonBlock[] = [
 • Nói 2–3 câu mô tả tài năng.
 • Biểu diễn tự tin trước lớp.
 • Hoàn thành “My Talent Album”.
+    `,
+  },
+  {
+    id: "p2_w2_homework",
+    learningNodeId: "w2",
+    title: "📚 BÀI TẬP VỀ NHÀ",
+    type: "homework",
+    order: 12,
+    content: `
+• Hoàn thành Worksheet
+• https://wewin.edu.vn/wp-content/uploads/2025/11/talent_unit_game.html
+
     `,
   },
 ];
@@ -4554,7 +4741,6 @@ export const project1WeekBlocks: LessonBlock[] = [
     order: 12,
     content: `
 • Hoàn thành Worksheet
-• https://youtu.be/ZaI2IlHwmgQ
 • https://wewin.edu.vn/wp-content/uploads/2025/11/jobs_unit_game.html
     `,
   },
