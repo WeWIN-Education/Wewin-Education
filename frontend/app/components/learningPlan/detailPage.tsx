@@ -19,14 +19,8 @@ export default function DetailPage({ classId, onGoBack }: DetailPageProps) {
       >
         ← Quay lại
       </button>
-
-      <div className="grid grid-cols-1 md:grid-cols-[1fr_300px] gap-6">
-        <div>
-          <DetailContent classId={classId} />
-        </div>
-
-        <Sidebar classId={classId} />
-      </div>
+      <DetailContent classId={classId} />
+      <Sidebar classId={classId} />
     </div>
   );
 }
