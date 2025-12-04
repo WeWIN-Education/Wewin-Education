@@ -320,19 +320,6 @@ function MobileMenu({ menuOpen, setMenuOpen, session, isAdmin }: any) {
           />
 
           {/* ------------------------------------
-              USER THƯỜNG → có Tests thêm vào
-          -------------------------------------- */}
-          {session && !isAdmin && (
-            <Section
-              title="Tests"
-              items={[
-                { href: Routes.TEST_IELTS, icon: "🎙", label: "IELTS Test" },
-              ]}
-              setMenuOpen={setMenuOpen}
-            />
-          )}
-
-          {/* ------------------------------------
               ADMIN → Class + Student
           -------------------------------------- */}
           {session && isAdmin && (
