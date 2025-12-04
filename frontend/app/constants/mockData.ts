@@ -675,6 +675,8 @@ Ví dụ:
 • https://wewin.edu.vn/wp-content/uploads/2025/11/body_parts_unit_game.html
 • https://wewin.edu.vn/wp-content/uploads/2025/11/five_senses_unit_game.html
 • https://wewin.edu.vn/wp-content/uploads/2025/11/clothes_unit_game.html
+• https://www.youtube.com/watch?v=bQJ82qMKNqA
+• https://www.youtube.com/watch?v=mgROe8lAqOg
     `,
     audioUrl:`
     https://wewin.edu.vn/wp-content/uploads/2025/12/Project-17_Clothes_P2.mp3
@@ -912,6 +914,7 @@ Ví dụ:
     content: `
 • Hoàn thành Worksheet
 • https://wewin.edu.vn/wp-content/uploads/2025/11/festival_midautumn_unit_game.html
+• https://www.youtube.com/watch?v=M3T2OGfzb5w
     `,
   },
 ];
@@ -1140,6 +1143,8 @@ My School Kit Folder:
 • Hoàn thành Worksheet
 • https://wewin.edu.vn/wp-content/uploads/2025/11/school_things_basic_unit_game.html
 • https://wewin.edu.vn/wp-content/uploads/2025/11/extra_tools_unit_game.html
+• https://www.youtube.com/watch?v=FlgQzX5pZMI
+• https://www.youtube.com/watch?v=uU4H53E7RUk
     `,
   },
 ];
@@ -1593,6 +1598,7 @@ Album 6–8 trang gồm:
 • Hoàn thành Worksheet
 • https://wewin.edu.vn/wp-content/uploads/2025/11/landforms_unit_game.html
 • https://wewin.edu.vn/wp-content/uploads/2025/11/nature_elements_unit_game.html
+• https://www.youtube.com/watch?v=VNJ9vPF_R9M
     `,
   },
 ];
@@ -1808,6 +1814,19 @@ Mini Dialogue – “At the Beach”:
 • Nói 3–5 câu mô tả động vật biển hoặc hoạt động bãi biển.
 • Hoàn thành sản phẩm “My Ocean Box”.
 • Tham gia Underwater Fair tự tin và vui vẻ.
+    `,
+  },
+  {
+    id: "p12_w12_homework",
+    learningNodeId: "w12",
+    title: "BÀI TẬP VỀ NHÀ",
+    type: "homework",
+    order: 16,
+    content: `
+• Hoàn thành Worksheet
+• https://wewin.edu.vn/wp-content/uploads/2025/11/sea_animals_unit_game.html
+• https://wewin.edu.vn/wp-content/uploads/2025/11/beach_words_unit_game.html
+• https://www.youtube.com/watch?v=BmNc12K9ePk
     `,
   },
 ];
@@ -2032,18 +2051,6 @@ Ví dụ: “I like my burger.” / “I can drive a car in my city map.”
 • Nhận diện & dùng linh hoạt cấu trúc đã học.
 • Hoàn thành My Spring Book.
 • Biểu diễn tự tin tại Spring Festival.
-    `,
-  },
-  {
-    id: "p12_w12_homework",
-    learningNodeId: "w12",
-    title: "BÀI TẬP VỀ NHÀ",
-    type: "homework",
-    order: 15,
-    content: `
-• Hoàn thành Worksheet
-• https://wewin.edu.vn/wp-content/uploads/2025/11/sea_animals_unit_game.html
-• https://wewin.edu.vn/wp-content/uploads/2025/11/beach_words_unit_game.html
     `,
   },
 ];
@@ -2530,6 +2537,7 @@ Sản phẩm thể hiện khả năng nói – hiểu – sáng tạo.
 • Hoàn thành Worksheet
 • https://wewin.edu.vn/wp-content/uploads/2025/11/transportation_unit_game.html
 • https://wewin.edu.vn/wp-content/uploads/2025/11/city_elements_unit_game.html
+• https://www.youtube.com/watch?v=jytezWJ1vVk
     `,
   },
 ];
@@ -2755,6 +2763,8 @@ export const project9WeekBlocks: LessonBlock[] = [
 • Hoàn thành Worksheet
 • https://wewin.edu.vn/wp-content/uploads/2025/11/farm_animals_unit_game.html
 • https://wewin.edu.vn/wp-content/uploads/2025/11/pet_animals_unit_game.html
+• https://www.youtube.com/watch?v=a3LOgVUd8Vo
+• https://www.youtube.com/watch?v=D9Cc7TGRh00
     `,
   },
 ];
@@ -2979,6 +2989,9 @@ export const project8WeekBlocks: LessonBlock[] = [
 • Hoàn thành Worksheet
 • https://wewin.edu.vn/wp-content/uploads/2025/11/fruits_food_unit_game.html
 • https://wewin.edu.vn/wp-content/uploads/2025/11/story_words_unit_game.html
+• https://www.youtube.com/watch?v=z0oXMJiRK-c
+• https://www.youtube.com/watch?v=yd1XSWV0dww
+• https://www.youtube.com/watch?v=Sbtma3taSFc
     `,
     audioUrl:"https://wewin.edu.vn/wp-content/uploads/2025/12/song_8.mp3"
   },
@@ -3883,6 +3896,8 @@ export const project5WeekBlocks: LessonBlock[] = [
 • Hoàn thành Worksheet
 • https://wewin.edu.vn/wp-content/uploads/2025/11/tet_festival_unit_game.html
 • https://wewin.edu.vn/wp-content/uploads/2025/11/zodiac_unit_game.html
+• https://www.youtube.com/watch?v=LuIeaioWX74
+
     `,
     audioUrl:"https://wewin.edu.vn/wp-content/uploads/2025/11/project5.mp3"
   },
@@ -4077,6 +4092,7 @@ export const project4WeekBlocks: LessonBlock[] = [
 • Hoàn thành Worksheet
 • https://wewin.edu.vn/wp-content/uploads/2025/11/christmas_unit_game.html
 • https://wewin.edu.vn/wp-content/uploads/2025/11/christmas_extra_unit_game.html
+• https://www.youtube.com/watch?v=G_NGo52IAwk
     `,
     audioUrl:"https://wewin.edu.vn/wp-content/uploads/2025/11/project4.mp3",
   },
@@ -4254,7 +4270,11 @@ export const project3WeekBlocks: LessonBlock[] = [
     content: `
 • Hoàn thành Worksheet
 • https://wewin.edu.vn/wp-content/uploads/2025/11/birds_unit_game.html
-    `,
+• https://wewin.edu.vn/wp-content/uploads/2025/11/birds_unit_game.html
+• https://www.youtube.com/watch?v=XNupSaW6eO0
+• https://www.youtube.com/watch?v=qW2yOwonRdc
+
+`,
     audioUrl:"https://wewin.edu.vn/wp-content/uploads/2025/11/project3.mp3",
   },
 ];
@@ -4428,6 +4448,7 @@ export const project2WeekBlocks: LessonBlock[] = [
     content: `
 • Hoàn thành Worksheet
 • https://wewin.edu.vn/wp-content/uploads/2025/11/talent_unit_game.html
+• https://www.youtube.com/watch?v=m80qAEVeW94
     `,
     audioUrl: `
     https://wewin.edu.vn/wp-content/uploads/2025/11/song_1.mp3
@@ -4751,6 +4772,9 @@ export const project1WeekBlocks: LessonBlock[] = [
     content: `
 • Hoàn thành Worksheet
 • https://wewin.edu.vn/wp-content/uploads/2025/11/jobs_unit_game.html
+• https://www.youtube.com/watch?v=ACl4wbkk5FI
+• https://www.youtube.com/watch?v=Gf52YEHBSaQ
+• https://www.youtube.com/watch?v=NWiLhH1Yzig
     `,
   },
 ];
