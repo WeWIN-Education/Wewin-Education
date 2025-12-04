@@ -2,10 +2,19 @@
 
 import React, { useState, useEffect } from "react";
 import { mockProjects, mockBooks } from "@/app/constants/mockData";
+import { ClassId } from "@/app/constants/types";
 
-export default function Sidebar({ classId }: { classId: string }) {
-  const book = mockBooks[0];
-  const projects = mockProjects.filter((p) => p.bookId === book.id);
+const CLASS_TO_BOOK: Record<ClassId, string> = {
+  KIDS: "book_kids",
+  STARTERS_FOUNDATION: "book_starters_foundation",
+  GAMES: "book_games",
+  AUDIO: "book_audio",
+  VIDEOS: "book_videos",
+};
+
+export default function Sidebar({ classId }: { classId: ClassId }) {
+  const mappedBookId  = CLASS_TO_BOOK[classId];
+  const projects = mockProjects.filter((p) => p.bookId === mappedBookId );
   const [activeSection, setActiveSection] = useState("");
   const [scrollY, setScrollY] = useState(0);
   const [isOpen, setIsOpen] = useState(false);
@@ -39,7 +48,7 @@ export default function Sidebar({ classId }: { classId: string }) {
     if (element) {
       element.scrollIntoView({ behavior: "smooth", block: "start" });
       setIsOpen(false); // Đóng sidebar sau khi click
-    }
+    } 
   };
 
   return (
@@ -58,7 +67,7 @@ export default function Sidebar({ classId }: { classId: string }) {
           <path
             strokeLinecap="round"
             strokeLinejoin="round"
-            strokeWidth={2}
+            strokeWidth={2.5}
             d="M4 6h16M4 12h16M4 18h16"
           />
         </svg>
@@ -67,7 +76,7 @@ export default function Sidebar({ classId }: { classId: string }) {
       {/* Overlay */}
       {isOpen && (
         <div
-          className="md:hidden fixed inset-0 bg-opacity-50 z-40 transition-opacity duration-300"
+          className="fixed inset-0 bg-opacity-50 z-40 transition-opacity duration-300"
           onClick={() => setIsOpen(false)}
         />
       )}

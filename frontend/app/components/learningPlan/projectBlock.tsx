@@ -19,7 +19,7 @@ export default function ProjectBlock({
       id={`project-${project.id}`}
       className="bg-[#f9fbff] border border-[#d7e3ff] p-6 rounded-2xl mt-8"
     >
-      <h3 className="text-[20px] font-bold text-[#0e4ba9] flex items-center gap-2">
+      <h3 className="text-[20px] font-bold text-[#0e4ba9] flex items-center gap-2 ">
         📘 {project.name}
       </h3>
 

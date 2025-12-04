@@ -7,22 +7,25 @@ export default function OverviewBlock({ title, learningTitle, overview }: {
   overview: OverviewSection[];
 }) {
   return (
-    <div className="bg-white p-8 rounded-2xl shadow border mb-8">
-      <h1 className="text-center text-3xl font-bold text-blue-700 mb-6">
+    <div className="w-full">
+      {/* Title - Responsive */}
+      <h1 className="text-center text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-blue-700 mb-4 md:mb-6 wrap-break-word">
         {title}
       </h1>
 
-      <div className="space-y-6 text-gray-800" >
+      {/* Overview Content - Responsive */}
+      <div className="space-y-4 md:space-y-6 text-gray-800">
         {overview.map((sec) => (
-          <div key={sec.id}>
-            <h3 className="text-xl font-bold flex items-center gap-2">
-              <span>{sec.icon}</span> {sec.title}
+          <div key={sec.id} className="w-full">
+            <h3 className="text-sm sm:text-base md:text-lg font-bold flex items-start gap-2 mb-2">
+              <span className="text-base sm:text-lg md:text-xl">{sec.icon}</span>
+              <span className="wrap-break-word">{sec.title}</span>
             </h3>
 
             {sec.items && (
-              <ul className="list-disc pl-6 space-y-1 mt-2">
+              <ul className="list-disc pl-5 sm:pl-6 md:pl-7 space-y-1.5 mt-2 text-xs sm:text-sm md:text-base">
                 {sec.items.map((item, idx) => (
-                  <li key={idx} className="text-gray-700">{item}</li>
+                  <li key={idx} className="text-gray-700 leading-relaxed wrap-break-word">{item}</li>
                 ))}
               </ul>
             )}
@@ -30,11 +33,15 @@ export default function OverviewBlock({ title, learningTitle, overview }: {
         ))}
       </div>
 
-      <hr className="my-8 border-gray-300" />
+      {/* Divider */}
+      <hr className="my-6 md:my-8 border-gray-300" />
 
-      <h2 className="text-2xl font-bold text-blue-700">
+      {/* Learning Title - Responsive */}
+      <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-blue-700 mb-3 md:mb-4 text-center wrap-break-word">
         📘 {learningTitle}
       </h2>
+
+      <hr className="my-6 md:my-8 border-gray-300" />
     </div>
   );
 }
