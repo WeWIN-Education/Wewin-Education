@@ -1,18 +1,34 @@
 "use client";
 
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import type { QuizGameConfig } from "@/types/games";
 
-type Props = QuizGameConfig;
+type Props = QuizGameConfig & { onComplete?: () => void };
 
-export function QuizGame({ title, question, options, answer }: Props) {
+export function QuizGame({ title, question, options, answer, onComplete }: Props) {
   const [selected, setSelected] = useState<string | null>(null);
+  const [completed, setCompleted] = useState(false);
+
+  // Gọi onComplete sau khi completed state đã được cập nhật (tránh lỗi update trong render)
+  useEffect(() => {
+    if (completed && onComplete) {
+      // Sử dụng setTimeout để đảm bảo được gọi sau khi render hoàn tất
+      const timer = setTimeout(() => {
+        onComplete();
+      }, 0);
+      return () => clearTimeout(timer);
+    }
+  }, [completed, onComplete]);
 
   const handleSelect = useCallback(
     (value: string) => () => {
       setSelected(value);
+      if (!completed && value === answer) {
+        setCompleted(true);
+        // Không gọi onComplete ở đây nữa, để useEffect xử lý
+      }
     },
-    [],
+    [answer, completed],
   );
 
   const state = selected
@@ -22,15 +38,15 @@ export function QuizGame({ title, question, options, answer }: Props) {
     : "idle";
 
   return (
-    <section className="rounded-2xl border border-zinc-100 bg-white p-6 shadow-sm">
-      <header className="flex items-center justify-between gap-4">
-        <div>
+    <section className="rounded-2xl border border-zinc-100 bg-white p-4 sm:p-6 shadow-sm">
+      <header className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <div className="text-center sm:text-left">
           <p className="text-xs uppercase tracking-wide text-zinc-400">Quiz</p>
-          <h2 className="text-xl font-semibold text-zinc-900">{title}</h2>
+          <h2 className="text-lg sm:text-xl font-semibold text-zinc-900">{title}</h2>
         </div>
         {state !== "idle" && (
           <span
-            className={`rounded-full px-3 py-1 text-xs font-medium ${
+            className={`rounded-full px-3 py-1 text-xs font-medium self-center sm:self-auto ${
               state === "correct"
                 ? "bg-emerald-50 text-emerald-700"
                 : "bg-rose-50 text-rose-700"
@@ -41,7 +57,7 @@ export function QuizGame({ title, question, options, answer }: Props) {
         )}
       </header>
 
-      <p className="mt-4 text-lg font-medium text-zinc-800">{question}</p>
+      <p className="mt-4 text-base sm:text-lg font-medium text-zinc-800 text-center sm:text-left">{question}</p>
 
       <div className="mt-6 grid gap-3 sm:grid-cols-2">
         {options.map((option) => {
@@ -70,7 +86,7 @@ export function QuizGame({ title, question, options, answer }: Props) {
                       : "border-zinc-200 hover:border-zinc-300"
               }`}
             >
-              <span className="text-sm font-medium">{option.label}</span>
+              <span className="text-sm sm:text-base font-medium">{option.label}</span>
             </button>
           );
         })}

@@ -4,6 +4,8 @@ export const unitConfigs: UnitGameConfig[] = [
   {
     slug: "transportation",
     name: "Transportation",
+    unit: "Unit 1",
+    bookname: "Transportation",
     flashcards: {
       title: "Vehicles",
       autoAudio: true,
@@ -34,10 +36,13 @@ export const unitConfigs: UnitGameConfig[] = [
         { left: "🚂", right: "train" },
       ],
     },
+    enabledGames: ["matching", "flip", "speak"],
   },
   {
     slug: "story-words",
     name: "Story Words - Butterfly Life Cycle",
+    unit: "Unit 8",
+    bookname: "Story Words - Butterfly Life Cycle",
     flashcards: {
       title: "Story Words",
       autoAudio: true,
@@ -70,6 +75,52 @@ export const unitConfigs: UnitGameConfig[] = [
         { left: "🦋", right: "butterfly" },
       ],
     },
+    enabledGames: ["matching", "flip", "quiz"],
+    parts: [
+      {
+        id: "part-1",
+        title: "Part 1 · Early Journey",
+        words: [
+          { id: "egg", text: "egg", emoji: "🥚", meaning: "quả trứng" },
+          { id: "caterpillar", text: "caterpillar", emoji: "🐛", meaning: "sâu bướm" },
+          { id: "leaf", text: "leaf", emoji: "🍃", meaning: "chiếc lá" },
+          { id: "cocoon", text: "cocoon", emoji: "🕸️", meaning: "kén" },
+        ],
+        enabledGames: ["matching", "flip", "speak"],
+        quiz: {
+          title: "Early Journey Quiz",
+          question: "Sinh vật nào xuất hiện sau khi trứng nở?",
+          answer: "caterpillar",
+          options: [
+            { label: "Egg", value: "egg" },
+            { label: "Caterpillar", value: "caterpillar" },
+            { label: "Leaf", value: "leaf" },
+            { label: "Cocoon", value: "cocoon" },
+          ],
+        },
+      },
+      {
+        id: "part-2",
+        title: "Part 2 · Nature Friends",
+        words: [
+          { id: "butterfly", text: "butterfly", emoji: "🦋", meaning: "bướm" },
+          { id: "sun", text: "sun", emoji: "☀️", meaning: "mặt trời" },
+          { id: "moon", text: "moon", emoji: "🌙", meaning: "mặt trăng" },
+        ],
+        enabledGames: ["matching", "flip", "quiz"],
+        quiz: {
+          title: "Nature Friends Quiz",
+          question: "Biểu tượng nào đại diện cho ban đêm?",
+          answer: "moon",
+          options: [
+            { label: "Sun", value: "sun" },
+            { label: "Moon", value: "moon" },
+            { label: "Butterfly", value: "butterfly" },
+            { label: "Caterpillar", value: "caterpillar" },
+          ],
+        },
+      },
+    ],
   },
 ];
 

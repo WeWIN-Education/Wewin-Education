@@ -3,7 +3,9 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type { PronunciationGameConfig } from "@/types/games";
 
-type Props = PronunciationGameConfig;
+type Props = PronunciationGameConfig & {
+  onComplete?: (score: number) => void;
+};
 
 type SpeechRecognition = {
   lang: string;
@@ -24,7 +26,7 @@ declare global {
   }
 }
 
-export function PronunciationGame({ title, words }: Props) {
+export function PronunciationGame({ title, words, onComplete }: Props) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [score, setScore] = useState(0);
   const [correctCount, setCorrectCount] = useState(0);
@@ -34,6 +36,7 @@ export function PronunciationGame({ title, words }: Props) {
   const [statusType, setStatusType] = useState<"info" | "correct" | "warning">("info");
   const recognitionRef = useRef<SpeechRecognition | null>(null);
   const [isSupported, setIsSupported] = useState(false);
+  const [completed, setCompleted] = useState(false);
 
   const currentWord = words[currentIndex];
   const progress = useMemo(
@@ -216,16 +219,18 @@ export function PronunciationGame({ title, words }: Props) {
 
   const handleNext = useCallback(() => {
     if (currentIndex >= words.length - 1) {
-      setStatus(
-        `🎉 Xuất sắc! Bạn đã hoàn thành tất cả các từ! Tổng điểm: ${score} điểm`,
-      );
+      setStatus(`🎉 Xuất sắc! Bạn đã hoàn thành tất cả các từ! Tổng điểm: ${score} điểm`);
       setStatusType("correct");
+      if (!completed) {
+        setCompleted(true);
+        onComplete?.(score);
+      }
       return;
     }
     setCurrentIndex((prev) => prev + 1);
     setStatus("Nhấn 'Nghe từ' để tiếp tục học từ mới!");
     setStatusType("info");
-  }, [currentIndex, words.length, score]);
+  }, [completed, currentIndex, onComplete, score, words.length]);
 
   const handleReset = useCallback(() => {
     setCurrentIndex(0);
@@ -233,24 +238,23 @@ export function PronunciationGame({ title, words }: Props) {
     setCorrectCount(0);
     setStatus("Nhấn 'Nghe từ' để bắt đầu nhé! 🎧");
     setStatusType("info");
+    setCompleted(false);
   }, []);
 
   return (
-    <section className="rounded-2xl border border-blue-100 bg-blue-50 p-6 shadow-sm">
+    <section className="rounded-2xl border border-blue-100 bg-blue-50 p-4 sm:p-6 shadow-sm">
       <header className="text-center">
-        <p className="text-xs uppercase tracking-wide text-blue-400">
-          Pronunciation
-        </p>
-        <h2 className="text-xl font-semibold text-blue-900">{title}</h2>
+      
+        <h2 className="text-lg sm:text-xl font-semibold text-blue-900">{title}</h2>
       </header>
 
       {!isSupported && (
-        <div className="mt-4 rounded-lg bg-red-100 p-3 text-center text-sm text-red-700">
+        <div className="mt-4 rounded-lg bg-red-100 p-3 text-center text-xs sm:text-sm text-red-700">
           ⚠️ Trình duyệt của bạn không hỗ trợ nhận diện giọng nói. Hãy dùng Chrome hoặc Edge nhé!
         </div>
       )}
 
-      <div className="mt-4 rounded-lg bg-yellow-50 p-4 text-sm text-yellow-800">
+      <div className="mt-4 rounded-lg bg-yellow-50 p-4 text-xs sm:text-sm text-yellow-800">
         <p className="font-semibold">📝 Cách chơi:</p>
         <ol className="mt-2 list-decimal list-inside space-y-1">
           <li>Nhấn "Nghe từ" để nghe phát âm chuẩn.</li>
@@ -259,36 +263,36 @@ export function PronunciationGame({ title, words }: Props) {
         </ol>
       </div>
 
-      <div className="mt-4 flex flex-wrap gap-4 rounded-xl bg-white p-4 shadow-sm">
+      <div className="mt-4 flex flex-col sm:flex-row gap-4 rounded-xl bg-white p-4 shadow-sm">
         <div className="flex-1 text-center">
-          <div className="text-sm text-blue-600">⭐ Điểm</div>
-          <div className="text-xl font-bold text-blue-900">{score}</div>
+          <div className="text-xs sm:text-sm text-blue-600">⭐ Điểm</div>
+          <div className="text-lg sm:text-xl font-bold text-blue-900">{score}</div>
         </div>
         <div className="flex-1 text-center">
-          <div className="text-sm text-blue-600">📚 Từ</div>
-          <div className="text-xl font-bold text-blue-900">
+          <div className="text-xs sm:text-sm text-blue-600">📚 Từ</div>
+          <div className="text-lg sm:text-xl font-bold text-blue-900">
             {currentIndex + 1}/{words.length}
           </div>
         </div>
         <div className="flex-1 text-center">
-          <div className="text-sm text-blue-600">✅ Đúng</div>
-          <div className="text-xl font-bold text-blue-900">{correctCount}</div>
+          <div className="text-xs sm:text-sm text-blue-600">✅ Đúng</div>
+          <div className="text-lg sm:text-xl font-bold text-blue-900">{correctCount}</div>
         </div>
       </div>
 
-      <div className="mt-6 rounded-2xl bg-gradient-to-br from-blue-500 to-blue-600 p-8 text-center text-white shadow-lg">
-        <div className="text-6xl mb-4">{currentWord.emoji || "📝"}</div>
-        <div className="text-3xl font-bold mb-2 capitalize">
+      <div className="mt-6 rounded-2xl bg-gradient-to-br from-blue-500 to-blue-600 p-6 sm:p-8 text-center text-white shadow-lg">
+        <div className="text-4xl sm:text-6xl mb-4">{currentWord.emoji || "📝"}</div>
+        <div className="text-2xl sm:text-3xl font-bold mb-2 capitalize">
           {currentWord.text}
         </div>
         {currentWord.meaning && (
-          <div className="text-lg bg-white/25 rounded-lg px-4 py-2 inline-block">
+          <div className="text-base sm:text-lg bg-white/25 rounded-lg px-4 py-2 inline-block">
             {currentWord.meaning}
           </div>
         )}
       </div>
 
-      <div className="mt-6 flex flex-wrap gap-3 justify-center">
+      <div className="mt-6 flex flex-col sm:flex-row gap-3 justify-center">
         <button
           onClick={handleListen}
           disabled={isSpeaking}
@@ -296,7 +300,7 @@ export function PronunciationGame({ title, words }: Props) {
             isSpeaking
               ? "bg-gray-400 cursor-not-allowed"
               : "bg-green-500 hover:bg-green-600 hover:shadow-lg"
-          }`}
+          } w-full sm:w-auto`}
         >
           🔊 Nghe từ
         </button>
@@ -309,20 +313,20 @@ export function PronunciationGame({ title, words }: Props) {
               : isSpeaking || !isSupported
                 ? "bg-gray-400 cursor-not-allowed"
                 : "bg-orange-500 hover:bg-orange-600 hover:shadow-lg"
-          }`}
+          } w-full sm:w-auto`}
         >
           {isRecording ? "⏹️ Dừng ghi" : "🎤 Ghi âm"}
         </button>
         <button
           onClick={currentIndex >= words.length - 1 ? handleReset : handleNext}
-          className="rounded-xl bg-blue-500 px-6 py-3 font-bold text-white transition hover:bg-blue-600 hover:shadow-lg"
+          className="rounded-xl bg-blue-500 px-6 py-3 font-bold text-white transition hover:bg-blue-600 hover:shadow-lg w-full sm:w-auto"
         >
           {currentIndex >= words.length - 1 ? "🔄 Chơi lại" : "➡️ Từ tiếp theo"}
         </button>
       </div>
 
       <div
-        className={`mt-6 rounded-xl p-4 text-center font-bold ${
+        className={`mt-6 rounded-xl p-4 text-center text-sm sm:text-base font-bold ${
           statusType === "correct"
             ? "bg-green-100 text-green-800"
             : statusType === "warning"
