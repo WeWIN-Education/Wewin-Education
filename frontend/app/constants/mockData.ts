@@ -672,9 +672,6 @@ Ví dụ:
     order: 16,
     content: `
 • Hoàn thành Worksheet
-• https://wewin.edu.vn/wp-content/uploads/2025/11/body_parts_unit_game.html
-• https://wewin.edu.vn/wp-content/uploads/2025/11/five_senses_unit_game.html
-• https://wewin.edu.vn/wp-content/uploads/2025/11/clothes_unit_game.html
 • https://www.youtube.com/watch?v=bQJ82qMKNqA
 • https://www.youtube.com/watch?v=mgROe8lAqOg
     `,
@@ -1375,7 +1372,6 @@ My Candy Menu + Candy Art Box:
     order: 16,
     content: `
 • Hoàn thành Worksheet
-• https://wewin.edu.vn/wp-content/uploads/2025/11/sweets_desserts_unit_game.html
     `,
   },
 ];
@@ -1596,8 +1592,6 @@ Album 6–8 trang gồm:
     order: 15,
     content: `
 • Hoàn thành Worksheet
-• https://wewin.edu.vn/wp-content/uploads/2025/11/landforms_unit_game.html
-• https://wewin.edu.vn/wp-content/uploads/2025/11/nature_elements_unit_game.html
 • https://www.youtube.com/watch?v=VNJ9vPF_R9M
     `,
   },
@@ -2535,8 +2529,6 @@ Sản phẩm thể hiện khả năng nói – hiểu – sáng tạo.
     order: 15,
     content: `
 • Hoàn thành Worksheet
-• https://wewin.edu.vn/wp-content/uploads/2025/11/transportation_unit_game.html
-• https://wewin.edu.vn/wp-content/uploads/2025/11/city_elements_unit_game.html
 • https://www.youtube.com/watch?v=jytezWJ1vVk
     `,
   },
@@ -2987,8 +2979,6 @@ export const project8WeekBlocks: LessonBlock[] = [
     order: 15,
     content: `
 • Hoàn thành Worksheet
-• https://wewin.edu.vn/wp-content/uploads/2025/11/fruits_food_unit_game.html
-• https://wewin.edu.vn/wp-content/uploads/2025/11/story_words_unit_game.html
 • https://www.youtube.com/watch?v=z0oXMJiRK-c
 • https://www.youtube.com/watch?v=yd1XSWV0dww
 • https://www.youtube.com/watch?v=Sbtma3taSFc
@@ -3400,7 +3390,6 @@ export const reviewWeekBlocks: LessonBlock[] = [
     order: 13,
     content: `
 • Hoàn thành Worksheet
-• https://wewin.edu.vn/wp-content/uploads/2025/11/insects_unit_game.html
     `,
   },
 ];
@@ -3894,8 +3883,6 @@ export const project5WeekBlocks: LessonBlock[] = [
     order: 18,
     content: `
 • Hoàn thành Worksheet
-• https://wewin.edu.vn/wp-content/uploads/2025/11/tet_festival_unit_game.html
-• https://wewin.edu.vn/wp-content/uploads/2025/11/zodiac_unit_game.html
 • https://www.youtube.com/watch?v=LuIeaioWX74
 
     `,
@@ -4090,8 +4077,6 @@ export const project4WeekBlocks: LessonBlock[] = [
     order: 12,
     content: `
 • Hoàn thành Worksheet
-• https://wewin.edu.vn/wp-content/uploads/2025/11/christmas_unit_game.html
-• https://wewin.edu.vn/wp-content/uploads/2025/11/christmas_extra_unit_game.html
 • https://www.youtube.com/watch?v=G_NGo52IAwk
     `,
     audioUrl:"https://wewin.edu.vn/wp-content/uploads/2025/11/project4.mp3",
@@ -4269,8 +4254,6 @@ export const project3WeekBlocks: LessonBlock[] = [
     order: 11,
     content: `
 • Hoàn thành Worksheet
-• https://wewin.edu.vn/wp-content/uploads/2025/11/birds_unit_game.html
-• https://wewin.edu.vn/wp-content/uploads/2025/11/birds_unit_game.html
 • https://www.youtube.com/watch?v=XNupSaW6eO0
 • https://www.youtube.com/watch?v=qW2yOwonRdc
 
@@ -4447,7 +4430,6 @@ export const project2WeekBlocks: LessonBlock[] = [
     order: 12,
     content: `
 • Hoàn thành Worksheet
-• https://wewin.edu.vn/wp-content/uploads/2025/11/talent_unit_game.html
 • https://www.youtube.com/watch?v=m80qAEVeW94
     `,
     audioUrl: `
@@ -4771,7 +4753,6 @@ export const project1WeekBlocks: LessonBlock[] = [
     order: 12,
     content: `
 • Hoàn thành Worksheet
-• https://wewin.edu.vn/wp-content/uploads/2025/11/jobs_unit_game.html
 • https://www.youtube.com/watch?v=ACl4wbkk5FI
 • https://www.youtube.com/watch?v=Gf52YEHBSaQ
 • https://www.youtube.com/watch?v=NWiLhH1Yzig
