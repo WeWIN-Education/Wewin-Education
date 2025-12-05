@@ -7,6 +7,7 @@ import { GameMenu } from "@/app/components/games/GameMenu";
 import { PlayerIdModal } from "@/app/components/games/PlayerIdModal";
 import { UnitProgress } from "@/app/components/games/UnitProgress";
 import { PartSelectionScreen } from "@/app/components/games/PartSelectionScreen";
+import Notification from "@/app/components/notification";
 import type { GameKey, UnitGameConfig } from "@/types/games";
 import { DEFAULT_ENABLED_GAMES } from "@/types/games";
 import {
@@ -102,6 +103,8 @@ export function UnitGameScreen({
   const [currentView, setCurrentView] = useState<GameKey | "menu">(
     getViewFromPath(pathname),
   );
+  const [notificationVisible, setNotificationVisible] = useState(false);
+  const [notificationMessage, setNotificationMessage] = useState("");
 
   // Đồng bộ view khi URL thay đổi (user gõ tay hoặc bấm Back/Forward)
   useEffect(() => {
@@ -227,6 +230,17 @@ export function UnitGameScreen({
         bookname: unit.bookname, // Tên sách
       });
     }
+
+    // Hiển thị thông báo và quay về trang chọn game
+    const gameTitle = GAME_TITLES[game];
+    setNotificationMessage(`🎉 Đã chơi xong ${gameTitle}!`);
+    setNotificationVisible(true);
+
+    // Sau 2 giây, quay về trang chọn game
+    setTimeout(() => {
+      setCurrentView("menu");
+      router.push(`/resources/kids/Games/${unit.slug}`);
+    }, 2000);
   };
 
   const handleSubmitPlayerId = (id: string) => {
@@ -343,8 +357,7 @@ export function UnitGameScreen({
       {/* Header với tiêu đề Part ở giữa và nút quay lại phía trên/ dưới, không đè nhau */}
       <div className="max-w-7xl mx-auto px-4 pt-4 sm:pt-6 mb-4 sm:mb-6 flex flex-col items-center gap-3 sm:gap-4 text-center">
         <h1
-          className="text-2xl sm:text-4xl md:text-5xl font-bold text-blue-900 drop-shadow-lg"
-          style={{ textShadow: "0 12px 25px rgba(0,0,0,0.3)" }}
+          className="text-2xl sm:text-4xl md:text-5xl font-bold text-blue-900"
         >
           {activePart ? activePart.title : heading}
         </h1>
@@ -397,6 +410,13 @@ export function UnitGameScreen({
         isOpen={showIdModal}
         onSubmit={handleSubmitPlayerId}
         onSkip={handleSkipPlayerId}
+      />
+
+      <Notification
+        message={notificationMessage}
+        type="success"
+        visible={notificationVisible}
+        onClose={() => setNotificationVisible(false)}
       />
     </div>
   );

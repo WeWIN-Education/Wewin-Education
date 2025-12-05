@@ -27,6 +27,27 @@ export function MemoryGame({ title, words, showScore = true, onComplete }: Props
   const [statusType, setStatusType] = useState<"info" | "correct" | "warning">("info");
   const [isChecking, setIsChecking] = useState(false);
   const [completed, setCompleted] = useState(false);
+  const [showCorrectPopup, setShowCorrectPopup] = useState(false);
+
+  // Âm thanh báo hiệu nối đúng – dùng data URI định dạng WAV nhỏ để mọi trình duyệt hỗ trợ
+  const CORRECT_SOUND_SRC =
+    "data:audio/wav;base64,UklGRrQAAABXQVZFZm10IBAAAAABAAEAESsAACJWAAACABAAZGF0YbAAAAAAgP8AgP8Af/8Af/8Af/8Af/8Af/8Af/8AgP8AgP8AgP8AgP8AgP8AgP8Af/8Af/8Af/8Af/8Af/8Af/8Af/8Af/8Af/8AgP8AgP8AgP8AgP8AgP8AgP8AgP8AgP8AgP8AgP8AgP8AgP8AgP8AgP8Af/8Af/8Af/8Af/8Af/8Af/8Af/8Af/8Af/8Af/8Af/8Af/8Af/8Af/8Af/8AgP8AgP8AgP8AgP8AgP8AgP8AgP8AgP8AgP8AgP8AgP8AgP8AgP8AgP8AgP8AgP8AgP8AgP8AgP8A";
+
+  const correctSound = useMemo(() => {
+    if (typeof Audio === "undefined") return null;
+    const audio = new Audio(CORRECT_SOUND_SRC);
+    audio.volume = 0.4;
+    return audio;
+  }, []);
+
+  const speakCorrect = useCallback(() => {
+    if (typeof window === "undefined" || !window.speechSynthesis) return;
+    const utter = new SpeechSynthesisUtterance("Correct");
+    utter.lang = "en-US";
+    utter.rate = 0.9;
+    window.speechSynthesis.cancel();
+    window.speechSynthesis.speak(utter);
+  }, []);
 
   // Tạo bộ thẻ từ danh sách từ
   const initializeCards = useCallback(() => {
@@ -90,6 +111,15 @@ export function MemoryGame({ title, words, showScore = true, onComplete }: Props
       );
       setFlippedCards(newFlipped);
 
+      // Phát âm từ vựng khi lật thẻ (nếu là thẻ tiếng Anh)
+      if (card.id.startsWith("word-") && "speechSynthesis" in window) {
+        window.speechSynthesis.cancel();
+        const utterance = new SpeechSynthesisUtterance(card.text);
+        utterance.lang = "en-US";
+        utterance.rate = 0.9;
+        window.speechSynthesis.speak(utterance);
+      }
+
       // Nếu đã lật 2 thẻ, kiểm tra
       if (newFlipped.length === 2) {
         setIsChecking(true);
@@ -102,6 +132,26 @@ export function MemoryGame({ title, words, showScore = true, onComplete }: Props
 
         if (firstCard && secondCard && firstCard.wordId === secondCard.wordId) {
           // Match đúng!
+          
+          // Phát âm thanh khi match đúng
+          if (correctSound) {
+            try {
+              correctSound.currentTime = 0;
+              void correctSound.play();
+            } catch {
+              // nếu trình duyệt chặn autoplay thì bỏ qua
+            }
+          }
+
+          // Hiện popup dấu tick xanh tạm thời
+          setShowCorrectPopup(true);
+          setTimeout(() => {
+            setShowCorrectPopup(false);
+          }, 700);
+
+          // Đọc chữ "Correct" để tạo cảm giác giống matching game
+          speakCorrect();
+
           setTimeout(() => {
             setCards((prev) =>
               prev.map((c) =>
@@ -165,7 +215,7 @@ export function MemoryGame({ title, words, showScore = true, onComplete }: Props
         }
       }
     },
-    [cards, flippedCards, isChecking, moves, words.length, onComplete, completed],
+    [cards, flippedCards, isChecking, moves, words.length, onComplete, completed, correctSound, speakCorrect],
   );
 
   const handleReset = useCallback(() => {
@@ -184,7 +234,17 @@ export function MemoryGame({ title, words, showScore = true, onComplete }: Props
   const progress = (matchedPairs / words.length) * 100;
 
   return (
-    <section className="rounded-2xl border border-indigo-100 bg-indigo-50 p-4 sm:p-6 shadow-sm">
+    <section className="rounded-2xl border border-indigo-100 bg-indigo-50 p-4 sm:p-6 shadow-sm relative">
+      {/* Popup tick xanh khi match đúng */}
+      {showCorrectPopup && (
+        <div className="fixed inset-0 flex items-center justify-center pointer-events-none z-50">
+          <div className="animate-ping">
+            <div className="w-24 h-24 bg-green-500 rounded-full flex items-center justify-center shadow-2xl">
+              <span className="text-5xl text-white">✓</span>
+            </div>
+          </div>
+        </div>
+      )}
       <header className="text-center">
         <p className="text-xs uppercase tracking-wide text-indigo-400">Memory</p>
         <h2 className="text-lg sm:text-xl font-semibold text-indigo-900">{title}</h2>

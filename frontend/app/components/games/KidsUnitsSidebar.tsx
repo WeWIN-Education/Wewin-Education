@@ -2,17 +2,23 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
-import { BookOpen, PanelLeftClose, PanelLeftOpen } from "lucide-react";
+import { useState, useEffect } from "react";
+import { BookOpen, PanelLeftClose, PanelLeftOpen, X } from "lucide-react";
 import { getProjectsFromBook } from "@/app/constants/bookConfig";
+
+type KidsUnitsSidebarProps = {
+  isOpen?: boolean;
+  onClose?: () => void;
+};
 
 /**
  * Sidebar đơn giản cho các trang game lẻ Kids Book
  * - Hiển thị danh sách Unit / Project
  * - Có thể thu gọn / mở rộng giống sidebar admin
  * - Highlight unit đang mở
+ * - Responsive: trên mobile có hamburger menu
  */
-export function KidsUnitsSidebar() {
+export function KidsUnitsSidebar({ isOpen = false, onClose }: KidsUnitsSidebarProps) {
   const pathname = usePathname();
   const [collapsed, setCollapsed] = useState(false);
 
@@ -20,19 +26,58 @@ export function KidsUnitsSidebar() {
 
   const isActive = (href: string) => pathname === href;
 
+  // Đóng sidebar khi click vào link trên mobile
+  const handleLinkClick = () => {
+    if (window.innerWidth < 768 && onClose) {
+      onClose();
+    }
+  };
+
+  // Ngăn scroll body khi sidebar mở trên mobile
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    if (window.innerWidth < 768) {
+      if (isOpen) {
+        document.body.style.overflow = "hidden";
+      } else {
+        document.body.style.overflow = "";
+      }
+      return () => {
+        document.body.style.overflow = "";
+      };
+    }
+  }, [isOpen]);
+
   return (
-    <aside
-      className={`hidden md:flex h-full flex-col border-r border-pink-200 bg-gradient-to-b from-pink-100/90 to-pink-50 shadow-xl transition-all duration-300 overflow-hidden ${
-        collapsed ? "w-16" : "w-72"
-      }`}
-    >
+    <>
+      {/* Overlay cho mobile */}
+      {isOpen && (
+        <div
+          className="fixed inset-0 bg-black/50 z-40 md:hidden"
+          onClick={onClose}
+        />
+      )}
+
+      <aside
+        className={`fixed md:relative top-0 left-0 h-full flex flex-col border-r border-pink-200 bg-gradient-to-b from-pink-100/90 to-pink-50 shadow-xl transition-all duration-300 overflow-hidden z-50 ${
+          collapsed ? "w-16" : "w-72"
+        } ${
+          // Mobile: slide in/out từ bên trái
+          isOpen
+            ? "translate-x-0"
+            : "-translate-x-full md:translate-x-0"
+        } ${
+          // Desktop: luôn hiển thị
+          "md:flex"
+        }`}
+      >
       {/* Header (đồng bộ với KidsBookScreen) */}
       <div className="flex-shrink-0 flex items-center gap-3 px-4 py-4 border-b border-pink-200/70 bg-gradient-to-r from-pink-200 to-pink-100">
         <div className="w-9 h-9 bg-white/80 rounded-2xl flex items-center justify-center shadow-sm">
           <BookOpen className="w-5 h-5 text-pink-700" />
         </div>
         {!collapsed && (
-          <div>
+          <div className="flex-1">
             <div className="text-sm font-extrabold text-pink-800 tracking-wide">
               Kids Book
             </div>
@@ -40,6 +85,15 @@ export function KidsUnitsSidebar() {
               Chọn Unit để chuyển nhanh
             </div>
           </div>
+        )}
+        {/* Nút đóng trên mobile */}
+        {!collapsed && onClose && (
+          <button
+            onClick={onClose}
+            className="md:hidden w-8 h-8 flex items-center justify-center rounded-lg hover:bg-pink-200/50 transition-colors"
+          >
+            <X className="w-5 h-5 text-pink-800" />
+          </button>
         )}
       </div>
 
@@ -52,6 +106,7 @@ export function KidsUnitsSidebar() {
             <Link
               key={project.id}
               href={href}
+              onClick={handleLinkClick}
               className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm transition-all duration-200 group ${
                 active
                   ? "bg-white/25 shadow-lg scale-[1.01]"
@@ -98,6 +153,7 @@ export function KidsUnitsSidebar() {
         </button>
       </div>
     </aside>
+    </>
   );
 }
 
