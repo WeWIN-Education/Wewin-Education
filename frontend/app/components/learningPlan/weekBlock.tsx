@@ -23,7 +23,7 @@ export default function WeekBlock({
         onClick={() => setIsExpanded(!isExpanded)}
       >
         <span className="text-sm text-gray-800">{isExpanded ? "▼" : "▶"}</span>
-        <h4 className="text-[18px] font-semibold text-[#1a1a1a]">
+        <h4 className="text-sm md:text-2xl font-semibold text-[#1a1a1a]">
           {node.title}
         </h4>
       </div>

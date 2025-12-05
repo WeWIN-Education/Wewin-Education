@@ -10,16 +10,16 @@ export default function ContentBlock({ block }: { block: LessonBlock }) {
     : [];
 
   return (
-    <div className="p-4 bg-white rounded-xl border shadow-sm mb-3 break-words">
-      <h5 className="text-blue-700 font-bold uppercase text-sm mb-2 wrap-break-word">
+    <div className="p-4 bg-white rounded-xl border shadow-sm mb-3 wrap-break-word">
+      <div className="text-blue-700 font-bold uppercase text-xs md:text-lg mb-2 wrap-break-word">
         {block.title}
-      </h5>
+      </div>
 
       {/* LIST */}
       {block.type === "list" && (
         <ul className="list-disc pl-5 space-y-1 text-gray-800 whitespace-pre-line wrap-break-word">
           {lines.map((line, i) => (
-            <li key={i} className="wrap-break-word">
+            <li key={i} className="wrap-break-word text-xs md:text-lg">
               {line.replace(/^•\s?/, "")}
             </li>
           ))}

@@ -29,7 +29,7 @@ export default function ProvidersLayout({
           </aside>
         )}
 
-        <main className="flex-1 bg-pink-50">{children}</main>
+        <main className="flex-1 bg-[#f9f9f9] overflow-x-hidden max-w-full">{children}</main>
       </div>
 
       {/* ⚓ Footer */}

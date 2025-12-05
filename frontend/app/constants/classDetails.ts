@@ -8,12 +8,12 @@ export const CLASS_DETAILS: Record<ClassId, ClassDetail> = {
     overview: [
       {
         id: "design",
-        icon: "🎯",
+        icon: "",
         title: "NGUYÊN TẮC THIẾT KẾ",
       },
       {
         id: "pbl",
-        icon: "✨",
+        icon: "",
         title: "Đặc điểm phương pháp PBL cho trẻ mầm non",
         items: [
           "Học qua dự án thực tế: mỗi chủ đề là một project nhỏ với sản phẩm cụ thể.",
@@ -22,7 +22,7 @@ export const CLASS_DETAILS: Record<ClassId, ClassDetail> = {
       },
       {
         id: "structure",
-        icon: "📦",
+        icon: "",
         title: "Cấu trúc học",
         items: [
           "Tuần 1: Giới thiệu project + Khám phá.",
@@ -40,12 +40,12 @@ export const CLASS_DETAILS: Record<ClassId, ClassDetail> = {
     overview: [
       {
         id: "design",
-        icon: "🎯",
+        icon: "",
         title: "NGUYÊN TẮC THIẾT KẾ",
       },
       {
         id: "pbl",
-        icon: "✨",
+        icon: "",
         title: "Đặc điểm phương pháp PBL cho trẻ mầm non",
         items: [
           "Học qua dự án thực tế: mỗi chủ đề là một project nhỏ với sản phẩm cụ thể.",
@@ -54,7 +54,7 @@ export const CLASS_DETAILS: Record<ClassId, ClassDetail> = {
       },
       {
         id: "structure",
-        icon: "📦",
+        icon: "",
         title: "Cấu trúc học",
         items: [
           "Tuần 1: Giới thiệu project + Khám phá.",

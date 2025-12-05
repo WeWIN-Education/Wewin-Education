@@ -7,7 +7,7 @@ export default function OverviewBlock({ title, learningTitle, overview }: {
   overview: OverviewSection[];
 }) {
   return (
-    <div className="w-full">
+    <div className="">
       {/* Title - Responsive */}
       <h1 className="text-center text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-blue-700 mb-4 md:mb-6 wrap-break-word">
         {title}
@@ -16,7 +16,7 @@ export default function OverviewBlock({ title, learningTitle, overview }: {
       {/* Overview Content - Responsive */}
       <div className="space-y-4 md:space-y-6 text-gray-800">
         {overview.map((sec) => (
-          <div key={sec.id} className="w-full">
+          <div key={sec.id} className="">
             <h3 className="text-sm sm:text-base md:text-lg font-bold flex items-start gap-2 mb-2">
               <span className="text-base sm:text-lg md:text-xl">{sec.icon}</span>
               <span className="wrap-break-word">{sec.title}</span>
@@ -38,7 +38,7 @@ export default function OverviewBlock({ title, learningTitle, overview }: {
 
       {/* Learning Title - Responsive */}
       <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-blue-700 mb-3 md:mb-4 text-center wrap-break-word">
-        📘 {learningTitle}
+        {learningTitle}
       </h2>
 
       <hr className="my-6 md:my-8 border-gray-300" />

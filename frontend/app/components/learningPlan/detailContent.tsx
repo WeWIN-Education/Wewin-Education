@@ -36,8 +36,8 @@ export default function DetailContent({ classId }: { classId: ClassId }) {
   const projects = mockProjects.filter((p) => p.bookId === book.id);
 
   return (
-  <div className="w-full max-w-full overflow-hidden">
-    <div className="bg-white p-4 sm:p-6 lg:p-8 rounded-xl shadow w-full max-w-full">
+  <div>
+    <div className="bg-white p-4 sm:p-6 lg:p-8 rounded-xl shadow">
       <OverviewBlock
         title={detail.title}
         learningTitle={detail.learningTitle}

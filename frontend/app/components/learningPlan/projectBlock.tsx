@@ -17,13 +17,13 @@ export default function ProjectBlock({
   return (
     <div
       id={`project-${project.id}`}
-      className="bg-[#f9fbff] border border-[#d7e3ff] p-6 rounded-2xl mt-8"
+      className="bg-[#f9fbff] border border-[#d7e3ff] p-6 rounded-2xl"
     >
-      <h3 className="text-[20px] font-bold text-[#0e4ba9] flex items-center gap-2 ">
-        📘 {project.name}
+      <h3 className="text-sm md:text-2xl font-bold text-[#0e4ba9] flex items-center gap-2 ">
+        {project.name}
       </h3>
 
-      <p className="text-blue-600 italic mt-1">{project.description}</p>
+      <p className="text-blue-600 italic mt-1 text-xs md:text-sm">{project.description}</p>
 
       <div className="mt-4">
         {sortedNodes.map((node) => (

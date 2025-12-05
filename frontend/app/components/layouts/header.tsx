@@ -10,7 +10,6 @@ import Dropdown from "../dropdown";
 import Section from "../section";
 import { allowedEmails } from "@/app/constants/email";
 import { BookOpen, FolderOpen } from "lucide-react";
-import NavButton from "../navButton";
 import { handleLogout } from "@/app/api/auth/[...nextauth]/route";
 import { useRouter } from "next/navigation";
 
