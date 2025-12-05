@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, useTransition } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { GameMenu } from "@/app/components/games/GameMenu";
@@ -15,6 +15,7 @@ import {
   getGameId,
   resetUnitToSheet,
 } from "@/app/utils/submitScore";
+import { createStandardGameSet } from "@/app/utils/gameRotation";
 
 type UnitGameScreenProps = {
   unit: UnitGameConfig;
@@ -27,6 +28,7 @@ type UnitGameScreenProps = {
   showIdModal?: boolean;
   onPlayerIdSubmit?: (id: string) => void;
   onPlayerIdSkip?: () => void;
+  unitIndex?: number; // Index của unit trong book (dùng cho game xoay vòng)
 };
 
 type ProgressState = Record<GameKey, boolean>;
@@ -62,9 +64,11 @@ export function UnitGameScreen({
   showIdModal: externalShowIdModal,
   onPlayerIdSubmit: externalOnPlayerIdSubmit,
   onPlayerIdSkip: externalOnPlayerIdSkip,
+  unitIndex,
 }: UnitGameScreenProps) {
   const parts = unit.parts ?? [];
   const hasParts = parts.length > 0;
+  const multipleParts = parts.length > 1;
 
   const router = useRouter();
   const pathname = usePathname();
@@ -86,11 +90,24 @@ export function UnitGameScreen({
     return "menu";
   };
   
+  const modeStorageKey = `${unit.slug}_mode`;
+  const partStorageKey = `${unit.slug}_selected_part`;
+
   // Mode: "select" = chọn part, "play" = chơi game
-  const [mode, setMode] = useState<"select" | "play">(hasParts ? "select" : "play");
-  const [selectedPartId, setSelectedPartId] = useState(
-    hasParts && parts[0] ? parts[0].id : "default",
-  );
+  const [mode, setMode] = useState<"select" | "play">(() => {
+    if (typeof window !== "undefined") {
+      const saved = sessionStorage.getItem(modeStorageKey);
+      if (saved === "play" || saved === "select") return saved as "select" | "play";
+    }
+    return hasParts ? (multipleParts ? "select" : "play") : "play";
+  });
+  const [selectedPartId, setSelectedPartId] = useState(() => {
+    if (typeof window !== "undefined" && hasParts) {
+      const saved = sessionStorage.getItem(partStorageKey);
+      if (saved) return saved;
+    }
+    return hasParts && parts[0] ? parts[0].id : "default";
+  });
 
   // Nếu có initialPlayerId từ bên ngoài, dùng nó; nếu không thì dùng state riêng
   const [internalPlayerId, setInternalPlayerId] = useState("");
@@ -105,11 +122,50 @@ export function UnitGameScreen({
   );
   const [notificationVisible, setNotificationVisible] = useState(false);
   const [notificationMessage, setNotificationMessage] = useState("");
+  const [isPending, startTransition] = useTransition();
+
+  // Khi đổi unit (slug mới), đưa màn hình về trạng thái mặc định của unit đó
+  // Không phụ thuộc trực tiếp vào mảng parts để tránh thay đổi kích thước dependency array
+  useEffect(() => {
+    startTransition(() => {
+      const firstPartId = hasParts && parts[0] ? parts[0].id : "default";
+      setSelectedPartId(firstPartId);
+      setMode(hasParts ? (multipleParts ? "select" : "play") : "play");
+      if (typeof window !== "undefined") {
+        sessionStorage.setItem(partStorageKey, firstPartId);
+        sessionStorage.setItem(modeStorageKey, hasParts && multipleParts ? "select" : "play");
+      }
+      setCurrentView("menu");
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [unit.slug, hasParts, multipleParts, parts.length]);
 
   // Đồng bộ view khi URL thay đổi (user gõ tay hoặc bấm Back/Forward)
   useEffect(() => {
-    setCurrentView(getViewFromPath(pathname));
-  }, [pathname]);
+    const view = getViewFromPath(pathname);
+    
+    // Sử dụng startTransition để làm mượt navigation, tránh flash
+    startTransition(() => {
+      setCurrentView(view);
+      
+      if (!hasParts) return;
+      
+      // Nếu URL là game (không phải menu) và có parts, tự động chuyển sang mode "play"
+      if (view !== "menu") {
+        setMode("play");
+        // Nếu chưa có selectedPartId, chọn part đầu tiên
+        if (!selectedPartId && parts.length > 0) {
+          setSelectedPartId(parts[0].id);
+          if (typeof window !== "undefined") {
+            sessionStorage.setItem(partStorageKey, parts[0].id);
+          }
+        }
+        if (typeof window !== "undefined") {
+          sessionStorage.setItem(modeStorageKey, "play");
+        }
+      }
+    });
+  }, [pathname, hasParts, selectedPartId]); // Không thêm currentView và mode để tránh infinite loop
 
   // Load initialPlayerId khi có
   useEffect(() => {
@@ -127,6 +183,36 @@ export function UnitGameScreen({
     return parts.find((part) => part.id === selectedPartId) ?? (parts[0] || undefined);
   }, [hasParts, parts, selectedPartId]);
 
+  // Đồng bộ mode/part từ sessionStorage sau khi client mount để tránh trạng thái SSR mặc định (select)
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const savedMode = sessionStorage.getItem(modeStorageKey);
+    const savedPart = sessionStorage.getItem(partStorageKey);
+
+    if (savedPart && savedPart !== selectedPartId) {
+      const exists = parts.some((p) => p.id === savedPart);
+      if (exists) setSelectedPartId(savedPart);
+    }
+
+    if (savedMode === "play" && mode !== "play") {
+      setMode("play");
+    }
+  }, [modeStorageKey, partStorageKey, parts, selectedPartId, mode]);
+
+  // Khi đang ở menu, nếu đã có part được chọn và mode đang "select" nhưng session lưu "play",
+  // thì ép về "play" để ở lại màn chọn game của part hiện tại (tránh bị đẩy về chọn part).
+  useEffect(() => {
+    if (currentView !== "menu") return;
+    if (!multipleParts) return;
+    if (!selectedPartId) return;
+    if (mode !== "select") return;
+    if (typeof window === "undefined") return;
+    const savedMode = sessionStorage.getItem(modeStorageKey);
+    if (savedMode === "play") {
+      setMode("play");
+    }
+  }, [currentView, multipleParts, selectedPartId, mode, modeStorageKey]);
+
   // Format title chỉ hiển thị "Part 1" thay vì "Part 1 · Early Journey"
   const getPartTitle = useMemo(() => {
     if (!activePart || !hasParts) return "";
@@ -135,12 +221,54 @@ export function UnitGameScreen({
   }, [activePart, hasParts, parts]);
 
   const words = activePart ? activePart.words : unit.flashcards.words;
-  const enabledGames =
-    activePart?.enabledGames ??
-    unit.enabledGames ??
-    DEFAULT_ENABLED_GAMES;
+  
+  // Tính enabledGames: nếu useRotatingGame = true, tự động tính với 3 game cố định + 1 game xoay vòng
+  const enabledGames = useMemo(() => {
+    // Nếu có part, ưu tiên enabledGames của part
+    if (activePart?.enabledGames) {
+      return activePart.enabledGames;
+    }
+    
+    // Nếu unit có enabledGames được định nghĩa sẵn, dùng nó
+    if (unit.enabledGames) {
+      return unit.enabledGames;
+    }
+    
+    // Nếu useRotatingGame = true, tự động tính với game xoay vòng
+    if (unit.useRotatingGame && unitIndex !== undefined) {
+      // Nếu có part, dùng part index; nếu không, dùng unit index
+      const index = activePart 
+        ? parts.findIndex((p) => p.id === activePart.id)
+        : unitIndex;
+      return createStandardGameSet(index);
+    }
+    
+    // Mặc định
+    return DEFAULT_ENABLED_GAMES;
+  }, [activePart, unit.enabledGames, unit.useRotatingGame, unitIndex, parts]);
+  
   const quizConfig = activePart?.quiz ?? unit.quiz;
-  const progressKey = `unit_${unit.slug}_${activePart ? activePart.id : "default"}_progress`;
+  // Tạo prefix dựa trên bookname để tránh conflict giữa các sách
+  const bookPrefix = unit.bookname.toLowerCase().replace(/\s+/g, "_").replace(/[^a-z0-9_]/g, "");
+  const progressKey = `${bookPrefix}_unit_${unit.slug}_${activePart ? activePart.id : "default"}_progress`;
+
+  const gamePathMap: Record<GameKey, string> = {
+    matching: "matching",
+    flip: "flip",
+    speak: "speak",
+    quiz: "quiz",
+    memory: "memory",
+    ordering: "ordering",
+    scramble: "scramble",
+  };
+
+  const getNextGame = (current: GameKey): GameKey | null => {
+    const enabled = enabledGames;
+    const idx = enabled.indexOf(current);
+    if (idx === -1) return null;
+    const next = enabled[idx + 1];
+    return next ?? null;
+  };
 
   // Load progress khi chuyển part (nhưng không load khi refresh vì đã xóa ở useEffect trên)
   useEffect(() => {
@@ -231,16 +359,48 @@ export function UnitGameScreen({
       });
     }
 
-    // Hiển thị thông báo và quay về trang chọn game
+    // Tìm game tiếp theo trong part hiện tại
+    const nextGame = getNextGame(game);
     const gameTitle = GAME_TITLES[game];
+
+    if (nextGame) {
+      // Nếu còn game tiếp theo, chuyển thẳng sang game đó
+      const targetPath = gamePathMap[nextGame];
+      if (targetPath) {
+        startTransition(() => {
+          setMode("play");
+          setCurrentView(nextGame);
+          if (typeof window !== "undefined") {
+            sessionStorage.setItem(modeStorageKey, "play");
+          }
+          router.push(`${breadcrumbBackUrl}/${unit.slug}/${targetPath}`);
+        });
+      } else {
+        // fallback: về menu
+        startTransition(() => {
+          setMode("play");
+          setCurrentView("menu");
+          if (typeof window !== "undefined") {
+            sessionStorage.setItem(modeStorageKey, "play");
+          }
+          router.push(`${breadcrumbBackUrl}/${unit.slug}`);
+        });
+      }
+    } else {
+      // Nếu đã hết game trong part, quay về menu chọn game của part hiện tại
+      startTransition(() => {
+        setMode("play");
+        setCurrentView("menu");
+        if (typeof window !== "undefined") {
+          sessionStorage.setItem(modeStorageKey, "play");
+        }
+        router.push(`${breadcrumbBackUrl}/${unit.slug}`);
+      });
+    }
+
+    // Thông báo ngắn
     setNotificationMessage(`🎉 Đã chơi xong ${gameTitle}!`);
     setNotificationVisible(true);
-
-    // Sau 2 giây, quay về trang chọn game
-    setTimeout(() => {
-      setCurrentView("menu");
-      router.push(`/resources/kids/Games/${unit.slug}`);
-    }, 2000);
   };
 
   const handleSubmitPlayerId = (id: string) => {
@@ -262,29 +422,31 @@ export function UnitGameScreen({
   };
 
   const handleSelectPart = (partId: string) => {
-    setSelectedPartId(partId);
-    setCurrentView("menu");
-    setMode("play");
-    // Progress sẽ được load lại tự động khi selectedPartId thay đổi (qua useEffect)
-  };
-
-  const handleBack = () => {
-    if (!hasParts) return;
-
-    // Nếu đang ở trong 1 game cụ thể -> quay lại màn chọn game
-    if (currentView !== "menu") {
+    startTransition(() => {
+      setSelectedPartId(partId);
       setCurrentView("menu");
-      // Đồng bộ URL về trang unit gốc (không có /matching, /flip,...)
-      router.push(`/resources/kids/Games/${unit.slug}`);
-      return;
-    }
-
-    // Đang ở màn chọn game -> quay lại màn chọn Part
-    setMode("select");
+      setMode("play");
+      if (typeof window !== "undefined") {
+        sessionStorage.setItem(partStorageKey, partId);
+        sessionStorage.setItem(modeStorageKey, "play");
+      }
+      // Progress sẽ được load lại tự động khi selectedPartId thay đổi (qua useEffect)
+    });
   };
 
-  // Nếu đang ở mode "select", hiển thị màn hình chọn part
-  if (mode === "select" && hasParts) {
+  const goToPartSelection = () => {
+    if (!multipleParts) return;
+    startTransition(() => {
+      setMode("select");
+      setCurrentView("menu");
+      if (typeof window !== "undefined") {
+        sessionStorage.setItem(modeStorageKey, "select");
+      }
+    });
+  };
+
+  // Nếu đang ở mode "select" và có nhiều part, hiển thị màn hình chọn part
+  if (mode === "select" && multipleParts) {
     return (
       <>
         <PartSelectionScreen
@@ -304,10 +466,8 @@ export function UnitGameScreen({
     );
   }
 
-  // Sử dụng một màu nền thống nhất cho tất cả các game để đảm bảo thẩm mỹ đồng nhất
-  // Không dùng gradient nữa để khi nội dung co giãn chiều cao, màu vẫn đồng nhất.
   return (
-    <div className="min-h-screen bg-pink-50 pb-20">
+    <div className="min-h-screen p-5 pb-20 bg-gradient-to-br from-purple-50 via-indigo-50 to-blue-50">
       {/* Breadcrumb Navigation */}
       {showBreadcrumb && (
         <div className="pt-4 sm:pt-6 mb-4">
@@ -333,7 +493,7 @@ export function UnitGameScreen({
                 <>
                   {/* Crumb 2: tên Unit, bấm để quay lại trang chọn game */}
                   <Link
-                    href={`/resources/kids/Games/${unit.slug}`}
+                    href={`${breadcrumbBackUrl}/${unit.slug}`}
                     className="flex items-center gap-1.5 sm:gap-2 text-blue-600 hover:text-blue-700 font-semibold transition-colors"
                   >
                     <span className="text-base sm:text-lg">📖</span>
@@ -362,18 +522,14 @@ export function UnitGameScreen({
           {activePart ? activePart.title : heading}
         </h1>
 
-        {hasParts && (
+        {multipleParts && currentView === "menu" && (
           <button
-            onClick={handleBack}
+            onClick={goToPartSelection}
             className="inline-flex items-center justify-center gap-2 rounded-full bg-blue-500 hover:bg-blue-600 text-white text-sm sm:text-base px-4 sm:px-6 py-2 shadow-lg transition"
           >
             <span>←</span>
-            <span className="hidden sm:inline">
-              {currentView === "menu" ? "Quay lại chọn Part" : "Quay lại chọn Game"}
-            </span>
-            <span className="sm:hidden">
-              {currentView === "menu" ? "Quay lại" : "Quay lại game"}
-            </span>
+            <span className="hidden sm:inline">Quay lại chọn Part</span>
+            <span className="sm:hidden">Quay lại</span>
           </button>
         )}
       </div>

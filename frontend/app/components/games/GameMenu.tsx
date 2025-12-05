@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState, useEffect } from "react";
+import { useMemo, useState, useEffect, useTransition } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { MatchingGame } from "@/app/components/games/MatchingGame";
 import { FlipCardGame } from "@/app/components/games/FlipCardGame";
@@ -57,6 +57,7 @@ export function GameMenu({
 }: GameMenuProps) {
   const router = useRouter();
   const pathname = usePathname();
+  const [isPending, startTransition] = useTransition();
 
   // Xác định game từ URL nếu có dạng .../[slug]/matching
   const pathSegments = pathname.split("/").filter(Boolean);
@@ -154,17 +155,38 @@ export function GameMenu({
 
   const openGame = (gameType: GameType) => {
     if (!gamesToShow.includes(gameType)) return;
-    setView(gameType);
 
     // Nếu có slug, điều hướng URL tới /[slug]/[game]
     if (slug) {
-      const base = `/resources/kids/Games/${slug}`;
-      if (gameType === "matching") router.push(`${base}/matching`);
-      if (gameType === "flip") router.push(`${base}/flip`);
-      if (gameType === "speak") router.push(`${base}/speak`);
-      if (gameType === "quiz") router.push(`${base}/quiz`);
-      if (gameType === "memory") router.push(`${base}/memory`);
-      if (gameType === "ordering") router.push(`${base}/ordering`);
+      // Tự động detect base path từ pathname hiện tại (hỗ trợ nhiều sách)
+      // Ví dụ: /resources/kids/Games/unit-1 -> base = /resources/kids/Games
+      //        /resources/mover/Games/unit-1 -> base = /resources/mover/Games
+      const pathSegments = pathname.split("/").filter(Boolean);
+      const gamesIndex = pathSegments.findIndex((seg) => seg === "Games");
+      if (gamesIndex >= 0) {
+        const base = "/" + pathSegments.slice(0, gamesIndex + 1).join("/");
+        let targetUrl = "";
+        if (gameType === "matching") targetUrl = `${base}/${slug}/matching`;
+        if (gameType === "flip") targetUrl = `${base}/${slug}/flip`;
+        if (gameType === "speak") targetUrl = `${base}/${slug}/speak`;
+        if (gameType === "quiz") targetUrl = `${base}/${slug}/quiz`;
+        if (gameType === "memory") targetUrl = `${base}/${slug}/memory`;
+        if (gameType === "ordering") targetUrl = `${base}/${slug}/ordering`;
+        if (gameType === "scramble") targetUrl = `${base}/${slug}/scramble`;
+        
+        if (targetUrl) {
+          // Prefetch route để tăng tốc navigation
+          router.prefetch(targetUrl);
+          // Set view trước khi navigate để tránh flash về menu
+          startTransition(() => {
+            setView(gameType);
+            router.push(targetUrl);
+          });
+        }
+      }
+    } else {
+      // Nếu không có slug, chỉ set view
+      setView(gameType);
     }
   };
 
@@ -226,7 +248,7 @@ export function GameMenu({
           <p className="text-sm text-gray-500">{description}</p>
         )}
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+      <div className="grid grid-cols-2 gap-4 sm:gap-6 max-w-2xl mx-auto">
         {gamesToShow.includes("matching") && (
           <button
             onClick={() => openGame("matching")}
