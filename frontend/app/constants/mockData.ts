@@ -327,7 +327,7 @@ export const projectFinalWeekBlocks: LessonBlock[] = [
   {
     id: "p_final_objective",
     learningNodeId: "w_final",
-    title: "🎯 MỤC TIÊU / OBJECTIVE",
+    title: "MỤC TIÊU / OBJECTIVE",
     type: "list",
     order: 1,
     content: `
@@ -439,7 +439,7 @@ export const project17WeekBlocks: LessonBlock[] = [
   {
     id: "p17_objective",
     learningNodeId: "w17",
-    title: "🎯 MỤC TIÊU / OBJECTIVE",
+    title: "MỤC TIÊU / OBJECTIVE",
     type: "list",
     order: 1,
     content: `
@@ -493,7 +493,7 @@ Chant:
   {
     id: "p17_structures",
     learningNodeId: "w17",
-    title: "📘 CẤU TRÚC CÂU / SENTENCE STRUCTURES",
+    title: "CẤU TRÚC CÂU / SENTENCE STRUCTURES",
     type: "list",
     order: 4,
     content: `
@@ -664,13 +664,28 @@ Ví dụ:
 • Hoàn thành All About Me Book & thuyết trình trong Fashion Show.
     `,
   },
+  {
+    id: "p17_w17_homework",
+    learningNodeId: "w17",
+    title: "BÀI TẬP VỀ NHÀ",
+    type: "homework",
+    order: 16,
+    content: `
+• Hoàn thành Worksheet
+• https://www.youtube.com/watch?v=bQJ82qMKNqA
+• https://www.youtube.com/watch?v=mgROe8lAqOg
+    `,
+    audioUrl:`
+    https://wewin.edu.vn/wp-content/uploads/2025/12/Project-17_Clothes_P2.mp3
+    https://wewin.edu.vn/wp-content/uploads/2025/12/ok🎵-SONG_-_MY-FIVE-SENSES_.mp3`
+  },
 ];
 
 export const project16WeekBlocks: LessonBlock[] = [
   {
     id: "p16_objective",
     learningNodeId: "w16",
-    title: "🎯 MỤC TIÊU / OBJECTIVE",
+    title: "MỤC TIÊU / OBJECTIVE",
     type: "list",
     order: 1,
     content: `
@@ -721,7 +736,7 @@ Chant:
   {
     id: "p16_structures",
     learningNodeId: "w16",
-    title: "📘 CẤU TRÚC CÂU / SENTENCE STRUCTURES",
+    title: "CẤU TRÚC CÂU / SENTENCE STRUCTURES",
     type: "list",
     order: 4,
     content: `
@@ -887,13 +902,25 @@ Ví dụ:
 • Hoàn thành My Lantern Book & tham gia WeWIN Moon Parade.
     `,
   },
+  {
+    id: "p16_w16_homework",
+    learningNodeId: "w16",
+    title: "BÀI TẬP VỀ NHÀ",
+    type: "homework",
+    order: 16,
+    content: `
+• Hoàn thành Worksheet
+• https://wewin.edu.vn/wp-content/uploads/2025/11/festival_midautumn_unit_game.html
+• https://www.youtube.com/watch?v=M3T2OGfzb5w
+    `,
+  },
 ];
 
 export const project15WeekBlocks: LessonBlock[] = [
   {
     id: "p15_objective",
     learningNodeId: "w15",
-    title: "🎯 MỤC TIÊU / OBJECTIVE",
+    title: "MỤC TIÊU / OBJECTIVE",
     type: "list",
     order: 1,
     content: `
@@ -944,7 +971,7 @@ Chant:
   {
     id: "p15_structures",
     learningNodeId: "w15",
-    title: "📘 CẤU TRÚC CÂU / SENTENCE STRUCTURES",
+    title: "CẤU TRÚC CÂU / SENTENCE STRUCTURES",
     type: "list",
     order: 4,
     content: `
@@ -1103,13 +1130,27 @@ My School Kit Folder:
 • Hoàn thành My School Kit Folder và thuyết trình.
     `,
   },
+  {
+    id: "p15_w15_homework",
+    learningNodeId: "w15",
+    title: "BÀI TẬP VỀ NHÀ",
+    type: "homework",
+    order: 15,
+    content: `
+• Hoàn thành Worksheet
+• https://wewin.edu.vn/wp-content/uploads/2025/11/school_things_basic_unit_game.html
+• https://wewin.edu.vn/wp-content/uploads/2025/11/extra_tools_unit_game.html
+• https://www.youtube.com/watch?v=FlgQzX5pZMI
+• https://www.youtube.com/watch?v=uU4H53E7RUk
+    `,
+  },
 ];
 
 export const project14WeekBlocks: LessonBlock[] = [
   {
     id: "p14_objective",
     learningNodeId: "w14",
-    title: "🎯 MỤC TIÊU / OBJECTIVE",
+    title: "MỤC TIÊU / OBJECTIVE",
     type: "list",
     order: 1,
     content: `
@@ -1156,7 +1197,7 @@ Chant:
   {
     id: "p14_structures",
     learningNodeId: "w14",
-    title: "📘 CẤU TRÚC CÂU / SENTENCE STRUCTURES",
+    title: "CẤU TRÚC CÂU / SENTENCE STRUCTURES",
     type: "list",
     order: 4,
     content: `
@@ -1323,13 +1364,23 @@ My Candy Menu + Candy Art Box:
 • Hoàn thành My Candy Menu & tham gia Sweet Fair.
     `,
   },
+  {
+    id: "p14_w14_homework",
+    learningNodeId: "w14",
+    title: "BÀI TẬP VỀ NHÀ",
+    type: "homework",
+    order: 16,
+    content: `
+• Hoàn thành Worksheet
+    `,
+  },
 ];
 
 export const project13WeekBlocks: LessonBlock[] = [
   {
     id: "p13_objective",
     learningNodeId: "w13",
-    title: "🎯 MỤC TIÊU / OBJECTIVE",
+    title: "MỤC TIÊU / OBJECTIVE",
     type: "list",
     order: 1,
     content: `
@@ -1375,7 +1426,7 @@ export const project13WeekBlocks: LessonBlock[] = [
   {
     id: "p13_structures",
     learningNodeId: "w13",
-    title: "📘 CẤU TRÚC NGỮ PHÁP / SENTENCE STRUCTURES",
+    title: "CẤU TRÚC NGỮ PHÁP / SENTENCE STRUCTURES",
     type: "list",
     order: 4,
     content: `
@@ -1533,13 +1584,24 @@ Album 6–8 trang gồm:
 • Tự tin thuyết trình trước lớp.
     `,
   },
+  {
+    id: "p13_w13_homework",
+    learningNodeId: "w13",
+    title: "BÀI TẬP VỀ NHÀ",
+    type: "homework",
+    order: 15,
+    content: `
+• Hoàn thành Worksheet
+• https://www.youtube.com/watch?v=VNJ9vPF_R9M
+    `,
+  },
 ];
 
 export const project12WeekBlocks: LessonBlock[] = [
   {
     id: "p12_objective",
     learningNodeId: "w12",
-    title: "🎯 MỤC TIÊU / OBJECTIVE",
+    title: "MỤC TIÊU / OBJECTIVE",
     type: "list",
     order: 1,
     content: `
@@ -1582,7 +1644,7 @@ export const project12WeekBlocks: LessonBlock[] = [
   {
     id: "p12_structures",
     learningNodeId: "w12",
-    title: "📘 CẤU TRÚC NGỮ PHÁP / SENTENCE STRUCTURES",
+    title: "CẤU TRÚC NGỮ PHÁP / SENTENCE STRUCTURES",
     type: "list",
     order: 4,
     content: `
@@ -1748,13 +1810,26 @@ Mini Dialogue – “At the Beach”:
 • Tham gia Underwater Fair tự tin và vui vẻ.
     `,
   },
+  {
+    id: "p12_w12_homework",
+    learningNodeId: "w12",
+    title: "BÀI TẬP VỀ NHÀ",
+    type: "homework",
+    order: 16,
+    content: `
+• Hoàn thành Worksheet
+• https://wewin.edu.vn/wp-content/uploads/2025/11/sea_animals_unit_game.html
+• https://wewin.edu.vn/wp-content/uploads/2025/11/beach_words_unit_game.html
+• https://www.youtube.com/watch?v=BmNc12K9ePk
+    `,
+  },
 ];
 
 export const springReviewBlocks: LessonBlock[] = [
   {
     id: "spr_review_objective",
     learningNodeId: "w11_review",
-    title: "🎯 MỤC TIÊU / OBJECTIVE",
+    title: "MỤC TIÊU / OBJECTIVE",
     type: "list",
     order: 1,
     content: `
@@ -1802,7 +1877,7 @@ Hoạt động lớp: “Phonics Hop!” – nghe âm và nhảy đến thẻ đ
   {
     id: "spr_review_structures",
     learningNodeId: "w11_review",
-    title: "📘 CẤU TRÚC CÂU ÔN TẬP / SENTENCE STRUCTURES",
+    title: "CẤU TRÚC CÂU ÔN TẬP / SENTENCE STRUCTURES",
     type: "list",
     order: 4,
     content: `
@@ -1978,7 +2053,7 @@ export const project11WeekBlocks: LessonBlock[] = [
   {
     id: "p11_w11_objective",
     learningNodeId: "w11",
-    title: "🎯 MỤC TIÊU / OBJECTIVE",
+    title: "MỤC TIÊU / OBJECTIVE",
     type: "list",
     order: 1,
     content: `
@@ -2026,7 +2101,7 @@ Let’s eat lunch — don’t be late!”
   {
     id: "p11_w11_structures",
     learningNodeId: "w11",
-    title: "📘 CẤU TRÚC NGỮ PHÁP / SENTENCE STRUCTURES",
+    title: "CẤU TRÚC NGỮ PHÁP / SENTENCE STRUCTURES",
     type: "list",
     order: 4,
     content: `
@@ -2208,13 +2283,24 @@ My Fast Food Menu + Paper Plate Food:
 • Tham gia Fast Food Day tự tin.
     `,
   },
+  {
+    id: "p11_w11_homework",
+    learningNodeId: "w11",
+    title: "BÀI TẬP VỀ NHÀ",
+    type: "homework",
+    order: 16,
+    content: `
+• Hoàn thành Worksheet
+• https://wewin.edu.vn/wp-content/uploads/2025/11/fast_food_unit_game.html
+    `,
+  },
 ];
 
 export const project10WeekBlocks: LessonBlock[] = [
   {
     id: "p10_w10_objective",
     learningNodeId: "w10",
-    title: "🎯 MỤC TIÊU / OBJECTIVE",
+    title: "MỤC TIÊU / OBJECTIVE",
     type: "list",
     order: 1,
     content: `
@@ -2265,7 +2351,7 @@ Let’s go travel in the rain!”
   {
     id: "p10_w10_structures",
     learningNodeId: "w10",
-    title: "📘 CẤU TRÚC NGỮ PHÁP / SENTENCE STRUCTURES",
+    title: "CẤU TRÚC NGỮ PHÁP / SENTENCE STRUCTURES",
     type: "list",
     order: 4,
     content: `
@@ -2435,13 +2521,24 @@ Sản phẩm thể hiện khả năng nói – hiểu – sáng tạo.
 • Hoàn thành My City Map với mô tả bằng tiếng Anh.
     `,
   },
+  {
+    id: "p10_w10_homework",
+    learningNodeId: "w10",
+    title: "BÀI TẬP VỀ NHÀ",
+    type: "homework",
+    order: 15,
+    content: `
+• Hoàn thành Worksheet
+• https://www.youtube.com/watch?v=jytezWJ1vVk
+    `,
+  },
 ];
 
 export const project9WeekBlocks: LessonBlock[] = [
   {
     id: "p9_w9_objective",
     learningNodeId: "w9",
-    title: "🎯 MỤC TIÊU / OBJECTIVE",
+    title: "MỤC TIÊU / OBJECTIVE",
     type: "list",
     order: 1,
     content: `
@@ -2486,7 +2583,7 @@ export const project9WeekBlocks: LessonBlock[] = [
   {
     id: "p9_w9_structures",
     learningNodeId: "w9",
-    title: "📘 CẤU TRÚC NGỮ PHÁP / SENTENCE STRUCTURES",
+    title: "CẤU TRÚC NGỮ PHÁP / SENTENCE STRUCTURES",
     type: "list",
     order: 4,
     content: `
@@ -2648,13 +2745,27 @@ export const project9WeekBlocks: LessonBlock[] = [
 • Hoàn thành “My Farm Book” và tham gia Farm Day tự tin.
     `,
   },
+  {
+    id: "p9_w9_homework",
+    learningNodeId: "w9",
+    title: "BÀI TẬP VỀ NHÀ",
+    type: "homework",
+    order: 15,
+    content: `
+• Hoàn thành Worksheet
+• https://wewin.edu.vn/wp-content/uploads/2025/11/farm_animals_unit_game.html
+• https://wewin.edu.vn/wp-content/uploads/2025/11/pet_animals_unit_game.html
+• https://www.youtube.com/watch?v=a3LOgVUd8Vo
+• https://www.youtube.com/watch?v=D9Cc7TGRh00
+    `,
+  },
 ];
 
 export const project8WeekBlocks: LessonBlock[] = [
   {
     id: "p8_w8_objective",
     learningNodeId: "w8",
-    title: "🎯 MỤC TIÊU / OBJECTIVE",
+    title: "MỤC TIÊU / OBJECTIVE",
     type: "list",
     order: 1,
     content: `
@@ -2698,7 +2809,7 @@ export const project8WeekBlocks: LessonBlock[] = [
   {
     id: "p8_w8_structures",
     learningNodeId: "w8",
-    title: "📘 CẤU TRÚC NGỮ PHÁP / SENTENCE STRUCTURES",
+    title: "CẤU TRÚC NGỮ PHÁP / SENTENCE STRUCTURES",
     type: "list",
     order: 4,
     content: `
@@ -2789,7 +2900,7 @@ export const project8WeekBlocks: LessonBlock[] = [
   {
     id: "p8_w8_activity_5",
     learningNodeId: "w8",
-    title: "📘 ACTIVITY 5 – My Weekly Food Diary",
+    title: "ACTIVITY 5 – My Weekly Food Diary",
     type: "list",
     order: 10,
     content: `
@@ -2860,13 +2971,27 @@ export const project8WeekBlocks: LessonBlock[] = [
 • Hoàn thành “My Hungry Week Book.”
     `,
   },
+  {
+    id: "p8_w8_homework",
+    learningNodeId: "w8",
+    title: "BÀI TẬP VỀ NHÀ",
+    type: "homework",
+    order: 15,
+    content: `
+• Hoàn thành Worksheet
+• https://www.youtube.com/watch?v=z0oXMJiRK-c
+• https://www.youtube.com/watch?v=yd1XSWV0dww
+• https://www.youtube.com/watch?v=Sbtma3taSFc
+    `,
+    audioUrl:"https://wewin.edu.vn/wp-content/uploads/2025/12/song_8.mp3"
+  },
 ];
 
 export const project7WeekBlocks: LessonBlock[] = [
   {
     id: "p7_w7_objective",
     learningNodeId: "w7",
-    title: "🎯 MỤC TIÊU / OBJECTIVE",
+    title: "MỤC TIÊU / OBJECTIVE",
     type: "list",
     order: 1,
     content: `
@@ -2918,7 +3043,7 @@ export const project7WeekBlocks: LessonBlock[] = [
   {
     id: "p7_w7_structures",
     learningNodeId: "w7",
-    title: "📘 CẤU TRÚC NGỮ PHÁP / SENTENCE STRUCTURES",
+    title: "CẤU TRÚC NGỮ PHÁP / SENTENCE STRUCTURES",
     type: "list",
     order: 4,
     content: `
@@ -3089,7 +3214,7 @@ export const reviewWeekBlocks: LessonBlock[] = [
   {
     id: "rv_overview",
     learningNodeId: "w_review",
-    title: "🎯 OBJECTIVE / MỤC TIÊU",
+    title: "OBJECTIVE / MỤC TIÊU",
     type: "list",
     order: 1,
     content: `
@@ -3132,7 +3257,7 @@ export const reviewWeekBlocks: LessonBlock[] = [
   {
     id: "rv_structures",
     learningNodeId: "w_review",
-    title: "📘 SENTENCE STRUCTURES",
+    title: "SENTENCE STRUCTURES",
     type: "list",
     order: 4,
     content: `
@@ -3188,7 +3313,7 @@ export const reviewWeekBlocks: LessonBlock[] = [
   {
     id: "rv_portfolio",
     learningNodeId: "w_review",
-    title: "📘 PORTFOLIO REVIEW",
+    title: "PORTFOLIO REVIEW",
     type: "list",
     order: 8,
     content: `
@@ -3257,13 +3382,23 @@ export const reviewWeekBlocks: LessonBlock[] = [
 • Biểu diễn tại Winter Showcase.
     `,
   },
+  {
+    id: "p7_w7_homework",
+    learningNodeId: "w7",
+    title: "📚 BÀI TẬP VỀ NHÀ",
+    type: "homework",
+    order: 13,
+    content: `
+• Hoàn thành Worksheet
+    `,
+  },
 ];
 
 export const project6WeekBlocks: LessonBlock[] = [
   {
     id: "p6_w6_objective",
     learningNodeId: "w6",
-    title: "🎯 MỤC TIÊU / OBJECTIVE",
+    title: "MỤC TIÊU / OBJECTIVE",
     type: "list",
     order: 1,
     content: `
@@ -3310,7 +3445,7 @@ export const project6WeekBlocks: LessonBlock[] = [
   {
     id: "p6_w6_structures",
     learningNodeId: "w6",
-    title: "📘 CẤU TRÚC NGỮ PHÁP / SENTENCE STRUCTURES",
+    title: "CẤU TRÚC NGỮ PHÁP / SENTENCE STRUCTURES",
     type: "list",
     order: 4,
     content: `
@@ -3472,13 +3607,24 @@ export const project6WeekBlocks: LessonBlock[] = [
 • Hoàn thành “My Flower Shop” + Price Tag.
     `,
   },
+  {
+    id: "p6_w6_homework",
+    learningNodeId: "w6",
+    title: "📚 BÀI TẬP VỀ NHÀ",
+    type: "homework",
+    order: 15,
+    content: `
+• Hoàn thành Worksheet
+• https://wewin.edu.vn/wp-content/uploads/2025/11/flowers_unit_game.html
+    `,
+  },
 ];
 
 export const project5WeekBlocks: LessonBlock[] = [
   {
     id: "p5_w5_objective",
     learningNodeId: "w5",
-    title: "🎯 MỤC TIÊU / OBJECTIVE",
+    title: "MỤC TIÊU / OBJECTIVE",
     type: "list",
     order: 1,
     content: `
@@ -3520,7 +3666,7 @@ export const project5WeekBlocks: LessonBlock[] = [
   {
     id: "p5_w5_structures",
     learningNodeId: "w5",
-    title: "📘 CẤU TRÚC NGỮ PHÁP / SENTENCE STRUCTURES",
+    title: "CẤU TRÚC NGỮ PHÁP / SENTENCE STRUCTURES",
     type: "list",
     order: 4,
     content: `
@@ -3729,13 +3875,26 @@ export const project5WeekBlocks: LessonBlock[] = [
 • Giới thiệu sản phẩm tại Tết Fair bằng 1–2 câu tiếng Anh.
     `,
   },
+  {
+    id: "p5_w5_homework",
+    learningNodeId: "w5",
+    title: "📚 BÀI TẬP VỀ NHÀ",
+    type: "homework",
+    order: 18,
+    content: `
+• Hoàn thành Worksheet
+• https://www.youtube.com/watch?v=LuIeaioWX74
+
+    `,
+    audioUrl:"https://wewin.edu.vn/wp-content/uploads/2025/11/project5.mp3"
+  },
 ];
 
 export const project4WeekBlocks: LessonBlock[] = [
   {
     id: "p4_w4_objective",
     learningNodeId: "w4",
-    title: "🎯 MỤC TIÊU / OBJECTIVE",
+    title: "MỤC TIÊU / OBJECTIVE",
     type: "list",
     order: 1,
     content: `
@@ -3776,7 +3935,7 @@ export const project4WeekBlocks: LessonBlock[] = [
   {
     id: "p4_w4_structures",
     learningNodeId: "w4",
-    title: "📘 CẤU TRÚC NGỮ PHÁP / SENTENCE STRUCTURES",
+    title: "CẤU TRÚC NGỮ PHÁP / SENTENCE STRUCTURES",
     type: "list",
     order: 4,
     content: `
@@ -3809,7 +3968,7 @@ export const project4WeekBlocks: LessonBlock[] = [
   {
     id: "p4_w4_activities",
     learningNodeId: "w4",
-    title: "🎯 HOẠT ĐỘNG TRẢI NGHIỆM / CLASS ACTIVITIES",
+    title: "HOẠT ĐỘNG TRẢI NGHIỆM / CLASS ACTIVITIES",
     type: "list",
     order: 6,
     content: `
@@ -3910,12 +4069,24 @@ export const project4WeekBlocks: LessonBlock[] = [
 • Hoàn thành “My Christmas Book”.
     `,
   },
+  {
+    id: "p4_w4_homework",
+    learningNodeId: "w4",
+    title: "📚 BÀI TẬP VỀ NHÀ",
+    type: "homework",
+    order: 12,
+    content: `
+• Hoàn thành Worksheet
+• https://www.youtube.com/watch?v=G_NGo52IAwk
+    `,
+    audioUrl:"https://wewin.edu.vn/wp-content/uploads/2025/11/project4.mp3",
+  },
 ];
 export const project3WeekBlocks: LessonBlock[] = [
   {
     id: "p3_w3_objective",
     learningNodeId: "w3",
-    title: "🎯 MỤC TIÊU / OBJECTIVE",
+    title: "MỤC TIÊU / OBJECTIVE",
     type: "list",
     order: 1,
     content: `
@@ -3957,7 +4128,7 @@ export const project3WeekBlocks: LessonBlock[] = [
   {
     id: "p3_w3_structures",
     learningNodeId: "w3",
-    title: "📘 CẤU TRÚC NGỮ PHÁP / SENTENCE STRUCTURES",
+    title: "CẤU TRÚC NGỮ PHÁP / SENTENCE STRUCTURES",
     type: "list",
     order: 4,
     content: `
@@ -3990,7 +4161,7 @@ export const project3WeekBlocks: LessonBlock[] = [
   {
     id: "p3_w3_activities",
     learningNodeId: "w3",
-    title: "🎯 HOẠT ĐỘNG TRẢI NGHIỆM / CLASS ACTIVITIES",
+    title: "HOẠT ĐỘNG TRẢI NGHIỆM / CLASS ACTIVITIES",
     type: "list",
     order: 6,
     content: `
@@ -4075,13 +4246,27 @@ export const project3WeekBlocks: LessonBlock[] = [
 • Hoàn thành sản phẩm “My Bird Book”.
     `,
   },
+  {
+    id: "p3_w3_homework",
+    learningNodeId: "w3",
+    title: "📚 BÀI TẬP VỀ NHÀ",
+    type: "homework",
+    order: 11,
+    content: `
+• Hoàn thành Worksheet
+• https://www.youtube.com/watch?v=XNupSaW6eO0
+• https://www.youtube.com/watch?v=qW2yOwonRdc
+
+`,
+    audioUrl:"https://wewin.edu.vn/wp-content/uploads/2025/11/project3.mp3",
+  },
 ];
 
 export const project2WeekBlocks: LessonBlock[] = [
   {
     id: "p2_w2_objective",
     learningNodeId: "w2",
-    title: "🎯 MỤC TIÊU / OBJECTIVE",
+    title: "MỤC TIÊU / OBJECTIVE",
     type: "list",
     order: 1,
     content: `
@@ -4121,7 +4306,7 @@ export const project2WeekBlocks: LessonBlock[] = [
   {
     id: "p2_w2_structures",
     learningNodeId: "w2",
-    title: "📘 CẤU TRÚC NGỮ PHÁP / SENTENCE STRUCTURES",
+    title: "CẤU TRÚC NGỮ PHÁP / SENTENCE STRUCTURES",
     type: "list",
     order: 4,
     content: `
@@ -4153,7 +4338,7 @@ export const project2WeekBlocks: LessonBlock[] = [
   {
     id: "p2_w2_activities",
     learningNodeId: "w2",
-    title: "🎯 HOẠT ĐỘNG TRẢI NGHIỆM / CLASS ACTIVITIES",
+    title: "HOẠT ĐỘNG TRẢI NGHIỆM / CLASS ACTIVITIES",
     type: "list",
     order: 6,
     content: `
@@ -4237,13 +4422,27 @@ export const project2WeekBlocks: LessonBlock[] = [
 • Hoàn thành “My Talent Album”.
     `,
   },
+  {
+    id: "p2_w2_homework",
+    learningNodeId: "w2",
+    title: "📚 BÀI TẬP VỀ NHÀ",
+    type: "homework",
+    order: 12,
+    content: `
+• Hoàn thành Worksheet
+• https://www.youtube.com/watch?v=m80qAEVeW94
+    `,
+    audioUrl: `
+    https://wewin.edu.vn/wp-content/uploads/2025/11/song_1.mp3
+    https://wewin.edu.vn/wp-content/uploads/2025/12/song_2.mp3`,
+  },
 ];
 
 export const project1WeekBlocks: LessonBlock[] = [
   {
     id: "w1_objectives",
     learningNodeId: "w1",
-    title: "🎯 MỤC TIÊU MỞ RỘNG / EXTENDED OBJECTIVES",
+    title: "MỤC TIÊU MỞ RỘNG / EXTENDED OBJECTIVES",
     type: "list",
     order: 1,
     content: `
@@ -4275,7 +4474,7 @@ export const project1WeekBlocks: LessonBlock[] = [
   {
     id: "w1_sentence_structures",
     learningNodeId: "w1",
-    title: "📘 CẤU TRÚC CÂU / SENTENCE STRUCTURES",
+    title: "CẤU TRÚC CÂU / SENTENCE STRUCTURES",
     type: "list",
     order: 3,
     content: `
@@ -4400,7 +4599,7 @@ export const project1WeekBlocks: LessonBlock[] = [
   {
     id: "w1_2_objective",
     learningNodeId: "w1_2",
-    title: "🎯 MỤC TIÊU / OBJECTIVE",
+    title: "MỤC TIÊU / OBJECTIVE",
     type: "list",
     order: 1,
     content: `
@@ -4439,7 +4638,7 @@ export const project1WeekBlocks: LessonBlock[] = [
   {
     id: "w1_2_structures",
     learningNodeId: "w1_2",
-    title: "📘 CẤU TRÚC NGỮ PHÁP",
+    title: "CẤU TRÚC NGỮ PHÁP",
     type: "list",
     order: 4,
     content: `
@@ -4466,7 +4665,7 @@ export const project1WeekBlocks: LessonBlock[] = [
   {
     id: "w1_2_activities",
     learningNodeId: "w1_2",
-    title: "🎯 HOẠT ĐỘNG TRẢI NGHIỆM",
+    title: "HOẠT ĐỘNG TRẢI NGHIỆM",
     type: "list",
     order: 6,
     content: `
@@ -4554,8 +4753,9 @@ export const project1WeekBlocks: LessonBlock[] = [
     order: 12,
     content: `
 • Hoàn thành Worksheet
-• https://youtu.be/ZaI2IlHwmgQ
-• https://wewin.edu.vn/wp-content/uploads/2025/11/jobs_unit_game.html
+• https://www.youtube.com/watch?v=ACl4wbkk5FI
+• https://www.youtube.com/watch?v=Gf52YEHBSaQ
+• https://www.youtube.com/watch?v=NWiLhH1Yzig
     `,
   },
 ];

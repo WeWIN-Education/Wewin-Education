@@ -85,6 +85,7 @@ export default function Navbar() {
                         { href: Routes.RESOURCES_FLYERS, label: "Flyers" },
                         { href: Routes.RESOURCES_AUDIO, label: "Audio" },
                         { href: Routes.RESOURCES_VIDEO, label: "Video" },
+                        { href: Routes.RESOURCES_GAMES, label: "Games" },
                       ]}
                     />
                   )}
@@ -315,22 +316,14 @@ function MobileMenu({ menuOpen, setMenuOpen, session, isAdmin }: any) {
                 icon: <BookOpen className="w-5 h-5" />,
                 label: "Video",
               },
+              {
+                href: Routes.RESOURCES_GAMES,
+                icon: <BookOpen className="w-5 h-5" />,
+                label: "Games",
+              },
             ]}
             setMenuOpen={setMenuOpen}
           />
-
-          {/* ------------------------------------
-              USER THƯỜNG → có Tests thêm vào
-          -------------------------------------- */}
-          {session && !isAdmin && (
-            <Section
-              title="Tests"
-              items={[
-                { href: Routes.TEST_IELTS, icon: "🎙", label: "IELTS Test" },
-              ]}
-              setMenuOpen={setMenuOpen}
-            />
-          )}
 
           {/* ------------------------------------
               ADMIN → Class + Student
