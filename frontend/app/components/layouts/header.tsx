@@ -10,7 +10,6 @@ import Dropdown from "../dropdown";
 import Section from "../section";
 import { allowedEmails } from "@/app/constants/email";
 import { BookOpen, FolderOpen } from "lucide-react";
-import NavButton from "../navButton";
 import { handleLogout } from "@/app/api/auth/[...nextauth]/route";
 import { useRouter } from "next/navigation";
 
@@ -85,6 +84,7 @@ export default function Navbar() {
                         { href: Routes.RESOURCES_FLYERS, label: "Flyers" },
                         { href: Routes.RESOURCES_AUDIO, label: "Audio" },
                         { href: Routes.RESOURCES_VIDEO, label: "Video" },
+                        { href: Routes.RESOURCES_GAMES, label: "Games" },
                       ]}
                     />
                   )}
@@ -314,6 +314,11 @@ function MobileMenu({ menuOpen, setMenuOpen, session, isAdmin }: any) {
                 href: Routes.RESOURCES_VIDEO,
                 icon: <BookOpen className="w-5 h-5" />,
                 label: "Video",
+              },
+              {
+                href: Routes.RESOURCES_GAMES,
+                icon: <BookOpen className="w-5 h-5" />,
+                label: "Games",
               },
             ]}
             setMenuOpen={setMenuOpen}

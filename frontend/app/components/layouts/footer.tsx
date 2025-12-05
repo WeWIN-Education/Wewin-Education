@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 "use client";
 
 import { motion } from "framer-motion";
@@ -35,7 +36,7 @@ export default function Footer() {
             >
               {/* Background gradient */}
               <div
-                className="absolute inset-0 bg-gradient-to-br 
+                className="absolute inset-0 bg-linear-to-br 
                   from-[#0185b9] via-[#0E4BA9] to-[#0185b9]"
               />
 
@@ -46,7 +47,7 @@ export default function Footer() {
                 alt="WeWIN Logo"
                 className="
                     relative z-10 object-contain
-                    h-[40px] sm:h-[45px] lg:h-[50px]
+                    h-10 sm:h-[45px] lg:h-[50px]
                     drop-shadow-[0_4px_10px_rgba(255,200,0,0.35)]
                 "
               />

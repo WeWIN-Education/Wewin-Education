@@ -9,6 +9,7 @@ export const Routes = {
   RESOURCES_FLYERS: "/resources/flyers",
   RESOURCES_AUDIO: "/resources/audio",
   RESOURCES_VIDEO: "/resources/video",
+  RESOURCES_GAMES: "/resources/kids/Games",
   MANAGE_CLASS: "/class",
   MANAGE_CLASS_CATEGORY: "/class/category",
   MANAGE_STUDENT: "/student",

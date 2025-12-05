@@ -10,7 +10,7 @@ interface DetailPageProps {
 
 export default function DetailPage({ classId, onGoBack }: DetailPageProps) {
   return (
-    <div className="animate-fadeIn px-4 sm:px-6 md:px-8">
+    <>
       <button
         onClick={onGoBack}
         className="fixed top-20 sm:top-22 md:top-24 left-4 sm:left-6 md:left-8 lg:left-12 
@@ -25,13 +25,10 @@ export default function DetailPage({ classId, onGoBack }: DetailPageProps) {
       </button>
 
       {/* Main Content - Responsive spacing */}
-      <div className="pt-2 sm:pt-6 md:pt-8">
-        <DetailContent classId={classId} />
-      </div>
+      <DetailContent classId={classId} />
 
       {/* Sidebar */}
       <Sidebar classId={classId} />
-    </div>
-    
+    </>
   );
 }

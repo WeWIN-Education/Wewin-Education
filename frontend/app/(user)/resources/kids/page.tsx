@@ -12,10 +12,8 @@ export default function KidsPage() {
   };
 
   return (
-    <div className="kids-learning-page font-[Lexend] bg-[#f5f5f5] min-h-screen">
-      <div className="max-w-7xl mx-auto px-5 py-10 md:py-16">
-        <DetailPage classId={selectedClass} onGoBack={handleGoBack} />
-      </div>
+    <div className="px-5 py-5 md:px-10 md:py-10 lg:px-20 lg:py-20">
+      <DetailPage classId={selectedClass} onGoBack={handleGoBack} />
     </div>
   );
 }

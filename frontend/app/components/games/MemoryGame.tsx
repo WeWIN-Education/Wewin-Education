@@ -333,7 +333,7 @@ export function MemoryGame({ title, words, showScore = true, onComplete }: Props
 
       <div className="mt-4 h-2 rounded-full bg-gray-200 overflow-hidden">
         <div
-          className="h-full bg-gradient-to-r from-indigo-400 to-indigo-600 transition-all duration-300"
+          className="h-full bg-linear-to-r from-indigo-400 to-indigo-600 transition-all duration-300"
           style={{ width: `${progress}%` }}
         />
       </div>

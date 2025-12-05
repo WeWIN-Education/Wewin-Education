@@ -388,7 +388,7 @@ export const projectFinalWeekBlocks: LessonBlock[] = [
   {
     id: "p_final_teacher",
     learningNodeId: "w_final",
-    title: "📚 HƯỚNG DẪN GIÁO VIÊN",
+    title: "HƯỚNG DẪN GIÁO VIÊN",
     type: "list",
     order: 4,
     content: `
@@ -403,7 +403,7 @@ export const projectFinalWeekBlocks: LessonBlock[] = [
   {
     id: "p_final_checklist",
     learningNodeId: "w_final",
-    title: "📋 CHECKLIST CHUẨN BỊ",
+    title: "CHECKLIST CHUẨN BỊ",
     type: "list",
     order: 5,
     content: `
@@ -422,7 +422,7 @@ export const projectFinalWeekBlocks: LessonBlock[] = [
   {
     id: "p_final_outcomes",
     learningNodeId: "w_final",
-    title: "📊 KẾT QUẢ HỌC TẬP KỲ VỌNG",
+    title: "KẾT QUẢ HỌC TẬP KỲ VỌNG",
     type: "list",
     order: 6,
     content: `
@@ -454,7 +454,7 @@ export const project17WeekBlocks: LessonBlock[] = [
   {
     id: "p17_vocab",
     learningNodeId: "w17",
-    title: "🧠 TỪ VỰNG / VOCABULARY",
+    title: "TỪ VỰNG / VOCABULARY",
     type: "list",
     order: 2,
     content: `
@@ -475,7 +475,7 @@ Tính từ mô tả:
   {
     id: "p17_pronunciation",
     learningNodeId: "w17",
-    title: "🔊 PHÁT ÂM / PRONUNCIATION",
+    title: " PHÁT ÂM / PRONUNCIATION",
     type: "list",
     order: 3,
     content: `
@@ -513,7 +513,7 @@ Extended Patterns:
   {
     id: "p17_communication",
     learningNodeId: "w17",
-    title: "🗣 MẪU CÂU GIAO TIẾP / COMMUNICATION PRACTICE",
+    title: "MẪU CÂU GIAO TIẾP / COMMUNICATION PRACTICE",
     type: "list",
     order: 5,
     content: `
@@ -539,7 +539,7 @@ Mini Dialogue – Getting Ready for School:
   {
     id: "p17_activity_2",
     learningNodeId: "w17",
-    title: "🧩 ACTIVITY 2 – Body Part Puzzle",
+    title: "ACTIVITY 2 – Body Part Puzzle",
     type: "list",
     order: 7,
     content: `
@@ -602,7 +602,7 @@ Mini Dialogue – Getting Ready for School:
   {
     id: "p17_final_product",
     learningNodeId: "w17",
-    title: "🏆 SẢN PHẨM / FINAL PRODUCT",
+    title: "SẢN PHẨM / FINAL PRODUCT",
     type: "list",
     order: 12,
     content: `
@@ -623,7 +623,7 @@ Ví dụ:
   {
     id: "p17_teacher",
     learningNodeId: "w17",
-    title: "📚 HƯỚNG DẪN GIÁO VIÊN",
+    title: "HƯỚNG DẪN GIÁO VIÊN",
     type: "list",
     order: 13,
     content: `
@@ -638,7 +638,7 @@ Ví dụ:
   {
     id: "p17_checklist",
     learningNodeId: "w17",
-    title: "📋 CHECKLIST CHUẨN BỊ",
+    title: "CHECKLIST CHUẨN BỊ",
     type: "list",
     order: 14,
     content: `
@@ -654,7 +654,7 @@ Ví dụ:
   {
     id: "p17_outcomes",
     learningNodeId: "w17",
-    title: "📊 KẾT QUẢ HỌC TẬP KỲ VỌNG",
+    title: "KẾT QUẢ HỌC TẬP KỲ VỌNG",
     type: "list",
     order: 15,
     content: `
@@ -676,9 +676,9 @@ Ví dụ:
 • https://www.youtube.com/watch?v=bQJ82qMKNqA
 • https://www.youtube.com/watch?v=mgROe8lAqOg
     `,
-    audioUrl:`
+    audioUrl: `
     https://wewin.edu.vn/wp-content/uploads/2025/12/Project-17_Clothes_P2.mp3
-    https://wewin.edu.vn/wp-content/uploads/2025/12/ok🎵-SONG_-_MY-FIVE-SENSES_.mp3`
+    https://wewin.edu.vn/wp-content/uploads/2025/12/ok🎵-SONG_-_MY-FIVE-SENSES_.mp3`,
   },
 ];
 
@@ -701,7 +701,7 @@ export const project16WeekBlocks: LessonBlock[] = [
   {
     id: "p16_vocab",
     learningNodeId: "w16",
-    title: "🧠 TỪ VỰNG / VOCABULARY",
+    title: "TỪ VỰNG / VOCABULARY",
     type: "list",
     order: 2,
     content: `
@@ -719,7 +719,7 @@ Tính từ mở rộng:
   {
     id: "p16_pronunciation",
     learningNodeId: "w16",
-    title: "🔊 PHÁT ÂM / PRONUNCIATION FOCUS",
+    title: " PHÁT ÂM / PRONUNCIATION FOCUS",
     type: "list",
     order: 3,
     content: `
@@ -756,7 +756,7 @@ Extended Patterns:
   {
     id: "p16_communication",
     learningNodeId: "w16",
-    title: "🗣 MẪU CÂU GIAO TIẾP / COMMUNICATION PRACTICE",
+    title: "MẪU CÂU GIAO TIẾP / COMMUNICATION PRACTICE",
     type: "list",
     order: 5,
     content: `
@@ -845,7 +845,7 @@ Mini Dialogue – At the Moon Festival:
   {
     id: "p16_final_product",
     learningNodeId: "w16",
-    title: "🏆 SẢN PHẨM / FINAL PRODUCT",
+    title: "SẢN PHẨM / FINAL PRODUCT",
     type: "list",
     order: 12,
     content: `
@@ -862,7 +862,7 @@ Ví dụ:
   {
     id: "p16_teacher",
     learningNodeId: "w16",
-    title: "📚 HƯỚNG DẪN GIÁO VIÊN",
+    title: "HƯỚNG DẪN GIÁO VIÊN",
     type: "list",
     order: 13,
     content: `
@@ -877,7 +877,7 @@ Ví dụ:
   {
     id: "p16_checklist",
     learningNodeId: "w16",
-    title: "📋 CHECKLIST CHUẨN BỊ",
+    title: "CHECKLIST CHUẨN BỊ",
     type: "list",
     order: 14,
     content: `
@@ -893,7 +893,7 @@ Ví dụ:
   {
     id: "p16_outcomes",
     learningNodeId: "w16",
-    title: "📊 KẾT QUẢ HỌC TẬP KỲ VỌNG",
+    title: "KẾT QUẢ HỌC TẬP KỲ VỌNG",
     type: "list",
     order: 15,
     content: `
@@ -936,7 +936,7 @@ export const project15WeekBlocks: LessonBlock[] = [
   {
     id: "p15_vocab",
     learningNodeId: "w15",
-    title: "🧠 TỪ VỰNG / VOCABULARY",
+    title: "TỪ VỰNG / VOCABULARY",
     type: "list",
     order: 2,
     content: `
@@ -954,7 +954,7 @@ Extra Tools:
   {
     id: "p15_pronunciation",
     learningNodeId: "w15",
-    title: "🔊 PHÁT ÂM / PRONUNCIATION FOCUS",
+    title: " PHÁT ÂM / PRONUNCIATION FOCUS",
     type: "list",
     order: 3,
     content: `
@@ -992,7 +992,7 @@ Extended Patterns:
   {
     id: "p15_communication",
     learningNodeId: "w15",
-    title: "🗣 MẪU CÂU GIAO TIẾP / COMMUNICATION PRACTICE",
+    title: "MẪU CÂU GIAO TIẾP / COMMUNICATION PRACTICE",
     type: "list",
     order: 5,
     content: `
@@ -1035,7 +1035,7 @@ Mini Dialogue – In the Classroom:
   {
     id: "p15_activity_3",
     learningNodeId: "w15",
-    title: "🧩 ACTIVITY 3 – Tool Matching",
+    title: "ACTIVITY 3 – Tool Matching",
     type: "list",
     order: 8,
     content: `
@@ -1074,7 +1074,7 @@ Mini Dialogue – In the Classroom:
   {
     id: "p15_final_product",
     learningNodeId: "w15",
-    title: "🏆 SẢN PHẨM / FINAL PRODUCT",
+    title: "SẢN PHẨM / FINAL PRODUCT",
     type: "list",
     order: 11,
     content: `
@@ -1090,7 +1090,7 @@ My School Kit Folder:
   {
     id: "p15_teacher",
     learningNodeId: "w15",
-    title: "📚 HƯỚNG DẪN GIÁO VIÊN",
+    title: "HƯỚNG DẪN GIÁO VIÊN",
     type: "list",
     order: 12,
     content: `
@@ -1105,7 +1105,7 @@ My School Kit Folder:
   {
     id: "p15_checklist",
     learningNodeId: "w15",
-    title: "📋 CHECKLIST CHUẨN BỊ",
+    title: "CHECKLIST CHUẨN BỊ",
     type: "list",
     order: 13,
     content: `
@@ -1121,7 +1121,7 @@ My School Kit Folder:
   {
     id: "p15_outcomes",
     learningNodeId: "w15",
-    title: "📊 KẾT QUẢ HỌC TẬP KỲ VỌNG",
+    title: "KẾT QUẢ HỌC TẬP KỲ VỌNG",
     type: "list",
     order: 14,
     content: `
@@ -1165,7 +1165,7 @@ export const project14WeekBlocks: LessonBlock[] = [
   {
     id: "p14_vocab",
     learningNodeId: "w14",
-    title: "🧠 TỪ VỰNG / VOCABULARY",
+    title: "TỪ VỰNG / VOCABULARY",
     type: "list",
     order: 2,
     content: `
@@ -1179,7 +1179,7 @@ export const project14WeekBlocks: LessonBlock[] = [
   {
     id: "p14_pronunciation",
     learningNodeId: "w14",
-    title: "🔊 PHÁT ÂM / PRONUNCIATION FOCUS",
+    title: " PHÁT ÂM / PRONUNCIATION FOCUS",
     type: "list",
     order: 3,
     content: `
@@ -1217,7 +1217,7 @@ Extended Patterns:
   {
     id: "p14_communication",
     learningNodeId: "w14",
-    title: "🗣 MẪU CÂU GIAO TIẾP / COMMUNICATION PRACTICE",
+    title: "MẪU CÂU GIAO TIẾP / COMMUNICATION PRACTICE",
     type: "list",
     order: 5,
     content: `
@@ -1308,7 +1308,7 @@ Mini Dialogue – At the Candy Shop:
   {
     id: "p14_final_product",
     learningNodeId: "w14",
-    title: "🏆 SẢN PHẨM / FINAL PRODUCT",
+    title: "SẢN PHẨM / FINAL PRODUCT",
     type: "list",
     order: 12,
     content: `
@@ -1323,7 +1323,7 @@ My Candy Menu + Candy Art Box:
   {
     id: "p14_teacher",
     learningNodeId: "w14",
-    title: "📚 HƯỚNG DẪN GIÁO VIÊN",
+    title: "HƯỚNG DẪN GIÁO VIÊN",
     type: "list",
     order: 13,
     content: `
@@ -1338,7 +1338,7 @@ My Candy Menu + Candy Art Box:
   {
     id: "p14_checklist",
     learningNodeId: "w14",
-    title: "📋 CHECKLIST CHUẨN BỊ",
+    title: "CHECKLIST CHUẨN BỊ",
     type: "list",
     order: 14,
     content: `
@@ -1354,7 +1354,7 @@ My Candy Menu + Candy Art Box:
   {
     id: "p14_outcomes",
     learningNodeId: "w14",
-    title: "📊 KẾT QUẢ HỌC TẬP KỲ VỌNG",
+    title: "KẾT QUẢ HỌC TẬP KỲ VỌNG",
     type: "list",
     order: 15,
     content: `
@@ -1396,7 +1396,7 @@ export const project13WeekBlocks: LessonBlock[] = [
   {
     id: "p13_vocab",
     learningNodeId: "w13",
-    title: "🧠 TỪ VỰNG / VOCABULARY",
+    title: "TỪ VỰNG / VOCABULARY",
     type: "list",
     order: 2,
     content: `
@@ -1410,7 +1410,7 @@ export const project13WeekBlocks: LessonBlock[] = [
   {
     id: "p13_pronunciation",
     learningNodeId: "w13",
-    title: "🔊 PHÁT ÂM / PRONUNCIATION FOCUS",
+    title: " PHÁT ÂM / PRONUNCIATION FOCUS",
     type: "list",
     order: 3,
     content: `
@@ -1447,7 +1447,7 @@ Extended Patterns:
   {
     id: "p13_communication",
     learningNodeId: "w13",
-    title: "🗣 MẪU CÂU GIAO TIẾP / COMMUNICATION PRACTICE",
+    title: "MẪU CÂU GIAO TIẾP / COMMUNICATION PRACTICE",
     type: "list",
     order: 5,
     content: `
@@ -1527,7 +1527,7 @@ Mini Dialogue – “Exploring Nature”:
   {
     id: "p13_product",
     learningNodeId: "w13",
-    title: "🏆 SẢN PHẨM / FINAL PRODUCT – My Nature Photo Album",
+    title: "SẢN PHẨM / FINAL PRODUCT – My Nature Photo Album",
     type: "list",
     order: 11,
     content: `
@@ -1543,7 +1543,7 @@ Album 6–8 trang gồm:
   {
     id: "p13_teacher",
     learningNodeId: "w13",
-    title: "📚 HƯỚNG DẪN GIÁO VIÊN",
+    title: "HƯỚNG DẪN GIÁO VIÊN",
     type: "list",
     order: 12,
     content: `
@@ -1558,7 +1558,7 @@ Album 6–8 trang gồm:
   {
     id: "p13_checklist",
     learningNodeId: "w13",
-    title: "📋 CHECKLIST CHUẨN BỊ",
+    title: "CHECKLIST CHUẨN BỊ",
     type: "list",
     order: 13,
     content: `
@@ -1574,7 +1574,7 @@ Album 6–8 trang gồm:
   {
     id: "p13_outcomes",
     learningNodeId: "w13",
-    title: "📊 KẾT QUẢ HỌC TẬP KỲ VỌNG",
+    title: "KẾT QUẢ HỌC TẬP KỲ VỌNG",
     type: "list",
     order: 14,
     content: `
@@ -1618,7 +1618,7 @@ export const project12WeekBlocks: LessonBlock[] = [
   {
     id: "p12_vocab",
     learningNodeId: "w12",
-    title: "🧠 TỪ VỰNG / VOCABULARY",
+    title: "TỪ VỰNG / VOCABULARY",
     type: "list",
     order: 2,
     content: `
@@ -1631,7 +1631,7 @@ export const project12WeekBlocks: LessonBlock[] = [
   {
     id: "p12_pronunciation",
     learningNodeId: "w12",
-    title: "🔊 PHÁT ÂM / PRONUNCIATION FOCUS",
+    title: " PHÁT ÂM / PRONUNCIATION FOCUS",
     type: "list",
     order: 3,
     content: `
@@ -1665,7 +1665,7 @@ Extended Patterns:
   {
     id: "p12_communication",
     learningNodeId: "w12",
-    title: "🗣 MẪU CÂU GIAO TIẾP / COMMUNICATION PRACTICE",
+    title: "MẪU CÂU GIAO TIẾP / COMMUNICATION PRACTICE",
     type: "list",
     order: 5,
     content: `
@@ -1756,7 +1756,7 @@ Mini Dialogue – “At the Beach”:
   {
     id: "p12_product",
     learningNodeId: "w12",
-    title: "🏆 SẢN PHẨM / FINAL PRODUCT – My Ocean Box",
+    title: "SẢN PHẨM / FINAL PRODUCT – My Ocean Box",
     type: "list",
     order: 12,
     content: `
@@ -1770,7 +1770,7 @@ Mini Dialogue – “At the Beach”:
   {
     id: "p12_teacher",
     learningNodeId: "w12",
-    title: "📚 HƯỚNG DẪN GIÁO VIÊN",
+    title: "HƯỚNG DẪN GIÁO VIÊN",
     type: "list",
     order: 13,
     content: `
@@ -1785,7 +1785,7 @@ Mini Dialogue – “At the Beach”:
   {
     id: "p12_checklist",
     learningNodeId: "w12",
-    title: "📋 CHECKLIST CHUẨN BỊ",
+    title: "CHECKLIST CHUẨN BỊ",
     type: "list",
     order: 14,
     content: `
@@ -1801,7 +1801,7 @@ Mini Dialogue – “At the Beach”:
   {
     id: "p12_outcomes",
     learningNodeId: "w12",
-    title: "📊 KẾT QUẢ HỌC TẬP KỲ VỌNG",
+    title: "KẾT QUẢ HỌC TẬP KỲ VỌNG",
     type: "list",
     order: 15,
     content: `
@@ -1845,7 +1845,7 @@ export const springReviewBlocks: LessonBlock[] = [
   {
     id: "spr_review_topics",
     learningNodeId: "w11_review",
-    title: "🧠 REVIEWED TOPICS / CHỦ ĐỀ ÔN TẬP",
+    title: "REVIEWED TOPICS / CHỦ ĐỀ ÔN TẬP",
     type: "list",
     order: 2,
     content: `
@@ -1862,7 +1862,7 @@ Tổng hợp từ vựng về động vật, thức ăn, phương tiện và hà
   {
     id: "spr_review_pronunciation",
     learningNodeId: "w11_review",
-    title: "🔊 PHÁT ÂM ÔN TẬP / PRONUNCIATION",
+    title: " PHÁT ÂM ÔN TẬP / PRONUNCIATION",
     type: "list",
     order: 3,
     content: `
@@ -1895,7 +1895,7 @@ Giúp trẻ nhớ 5 mẫu câu giao tiếp nền tảng và dùng linh hoạt.
   {
     id: "spr_review_communication",
     learningNodeId: "w11_review",
-    title: "🗣 GIAO TIẾP / COMMUNICATION PRACTICE",
+    title: "GIAO TIẾP / COMMUNICATION PRACTICE",
     type: "list",
     order: 5,
     content: `
@@ -1989,7 +1989,7 @@ Tạo môi trường dùng tiếng Anh thật – vui – tự nhiên.
   {
     id: "spr_review_product",
     learningNodeId: "w11_review",
-    title: "🏆 SẢN PHẨM / FINAL PRODUCT – My Spring Book",
+    title: "SẢN PHẨM / FINAL PRODUCT – My Spring Book",
     type: "list",
     order: 11,
     content: `
@@ -2007,7 +2007,7 @@ Ví dụ: “I like my burger.” / “I can drive a car in my city map.”
   {
     id: "spr_review_teacher_guide",
     learningNodeId: "w11_review",
-    title: "📚 HƯỚNG DẪN GIÁO VIÊN",
+    title: "HƯỚNG DẪN GIÁO VIÊN",
     type: "list",
     order: 12,
     content: `
@@ -2022,7 +2022,7 @@ Ví dụ: “I like my burger.” / “I can drive a car in my city map.”
   {
     id: "spr_review_checklist",
     learningNodeId: "w11_review",
-    title: "📋 CHECKLIST CHUẨN BỊ",
+    title: "CHECKLIST CHUẨN BỊ",
     type: "list",
     order: 13,
     content: `
@@ -2037,7 +2037,7 @@ Ví dụ: “I like my burger.” / “I can drive a car in my city map.”
   {
     id: "spr_review_outcomes",
     learningNodeId: "w11_review",
-    title: "📊 KẾT QUẢ HỌC TẬP KỲ VỌNG",
+    title: "KẾT QUẢ HỌC TẬP KỲ VỌNG",
     type: "list",
     order: 14,
     content: `
@@ -2069,7 +2069,7 @@ export const project11WeekBlocks: LessonBlock[] = [
   {
     id: "p11_w11_vocabulary",
     learningNodeId: "w11",
-    title: "🧠 TỪ VỰNG / VOCABULARY",
+    title: "TỪ VỰNG / VOCABULARY",
     type: "list",
     order: 2,
     content: `
@@ -2084,7 +2084,7 @@ Phân loại hot food / cold food • mô tả màu sắc – hương vị.
   {
     id: "p11_w11_pronunciation",
     learningNodeId: "w11",
-    title: "🔊 PHÁT ÂM / PRONUNCIATION FOCUS",
+    title: " PHÁT ÂM / PRONUNCIATION FOCUS",
     type: "list",
     order: 3,
     content: `
@@ -2121,7 +2121,7 @@ Extended Patterns:
   {
     id: "p11_w11_communication",
     learningNodeId: "w11",
-    title: "🗣 MẪU CÂU GIAO TIẾP / COMMUNICATION PRACTICE",
+    title: "MẪU CÂU GIAO TIẾP / COMMUNICATION PRACTICE",
     type: "list",
     order: 5,
     content: `
@@ -2228,7 +2228,7 @@ Câu bắt buộc:
   {
     id: "p11_w11_final_product",
     learningNodeId: "w11",
-    title: "🏆 SẢN PHẨM / FINAL PRODUCT",
+    title: "SẢN PHẨM / FINAL PRODUCT",
     type: "list",
     order: 12,
     content: `
@@ -2242,7 +2242,7 @@ My Fast Food Menu + Paper Plate Food:
   {
     id: "p11_w11_teacher_guide",
     learningNodeId: "w11",
-    title: "📚 HƯỚNG DẪN GIÁO VIÊN",
+    title: "HƯỚNG DẪN GIÁO VIÊN",
     type: "list",
     order: 13,
     content: `
@@ -2257,7 +2257,7 @@ My Fast Food Menu + Paper Plate Food:
   {
     id: "p11_w11_checklist",
     learningNodeId: "w11",
-    title: "📋 CHECKLIST CHUẨN BỊ",
+    title: "CHECKLIST CHUẨN BỊ",
     type: "list",
     order: 14,
     content: `
@@ -2273,7 +2273,7 @@ My Fast Food Menu + Paper Plate Food:
   {
     id: "p11_w11_outcomes",
     learningNodeId: "w11",
-    title: "📊 KẾT QUẢ HỌC TẬP KỲ VỌNG",
+    title: "KẾT QUẢ HỌC TẬP KỲ VỌNG",
     type: "list",
     order: 15,
     content: `
@@ -2316,7 +2316,7 @@ export const project10WeekBlocks: LessonBlock[] = [
   {
     id: "p10_w10_vocabulary",
     learningNodeId: "w10",
-    title: "🧠 TỪ VỰNG / VOCABULARY",
+    title: "TỪ VỰNG / VOCABULARY",
     type: "list",
     order: 2,
     content: `
@@ -2334,7 +2334,7 @@ Giúp học sinh nhận biết phương tiện và môi trường di chuyển.
   {
     id: "p10_w10_pronunciation",
     learningNodeId: "w10",
-    title: "🔊 PHÁT ÂM / PRONUNCIATION FOCUS",
+    title: " PHÁT ÂM / PRONUNCIATION FOCUS",
     type: "list",
     order: 3,
     content: `
@@ -2373,7 +2373,7 @@ Kết hợp giới từ nơi chốn: on, in, under, next to.
   {
     id: "p10_w10_communication",
     learningNodeId: "w10",
-    title: "🗣 MẪU CÂU GIAO TIẾP / COMMUNICATION PRACTICE",
+    title: "MẪU CÂU GIAO TIẾP / COMMUNICATION PRACTICE",
     type: "list",
     order: 5,
     content: `
@@ -2465,7 +2465,7 @@ Luyện câu hỏi – trả lời thực tế, dùng đúng động từ & gi�
   {
     id: "p10_w10_final_product",
     learningNodeId: "w10",
-    title: "🏆 SẢN PHẨM / FINAL PRODUCT",
+    title: "SẢN PHẨM / FINAL PRODUCT",
     type: "list",
     order: 11,
     content: `
@@ -2481,7 +2481,7 @@ Sản phẩm thể hiện khả năng nói – hiểu – sáng tạo.
   {
     id: "p10_w10_teacher_guide",
     learningNodeId: "w10",
-    title: "📚 HƯỚNG DẪN GIÁO VIÊN",
+    title: "HƯỚNG DẪN GIÁO VIÊN",
     type: "list",
     order: 12,
     content: `
@@ -2496,7 +2496,7 @@ Sản phẩm thể hiện khả năng nói – hiểu – sáng tạo.
   {
     id: "p10_w10_checklist",
     learningNodeId: "w10",
-    title: "📋 CHECKLIST CHUẨN BỊ",
+    title: "CHECKLIST CHUẨN BỊ",
     type: "list",
     order: 13,
     content: `
@@ -2512,7 +2512,7 @@ Sản phẩm thể hiện khả năng nói – hiểu – sáng tạo.
   {
     id: "p10_w10_outcomes",
     learningNodeId: "w10",
-    title: "📊 KẾT QUẢ HỌC TẬP KỲ VỌNG",
+    title: "KẾT QUẢ HỌC TẬP KỲ VỌNG",
     type: "list",
     order: 14,
     content: `
@@ -2555,7 +2555,7 @@ export const project9WeekBlocks: LessonBlock[] = [
   {
     id: "p9_w9_vocabulary",
     learningNodeId: "w9",
-    title: "🧠 TỪ VỰNG / VOCABULARY",
+    title: "TỪ VỰNG / VOCABULARY",
     type: "list",
     order: 2,
     content: `
@@ -2568,7 +2568,7 @@ export const project9WeekBlocks: LessonBlock[] = [
   {
     id: "p9_w9_pronunciation",
     learningNodeId: "w9",
-    title: "🔊 PHÁT ÂM / PRONUNCIATION FOCUS",
+    title: " PHÁT ÂM / PRONUNCIATION FOCUS",
     type: "list",
     order: 3,
     content: `
@@ -2604,7 +2604,7 @@ export const project9WeekBlocks: LessonBlock[] = [
   {
     id: "p9_w9_communication",
     learningNodeId: "w9",
-    title: "🗣 MẪU CÂU GIAO TIẾP / COMMUNICATION PRACTICE",
+    title: "MẪU CÂU GIAO TIẾP / COMMUNICATION PRACTICE",
     type: "list",
     order: 5,
     content: `
@@ -2633,7 +2633,7 @@ export const project9WeekBlocks: LessonBlock[] = [
   {
     id: "p9_w9_activity_2",
     learningNodeId: "w9",
-    title: "🔊 ACTIVITY 2 – Animal Sound Bingo",
+    title: " ACTIVITY 2 – Animal Sound Bingo",
     type: "list",
     order: 7,
     content: `
@@ -2691,7 +2691,7 @@ export const project9WeekBlocks: LessonBlock[] = [
   {
     id: "p9_w9_final_product",
     learningNodeId: "w9",
-    title: "🏆 SẢN PHẨM / FINAL PRODUCT",
+    title: "SẢN PHẨM / FINAL PRODUCT",
     type: "list",
     order: 11,
     content: `
@@ -2706,7 +2706,7 @@ export const project9WeekBlocks: LessonBlock[] = [
   {
     id: "p9_w9_teacher_guide",
     learningNodeId: "w9",
-    title: "📚 HƯỚNG DẪN GIÁO VIÊN",
+    title: "HƯỚNG DẪN GIÁO VIÊN",
     type: "list",
     order: 12,
     content: `
@@ -2721,7 +2721,7 @@ export const project9WeekBlocks: LessonBlock[] = [
   {
     id: "p9_w9_checklist",
     learningNodeId: "w9",
-    title: "📋 CHECKLIST CHUẨN BỊ",
+    title: "CHECKLIST CHUẨN BỊ",
     type: "list",
     order: 13,
     content: `
@@ -2737,7 +2737,7 @@ export const project9WeekBlocks: LessonBlock[] = [
   {
     id: "p9_w9_outcomes",
     learningNodeId: "w9",
-    title: "📊 KẾT QUẢ HỌC TẬP KỲ VỌNG",
+    title: "KẾT QUẢ HỌC TẬP KỲ VỌNG",
     type: "list",
     order: 14,
     content: `
@@ -2782,7 +2782,7 @@ export const project8WeekBlocks: LessonBlock[] = [
   {
     id: "p8_w8_vocabulary",
     learningNodeId: "w8",
-    title: "🧠 TỪ VỰNG / VOCABULARY",
+    title: "TỪ VỰNG / VOCABULARY",
     type: "list",
     order: 2,
     content: `
@@ -2795,7 +2795,7 @@ export const project8WeekBlocks: LessonBlock[] = [
   {
     id: "p8_w8_pronunciation",
     learningNodeId: "w8",
-    title: "🔊 PHÁT ÂM / PRONUNCIATION FOCUS",
+    title: " PHÁT ÂM / PRONUNCIATION FOCUS",
     type: "list",
     order: 3,
     content: `
@@ -2829,7 +2829,7 @@ export const project8WeekBlocks: LessonBlock[] = [
   {
     id: "p8_w8_communication",
     learningNodeId: "w8",
-    title: "🗣 MẪU CÂU GIAO TIẾP / COMMUNICATION PRACTICE",
+    title: "MẪU CÂU GIAO TIẾP / COMMUNICATION PRACTICE",
     type: "list",
     order: 5,
     content: `
@@ -2915,7 +2915,7 @@ export const project8WeekBlocks: LessonBlock[] = [
   {
     id: "p8_w8_final_product",
     learningNodeId: "w8",
-    title: "🏆 SẢN PHẨM / FINAL PRODUCT",
+    title: "SẢN PHẨM / FINAL PRODUCT",
     type: "list",
     order: 11,
     content: `
@@ -2930,7 +2930,7 @@ export const project8WeekBlocks: LessonBlock[] = [
   {
     id: "p8_w8_teacher_guide",
     learningNodeId: "w8",
-    title: "📚 HƯỚNG DẪN GIÁO VIÊN",
+    title: "HƯỚNG DẪN GIÁO VIÊN",
     type: "list",
     order: 12,
     content: `
@@ -2945,7 +2945,7 @@ export const project8WeekBlocks: LessonBlock[] = [
   {
     id: "p8_w8_checklist",
     learningNodeId: "w8",
-    title: "📋 CHECKLIST CHUẨN BỊ",
+    title: "CHECKLIST CHUẨN BỊ",
     type: "list",
     order: 13,
     content: `
@@ -2962,7 +2962,7 @@ export const project8WeekBlocks: LessonBlock[] = [
   {
     id: "p8_w8_outcomes",
     learningNodeId: "w8",
-    title: "📊 KẾT QUẢ HỌC TẬP KỲ VỌNG",
+    title: "KẾT QUẢ HỌC TẬP KỲ VỌNG",
     type: "list",
     order: 14,
     content: `
@@ -2985,7 +2985,7 @@ export const project8WeekBlocks: LessonBlock[] = [
 • https://www.youtube.com/watch?v=yd1XSWV0dww
 • https://www.youtube.com/watch?v=Sbtma3taSFc
     `,
-    audioUrl:"https://wewin.edu.vn/wp-content/uploads/2025/12/song_8.mp3"
+    audioUrl: "https://wewin.edu.vn/wp-content/uploads/2025/12/song_8.mp3",
   },
 ];
 
@@ -3008,7 +3008,7 @@ export const project7WeekBlocks: LessonBlock[] = [
   {
     id: "p7_w7_vocabulary",
     learningNodeId: "w7",
-    title: "🧠 TỪ VỰNG / VOCABULARY",
+    title: "TỪ VỰNG / VOCABULARY",
     type: "list",
     order: 2,
     content: `
@@ -3027,7 +3027,7 @@ export const project7WeekBlocks: LessonBlock[] = [
   {
     id: "p7_w7_pronunciation",
     learningNodeId: "w7",
-    title: "🔊 PHÁT ÂM / PRONUNCIATION FOCUS",
+    title: " PHÁT ÂM / PRONUNCIATION FOCUS",
     type: "list",
     order: 3,
     content: `
@@ -3064,7 +3064,7 @@ export const project7WeekBlocks: LessonBlock[] = [
   {
     id: "p7_w7_communication",
     learningNodeId: "w7",
-    title: "🗣 MẪU CÂU GIAO TIẾP / COMMUNICATION PRACTICE",
+    title: "MẪU CÂU GIAO TIẾP / COMMUNICATION PRACTICE",
     type: "list",
     order: 5,
     content: `
@@ -3122,7 +3122,7 @@ export const project7WeekBlocks: LessonBlock[] = [
   {
     id: "p7_w7_activity_4",
     learningNodeId: "w7",
-    title: "🧩 ACTIVITY 4 – Dot-to-Dot Insects",
+    title: "ACTIVITY 4 – Dot-to-Dot Insects",
     type: "list",
     order: 9,
     content: `
@@ -3151,7 +3151,7 @@ export const project7WeekBlocks: LessonBlock[] = [
   {
     id: "p7_w7_final_product",
     learningNodeId: "w7",
-    title: "🏆 SẢN PHẨM / FINAL PRODUCT",
+    title: "SẢN PHẨM / FINAL PRODUCT",
     type: "list",
     order: 11,
     content: `
@@ -3168,7 +3168,7 @@ export const project7WeekBlocks: LessonBlock[] = [
   {
     id: "p7_w7_teacher_guide",
     learningNodeId: "w7",
-    title: "📚 HƯỚNG DẪN GIÁO VIÊN",
+    title: "HƯỚNG DẪN GIÁO VIÊN",
     type: "list",
     order: 12,
     content: `
@@ -3183,7 +3183,7 @@ export const project7WeekBlocks: LessonBlock[] = [
   {
     id: "p7_w7_checklist",
     learningNodeId: "w7",
-    title: "📋 CHECKLIST CHUẨN BỊ",
+    title: "CHECKLIST CHUẨN BỊ",
     type: "list",
     order: 13,
     content: `
@@ -3200,7 +3200,7 @@ export const project7WeekBlocks: LessonBlock[] = [
   {
     id: "p7_w7_outcomes",
     learningNodeId: "w7",
-    title: "📊 KẾT QUẢ HỌC TẬP KỲ VỌNG",
+    title: "KẾT QUẢ HỌC TẬP KỲ VỌNG",
     type: "list",
     order: 14,
     content: `
@@ -3229,7 +3229,7 @@ export const reviewWeekBlocks: LessonBlock[] = [
   {
     id: "rv_topics",
     learningNodeId: "w_review",
-    title: "🧠 REVIEWED TOPICS",
+    title: "REVIEWED TOPICS",
     type: "list",
     order: 2,
     content: `
@@ -3244,7 +3244,7 @@ export const reviewWeekBlocks: LessonBlock[] = [
   {
     id: "rv_pronunciation",
     learningNodeId: "w_review",
-    title: "🔊 PRONUNCIATION REVIEW",
+    title: " PRONUNCIATION REVIEW",
     type: "list",
     order: 3,
     content: `
@@ -3274,7 +3274,7 @@ export const reviewWeekBlocks: LessonBlock[] = [
   {
     id: "rv_communication",
     learningNodeId: "w_review",
-    title: "🗣 COMMUNICATION PRACTICE",
+    title: "COMMUNICATION PRACTICE",
     type: "list",
     order: 5,
     content: `
@@ -3302,7 +3302,7 @@ export const reviewWeekBlocks: LessonBlock[] = [
   {
     id: "rv_gameshow",
     learningNodeId: "w_review",
-    title: "🏆 BIG REVIEW GAME SHOW",
+    title: "BIG REVIEW GAME SHOW",
     type: "list",
     order: 7,
     content: `
@@ -3344,7 +3344,7 @@ export const reviewWeekBlocks: LessonBlock[] = [
   {
     id: "rv_event",
     learningNodeId: "w_review",
-    title: "🎤 EVENT – WeWIN Winter Showcase",
+    title: "EVENT – WeWIN Winter Showcase",
     type: "list",
     order: 10,
     content: `
@@ -3374,7 +3374,7 @@ export const reviewWeekBlocks: LessonBlock[] = [
   {
     id: "rv_outcomes",
     learningNodeId: "w_review",
-    title: "📊 LEARNING OUTCOMES",
+    title: "LEARNING OUTCOMES",
     type: "list",
     order: 12,
     content: `
@@ -3387,7 +3387,7 @@ export const reviewWeekBlocks: LessonBlock[] = [
   {
     id: "p7_w7_homework",
     learningNodeId: "w7",
-    title: "📚 BÀI TẬP VỀ NHÀ",
+    title: "BÀI TẬP VỀ NHÀ",
     type: "homework",
     order: 13,
     content: `
@@ -3415,7 +3415,7 @@ export const project6WeekBlocks: LessonBlock[] = [
   {
     id: "p6_w6_vocabulary",
     learningNodeId: "w6",
-    title: "🧠 TỪ VỰNG / VOCABULARY",
+    title: "TỪ VỰNG / VOCABULARY",
     type: "list",
     order: 2,
     content: `
@@ -3432,7 +3432,7 @@ export const project6WeekBlocks: LessonBlock[] = [
   {
     id: "p6_w6_pronunciation",
     learningNodeId: "w6",
-    title: "🔊 PHÁT ÂM / PRONUNCIATION FOCUS",
+    title: " PHÁT ÂM / PRONUNCIATION FOCUS",
     type: "list",
     order: 3,
     content: `
@@ -3468,7 +3468,7 @@ export const project6WeekBlocks: LessonBlock[] = [
   {
     id: "p6_w6_communication",
     learningNodeId: "w6",
-    title: "🗣 MẪU CÂU GIAO TIẾP / COMMUNICATION PRACTICE",
+    title: "MẪU CÂU GIAO TIẾP / COMMUNICATION PRACTICE",
     type: "list",
     order: 5,
     content: `
@@ -3553,7 +3553,7 @@ export const project6WeekBlocks: LessonBlock[] = [
   {
     id: "p6_w6_final_product",
     learningNodeId: "w6",
-    title: "🏆 SẢN PHẨM / FINAL PRODUCT",
+    title: "SẢN PHẨM / FINAL PRODUCT",
     type: "list",
     order: 11,
     content: `
@@ -3568,7 +3568,7 @@ export const project6WeekBlocks: LessonBlock[] = [
   {
     id: "p6_w6_teacher_guide",
     learningNodeId: "w6",
-    title: "📚 HƯỚNG DẪN GIÁO VIÊN",
+    title: "HƯỚNG DẪN GIÁO VIÊN",
     type: "list",
     order: 12,
     content: `
@@ -3583,7 +3583,7 @@ export const project6WeekBlocks: LessonBlock[] = [
   {
     id: "p6_w6_checklist",
     learningNodeId: "w6",
-    title: "📋 CHECKLIST CHUẨN BỊ",
+    title: "CHECKLIST CHUẨN BỊ",
     type: "list",
     order: 13,
     content: `
@@ -3600,7 +3600,7 @@ export const project6WeekBlocks: LessonBlock[] = [
   {
     id: "p6_w6_outcomes",
     learningNodeId: "w6",
-    title: "📊 KẾT QUẢ HỌC TẬP KỲ VỌNG",
+    title: "KẾT QUẢ HỌC TẬP KỲ VỌNG",
     type: "list",
     order: 14,
     content: `
@@ -3613,7 +3613,7 @@ export const project6WeekBlocks: LessonBlock[] = [
   {
     id: "p6_w6_homework",
     learningNodeId: "w6",
-    title: "📚 BÀI TẬP VỀ NHÀ",
+    title: "BÀI TẬP VỀ NHÀ",
     type: "homework",
     order: 15,
     content: `
@@ -3641,7 +3641,7 @@ export const project5WeekBlocks: LessonBlock[] = [
   {
     id: "p5_w5_vocabulary",
     learningNodeId: "w5",
-    title: "🧠 TỪ VỰNG / VOCABULARY",
+    title: "TỪ VỰNG / VOCABULARY",
     type: "list",
     order: 2,
     content: `
@@ -3653,7 +3653,7 @@ export const project5WeekBlocks: LessonBlock[] = [
   {
     id: "p5_w5_pronunciation",
     learningNodeId: "w5",
-    title: "🔊 PHÁT ÂM / PRONUNCIATION FOCUS",
+    title: " PHÁT ÂM / PRONUNCIATION FOCUS",
     type: "list",
     order: 3,
     content: `
@@ -3689,7 +3689,7 @@ export const project5WeekBlocks: LessonBlock[] = [
   {
     id: "p5_w5_communication",
     learningNodeId: "w5",
-    title: "🗣 MẪU CÂU GIAO TIẾP / COMMUNICATION PRACTICE",
+    title: "MẪU CÂU GIAO TIẾP / COMMUNICATION PRACTICE",
     type: "list",
     order: 5,
     content: `
@@ -3818,7 +3818,7 @@ export const project5WeekBlocks: LessonBlock[] = [
   {
     id: "p5_w5_final_product",
     learningNodeId: "w5",
-    title: "🏆 SẢN PHẨM / FINAL PRODUCT",
+    title: "SẢN PHẨM / FINAL PRODUCT",
     type: "list",
     order: 14,
     content: `
@@ -3835,7 +3835,7 @@ export const project5WeekBlocks: LessonBlock[] = [
   {
     id: "p5_w5_teacher_guide",
     learningNodeId: "w5",
-    title: "📚 HƯỚNG DẪN GIÁO VIÊN",
+    title: "HƯỚNG DẪN GIÁO VIÊN",
     type: "list",
     order: 15,
     content: `
@@ -3850,7 +3850,7 @@ export const project5WeekBlocks: LessonBlock[] = [
   {
     id: "p5_w5_checklist",
     learningNodeId: "w5",
-    title: "📋 CHECKLIST CHUẨN BỊ",
+    title: "CHECKLIST CHUẨN BỊ",
     type: "list",
     order: 16,
     content: `
@@ -3868,7 +3868,7 @@ export const project5WeekBlocks: LessonBlock[] = [
   {
     id: "p5_w5_outcomes",
     learningNodeId: "w5",
-    title: "📊 KẾT QUẢ HỌC TẬP KỲ VỌNG",
+    title: "KẾT QUẢ HỌC TẬP KỲ VỌNG",
     type: "list",
     order: 17,
     content: `
@@ -3881,7 +3881,7 @@ export const project5WeekBlocks: LessonBlock[] = [
   {
     id: "p5_w5_homework",
     learningNodeId: "w5",
-    title: "📚 BÀI TẬP VỀ NHÀ",
+    title: "BÀI TẬP VỀ NHÀ",
     type: "homework",
     order: 18,
     content: `
@@ -3890,7 +3890,7 @@ export const project5WeekBlocks: LessonBlock[] = [
 • https://www.youtube.com/watch?v=LuIeaioWX74
 
     `,
-    audioUrl:"https://wewin.edu.vn/wp-content/uploads/2025/11/project5.mp3"
+    audioUrl: "https://wewin.edu.vn/wp-content/uploads/2025/11/project5.mp3",
   },
 ];
 
@@ -3911,7 +3911,7 @@ export const project4WeekBlocks: LessonBlock[] = [
   {
     id: "p4_w4_vocabulary",
     learningNodeId: "w4",
-    title: "🧠 TỪ VỰNG / VOCABULARY",
+    title: "TỪ VỰNG / VOCABULARY",
     type: "list",
     order: 2,
     content: `
@@ -3923,7 +3923,7 @@ export const project4WeekBlocks: LessonBlock[] = [
   {
     id: "p4_w4_pronunciation",
     learningNodeId: "w4",
-    title: "🔊 PHÁT ÂM / PRONUNCIATION FOCUS",
+    title: " PHÁT ÂM / PRONUNCIATION FOCUS",
     type: "list",
     order: 3,
     content: `
@@ -3958,7 +3958,7 @@ export const project4WeekBlocks: LessonBlock[] = [
   {
     id: "p4_w4_conversation",
     learningNodeId: "w4",
-    title: "🗣 MẪU CÂU GIAO TIẾP / COMMUNICATION PRACTICE",
+    title: "MẪU CÂU GIAO TIẾP / COMMUNICATION PRACTICE",
     type: "list",
     order: 5,
     content: `
@@ -4014,7 +4014,7 @@ export const project4WeekBlocks: LessonBlock[] = [
   {
     id: "p4_w4_final_product",
     learningNodeId: "w4",
-    title: "🏆 SẢN PHẨM / FINAL PRODUCT",
+    title: "SẢN PHẨM / FINAL PRODUCT",
     type: "list",
     order: 8,
     content: `
@@ -4030,7 +4030,7 @@ export const project4WeekBlocks: LessonBlock[] = [
   {
     id: "p4_w4_teacher_guide",
     learningNodeId: "w4",
-    title: "📚 HƯỚNG DẪN GIÁO VIÊN",
+    title: "HƯỚNG DẪN GIÁO VIÊN",
     type: "list",
     order: 9,
     content: `
@@ -4045,7 +4045,7 @@ export const project4WeekBlocks: LessonBlock[] = [
   {
     id: "p4_w4_checklist",
     learningNodeId: "w4",
-    title: "📋 CHECKLIST CHUẨN BỊ",
+    title: "CHECKLIST CHUẨN BỊ",
     type: "list",
     order: 10,
     content: `
@@ -4062,7 +4062,7 @@ export const project4WeekBlocks: LessonBlock[] = [
   {
     id: "p4_w4_outcomes",
     learningNodeId: "w4",
-    title: "📊 KẾT QUẢ HỌC TẬP KỲ VỌNG",
+    title: "KẾT QUẢ HỌC TẬP KỲ VỌNG",
     type: "list",
     order: 11,
     content: `
@@ -4076,7 +4076,7 @@ export const project4WeekBlocks: LessonBlock[] = [
   {
     id: "p4_w4_homework",
     learningNodeId: "w4",
-    title: "📚 BÀI TẬP VỀ NHÀ",
+    title: "BÀI TẬP VỀ NHÀ",
     type: "homework",
     order: 12,
     content: `
@@ -4084,7 +4084,7 @@ export const project4WeekBlocks: LessonBlock[] = [
 • https://wewin-education.vercel.app/resources/kids/Games/christmas-party-mini
 • https://www.youtube.com/watch?v=G_NGo52IAwk
     `,
-    audioUrl:"https://wewin.edu.vn/wp-content/uploads/2025/11/project4.mp3",
+    audioUrl: "https://wewin.edu.vn/wp-content/uploads/2025/11/project4.mp3",
   },
 ];
 export const project3WeekBlocks: LessonBlock[] = [
@@ -4105,7 +4105,7 @@ export const project3WeekBlocks: LessonBlock[] = [
   {
     id: "p3_w3_vocabulary",
     learningNodeId: "w3",
-    title: "🧠 TỪ VỰNG / VOCABULARY",
+    title: "TỪ VỰNG / VOCABULARY",
     type: "list",
     order: 2,
     content: `
@@ -4117,7 +4117,7 @@ export const project3WeekBlocks: LessonBlock[] = [
   {
     id: "p3_w3_pronunciation",
     learningNodeId: "w3",
-    title: "🔊 PHÁT ÂM / PRONUNCIATION FOCUS",
+    title: " PHÁT ÂM / PRONUNCIATION FOCUS",
     type: "list",
     order: 3,
     content: `
@@ -4151,7 +4151,7 @@ export const project3WeekBlocks: LessonBlock[] = [
   {
     id: "p3_w3_conversation",
     learningNodeId: "w3",
-    title: "🗣 MẪU CÂU GIAO TIẾP / COMMUNICATION PRACTICE",
+    title: "MẪU CÂU GIAO TIẾP / COMMUNICATION PRACTICE",
     type: "list",
     order: 5,
     content: `
@@ -4195,7 +4195,7 @@ export const project3WeekBlocks: LessonBlock[] = [
   {
     id: "p3_w3_final_product",
     learningNodeId: "w3",
-    title: "🏆 SẢN PHẨM / FINAL PRODUCT",
+    title: "SẢN PHẨM / FINAL PRODUCT",
     type: "list",
     order: 7,
     content: `
@@ -4208,7 +4208,7 @@ export const project3WeekBlocks: LessonBlock[] = [
   {
     id: "p3_w3_teacher_guide",
     learningNodeId: "w3",
-    title: "📚 HƯỚNG DẪN GIÁO VIÊN",
+    title: "HƯỚNG DẪN GIÁO VIÊN",
     type: "list",
     order: 8,
     content: `
@@ -4223,7 +4223,7 @@ export const project3WeekBlocks: LessonBlock[] = [
   {
     id: "p3_w3_checklist",
     learningNodeId: "w3",
-    title: "📋 CHECKLIST CHUẨN BỊ",
+    title: "CHECKLIST CHUẨN BỊ",
     type: "list",
     order: 9,
     content: `
@@ -4241,7 +4241,7 @@ export const project3WeekBlocks: LessonBlock[] = [
   {
     id: "p3_w3_outcomes",
     learningNodeId: "w3",
-    title: "📊 KẾT QUẢ HỌC TẬP KỲ VỌNG",
+    title: "KẾT QUẢ HỌC TẬP KỲ VỌNG",
     type: "list",
     order: 10,
     content: `
@@ -4254,7 +4254,7 @@ export const project3WeekBlocks: LessonBlock[] = [
   {
     id: "p3_w3_homework",
     learningNodeId: "w3",
-    title: "📚 BÀI TẬP VỀ NHÀ",
+    title: "BÀI TẬP VỀ NHÀ",
     type: "homework",
     order: 11,
     content: `
@@ -4264,7 +4264,7 @@ export const project3WeekBlocks: LessonBlock[] = [
 • https://www.youtube.com/watch?v=qW2yOwonRdc
 
 `,
-    audioUrl:"https://wewin.edu.vn/wp-content/uploads/2025/11/project3.mp3",
+    audioUrl: "https://wewin.edu.vn/wp-content/uploads/2025/11/project3.mp3",
   },
 ];
 
@@ -4285,7 +4285,7 @@ export const project2WeekBlocks: LessonBlock[] = [
   {
     id: "p2_w2_vocabulary",
     learningNodeId: "w2",
-    title: "🧠 TỪ VỰNG / VOCABULARY",
+    title: "TỪ VỰNG / VOCABULARY",
     type: "list",
     order: 2,
     content: `
@@ -4297,7 +4297,7 @@ export const project2WeekBlocks: LessonBlock[] = [
   {
     id: "p2_w2_pronunciation",
     learningNodeId: "w2",
-    title: "🔊 PHÁT ÂM / PRONUNCIATION FOCUS",
+    title: " PHÁT ÂM / PRONUNCIATION FOCUS",
     type: "list",
     order: 3,
     content: `
@@ -4331,7 +4331,7 @@ export const project2WeekBlocks: LessonBlock[] = [
   {
     id: "p2_w2_communication",
     learningNodeId: "w2",
-    title: "🗣 MẪU CÂU GIAO TIẾP / COMMUNICATION PRACTICE",
+    title: "MẪU CÂU GIAO TIẾP / COMMUNICATION PRACTICE",
     type: "list",
     order: 5,
     content: `
@@ -4372,7 +4372,7 @@ export const project2WeekBlocks: LessonBlock[] = [
   {
     id: "p2_w2_final_product",
     learningNodeId: "w2",
-    title: "🏆 SẢN PHẨM / FINAL PRODUCT",
+    title: "SẢN PHẨM / FINAL PRODUCT",
     type: "list",
     order: 7,
     content: `
@@ -4386,7 +4386,7 @@ export const project2WeekBlocks: LessonBlock[] = [
   {
     id: "p2_w2_teacher_guide",
     learningNodeId: "w2",
-    title: "📚 HƯỚNG DẪN GIÁO VIÊN",
+    title: "HƯỚNG DẪN GIÁO VIÊN",
     type: "list",
     order: 8,
     content: `
@@ -4401,7 +4401,7 @@ export const project2WeekBlocks: LessonBlock[] = [
   {
     id: "p2_w2_checklist",
     learningNodeId: "w2",
-    title: "📋 CHECKLIST CHUẨN BỊ",
+    title: "CHECKLIST CHUẨN BỊ",
     type: "list",
     order: 9,
     content: `
@@ -4418,7 +4418,7 @@ export const project2WeekBlocks: LessonBlock[] = [
   {
     id: "p2_w2_outcomes",
     learningNodeId: "w2",
-    title: "📊 KẾT QUẢ KỲ VỌNG",
+    title: "KẾT QUẢ KỲ VỌNG",
     type: "list",
     order: 10,
     content: `
@@ -4431,7 +4431,7 @@ export const project2WeekBlocks: LessonBlock[] = [
   {
     id: "p2_w2_homework",
     learningNodeId: "w2",
-    title: "📚 BÀI TẬP VỀ NHÀ",
+    title: "BÀI TẬP VỀ NHÀ",
     type: "homework",
     order: 12,
     content: `
@@ -4462,7 +4462,7 @@ export const project1WeekBlocks: LessonBlock[] = [
   {
     id: "w1_pronunciation",
     learningNodeId: "w1",
-    title: "🔊 PHÁT ÂM / PRONUNCIATION FOCUS",
+    title: " PHÁT ÂM / PRONUNCIATION FOCUS",
     type: "list",
     order: 2,
     content: `
@@ -4501,7 +4501,7 @@ export const project1WeekBlocks: LessonBlock[] = [
   {
     id: "w1_communication",
     learningNodeId: "w1",
-    title: "🗣 MẪU CÂU GIAO TIẾP / COMMUNICATION PRACTICE",
+    title: "MẪU CÂU GIAO TIẾP / COMMUNICATION PRACTICE",
     type: "list",
     order: 4,
     content: `
@@ -4518,7 +4518,7 @@ export const project1WeekBlocks: LessonBlock[] = [
   {
     id: "w1_song",
     learningNodeId: "w1",
-    title: "🎵 SONG / CHANT ĐỀ XUẤT",
+    title: "SONG / CHANT ĐỀ XUẤT",
     type: "list",
     order: 5,
     content: `
@@ -4533,7 +4533,7 @@ export const project1WeekBlocks: LessonBlock[] = [
   {
     id: "w1_dialogues",
     learningNodeId: "w1",
-    title: "💬 MINI DIALOGUES PRACTICE",
+    title: "MINI DIALOGUES PRACTICE",
     type: "list",
     order: 6,
     content: `
@@ -4547,7 +4547,7 @@ export const project1WeekBlocks: LessonBlock[] = [
   {
     id: "w1_integration",
     learningNodeId: "w1",
-    title: "🧩 TÍCH HỢP VÀO BÀI HỌC HIỆN CÓ",
+    title: "TÍCH HỢP VÀO BÀI HỌC HIỆN CÓ",
     type: "list",
     order: 7,
     content: `
@@ -4561,7 +4561,7 @@ export const project1WeekBlocks: LessonBlock[] = [
   {
     id: "w1_drill",
     learningNodeId: "w1",
-    title: "🎤 PHONICS + SPEAKING DRILL (3 phút cuối)",
+    title: "PHONICS + SPEAKING DRILL (3 phút cuối)",
     type: "list",
     order: 8,
     content: `
@@ -4573,7 +4573,7 @@ export const project1WeekBlocks: LessonBlock[] = [
   {
     id: "w1_checklist",
     learningNodeId: "w1",
-    title: "📋 BỔ SUNG CHECKLIST (PHẦN NGÔN NGỮ)",
+    title: "BỔ SUNG CHECKLIST (PHẦN NGÔN NGỮ)",
     type: "list",
     order: 9,
     content: `
@@ -4588,7 +4588,7 @@ export const project1WeekBlocks: LessonBlock[] = [
   {
     id: "w1_outcomes",
     learningNodeId: "w1",
-    title: "📊 KẾT QUẢ HỌC TẬP KỲ VỌNG",
+    title: "KẾT QUẢ HỌC TẬP KỲ VỌNG",
     type: "list",
     order: 10,
     content: `
@@ -4618,7 +4618,7 @@ export const project1WeekBlocks: LessonBlock[] = [
   {
     id: "w1_2_vocabulary",
     learningNodeId: "w1_2",
-    title: "🧠 TỪ VỰNG / VOCABULARY",
+    title: "TỪ VỰNG / VOCABULARY",
     type: "list",
     order: 2,
     content: `
@@ -4630,7 +4630,7 @@ export const project1WeekBlocks: LessonBlock[] = [
   {
     id: "w1_2_pronunciation",
     learningNodeId: "w1_2",
-    title: "🔊 PHÁT ÂM / PRONUNCIATION FOCUS",
+    title: " PHÁT ÂM / PRONUNCIATION FOCUS",
     type: "list",
     order: 3,
     content: `
@@ -4659,7 +4659,7 @@ export const project1WeekBlocks: LessonBlock[] = [
   {
     id: "w1_2_communication",
     learningNodeId: "w1_2",
-    title: "🗣 MẪU CÂU GIAO TIẾP",
+    title: "MẪU CÂU GIAO TIẾP",
     type: "list",
     order: 5,
     content: `
@@ -4686,7 +4686,7 @@ export const project1WeekBlocks: LessonBlock[] = [
   {
     id: "w1_2_final_product",
     learningNodeId: "w1_2",
-    title: "🏆 SẢN PHẨM",
+    title: "SẢN PHẨM",
     type: "list",
     order: 7,
     content: `
@@ -4700,7 +4700,7 @@ export const project1WeekBlocks: LessonBlock[] = [
   {
     id: "w1_2_drill",
     learningNodeId: "w1_2",
-    title: "🎤 DRILL",
+    title: "DRILL",
     type: "list",
     order: 8,
     content: `
@@ -4712,7 +4712,7 @@ export const project1WeekBlocks: LessonBlock[] = [
   {
     id: "w1_2_teacher_guide",
     learningNodeId: "w1_2",
-    title: "📚 HƯỚNG DẪN GIÁO VIÊN",
+    title: "HƯỚNG DẪN GIÁO VIÊN",
     type: "list",
     order: 9,
     content: `
@@ -4726,7 +4726,7 @@ export const project1WeekBlocks: LessonBlock[] = [
   {
     id: "w1_2_checklist",
     learningNodeId: "w1_2",
-    title: "📋 CHECKLIST",
+    title: "CHECKLIST",
     type: "list",
     order: 10,
     content: `
@@ -4741,7 +4741,7 @@ export const project1WeekBlocks: LessonBlock[] = [
   {
     id: "w1_2_outcomes",
     learningNodeId: "w1_2",
-    title: "📊 OUTCOMES",
+    title: "OUTCOMES",
     type: "list",
     order: 11,
     content: `
@@ -4755,7 +4755,7 @@ export const project1WeekBlocks: LessonBlock[] = [
   {
     id: "w1_2_homework",
     learningNodeId: "w1_2",
-    title: "📚 BÀI TẬP VỀ NHÀ",
+    title: "BÀI TẬP VỀ NHÀ",
     type: "homework",
     order: 12,
     content: `

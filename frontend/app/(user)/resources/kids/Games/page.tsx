@@ -46,7 +46,7 @@ export default function KidsBookGamesPage() {
 
   // Có thể hiển thị màn hình loading ngắn trong lúc redirect
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-pink-50 to-rose-100 text-pink-600 font-semibold">
+    <div className="min-h-screen flex items-center justify-center bg-linear-to-br from-pink-50 to-rose-100 text-pink-600 font-semibold">
       Đang mở Kids Book...
     </div>
   );
