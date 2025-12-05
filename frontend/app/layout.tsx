@@ -23,7 +23,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="h-full">
       <body
-        className={`${lexend.className} antialiased bg-[#F9FAFB] flex flex-col min-h-screen`}
+        className={`${lexend.className} antialiased bg-pink-50 flex flex-col min-h-screen`}
       >
         {/* ✅ Wrap toàn app trong SessionProvider */}
         <Providers>
