@@ -1,6 +1,4 @@
 "use client";
-
-import React from "react";
 import OverviewBlock from "./OverviewBlock";
 import ProjectBlock from "./projectBlock";
 import { getClassDetail } from "../../constants/classDetails";
@@ -15,7 +13,9 @@ import { ClassId } from "@/app/constants/types";
 const CLASS_TO_BOOK: Record<ClassId, string> = {
   KIDS: "book_kids",
   STARTERS_FOUNDATION: "book_starters_foundation",
-  GAMES: "book_games",
+  STARTERS: "book_starters",
+  MOVERS: "book_movers",
+  FLYERS: "book_flyers",
   AUDIO: "book_audio",
   VIDEOS: "book_videos",
 };
@@ -36,34 +36,33 @@ export default function DetailContent({ classId }: { classId: ClassId }) {
   const projects = mockProjects.filter((p) => p.bookId === book.id);
 
   return (
-  <div className="w-full max-w-full overflow-hidden">
-    <div className="bg-white p-4 sm:p-6 lg:p-8 rounded-xl shadow w-full max-w-full">
-      <OverviewBlock
-        title={detail.title}
-        learningTitle={detail.learningTitle}
-        overview={detail.overview}
-      />
+    <div>
+      <div className="bg-white p-4 sm:p-6 lg:p-8 rounded-xl shadow">
+        <OverviewBlock
+          title={detail.title}
+          learningTitle={detail.learningTitle}
+          overview={detail.overview}
+        />
 
-      {projects.map((project) => {
-        const nodes = mockLearningNodes.filter(
-          (n) => n.projectId === project.id
-        );
+        {projects.map((project) => {
+          const nodes = mockLearningNodes.filter(
+            (n) => n.projectId === project.id
+          );
 
-        const lessonBlocks = mockLessonContents.filter((c) =>
-          nodes.some((node) => node.id === c.learningNodeId)
-        );
+          const lessonBlocks = mockLessonContents.filter((c) =>
+            nodes.some((node) => node.id === c.learningNodeId)
+          );
 
-        return (
-          <ProjectBlock
-            key={project.id}
-            project={project}
-            nodes={nodes}
-            contents={lessonBlocks}
-          />
-        );
-      })}
+          return (
+            <ProjectBlock
+              key={project.id}
+              project={project}
+              nodes={nodes}
+              contents={lessonBlocks}
+            />
+          );
+        })}
+      </div>
     </div>
-  </div>
-);
-
+  );
 }

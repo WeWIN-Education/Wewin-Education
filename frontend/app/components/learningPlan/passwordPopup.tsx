@@ -20,7 +20,7 @@ export default function PasswordPopup({ open, onClose, onConfirm, error }: Passw
   return (
     <div className="popup-overlay" style={{ display: open ? "flex" : "none" }}>
       <div className="popup-box">
-        <h2>🔐 Nhập mật khẩu</h2>
+        <h2>Nhập mật khẩu</h2>
         <input type="password" ref={inputRef} placeholder="Mật khẩu..." />
         <div className="popup-actions">
           <button onClick={onClose}>Hủy</button>
