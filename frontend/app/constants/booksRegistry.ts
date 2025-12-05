@@ -8,6 +8,8 @@
  */
 
 import { getProjectsFromBook, getUnitBySlug, BOOK_CONFIG } from "./bookConfig";
+import { getProjectsFromMoverBook, getMoverUnitBySlug } from "./moverBookConfig";
+import { getProjectsFromFlyerBook, getFlyerUnitBySlug } from "./flyerBookConfig";
 
 export type BookInfo = {
   bookName: string; // Tên hiển thị của cuốn sách
@@ -27,6 +29,22 @@ export const BOOKS_REGISTRY: Record<string, BookInfo> = {
     getUnitBySlug: getUnitBySlug,
     basePath: "/resources/kids/Games",
     defaultBackground: "from-pink-50 via-rose-50 to-emerald-50",
+  },
+  mover: {
+    bookName: "Mover Book",
+    bookSlug: "mover",
+    getProjects: getProjectsFromMoverBook,
+    getUnitBySlug: getMoverUnitBySlug,
+    basePath: "/resources/mover/Games",
+    defaultBackground: "from-green-50 via-emerald-50 to-teal-50",
+  },
+  flyer: {
+    bookName: "Flyer Book",
+    bookSlug: "flyer",
+    getProjects: getProjectsFromFlyerBook,
+    getUnitBySlug: getFlyerUnitBySlug,
+    basePath: "/resources/flyer/Games",
+    defaultBackground: "from-blue-50 via-indigo-50 to-purple-50",
   },
   // Có thể thêm các cuốn sách khác ở đây:
   // starters: {

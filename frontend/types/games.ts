@@ -101,4 +101,5 @@ export type UnitGameConfig = {
   enabledGames?: GameKey[];
   parts?: UnitGamePart[];
   backgroundColor?: string; // Màu background theo chủ đề (ví dụ: "from-blue-50 via-purple-50 to-pink-50")
+  useRotatingGame?: boolean; // Nếu true, sẽ tự động tính enabledGames với 3 game cố định + 1 game xoay vòng
 };
