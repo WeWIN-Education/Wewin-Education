@@ -5,6 +5,7 @@ import { UnitGameScreen } from "@/app/components/games/UnitGameScreen";
 import { KidsUnitsSidebar } from "@/app/components/games/KidsUnitsSidebar";
 import { getUnitBySlug, getProjectsFromBook } from "@/app/constants/bookConfig";
 import { useParams, useRouter } from "next/navigation";
+import { Menu } from "lucide-react";
 
 // Helper: lấy ID từ localStorage (chỉ dùng trong cùng 1 phiên tab)
 function getSavedPlayerId(): string {
@@ -21,6 +22,7 @@ export default function ProjectGamePage() {
   // playerId === null nghĩa là chưa load xong từ localStorage
   const [playerId, setPlayerId] = useState<string | null>(null);
   const [showIdModal, setShowIdModal] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const RELOAD_FLAG_KEY = "kids_book_was_reloaded";
 
@@ -125,11 +127,22 @@ export default function ProjectGamePage() {
 
   return (
     <div className="min-h-screen md:flex md:items-stretch">
-      <div className="hidden md:block">
-        <KidsUnitsSidebar />
-      </div>
+      {/* Hamburger button cho mobile */}
+      <button
+        onClick={() => setSidebarOpen(true)}
+        className="fixed top-60 left-4 z-30 md:hidden w-10 h-10 flex items-center justify-center bg-pink-500 hover:bg-pink-600 text-white rounded-lg shadow-lg transition-colors"
+        aria-label="Mở menu"
+      >
+        <Menu className="w-6 h-6" />
+      </button>
 
-      <div className="flex-1">
+      {/* Sidebar */}
+      <KidsUnitsSidebar
+        isOpen={sidebarOpen}
+        onClose={() => setSidebarOpen(false)}
+      />
+
+      <div className="flex-1 md:ml-0">
         <UnitGameScreen
           unit={unit}
           heading={unit.name}

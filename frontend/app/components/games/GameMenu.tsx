@@ -237,7 +237,6 @@ export function GameMenu({
               <span>👁️</span>
             </div>
             <div className="text-lg sm:text-xl font-bold text-gray-800 mb-2 sm:mb-4">Matching Game</div>
-            <div className="text-2xl text-yellow-400">⭐⭐⭐</div>
           </button>
         )}
 
@@ -251,7 +250,6 @@ export function GameMenu({
               <span>🔊</span>
             </div>
             <div className="text-lg sm:text-xl font-bold text-gray-800 mb-2 sm:mb-4">Flip Card Game</div>
-            <div className="text-2xl text-yellow-400">⭐⭐⭐</div>
           </button>
         )}
 
@@ -265,7 +263,6 @@ export function GameMenu({
               <span>🌙</span>
             </div>
             <div className="text-lg sm:text-xl font-bold text-gray-800 mb-2 sm:mb-4">Pronunciation Game</div>
-            <div className="text-2xl text-yellow-400">⭐⭐⭐</div>
           </button>
         )}
 
@@ -279,7 +276,6 @@ export function GameMenu({
               <span>🧠</span>
             </div>
             <div className="text-lg sm:text-xl font-bold text-gray-800 mb-2 sm:mb-4">Quiz Game</div>
-            <div className="text-2xl text-yellow-400">⭐⭐⭐</div>
           </button>
         )}
 
@@ -293,7 +289,6 @@ export function GameMenu({
               <span>🎴</span>
             </div>
             <div className="text-lg sm:text-xl font-bold text-gray-800 mb-2 sm:mb-4">Memory Game</div>
-            <div className="text-2xl text-yellow-400">⭐⭐⭐</div>
           </button>
         )}
 
@@ -309,7 +304,6 @@ export function GameMenu({
             <div className="text-lg sm:text-xl font-bold text-gray-800 mb-2 sm:mb-4">
               Word Ordering Game
             </div>
-            <div className="text-2xl text-yellow-400">⭐⭐⭐</div>
           </button>
         )}
 
@@ -325,7 +319,6 @@ export function GameMenu({
             <div className="text-lg sm:text-xl font-bold text-gray-800 mb-2 sm:mb-4">
               Word Scramble Game
             </div>
-            <div className="text-2xl text-yellow-400">⭐⭐⭐</div>
           </button>
         )}
       </div>
