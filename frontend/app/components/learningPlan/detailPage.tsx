@@ -10,7 +10,7 @@ interface DetailPageProps {
 
 export default function DetailPage({ classId, onGoBack }: DetailPageProps) {
   return (
-    <div className="animate-fadeIn px-4 sm:px-6 md:px-8">
+    <div className="animate-fadeIn px-4 sm:px-6 md:px-8 md:w-3xl w-sm lg:w-7xl mx-auto">
       <button
         onClick={onGoBack}
         className="fixed top-20 sm:top-22 md:top-24 left-4 sm:left-6 md:left-8 lg:left-12 

@@ -1,6 +1,6 @@
 /**
  * Utility function để gửi điểm lên Google Sheet
- * 
+ *
  * @param data - Object chứa thông tin cần gửi
  * @param data.id - ID người chơi
  * @param data.unit - Tên unit (ví dụ: "Unit 8")
@@ -46,10 +46,6 @@ export async function submitScoreToSheet(data: SubmitScoreData): Promise<void> {
     bookname: data.bookname,
   };
 
-  // Debug log
-  console.log("=== SUBMITTING SCORE TO SHEET ===");
-  console.log("Full Data:", payload);
-
   // Chuyển data thành URLSearchParams (format form-urlencoded)
   const formData = new URLSearchParams();
   Object.keys(payload).forEach((key) => {
@@ -67,15 +63,8 @@ export async function submitScoreToSheet(data: SubmitScoreData): Promise<void> {
       body: formData.toString(),
     });
 
-    // Lưu ý: Với no-cors mode, không thể đọc response
-    // Nhưng request vẫn được gửi thành công
-    console.log("✅ Score submitted successfully!");
-    console.log("Data sent:", payload);
   } catch (err) {
-    // Lỗi này thường không xảy ra với no-cors mode
-    // Nhưng vẫn log để debug
-    console.log("⚠️ Score submitted (no-cors mode)");
-    console.log("Data sent:", payload);
+
   }
 }
 
@@ -96,7 +85,7 @@ export function getGameId(gameType: string): string {
 
 /**
  * Gửi signal reset unit lên Google Sheet
- * 
+ *
  * @param data - Object chứa thông tin reset
  * @param data.id - ID người chơi
  * @param data.unit - Unit game ID (ví dụ: "Unit 8")
@@ -134,10 +123,6 @@ export async function resetUnitToSheet(data: ResetUnitData): Promise<void> {
     timestamp: new Date().toISOString(),
   };
 
-  // Debug log
-  console.log("=== RESETTING UNIT ON SHEET ===");
-  console.log("Full Data:", payload);
-
   // Chuyển data thành URLSearchParams (format form-urlencoded)
   const formData = new URLSearchParams();
   Object.keys(payload).forEach((key) => {
@@ -157,13 +142,8 @@ export async function resetUnitToSheet(data: ResetUnitData): Promise<void> {
 
     // Lưu ý: Với no-cors mode, không thể đọc response
     // Nhưng request vẫn được gửi thành công
-    console.log("✅ Reset signal sent successfully!");
-    console.log("Data sent:", payload);
   } catch (err) {
     // Lỗi này thường không xảy ra với no-cors mode
     // Nhưng vẫn log để debug
-    console.log("⚠️ Reset signal sent (no-cors mode)");
-    console.log("Data sent:", payload);
   }
 }
-
