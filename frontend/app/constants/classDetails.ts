@@ -65,19 +65,10 @@ export const CLASS_DETAILS: Record<ClassId, ClassDetail> = {
     ],
   },
 
-  GAMES: {
-    title: "WeWIN – Games Learning Center",
-    learningTitle: "Games Plan",
-    overview: [
-      {
-        id: "intro",
-        icon: "🎮",
-        title: "Giới thiệu",
-        items: ["Chơi game theo chủ đề để ôn từ vựng và phản xạ nhanh."],
-      },
-    ],
-  },
-
+  STARTERS: { title: "Starters Book", learningTitle: "Starters Learning Plan", overview: [] },
+  MOVERS: { title: "Movers Book", learningTitle: "Movers Learning Plan", overview: [] },
+  FLYERS: { title: "Flyers Book", learningTitle: "Flyers Learning Plan", overview: [] },
+  
   AUDIO: { title: "Audio Library", learningTitle: "Audio Lessons", overview: [] },
   VIDEOS: { title: "Video Library", learningTitle: "Video Lessons", overview: [] },
 };

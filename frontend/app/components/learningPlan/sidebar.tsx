@@ -1,13 +1,15 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { mockProjects, mockBooks } from "@/app/constants/mockData";
+import { mockProjects} from "@/app/constants/mockData";
 import { ClassId } from "@/app/constants/types";
 
 const CLASS_TO_BOOK: Record<ClassId, string> = {
   KIDS: "book_kids",
   STARTERS_FOUNDATION: "book_starters_foundation",
-  GAMES: "book_games",
+  STARTERS: "book_starters",
+  MOVERS: "book_movers",
+  FLYERS: "book_flyers",
   AUDIO: "book_audio",
   VIDEOS: "book_videos",
 };
