@@ -45,13 +45,13 @@ export function FlyerUnitsSidebar({ isOpen = false, onClose }: FlyerUnitsSidebar
       )}
 
       <aside
-        className={`fixed md:relative top-0 left-0 h-full flex flex-col border-r border-blue-200 bg-gradient-to-b from-blue-100/90 to-blue-50 shadow-xl transition-all duration-300 overflow-hidden z-50 ${
+        className={`fixed md:relative top-[72px] md:top-0 left-0 h-full flex flex-col border-r border-blue-200 bg-blue-50 shadow-xl transition-all duration-300 overflow-hidden z-40 ${
           collapsed ? "w-16" : "w-72"
         } ${
           isOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"
         } md:flex`}
       >
-        <div className="flex-shrink-0 flex items-center gap-3 px-4 py-4 border-b border-blue-200/70 bg-gradient-to-r from-blue-200 to-blue-100">
+        <div className="flex-shrink-0 flex items-center gap-3 px-4 py-4 border-b border-blue-200/70 bg-blue-50">
           <div className="w-9 h-9 bg-white/80 rounded-2xl flex items-center justify-center shadow-sm">
             <BookOpen className="w-5 h-5 text-blue-700" />
           </div>

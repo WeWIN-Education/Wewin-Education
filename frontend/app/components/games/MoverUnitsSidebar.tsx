@@ -55,7 +55,7 @@ export function MoverUnitsSidebar({ isOpen = false, onClose }: MoverUnitsSidebar
       )}
 
       <aside
-        className={`fixed md:relative top-0 left-0 h-full flex flex-col border-r border-green-200 bg-gradient-to-b from-green-100/90 to-green-50 shadow-xl transition-all duration-300 overflow-hidden z-50 ${
+        className={`fixed md:relative top-[72px] md:top-0 left-0 h-full flex flex-col border-r border-green-200 bg-blue-50 shadow-xl transition-all duration-300 overflow-hidden z-40 ${
           collapsed ? "w-16" : "w-72"
         } ${
           // Mobile: slide in/out từ bên trái
@@ -68,7 +68,7 @@ export function MoverUnitsSidebar({ isOpen = false, onClose }: MoverUnitsSidebar
         }`}
       >
       {/* Header */}
-      <div className="flex-shrink-0 flex items-center gap-3 px-4 py-4 border-b border-green-200/70 bg-gradient-to-r from-green-200 to-green-100">
+      <div className="flex-shrink-0 flex items-center gap-3 px-4 py-4 border-b border-green-200/70 bg-blue-50">
         <div className="w-9 h-9 bg-white/80 rounded-2xl flex items-center justify-center shadow-sm">
           <BookOpen className="w-5 h-5 text-green-700" />
         </div>

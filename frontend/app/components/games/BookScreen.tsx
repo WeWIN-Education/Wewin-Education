@@ -28,7 +28,7 @@ export function BookScreen({
   bookName,
   projects,
   basePath,
-  defaultBackground = "from-pink-50 via-rose-50 to-emerald-50",
+  defaultBackground = "bg-blue-50",
   onSelectProject,
   renderProjectContent,
 }: BookScreenProps) {
@@ -46,10 +46,10 @@ export function BookScreen({
   const selectedProject = projects.find((p) => p.id === selectedProjectId);
 
   return (
-    <div className={`flex min-h-screen bg-gradient-to-br ${defaultBackground} text-brown-700`}>
+    <div className={`flex min-h-screen ${defaultBackground} text-brown-700`}>
       {/* Sidebar bên trái */}
-      <aside className="flex w-72 flex-col border-r border-pink-200 bg-gradient-to-b from-pink-100/90 to-pink-50 shadow-xl h-screen overflow-hidden">
-        <div className="flex-shrink-0 flex items-center gap-3 px-5 py-4 border-b border-pink-200/70 bg-gradient-to-r from-pink-200 to-pink-100">
+      <aside className="flex w-72 flex-col border-r border-pink-200 bg-pink-50 shadow-xl h-screen overflow-hidden">
+        <div className="flex-shrink-0 flex items-center gap-3 px-5 py-4 border-b border-pink-200/70 bg-pink-50">
           <span className="text-3xl">🌟</span>
           <div>
             <div className="text-lg font-extrabold text-pink-800 tracking-wide">
@@ -85,7 +85,7 @@ export function BookScreen({
       <main className="flex-1 flex flex-col">
         {/* Nội dung chính */}
         <div className="flex-1 relative min-h-full">
-          <div className={`absolute inset-0 bg-gradient-to-br ${defaultBackground}`} />
+          <div className={`absolute inset-0 ${defaultBackground}`} />
 
           {renderProjectContent ? (
             // Nếu truyền hàm render từ ngoài vào thì dùng nội dung đó (không căn giữa để cho phép scroll)

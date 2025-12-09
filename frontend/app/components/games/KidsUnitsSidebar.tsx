@@ -59,7 +59,7 @@ export function KidsUnitsSidebar({ isOpen = false, onClose }: KidsUnitsSidebarPr
       )}
 
       <aside
-        className={`fixed md:relative top-0 left-0 h-full flex flex-col border-r border-pink-200 bg-gradient-to-b from-pink-100/90 to-pink-50 shadow-xl transition-all duration-300 overflow-hidden z-50 ${
+        className={`fixed md:static top-[72px] md:top-0 left-0 h-screen md:h-auto md:min-h-full md:self-stretch flex flex-col border-r border-pink-200 bg-pink-50 shadow-xl transition-all duration-300 overflow-hidden z-40 ${
           collapsed ? "w-16" : "w-72"
         } ${
           // Mobile: slide in/out từ bên trái
@@ -72,16 +72,16 @@ export function KidsUnitsSidebar({ isOpen = false, onClose }: KidsUnitsSidebarPr
         }`}
       >
       {/* Header (đồng bộ với KidsBookScreen) */}
-      <div className="flex-shrink-0 flex items-center gap-3 px-4 py-4 border-b border-pink-200/70 bg-gradient-to-r from-pink-200 to-pink-100">
+      <div className="flex-shrink-0 flex items-center gap-3 px-4 py-4 border-b border-pink-200/70 bg-pink-50">
         <div className="w-9 h-9 bg-white/80 rounded-2xl flex items-center justify-center shadow-sm">
-          <BookOpen className="w-5 h-5 text-pink-700" />
+          <BookOpen className="w-5 h-5 text-blue-700" />
         </div>
         {!collapsed && (
           <div className="flex-1">
-            <div className="text-sm font-extrabold text-pink-800 tracking-wide">
+            <div className="text-sm font-extrabold text-blue-800 tracking-wide">
               Kids Book
             </div>
-            <div className="text-[11px] font-medium text-pink-700">
+            <div className="text-[11px] font-medium text-blue-700">
               Chọn Unit để chuyển nhanh
             </div>
           </div>
@@ -90,9 +90,9 @@ export function KidsUnitsSidebar({ isOpen = false, onClose }: KidsUnitsSidebarPr
         {!collapsed && onClose && (
           <button
             onClick={onClose}
-            className="md:hidden w-8 h-8 flex items-center justify-center rounded-lg hover:bg-pink-200/50 transition-colors"
+            className="md:hidden w-8 h-8 flex items-center justify-center rounded-lg hover:bg-blue-200/50 transition-colors"
           >
-            <X className="w-5 h-5 text-pink-800" />
+            <X className="w-5 h-5 text-blue-800" />
           </button>
         )}
       </div>
@@ -125,7 +125,7 @@ export function KidsUnitsSidebar({ isOpen = false, onClose }: KidsUnitsSidebarPr
               {!collapsed && (
                 <span
                   className={`text-[14px] line-clamp-2 ${
-                    active ? "font-semibold text-pink-900" : "text-pink-800"
+                    active ? "font-semibold text-blue-900" : "text-blue-800"
                   }`}
                 >
                   {project.name}
@@ -137,10 +137,10 @@ export function KidsUnitsSidebar({ isOpen = false, onClose }: KidsUnitsSidebarPr
       </nav>
 
       {/* Nút thu gọn / mở rộng */}
-      <div className="flex-shrink-0 mt-auto p-3 border-t border-pink-200/70">
+      <div className="flex-shrink-0 mt-auto p-3 border-t border-blue-200/70">
         <button
           onClick={() => setCollapsed((v) => !v)}
-          className="w-full flex items-center justify-center gap-2 bg-pink-100 hover:bg-pink-200 text-pink-800 rounded-xl py-2 text-xs font-semibold transition-all"
+          className="w-full flex items-center justify-center gap-2 bg-blue-100 hover:bg-blue-200 text-blue-800 rounded-xl py-2 text-xs font-semibold transition-all"
         >
           {collapsed ? (
             <PanelLeftOpen className="w-4 h-4" />
