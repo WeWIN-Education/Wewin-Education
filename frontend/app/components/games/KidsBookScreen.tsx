@@ -39,16 +39,16 @@ export function KidsBookScreen({
   const selectedProject = projects.find((p) => p.id === selectedProjectId);
 
   return (
-    <div className="flex min-h-screen bg-gradient-to-br from-pink-50 via-rose-50 to-emerald-50 text-brown-700">
+    <div className="flex min-h-screen bg-blue-50 text-blue-900">
       {/* Sidebar bên trái */}
-      <aside className="flex w-72 flex-col border-r border-pink-200 bg-gradient-to-b from-pink-100/90 to-pink-50 shadow-xl h-screen overflow-hidden">
-        <div className="flex-shrink-0 flex items-center gap-3 px-5 py-4 border-b border-pink-200/70 bg-gradient-to-r from-pink-200 to-pink-100">
+      <aside className="flex w-72 flex-col border-r border-blue-200 bg-blue-50 shadow-xl h-screen overflow-hidden">
+        <div className="flex-shrink-0 flex items-center gap-3 px-5 py-4 border-b border-blue-200/70 bg-blue-50">
           <span className="text-3xl">🌟</span>
           <div>
-            <div className="text-lg font-extrabold text-pink-800 tracking-wide">
+            <div className="text-lg font-extrabold text-blue-800 tracking-wide">
               Kids Book
             </div>
-            <div className="text-xs font-medium text-pink-700">
+            <div className="text-xs font-medium text-blue-700">
               Chọn Project để bắt đầu
             </div>
           </div>
@@ -63,8 +63,8 @@ export function KidsBookScreen({
                 onClick={() => handleSelectProject(project)}
                 className={`w-full rounded-3xl px-4 py-4 text-left text-base font-semibold transition-all shadow-sm border ${
                   isActive
-                    ? "bg-gradient-to-r from-pink-400 to-rose-400 text-white border-rose-300 shadow-lg scale-[1.01]"
-                    : "bg-gradient-to-r from-pink-100 to-rose-50 text-pink-800 border-pink-200 hover:shadow-md hover:-translate-y-0.5"
+                    ? "bg-gradient-to-r from-blue-500 to-blue-600 text-white border-blue-400 shadow-lg scale-[1.01]"
+                    : "bg-gradient-to-r from-blue-50 to-blue-100 text-blue-800 border-blue-200 hover:shadow-md hover:-translate-y-0.5"
                 }`}
               >
                 {project.name}
@@ -78,7 +78,7 @@ export function KidsBookScreen({
       <main className="flex-1 flex flex-col">
         {/* Nội dung chính */}
         <div className="flex-1 relative min-h-full">
-          <div className="absolute inset-0 bg-gradient-to-br from-pink-50 via-rose-50 to-emerald-50" />
+          <div className="absolute inset-0 bg-blue-50" />
 
 {renderProjectContent ? (
             // Nếu truyền hàm render từ ngoài vào thì dùng nội dung đó (không căn giữa để cho phép scroll)
@@ -88,18 +88,18 @@ export function KidsBookScreen({
           ) : (
             // Hiển thị welcome message khi không có project nào được chọn
             <div className="relative flex h-full flex-col items-center justify-center px-6 sm:px-10 text-center">
-              <div className="max-w-3xl rounded-3xl bg-white/80 shadow-xl px-6 py-8 sm:px-10 sm:py-10 border border-pink-100">
-                <h1 className="mb-3 text-2xl sm:text-3xl font-extrabold text-pink-600">
+              <div className="max-w-3xl rounded-3xl bg-white/80 shadow-xl px-6 py-8 sm:px-10 sm:py-10 border border-blue-100">
+                <h1 className="mb-3 text-2xl sm:text-3xl font-extrabold text-blue-600">
                   📚 Kids Book Games
                 </h1>
-                <p className="text-sm sm:text-base text-pink-700 mb-4">
+                <p className="text-sm sm:text-base text-blue-700 mb-4">
                   Chọn một Project từ sidebar để bắt đầu chơi game!
                 </p>
                 <div className="mt-6 flex flex-wrap gap-2 justify-center">
                   {projects.slice(0, 5).map((project) => (
                     <span
                       key={project.id}
-                      className="px-3 py-1 rounded-full bg-pink-100 text-pink-700 text-xs font-medium"
+                      className="px-3 py-1 rounded-full bg-blue-100 text-blue-700 text-xs font-medium"
                     >
                       {project.name}
                     </span>

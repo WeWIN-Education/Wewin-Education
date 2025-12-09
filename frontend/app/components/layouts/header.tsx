@@ -20,15 +20,21 @@ export default function Navbar() {
   const [lastScrollY, setLastScrollY] = useState(0);
 
   const navRef = useRef<HTMLDivElement>(null);
-  const [navHeight, setNavHeight] = useState(0);
+  // Khởi tạo chiều cao ~72px để tránh navbar đè nội dung trước khi đo
+  const [navHeight, setNavHeight] = useState(72);
 
   const isAdmin = allowedEmails.includes(session?.user?.email || "");
 
-  // Detect Navbar height (dynamically)
+  // Detect Navbar height (dynamically) & update on resize
   useEffect(() => {
-    if (navRef.current) {
-      setNavHeight(navRef.current.offsetHeight);
-    }
+    const updateHeight = () => {
+      if (navRef.current) {
+        setNavHeight(navRef.current.offsetHeight);
+      }
+    };
+    updateHeight();
+    window.addEventListener("resize", updateHeight);
+    return () => window.removeEventListener("resize", updateHeight);
   }, [showNavbar]);
 
   // 🔹 Hiệu ứng ẩn/hiện khi cuộn

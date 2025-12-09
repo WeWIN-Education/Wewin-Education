@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type { FlipCardGameConfig } from "@/types/games";
 
 type Props = FlipCardGameConfig & {
@@ -12,20 +12,33 @@ export function FlipCardGame({ title, words, autoAudio = true, onComplete }: Pro
   const [revealedCount, setRevealedCount] = useState(0);
   const [completed, setCompleted] = useState(false);
 
-  const shuffledWords = useMemo(() => {
-    return [...words].sort(() => Math.random() - 0.5);
+  // Tránh dùng Math.random trong render SSR gây lệch hydration
+  const [shuffledWords, setShuffledWords] = useState(words);
+  useEffect(() => {
+    setShuffledWords([...words].sort(() => Math.random() - 0.5));
   }, [words]);
 
-  // Gọi onComplete sau khi completed state đã được cập nhật (tránh lỗi update trong render)
+  // Gọi onComplete một lần duy nhất khi game hoàn thành
+  // Sử dụng useRef để track xem đã gọi onComplete chưa, tránh gọi nhiều lần
+  const hasCalledOnComplete = useRef(false);
+  
   useEffect(() => {
-    if (completed && onComplete) {
+    if (completed && onComplete && !hasCalledOnComplete.current) {
+      hasCalledOnComplete.current = true;
       // Sử dụng setTimeout để đảm bảo được gọi sau khi render hoàn tất
       const timer = setTimeout(() => {
         onComplete();
-      }, 0);
+      }, 100); // Tăng delay một chút để đảm bảo state đã ổn định
       return () => clearTimeout(timer);
     }
   }, [completed, onComplete]);
+  
+  // Reset flag khi game được reset
+  useEffect(() => {
+    if (!completed) {
+      hasCalledOnComplete.current = false;
+    }
+  }, [completed]);
 
   const handleReveal = useCallback(
     (wordId: string, wordText: string) => {
@@ -60,7 +73,8 @@ export function FlipCardGame({ title, words, autoAudio = true, onComplete }: Pro
   }, []);
 
   return (
-    <section className="rounded-2xl border border-orange-100 bg-orange-50 p-4 sm:p-6 shadow-sm">
+    <section className="min-h-screen bg-blue-50 bg-fixed py-8 sm:py-10 px-3 sm:px-4 md:px-6">
+      <div className="rounded-2xl border border-orange-100 bg-white/90 p-4 sm:p-6 shadow-lg max-w-5xl mx-auto">
       <header className="text-center">
      
         <h2 className="text-lg sm:text-xl font-semibold text-orange-900">{title}</h2>
@@ -129,6 +143,7 @@ export function FlipCardGame({ title, words, autoAudio = true, onComplete }: Pro
         >
           🔄 Chơi lại
         </button>
+      </div>
       </div>
     </section>
   );

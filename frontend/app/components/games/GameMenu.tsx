@@ -192,8 +192,8 @@ export function GameMenu({
 
   if (currentView !== "menu") {
     return (
-      <div className="w-full bg-blue-50 py-2 sm:py-3">
-        <div className="w-full px-3 sm:px-4 md:px-6 text-black">
+      <div className="w-full min-h-screen bg-transparent py-8 sm:py-10 px-3 sm:px-4 md:px-6">
+        <div className="w-full text-black max-w-5xl mx-auto">
           {currentView === "matching" && (
             <MatchingGame
               {...matchingConfig}
@@ -242,13 +242,12 @@ export function GameMenu({
   }
 
   return (
-    <div className="max-w-5xl mx-auto px-4 py-6 sm:px-6">
-      <div className="text-center mb-6">
-        {description && (
-          <p className="text-sm text-gray-500">{description}</p>
-        )}
-      </div>
-      <div className="grid grid-cols-2 gap-4 sm:gap-6 max-w-2xl mx-auto">
+    <div className="min-h-screen bg-transparent px-4 py-10 sm:px-6">
+      <div className="max-w-5xl mx-auto">
+        <div className="text-center mb-6">
+          {description && <p className="text-sm text-gray-500">{description}</p>}
+        </div>
+        <div className="grid grid-cols-2 gap-4 sm:gap-6 max-w-2xl mx-auto">
         {gamesToShow.includes("matching") && (
           <button
             onClick={() => openGame("matching")}
@@ -343,6 +342,7 @@ export function GameMenu({
             </div>
           </button>
         )}
+      </div>
       </div>
     </div>
   );

@@ -36,12 +36,12 @@ export function BookUnitsSidebar({
 
   return (
     <aside
-      className={`hidden md:flex h-screen flex-col border-r border-pink-200 bg-gradient-to-b from-pink-100/90 to-pink-50 shadow-xl transition-all duration-300 overflow-hidden ${
+      className={`hidden md:flex h-screen flex-col border-r border-pink-200 bg-blue-50 shadow-xl transition-all duration-300 overflow-hidden ${
         collapsed ? "w-16" : "w-72"
       }`}
     >
       {/* Header */}
-      <div className="flex-shrink-0 flex items-center gap-3 px-4 py-4 border-b border-pink-200/70 bg-gradient-to-r from-pink-200 to-pink-100">
+      <div className="flex-shrink-0 flex items-center gap-3 px-4 py-4 border-b border-pink-200/70 bg-blue-50">
         <div className="w-9 h-9 bg-white/80 rounded-2xl flex items-center justify-center shadow-sm">
           <BookOpen className="w-5 h-5 text-pink-700" />
         </div>

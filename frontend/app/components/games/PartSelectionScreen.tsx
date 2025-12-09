@@ -32,11 +32,11 @@ export function PartSelectionScreen({
     return part.enabledGames?.length ?? unit.enabledGames?.length ?? DEFAULT_ENABLED_GAMES.length;
   };
 
-  // Lấy màu background từ unit config, mặc định là màu xanh lá
-  const bgColor = (unit as any).backgroundColor || "from-green-50 via-emerald-50 to-teal-50";
+  // Đặt nền đồng bộ một màu
+  const bgColor = "bg-blue-50";
 
   return (
-    <div className={`min-h-screen bg-gradient-to-br ${bgColor} p-5 pb-20`}>
+    <div className={`min-h-screen ${bgColor} p-5 pb-20`}>
       {/* Breadcrumb Navigation */}
       {showBreadcrumb && (
         <div className="pt-4 sm:pt-6 mb-4">
@@ -76,13 +76,8 @@ export function PartSelectionScreen({
       <div className="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
         {parts.map((part, index) => {
           const gameCount = getGameCount(part);
-          const gradientColors = [
-            ["from-blue-500", "to-blue-400"], // Part 1 - Blue
-            ["from-orange-500", "to-pink-400"], // Part 2 - Orange/Pink
-            ["from-purple-500", "to-purple-400"], // Part 3+ - Purple
-          ];
-          const [fromColor, toColor] =
-            gradientColors[index % gradientColors.length];
+          const fromColor = "from-blue-500";
+          const toColor = "to-blue-400";
 
           return (
             <div

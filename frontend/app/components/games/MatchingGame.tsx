@@ -134,7 +134,7 @@ export function MatchingGame({ title, pairs, showScore = true, onComplete }: Pro
   );
 
   return (
-    <section className="w-full relative">
+    <section className="w-full relative min-h-screen bg-blue-50 bg-fixed py-8 sm:py-10 px-3 sm:px-4 md:px-6">
       {/* Popup tick xanh khi nối đúng */}
       {showCorrectPopup && (
         <div className="pointer-events-none fixed inset-0 z-[60] flex items-center justify-center">
@@ -144,7 +144,7 @@ export function MatchingGame({ title, pairs, showScore = true, onComplete }: Pro
         </div>
       )}
 
-      <div className="w-full rounded-[32px] border border-blue-100 bg-white/95 p-4 sm:p-6 md:p-8 shadow-xl text-black">
+      <div className="w-full rounded-[32px] border border-blue-100 bg-white/95 p-4 sm:p-6 md:p-8 shadow-xl text-black max-w-5xl mx-auto">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between border-b border-blue-100 pb-4 mb-6">
         <div>
         
