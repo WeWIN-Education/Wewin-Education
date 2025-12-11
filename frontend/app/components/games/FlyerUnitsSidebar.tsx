@@ -45,35 +45,43 @@ export function FlyerUnitsSidebar({ isOpen = false, onClose }: FlyerUnitsSidebar
       )}
 
       <aside
-        className={`fixed md:relative top-[72px] md:top-0 left-0 h-full flex flex-col border-r border-blue-200 bg-blue-50 shadow-xl transition-all duration-300 overflow-hidden z-40 ${
+        className={`fixed md:static top-[72px] md:top-0 left-0 h-screen md:h-auto md:min-h-full md:self-stretch flex flex-col border-r border-pink-200 bg-pink-50 shadow-xl transition-all duration-300 overflow-hidden z-40 ${
           collapsed ? "w-16" : "w-72"
         } ${
-          isOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"
-        } md:flex`}
+          // Mobile: slide in/out từ bên trái
+          isOpen
+            ? "translate-x-0"
+            : "-translate-x-full md:translate-x-0"
+        } ${
+          // Desktop: luôn hiển thị
+          "md:flex"
+        }`}
       >
-        <div className="flex-shrink-0 flex items-center gap-3 px-4 py-4 border-b border-blue-200/70 bg-blue-50">
-          <div className="w-9 h-9 bg-white/80 rounded-2xl flex items-center justify-center shadow-sm">
-            <BookOpen className="w-5 h-5 text-blue-700" />
-          </div>
-          {!collapsed && (
-            <div className="flex-1">
-              <div className="text-sm font-extrabold text-blue-800 tracking-wide">
-                Flyer Book
-              </div>
-              <div className="text-[11px] font-medium text-blue-700">
-                Chọn Unit để chuyển nhanh
-              </div>
-            </div>
-          )}
-          {!collapsed && onClose && (
-            <button
-              onClick={onClose}
-              className="md:hidden w-8 h-8 flex items-center justify-center rounded-lg hover:bg-blue-200/50 transition-colors"
-            >
-              <X className="w-5 h-5 text-blue-800" />
-            </button>
-          )}
+      {/* Header (đồng bộ với KidsUnitsSidebar) */}
+      <div className="flex-shrink-0 flex items-center gap-3 px-4 py-4 border-b border-pink-200/70 bg-pink-50">
+        <div className="w-9 h-9 bg-white/80 rounded-2xl flex items-center justify-center shadow-sm">
+          <BookOpen className="w-5 h-5 text-blue-700" />
         </div>
+        {!collapsed && (
+          <div className="flex-1">
+            <div className="text-sm font-extrabold text-blue-800 tracking-wide">
+              Flyer Book
+            </div>
+            <div className="text-[11px] font-medium text-blue-700">
+              Chọn Unit để chuyển nhanh
+            </div>
+          </div>
+        )}
+        {/* Nút đóng trên mobile */}
+        {!collapsed && onClose && (
+          <button
+            onClick={onClose}
+            className="md:hidden w-8 h-8 flex items-center justify-center rounded-lg hover:bg-blue-200/50 transition-colors"
+          >
+            <X className="w-5 h-5 text-blue-800" />
+          </button>
+        )}
+      </div>
 
         <nav className="flex-1 overflow-y-auto p-3 space-y-2">
           {projects.map((project) => {
@@ -113,22 +121,23 @@ export function FlyerUnitsSidebar({ isOpen = false, onClose }: FlyerUnitsSidebar
           })}
         </nav>
 
-        <div className="flex-shrink-0 mt-auto p-3 border-t border-blue-200/70">
-          <button
-            onClick={() => setCollapsed((v) => !v)}
-            className="w-full flex items-center justify-center gap-2 bg-blue-100 hover:bg-blue-200 text-blue-800 rounded-xl py-2 text-xs font-semibold transition-all"
-          >
-            {collapsed ? (
-              <PanelLeftOpen className="w-4 h-4" />
-            ) : (
-              <>
-                <PanelLeftClose className="w-4 h-4" />
-                <span>Thu gọn</span>
-              </>
-            )}
-          </button>
-        </div>
-      </aside>
+      {/* Nút thu gọn / mở rộng */}
+      <div className="flex-shrink-0 mt-auto p-3 border-t border-blue-200/70">
+        <button
+          onClick={() => setCollapsed((v) => !v)}
+          className="w-full flex items-center justify-center gap-2 bg-blue-100 hover:bg-blue-200 text-blue-800 rounded-xl py-2 text-xs font-semibold transition-all"
+        >
+          {collapsed ? (
+            <PanelLeftOpen className="w-4 h-4" />
+          ) : (
+            <>
+              <PanelLeftClose className="w-4 h-4" />
+              <span>Thu gọn</span>
+            </>
+          )}
+        </button>
+      </div>
+    </aside>
     </>
   );
 }

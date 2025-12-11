@@ -1,14 +1,14 @@
 "use client";
 
-import { useMemo, useState, useEffect, useTransition } from "react";
+import {
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+  useTransition,
+} from "react";
+import dynamic from "next/dynamic";
 import { usePathname, useRouter } from "next/navigation";
-import { MatchingGame } from "@/app/components/games/MatchingGame";
-import { FlipCardGame } from "@/app/components/games/FlipCardGame";
-import { PronunciationGame } from "@/app/components/games/PronunciationGame";
-import { QuizGame } from "@/app/components/games/QuizGame";
-import { MemoryGame } from "@/app/components/games/MemoryGame";
-import { WordOrderingGame } from "@/app/components/games/WordOrderingGame";
-import { WordScrambleGame } from "@/app/components/games/WordScrambleGame";
 import type {
   GameKey,
   QuizGameConfig,
@@ -17,6 +17,56 @@ import type {
   WordScrambleGameConfig,
 } from "@/types/games";
 import { DEFAULT_ENABLED_GAMES } from "@/types/games";
+
+const MatchingGame = dynamic(
+  () =>
+    import("@/app/components/games/MatchingGame").then(
+      (m) => m.MatchingGame
+    ),
+  { ssr: false }
+);
+
+const FlipCardGame = dynamic(
+  () =>
+    import("@/app/components/games/FlipCardGame").then(
+      (m) => m.FlipCardGame
+    ),
+  { ssr: false }
+);
+
+const PronunciationGame = dynamic(
+  () =>
+    import("@/app/components/games/PronunciationGame").then(
+      (m) => m.PronunciationGame
+    ),
+  { ssr: false }
+);
+
+const QuizGame = dynamic(
+  () => import("@/app/components/games/QuizGame").then((m) => m.QuizGame),
+  { ssr: false }
+);
+
+const MemoryGame = dynamic(
+  () => import("@/app/components/games/MemoryGame").then((m) => m.MemoryGame),
+  { ssr: false }
+);
+
+const WordOrderingGame = dynamic(
+  () =>
+    import("@/app/components/games/WordOrderingGame").then(
+      (m) => m.WordOrderingGame
+    ),
+  { ssr: false }
+);
+
+const WordScrambleGame = dynamic(
+  () =>
+    import("@/app/components/games/WordScrambleGame").then(
+      (m) => m.WordScrambleGame
+    ),
+  { ssr: false }
+);
 
 type GameMenuProps = {
   title: string;
@@ -32,6 +82,8 @@ type GameMenuProps = {
   unitName?: string;
   bookname?: string;
   slug?: string;
+  partId?: string;
+  allowNavigation?: boolean;
   activeView?: GameType | "menu";
   onChangeView?: (view: GameType | "menu") => void;
 };
@@ -52,6 +104,8 @@ export function GameMenu({
   unitName,
   bookname,
   slug,
+  partId,
+  allowNavigation = true,
   activeView,
   onChangeView,
 }: GameMenuProps) {
@@ -60,18 +114,22 @@ export function GameMenu({
   const [isPending, startTransition] = useTransition();
 
   // Xác định game từ URL nếu có dạng .../[slug]/matching
-  const pathSegments = pathname.split("/").filter(Boolean);
-  const lastSegment = pathSegments[pathSegments.length - 1];
-  const urlGame: GameType | "menu" =
-    lastSegment === "matching" ||
-    lastSegment === "flip" ||
-    lastSegment === "speak" ||
-    lastSegment === "quiz" ||
-    lastSegment === "memory" ||
-    lastSegment === "ordering" ||
-    lastSegment === "scramble"
-      ? (lastSegment as GameType)
-      : "menu";
+  const { pathSegments, urlGame } = useMemo(() => {
+    const segments = pathname.split("/").filter(Boolean);
+    const lastSegment = segments[segments.length - 1];
+    const gameFromUrl: GameType | "menu" =
+      lastSegment === "matching" ||
+      lastSegment === "flip" ||
+      lastSegment === "speak" ||
+      lastSegment === "quiz" ||
+      lastSegment === "memory" ||
+      lastSegment === "ordering" ||
+      lastSegment === "scramble"
+        ? (lastSegment as GameType)
+        : "menu";
+
+    return { pathSegments: segments, urlGame: gameFromUrl };
+  }, [pathname]);
 
   // Local state nếu component không được điều khiển từ bên ngoài
   const [internalView, setInternalView] = useState<GameType | "menu">(urlGame);
@@ -79,7 +137,10 @@ export function GameMenu({
   const currentView = activeView ?? internalView;
   const setView = onChangeView ?? setInternalView;
 
-  const gamesToShow = enabledGames ?? DEFAULT_ENABLED_GAMES;
+  const gamesToShow = useMemo(
+    () => enabledGames ?? DEFAULT_ENABLED_GAMES,
+    [enabledGames]
+  );
 
   // Đồng bộ view khi URL đổi (back/forward)
   useEffect(() => {
@@ -87,43 +148,63 @@ export function GameMenu({
   }, [urlGame]);
 
   // Tạo config cho các game
-  const matchingConfig = {
-    title: "Matching Game",
-    pairs: words.map((word) => ({
-      left: word.text.charAt(0).toUpperCase() + word.text.slice(1),
-      right: word.meaning || word.text,
-    })),
-    showScore: true,
-  };
+  const matchingConfig = useMemo(
+    () => ({
+      title: "Matching Game",
+      pairs: words.map((word) => ({
+        left: word.text.charAt(0).toUpperCase() + word.text.slice(1),
+        right: word.meaning || word.text,
+      })),
+      showScore: true,
+    }),
+    [words]
+  );
 
-  const flipCardConfig = {
-    title: "Flip Card Game",
-    words,
-    autoAudio,
-  };
+  const flipCardConfig = useMemo(
+    () => ({
+      title: "Flip Card Game",
+      words,
+      autoAudio,
+    }),
+    [autoAudio, words]
+  );
 
-  const pronunciationConfig = {
-    title: "Pronunciation Game",
-    words,
-  };
+  const pronunciationConfig = useMemo(
+    () => ({
+      title: "Pronunciation Game",
+      words,
+    }),
+    [words]
+  );
 
-  const memoryConfig = {
-    title: "Memory Game",
-    words,
-    showScore: true,
-  };
+  const memoryConfig = useMemo(
+    () => ({
+      title: "Memory Game",
+      words,
+      showScore: true,
+    }),
+    [words]
+  );
 
-  const orderingConfig = wordOrderingConfig ?? {
-    title: `${title} - Word Ordering`,
-    words,
-    showScore: true,
-  };
+  const orderingConfig = useMemo(
+    () =>
+      wordOrderingConfig ?? {
+        title: `${title} - Word Ordering`,
+        words,
+        showScore: true,
+      },
+    [title, wordOrderingConfig, words]
+  );
 
-  const scrambleConfig = wordScrambleConfig ?? {
-    title: `${title} - Word Scramble`,
-    words,
-    showScore: true,
-  };
+  const scrambleConfig = useMemo(
+    () =>
+      wordScrambleConfig ?? {
+        title: `${title} - Word Scramble`,
+        words,
+        showScore: true,
+      },
+    [title, wordScrambleConfig, words]
+  );
 
   const generatedQuizConfig = useMemo<QuizGameConfig>(() => {
     if (!words.length) {
@@ -153,42 +234,44 @@ export function GameMenu({
 
   const quizConfigToUse = quizConfig ?? generatedQuizConfig;
 
-  const openGame = (gameType: GameType) => {
-    if (!gamesToShow.includes(gameType)) return;
+  const openGame = useCallback(
+    (gameType: GameType) => {
+      if (!gamesToShow.includes(gameType)) return;
 
-    // Nếu có slug, điều hướng URL tới /[slug]/[game]
-    if (slug) {
-      // Tự động detect base path từ pathname hiện tại (hỗ trợ nhiều sách)
-      // Ví dụ: /resources/kids/Games/unit-1 -> base = /resources/kids/Games
-      //        /resources/mover/Games/unit-1 -> base = /resources/mover/Games
-      const pathSegments = pathname.split("/").filter(Boolean);
-      const gamesIndex = pathSegments.findIndex((seg) => seg === "Games");
-      if (gamesIndex >= 0) {
-        const base = "/" + pathSegments.slice(0, gamesIndex + 1).join("/");
-        let targetUrl = "";
-        if (gameType === "matching") targetUrl = `${base}/${slug}/matching`;
-        if (gameType === "flip") targetUrl = `${base}/${slug}/flip`;
-        if (gameType === "speak") targetUrl = `${base}/${slug}/speak`;
-        if (gameType === "quiz") targetUrl = `${base}/${slug}/quiz`;
-        if (gameType === "memory") targetUrl = `${base}/${slug}/memory`;
-        if (gameType === "ordering") targetUrl = `${base}/${slug}/ordering`;
-        if (gameType === "scramble") targetUrl = `${base}/${slug}/scramble`;
-        
-        if (targetUrl) {
-          // Prefetch route để tăng tốc navigation
-          router.prefetch(targetUrl);
-          // Set view trước khi navigate để tránh flash về menu
-          startTransition(() => {
-            setView(gameType);
-            router.push(targetUrl);
-          });
+      // Nếu có slug → điều hướng kèm part (nếu có) để đồng bộ với UnitGameScreen
+      if (allowNavigation && slug) {
+        const gamesIndex = pathSegments.findIndex((seg) => seg === "Games");
+        if (gamesIndex >= 0) {
+          const base = "/" + pathSegments.slice(0, gamesIndex + 1).join("/");
+          const partSegment = partId ? `/${partId}` : "";
+          const targetUrl = `${base}/${slug}${partSegment}/${gameType}`;
+
+          if (pathname !== targetUrl) {
+            router.prefetch(targetUrl);
+            startTransition(() => {
+              setView(gameType);
+              router.push(targetUrl);
+            });
+            return;
+          }
         }
       }
-    } else {
-      // Nếu không có slug, chỉ set view
+
+      // Nếu không có slug hoặc không xác định được base, chỉ set view tại chỗ
       setView(gameType);
-    }
-  };
+    },
+    [
+      allowNavigation,
+      gamesToShow,
+      partId,
+      pathname,
+      pathSegments,
+      router,
+      setView,
+      slug,
+      startTransition,
+    ]
+  );
 
   if (currentView !== "menu") {
     return (

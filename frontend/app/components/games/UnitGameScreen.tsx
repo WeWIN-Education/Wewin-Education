@@ -1,11 +1,11 @@
 "use client";
 
-import { 
-  useEffect, 
-  useMemo, 
-  useRef, 
-  useState, 
-  useTransition 
+import {
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  useTransition,
 } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
@@ -47,6 +47,23 @@ type UnitGameScreenProps = {
 
 type ProgressState = Record<GameKey, boolean>;
 type ScoreState = Record<GameKey, number>;
+
+/* ---------------------------------------------------
+    IDLE HELPERS (avoid blocking render)
+-----------------------------------------------------*/
+
+const runIdle = (cb: () => void) => {
+  if (typeof window === "undefined") return;
+  // Prefer idle callback, fallback to timeout
+  const ric = (window as any).requestIdleCallback as
+    | ((cb: () => void, opts?: { timeout?: number }) => number)
+    | undefined;
+  if (ric) {
+    ric(cb, { timeout: 300 });
+  } else {
+    setTimeout(cb, 0);
+  }
+};
 
 /* ---------------------------------------------------
     DEFAULT STATE HELPERS
@@ -105,8 +122,10 @@ export function UnitGameScreen({
 }: UnitGameScreenProps) {
 
   const parts = unit.parts ?? [];
+  const partIdsKey = useMemo(() => parts.map((p) => p.id).join("|"), [parts]);
   const hasParts = parts.length > 0;
   const multipleParts = parts.length > 1;
+  const navigationEnabled = hasParts && multipleParts;
 
   const router = useRouter();
   const pathname = usePathname();
@@ -135,11 +154,31 @@ export function UnitGameScreen({
 
   const getPartFromPath = (path: string): string | null => {
     const segments = path.split("/").filter(Boolean);
-    // Expect path: .../unitSlug/[partId]/[game?]
-    if (segments.length >= 3) {
+    const validGames: GameKey[] = [
+      "matching",
+      "flip",
+      "speak",
+      "quiz",
+      "memory",
+      "ordering",
+      "scramble",
+    ];
+
+    // Case 1: .../[slug]/[part]/[game]
+    if (segments.length >= 5) {
+      const last = segments[segments.length - 1];
       const maybePart = segments[segments.length - 2];
-      return maybePart || null;
+      if (validGames.includes(last as GameKey) && parts.some((p) => p.id === maybePart)) {
+        return maybePart;
+      }
     }
+
+    // Case 2: .../[slug]/[part]
+    if (segments.length >= 4) {
+      const maybePart = segments[segments.length - 1];
+      if (parts.some((p) => p.id === maybePart)) return maybePart;
+    }
+
     return null;
   };
 
@@ -191,6 +230,7 @@ const [selectedPartId, setSelectedPartId] = useState(() => {
   );
 
   const [notificationVisible, setNotificationVisible] = useState(false);
+  const [isHydrated, setIsHydrated] = useState(false);
   const [notificationMessage, setNotificationMessage] = useState("");
 
   const [isPending, startTransition] = useTransition();
@@ -254,6 +294,8 @@ useEffect(() => {
     useEffect 2 — xử lý khi URL/pathname thay đổi
 -----------------------------------------------------*/
 useEffect(() => {
+  if (!navigationEnabled) return;
+
   const view = getViewFromPath(pathname);
   const partFromPath = getPartFromPath(pathname);
 
@@ -269,6 +311,9 @@ useEffect(() => {
     if (partFromPath && parts.some((p) => p.id === partFromPath)) {
       setSelectedPartId(partFromPath);
       sessionStorage.setItem(partKey, partFromPath);
+      // Khi URL đã có part hợp lệ, luôn ở mode play để không bật lại màn chọn part
+      setMode("play");
+      sessionStorage.setItem(modeKey, "play");
     }
 
     const isGameView =
@@ -291,15 +336,30 @@ useEffect(() => {
       }
     }
 
-    // QUAN TRỌNG: view === "menu" → KHÔNG ép mode  
+    // Nếu ở view menu nhưng URL đã chứa part → đảm bảo mode play
+    if (!isGameView && partFromPath) {
+      setMode("play");
+      sessionStorage.setItem(modeKey, "play");
+    }
+
+    // QUAN TRỌNG: view === "menu" → KHÔNG ép mode
     // => giữ nguyên mode = "select" nếu user đang ở màn chọn part
   });
-}, [pathname, hasParts, selectedPartId, parts.length, unit.slug, parts]);
+}, [
+  pathname,
+  navigationEnabled,
+  hasParts,
+  selectedPartId,
+  partIdsKey,
+  unit.slug,
+]);
 
 /* ---------------------------------------------------
-    useEffect 3 — load initial playerId nếu có
+    useEffect 3 — mark hydration + load initial playerId nếu có
 -----------------------------------------------------*/
 useEffect(() => {
+  setIsHydrated(true);
+
   if (initialPlayerId) {
     setInternalPlayerId(initialPlayerId);
     setInternalShowIdModal(false);
@@ -337,62 +397,65 @@ useEffect(() => {
     useEffect 5 — kiểm tra reload và load lại progress
 -----------------------------------------------------*/
 useEffect(() => {
-  if (typeof window === "undefined") return;
+  if (!isHydrated || typeof window === "undefined") return;
 
-  const wasReload = sessionStorage.getItem(RELOAD_FLAG_KEY) === "1";
+  runIdle(() => {
+    const wasReload = sessionStorage.getItem(RELOAD_FLAG_KEY) === "1";
 
-  const bookPrefix = unit.bookname
-    .toLowerCase()
-    .replace(/\s+/g, "_")
-    .replace(/[^a-z0-9_]/g, "");
+    const bookPrefix = unit.bookname
+      .toLowerCase()
+      .replace(/\s+/g, "_")
+      .replace(/[^a-z0-9_]/g, "");
 
-  const partKey = activePart ? activePart.id : "default";
-  const playerKey = playerId || "guest";
+    const partKey = activePart ? activePart.id : "default";
+    const playerKey = playerId || "guest";
 
-  const progressKey = `progress_${bookPrefix}_${unit.slug}_${partKey}_${playerKey}`;
+    const progressKey = `progress_${bookPrefix}_${unit.slug}_${partKey}_${playerKey}`;
 
-  if (wasReload) {
-    const unitPrefix = `progress_${bookPrefix}_${unit.slug}_`;
+    if (wasReload) {
+      const unitPrefix = `progress_${bookPrefix}_${unit.slug}_`;
 
-    const keysToClear: string[] = [];
-    for (let i = 0; i < sessionStorage.length; i++) {
-      const k = sessionStorage.key(i);
-      if (k && k.startsWith(unitPrefix)) keysToClear.push(k);
+      const keysToClear: string[] = [];
+      for (let i = 0; i < sessionStorage.length; i++) {
+        const k = sessionStorage.key(i);
+        if (k && k.startsWith(unitPrefix)) keysToClear.push(k);
+      }
+
+      keysToClear.forEach((k) => sessionStorage.removeItem(k));
+
+      setProgress(createDefaultProgress());
+      setScores(createDefaultScores());
+
+      if (!externalOnPlayerIdSubmit && !externalOnPlayerIdSkip) {
+        setInternalPlayerId("");
+        setInternalShowIdModal(true);
+      }
+
+      sessionStorage.removeItem(RELOAD_FLAG_KEY);
+      return;
     }
 
-    keysToClear.forEach((k) => sessionStorage.removeItem(k));
+    try {
+      const saved = sessionStorage.getItem(progressKey);
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        setProgress({
+          ...createDefaultProgress(),
+          ...(parsed.progress || {}),
+        });
+        setScores({
+          ...createDefaultScores(),
+          ...(parsed.scores || {}),
+        });
+        return;
+      }
+    } catch {}
 
     setProgress(createDefaultProgress());
     setScores(createDefaultScores());
-
-    if (!externalOnPlayerIdSubmit && !externalOnPlayerIdSkip) {
-      setInternalPlayerId("");
-      setInternalShowIdModal(true);
-    }
-
-    sessionStorage.removeItem(RELOAD_FLAG_KEY);
-    return;
-  }
-
-  try {
-    const saved = sessionStorage.getItem(progressKey);
-    if (saved) {
-      const parsed = JSON.parse(saved);
-      setProgress({
-        ...createDefaultProgress(),
-        ...(parsed.progress || {}),
-      });
-      setScores({
-        ...createDefaultScores(),
-        ...(parsed.scores || {}),
-      });
-      return;
-    }
-  } catch {}
-
-  setProgress(createDefaultProgress());
-  setScores(createDefaultScores());
+  });
 }, [
+  isHydrated,
   unit.slug,
   unit.bookname,
   activePart?.id,
@@ -406,30 +469,33 @@ useEffect(() => {
     useEffect 6 — lưu progress & scores vào sessionStorage
 -----------------------------------------------------*/
 useEffect(() => {
-  if (typeof window === "undefined") return;
+  if (!isHydrated || typeof window === "undefined") return;
 
   const hasProgress = Object.values(progress).some((v) => v);
   const hasScore = Object.values(scores).some((v) => v > 0);
 
   if (!hasProgress && !hasScore) return;
 
-  const bookPrefix = unit.bookname
-    .toLowerCase()
-    .replace(/\s+/g, "_")
-    .replace(/[^a-z0-9_]/g, "");
+  runIdle(() => {
+    const bookPrefix = unit.bookname
+      .toLowerCase()
+      .replace(/\s+/g, "_")
+      .replace(/[^a-z0-9_]/g, "");
 
-  const partKey = activePart ? activePart.id : "default";
-  const playerKey = playerId || "guest";
+    const partKey = activePart ? activePart.id : "default";
+    const playerKey = playerId || "guest";
 
-  const progressKey = `progress_${bookPrefix}_${unit.slug}_${partKey}_${playerKey}`;
+    const progressKey = `progress_${bookPrefix}_${unit.slug}_${partKey}_${playerKey}`;
 
-  try {
-    sessionStorage.setItem(
-      progressKey,
-      JSON.stringify({ progress, scores })
-    );
-  } catch {}
+    try {
+      sessionStorage.setItem(
+        progressKey,
+        JSON.stringify({ progress, scores })
+      );
+    } catch {}
+  });
 }, [
+  isHydrated,
   progress,
   scores,
   unit.bookname,
@@ -544,6 +610,13 @@ const getNextGame = (current: GameKey): GameKey | null => {
   return next ?? null;
 };
 
+const buildPartUrl = (base: string) => {
+  if (navigationEnabled && selectedPartId) {
+    return `${base}/${unit.slug}/${selectedPartId}`;
+  }
+  return `${base}/${unit.slug}`;
+};
+
 /* ---------------------------------------------------
     HANDLE RESET UNIT
 -----------------------------------------------------*/
@@ -630,14 +703,15 @@ const handleGameComplete = (game: GameKey, score?: number) => {
       startTransition(() => {
         setMode("play");
         setCurrentView(nextGame);
-        router.push(`${breadcrumbBackUrl}/${unit.slug}/${path}`);
+        const partPrefix = navigationEnabled && selectedPartId ? `/${selectedPartId}` : "";
+        router.push(`${breadcrumbBackUrl}/${unit.slug}${partPrefix}/${path}`);
       });
     } else {
       // Trở về menu game
       startTransition(() => {
         setMode("play");
         setCurrentView("menu");
-        router.push(`${breadcrumbBackUrl}/${unit.slug}`);
+        router.push(buildPartUrl(breadcrumbBackUrl));
       });
     }
 
@@ -671,18 +745,17 @@ const handleSkipPlayerId = () => {
     HANDLE SELECT PART
 -----------------------------------------------------*/
 const handleSelectPart = (partId: string) => {
-  startTransition(() => {
-    setSelectedPartId(partId);
-    setMode("play");
-    setCurrentView("menu");
+  setSelectedPartId(partId);
+  setMode("play");
+  setCurrentView("menu");
 
-    const partKey = `${unit.slug}_selected_part`;
-    const modeKey = `${unit.slug}_mode`;
+  const partKey = `${unit.slug}_selected_part`;
+  const modeKey = `${unit.slug}_mode`;
 
-    sessionStorage.setItem(partKey, partId);
-    sessionStorage.setItem(modeKey, "play");
-    router.push(`${breadcrumbBackUrl}/${unit.slug}/${partId}`);
-  });
+  sessionStorage.setItem(partKey, partId);
+  sessionStorage.setItem(modeKey, "play");
+  // Sử dụng replace để không thêm history và tránh cần click lần 2
+  router.replace(`${breadcrumbBackUrl}/${unit.slug}/${partId}`);
 };
 
 /* ---------------------------------------------------
@@ -710,7 +783,7 @@ const goToMenu = () => {
 
   startTransition(() => {
     setCurrentView("menu");
-    router.replace(`${breadcrumbBackUrl}/${unit.slug}`);
+    router.replace(buildPartUrl(breadcrumbBackUrl));
   });
 
   setTimeout(() => {
@@ -858,6 +931,8 @@ return (
         unitName={activePart ? activePart.title : unit.name}
         bookname={unit.bookname}
         slug={unit.slug}
+      allowNavigation={navigationEnabled}
+      partId={activePart?.id}
         activeView={currentView}
         onChangeView={setCurrentView}
       />
