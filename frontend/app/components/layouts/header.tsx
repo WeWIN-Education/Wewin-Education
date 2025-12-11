@@ -15,6 +15,8 @@ import { useRouter } from "next/navigation";
 
 export default function Navbar() {
   const { data: session } = useSession();
+  console.log(session);
+
   const [menuOpen, setMenuOpen] = useState(false);
   const [showNavbar, setShowNavbar] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
@@ -75,27 +77,28 @@ export default function Navbar() {
               {
                 <div className="hidden lg:flex items-center justify-center gap-4 xl:gap-6 mx-auto">
                   {/* Menu 1: Tests */}
-                  {/* {session && !isAdmin && ( */}
+                  {session && !isAdmin && (
                     <Dropdown
                       title="Resources"
                       icon={<IconDoc />}
                       items={[
                         { href: Routes.RESOURCES, label: "Books" },
+                        
                       ]}
                     />
-                  {/* )} */}
+                  )}
                 </div>
               }
 
               {/* 🔹 User / Login */}
-              {/* <div className="flex items-center gap-3 shrink-0">
+              <div className="flex items-center gap-3 shrink-0">
                 <UserSection
                   session={session}
                   isAdmin={isAdmin}
                   setMenuOpen={setMenuOpen}
                 />
                 <BurgerButton menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
-              </div> */}
+              </div>
             </div>
 
             {/* 🔹 Mobile Menu */}
@@ -277,45 +280,50 @@ function MobileMenu({ menuOpen, setMenuOpen, session, isAdmin }: any) {
             title="Resources"
             items={[
               {
-                href: Routes.RESOURCES_KIDS,
+                href: Routes.RESOURCES,
                 icon: <BookOpen className="w-5 h-5" />,
-                label: "Kids",
+                label: "Books",
               },
-              {
-                href: Routes.RESOURCES_STARTERS_FOUNDATION,
-                icon: <BookOpen className="w-5 h-5" />,
-                label: "Starters Foundation",
-              },
-              {
-                href: Routes.RESOURCES_STARTERS,
-                icon: <BookOpen className="w-5 h-5" />,
-                label: "Starters",
-              },
-              {
-                href: Routes.RESOURCES_MOVERS,
-                icon: <BookOpen className="w-5 h-5" />,
-                label: "Movers",
-              },
-              {
-                href: Routes.RESOURCES_FLYERS,
-                icon: <BookOpen className="w-5 h-5" />,
-                label: "Flyers",
-              },
-              {
-                href: Routes.RESOURCES_AUDIO,
-                icon: <BookOpen className="w-5 h-5" />,
-                label: "Audio",
-              },
-              {
-                href: Routes.RESOURCES_VIDEO,
-                icon: <BookOpen className="w-5 h-5" />,
-                label: "Video",
-              },
-              {
-                href: Routes.RESOURCES_GAMES,
-                icon: <BookOpen className="w-5 h-5" />,
-                label: "Games",
-              },
+              // {
+              //   href: Routes.RESOURCES_KIDS,
+              //   icon: <BookOpen className="w-5 h-5" />,
+              //   label: "Kids",
+              // },
+              // {
+              //   href: Routes.RESOURCES_STARTERS_FOUNDATION,
+              //   icon: <BookOpen className="w-5 h-5" />,
+              //   label: "Starters Foundation",
+              // },
+              // {
+              //   href: Routes.RESOURCES_STARTERS,
+              //   icon: <BookOpen className="w-5 h-5" />,
+              //   label: "Starters",
+              // },
+              // {
+              //   href: Routes.RESOURCES_MOVERS,
+              //   icon: <BookOpen className="w-5 h-5" />,
+              //   label: "Movers",
+              // },
+              // {
+              //   href: Routes.RESOURCES_FLYERS,
+              //   icon: <BookOpen className="w-5 h-5" />,
+              //   label: "Flyers",
+              // },
+              // {
+              //   href: Routes.RESOURCES_AUDIO,
+              //   icon: <BookOpen className="w-5 h-5" />,
+              //   label: "Audio",
+              // },
+              // {
+              //   href: Routes.RESOURCES_VIDEO,
+              //   icon: <BookOpen className="w-5 h-5" />,
+              //   label: "Video",
+              // },
+              // {
+              //   href: Routes.RESOURCES_GAMES,
+              //   icon: <BookOpen className="w-5 h-5" />,
+              //   label: "Games",
+              // },
             ]}
             setMenuOpen={setMenuOpen}
           />
@@ -359,7 +367,6 @@ function MobileMenu({ menuOpen, setMenuOpen, session, isAdmin }: any) {
           {/* ------------------------------------
               USER INFO + LOGIN / LOGOUT
           -------------------------------------- */}
-          
         </div>
       </motion.div>
     </AnimatePresence>

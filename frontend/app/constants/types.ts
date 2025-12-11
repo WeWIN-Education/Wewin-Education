@@ -19,6 +19,7 @@ export interface Book {
   id: string;
   name: string;
   status: "active" | "inactive";
+  imgUrl: string;
   description?: string;
 }
 
