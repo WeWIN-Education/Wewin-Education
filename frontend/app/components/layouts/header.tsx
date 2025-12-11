@@ -22,15 +22,21 @@ export default function Navbar() {
   const [lastScrollY, setLastScrollY] = useState(0);
 
   const navRef = useRef<HTMLDivElement>(null);
-  const [navHeight, setNavHeight] = useState(0);
+  // Khởi tạo chiều cao ~72px để tránh navbar đè nội dung trước khi đo
+  const [navHeight, setNavHeight] = useState(72);
 
   const isAdmin = allowedEmails.includes(session?.user?.email || "");
 
-  // Detect Navbar height (dynamically)
+  // Detect Navbar height (dynamically) & update on resize
   useEffect(() => {
-    if (navRef.current) {
-      setNavHeight(navRef.current.offsetHeight);
-    }
+    const updateHeight = () => {
+      if (navRef.current) {
+        setNavHeight(navRef.current.offsetHeight);
+      }
+    };
+    updateHeight();
+    window.addEventListener("resize", updateHeight);
+    return () => window.removeEventListener("resize", updateHeight);
   }, [showNavbar]);
 
   // 🔹 Hiệu ứng ẩn/hiện khi cuộn
@@ -71,37 +77,27 @@ export default function Navbar() {
               {
                 <div className="hidden lg:flex items-center justify-center gap-4 xl:gap-6 mx-auto">
                   {/* Menu 1: Tests */}
-                  {session && !isAdmin && (
+                  {/* {session && !isAdmin && ( */}
                     <Dropdown
                       title="Resources"
                       icon={<IconDoc />}
                       items={[
-                        { href: Routes.RESOURCES_KIDS, label: "Kids" },
-                        {
-                          href: Routes.RESOURCES_STARTERS_FOUNDATION,
-                          label: "Starters Foundation",
-                        },
-                        { href: Routes.RESOURCES_STARTERS, label: "Starters" },
-                        { href: Routes.RESOURCES_MOVERS, label: "Movers" },
-                        { href: Routes.RESOURCES_FLYERS, label: "Flyers" },
-                        { href: Routes.RESOURCES_AUDIO, label: "Audio" },
-                        { href: Routes.RESOURCES_VIDEO, label: "Video" },
-                        { href: Routes.RESOURCES_GAMES, label: "Games" },
+                        { href: Routes.RESOURCES, label: "Books" },
                       ]}
                     />
-                  )}
+                  {/* )} */}
                 </div>
               }
 
               {/* 🔹 User / Login */}
-              <div className="flex items-center gap-3 shrink-0">
+              {/* <div className="flex items-center gap-3 shrink-0">
                 <UserSection
                   session={session}
                   isAdmin={isAdmin}
                   setMenuOpen={setMenuOpen}
                 />
                 <BurgerButton menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
-              </div>
+              </div> */}
             </div>
 
             {/* 🔹 Mobile Menu */}
@@ -365,45 +361,7 @@ function MobileMenu({ menuOpen, setMenuOpen, session, isAdmin }: any) {
           {/* ------------------------------------
               USER INFO + LOGIN / LOGOUT
           -------------------------------------- */}
-          <div className="pt-4 border-t border-white/20">
-            {!session ? (
-              <>
-                {/* Guest → show nút login */}
-                <button
-                  onClick={() => {
-                    setMenuOpen(false);
-                    router.push("/login");
-                  }}
-                  className="w-full bg-white text-[#0E4BA9] py-3 rounded-xl font-bold shadow-lg"
-                >
-                  🔐 Đăng nhập
-                </button>
-              </>
-            ) : (
-              <div className="space-y-3">
-                {/* User info */}
-                <div className="bg-white/10 rounded-lg px-4 py-3 flex items-center gap-3 border border-white/20">
-                  <div className="w-10 h-10 rounded-full bg-linear-to-br from-amber-400 to-yellow-500 flex items-center justify-center text-white font-bold shadow-lg">
-                    {session.user?.name?.charAt(0).toUpperCase()}
-                  </div>
-                  <span className="text-white font-semibold">
-                    {session.user?.name}
-                  </span>
-                </div>
-
-                {/* Logout */}
-                <button
-                  onClick={() => {
-                    setMenuOpen(false);
-                    handleLogout();
-                  }}
-                  className="w-full bg-[#E4C28E] text-[#0E4BA9] py-3 rounded-xl font-bold shadow-lg"
-                >
-                  Đăng xuất
-                </button>
-              </div>
-            )}
-          </div>
+          
         </div>
       </motion.div>
     </AnimatePresence>

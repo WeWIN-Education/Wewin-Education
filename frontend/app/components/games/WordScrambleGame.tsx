@@ -92,7 +92,8 @@ export function WordScrambleGame({ title, words, showScore = true, onComplete }:
   const progress = ((currentIndex + 1) / words.length) * 100;
 
   return (
-    <section className="rounded-2xl border border-purple-100 bg-purple-50 p-4 sm:p-6 shadow-sm">
+    <section className="min-h-screen bg-blue-50 bg-fixed py-8 sm:py-10 px-3 sm:px-4 md:px-6">
+      <div className="rounded-2xl border border-purple-100 bg-white/95 p-4 sm:p-6 shadow-xl max-w-5xl mx-auto">
       <header className="text-center">
         <p className="text-xs uppercase tracking-wide text-purple-400">Word Scramble</p>
         <h2 className="text-lg sm:text-xl font-semibold text-purple-900">{title}</h2>
@@ -177,6 +178,7 @@ export function WordScrambleGame({ title, words, showScore = true, onComplete }:
           className="h-full bg-gradient-to-r from-purple-400 to-purple-600 transition-all duration-300"
           style={{ width: `${progress}%` }}
         />
+      </div>
       </div>
     </section>
   );

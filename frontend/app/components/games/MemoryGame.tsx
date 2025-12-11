@@ -234,7 +234,8 @@ export function MemoryGame({ title, words, showScore = true, onComplete }: Props
   const progress = (matchedPairs / words.length) * 100;
 
   return (
-    <section className="rounded-2xl border border-indigo-100 bg-indigo-50 p-4 sm:p-6 shadow-sm relative">
+    <section className="min-h-screen bg-blue-50 bg-fixed py-8 sm:py-10 px-3 sm:px-4 md:px-6">
+      <div className="rounded-2xl border border-indigo-100 bg-white/95 p-4 sm:p-6 shadow-xl relative max-w-5xl mx-auto">
       {/* Popup tick xanh khi match đúng */}
       {showCorrectPopup && (
         <div className="fixed inset-0 flex items-center justify-center pointer-events-none z-50">
@@ -336,6 +337,7 @@ export function MemoryGame({ title, words, showScore = true, onComplete }: Props
           className="h-full bg-linear-to-r from-indigo-400 to-indigo-600 transition-all duration-300"
           style={{ width: `${progress}%` }}
         />
+      </div>
       </div>
     </section>
   );

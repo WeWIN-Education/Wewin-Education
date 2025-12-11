@@ -117,7 +117,8 @@ export function WordOrderingGame({ title, words, showScore = true, onComplete }:
   };
 
   return (
-    <section className="rounded-2xl border border-green-100 bg-green-50 p-4 sm:p-6 shadow-sm">
+    <section className="min-h-screen bg-blue-50 bg-fixed py-8 sm:py-10 px-3 sm:px-4 md:px-6">
+      <div className="rounded-2xl border border-green-100 bg-white/95 p-4 sm:p-6 shadow-xl max-w-5xl mx-auto">
       <header className="text-center">
         <p className="text-xs uppercase tracking-wide text-green-400">Word Ordering</p>
         <h2 className="text-lg sm:text-xl font-semibold text-green-900">{title}</h2>
@@ -212,6 +213,7 @@ export function WordOrderingGame({ title, words, showScore = true, onComplete }:
           className="h-full bg-gradient-to-r from-green-400 to-green-600 transition-all duration-300"
           style={{ width: `${progress}%` }}
         />
+      </div>
       </div>
     </section>
   );

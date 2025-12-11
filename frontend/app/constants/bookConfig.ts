@@ -1430,3 +1430,10 @@ export function getUnitBySlug(slug: string): UnitGameConfig | undefined {
   return BOOK_CONFIG.find((unit) => unit.slug === slug);
 }
 
+/**
+ * Lấy index của unit trong BOOK_CONFIG
+ */
+export function getUnitIndex(slug: string): number {
+  return BOOK_CONFIG.findIndex((unit) => unit.slug === slug);
+}
+

@@ -7,6 +7,7 @@ type UnitProgressProps = {
   title: string;
   games: GameKey[];
   progress: Record<GameKey, boolean>;
+  scores: Record<GameKey, number>;
   onReset?: () => void;
   externalIsOpen?: boolean;
   onExternalToggle?: () => void;
@@ -22,7 +23,15 @@ const GAME_META: Record<GameKey, { icon: string; label: string }> = {
   scramble: { icon: "🧩", label: "Word Scramble Game" },
 };
 
-export function UnitProgress({ title, games, progress, onReset, externalIsOpen, onExternalToggle }: UnitProgressProps) {
+export function UnitProgress({
+  title,
+  games,
+  progress,
+  scores,
+  onReset,
+  externalIsOpen,
+  onExternalToggle,
+}: UnitProgressProps) {
   const allCompleted = games.every((key) => progress[key]);
   const [internalIsOpen, setInternalIsOpen] = useState(false);
   
@@ -37,6 +46,7 @@ export function UnitProgress({ title, games, progress, onReset, externalIsOpen, 
   };
 
   const completedCount = games.filter((key) => progress[key]).length;
+  const totalScore = games.reduce((sum, key) => sum + (scores[key] || 0), 0);
 
   return (
     <div className="fixed bottom-4 right-4 z-[1001] flex flex-col items-end gap-2">
@@ -67,7 +77,8 @@ export function UnitProgress({ title, games, progress, onReset, externalIsOpen, 
           <div className="space-y-2 text-sm sm:text-base">
             {games.map((key) => {
               const meta = GAME_META[key];
-              const isDone = progress[key];
+              const isDone = progress[key] || false;
+              const score = scores[key] ?? 0;
               return (
                 <div
                   key={key}
@@ -79,12 +90,17 @@ export function UnitProgress({ title, games, progress, onReset, externalIsOpen, 
                   <span>
                     {meta.label}:{" "}
                     <strong>{isDone ? "Đã hoàn thành" : "Chưa chơi"}</strong>
+                    <span className="block text-xs text-gray-600">
+                      Điểm: {score}
+                    </span>
                   </span>
                 </div>
               );
             })}
           </div>
-
+          <div className="mt-3 text-center text-sm font-semibold text-blue-800">
+            Tổng điểm: {totalScore}
+          </div>
           {allCompleted && onReset && (
             <button
               onClick={onReset}

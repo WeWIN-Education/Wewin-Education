@@ -38,7 +38,8 @@ export function QuizGame({ title, question, options, answer, onComplete }: Props
     : "idle";
 
   return (
-    <section className="rounded-2xl border border-zinc-100 bg-white p-4 sm:p-6 shadow-sm">
+    <section className="min-h-screen bg-blue-50 bg-fixed py-8 sm:py-10 px-3 sm:px-4 md:px-6">
+      <div className="rounded-2xl border border-zinc-100 bg-white/95 p-4 sm:p-6 shadow-xl max-w-5xl mx-auto">
       <header className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div className="text-center sm:text-left">
           <p className="text-xs uppercase tracking-wide text-zinc-400">Quiz</p>
@@ -90,6 +91,7 @@ export function QuizGame({ title, question, options, answer, onComplete }: Props
             </button>
           );
         })}
+      </div>
       </div>
     </section>
   );

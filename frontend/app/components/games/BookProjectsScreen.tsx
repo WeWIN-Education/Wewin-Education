@@ -25,16 +25,16 @@ export function BookProjectsScreen({
   };
 
   return (
-    <div className="flex h-[calc(100vh-80px)] w-full bg-gradient-to-br from-pink-50 via-rose-50 to-emerald-50">
+    <div className="flex h-[calc(100vh-80px)] w-full bg-blue-50">
       {/* Sidebar Projects */}
-      <aside className="flex w-64 flex-col bg-gradient-to-b from-pink-200 via-pink-100 to-pink-200 shadow-[4px_0_16px_rgba(0,0,0,0.08)]">
-        <div className="flex items-center gap-3 px-4 py-5 border-b border-pink-200/70 bg-gradient-to-r from-pink-300 to-pink-200">
-          <span className="text-3xl">🌟</span>
+      <aside className="flex w-64 flex-col bg-blue-50 shadow-[4px_0_16px_rgba(0,0,0,0.08)]">
+        <div className="flex items-center gap-3 px-4 py-5 border-b border-blue-200/70 bg-blue-50">
+          <span className="text-3xl">🎮</span>
           <div className="leading-tight">
             <p className="text-lg font-extrabold text-white drop-shadow-sm">
               Kids Book
             </p>
-            <p className="text-xs font-semibold text-pink-50/90">
+            <p className="text-xs font-semibold text-blue-50/90">
               Chọn Project để bắt đầu
             </p>
           </div>
@@ -48,10 +48,10 @@ export function BookProjectsScreen({
                 key={project.id}
                 type="button"
                 onClick={() => handleSelectProject(project.id)}
-                className={`w-full rounded-2xl border text-left px-4 py-4 text-base font-semibold transition-all shadow-sm bg-gradient-to-r ${
+                className={`w-full rounded-2xl border text-left px-4 py-4 text-base font-semibold transition-all shadow-sm ${
                   isActive
-                    ? "from-pink-400 to-rose-400 text-white border-pink-400 shadow-lg scale-[1.02]"
-                    : "from-pink-50 to-rose-50 text-pink-800 border-pink-100 hover:from-pink-100 hover:to-rose-100 hover:shadow-md"
+                    ? "bg-gradient-to-r from-blue-500 to-blue-600 text-white border-blue-400 shadow-lg scale-[1.02]"
+                    : "bg-gradient-to-r from-blue-50 to-blue-100 text-blue-800 border-blue-100 hover:from-blue-100 hover:to-blue-200 hover:shadow-md"
                 }`}
               >
                 Project {index + 1}
@@ -67,20 +67,20 @@ export function BookProjectsScreen({
       {/* Main content */}
       <main className="flex-1 flex flex-col">
         {/* Top bar: ID input */}
-        <div className="px-6 pt-4 pb-3 border-b border-pink-100 bg-white/80 backdrop-blur">
+        <div className="px-6 pt-4 pb-3 border-b border-blue-100 bg-white/80 backdrop-blur">
           <div className="mx-auto max-w-5xl flex items-center gap-4">
-            <div className="text-sm font-semibold text-pink-800 shrink-0">
+            <div className="text-sm font-semibold text-blue-800 shrink-0">
               ID:
             </div>
             <input
               value={playerId}
               onChange={(e) => setPlayerId(e.target.value)}
               placeholder="Nhập ID một lần cho tất cả game"
-              className="flex-1 rounded-full border border-pink-200 bg-white px-4 py-2 text-sm text-pink-900 shadow-inner focus:border-pink-400 focus:outline-none focus:ring-2 focus:ring-pink-300/60"
+              className="flex-1 rounded-full border border-blue-200 bg-white px-4 py-2 text-sm text-blue-900 shadow-inner focus:border-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-300/60"
             />
             <button
               type="button"
-              className="shrink-0 rounded-full bg-gradient-to-r from-indigo-400 to-purple-500 px-5 py-2 text-sm font-semibold text-white shadow-md hover:shadow-lg hover:brightness-105 transition"
+              className="shrink-0 rounded-full bg-gradient-to-r from-blue-500 to-blue-600 px-5 py-2 text-sm font-semibold text-white shadow-md hover:shadow-lg hover:brightness-105 transition"
             >
               Lưu ID
             </button>
@@ -91,20 +91,20 @@ export function BookProjectsScreen({
         <div className="flex-1 flex items-center justify-center px-4">
           {!selectedProjectId ? (
             <div className="text-center">
-              <div className="mb-4 text-4xl sm:text-5xl font-extrabold text-pink-500 drop-shadow-sm">
+              <div className="mb-4 text-4xl sm:text-5xl font-extrabold text-blue-500 drop-shadow-sm">
                 👋 Chào mừng!
               </div>
-              <p className="max-w-xl text-base sm:text-lg font-semibold text-rose-700/90">
+              <p className="max-w-xl text-base sm:text-lg font-semibold text-blue-700/90">
                 Vui lòng chọn <span className="font-bold">Project</span> ở
                 sidebar bên trái để xem các game.
               </p>
             </div>
           ) : (
             <div className="text-center">
-              <div className="mb-3 text-3xl font-extrabold text-pink-600">
+              <div className="mb-3 text-3xl font-extrabold text-blue-700">
                 Project đã chọn
               </div>
-              <p className="text-base text-rose-700/90">
+              <p className="text-base text-blue-700/90">
                 Bạn đang chọn{" "}
                 <span className="font-bold">
                   {projects.find((p) => p.id === selectedProjectId)?.name ??

@@ -672,6 +672,7 @@ Ví dụ:
     order: 16,
     content: `
 • Hoàn thành Worksheet
+• https://wewin-education.vercel.app/resources/kids/Games/my-body-book
 • https://www.youtube.com/watch?v=bQJ82qMKNqA
 • https://www.youtube.com/watch?v=mgROe8lAqOg
     `,
@@ -910,7 +911,7 @@ Ví dụ:
     order: 16,
     content: `
 • Hoàn thành Worksheet
-• https://wewin.edu.vn/wp-content/uploads/2025/11/festival_midautumn_unit_game.html
+• https://wewin-education.vercel.app/resources/kids/Games/mid-autumn-festival-planner
 • https://www.youtube.com/watch?v=M3T2OGfzb5w
     `,
   },
@@ -1138,8 +1139,7 @@ My School Kit Folder:
     order: 15,
     content: `
 • Hoàn thành Worksheet
-• https://wewin.edu.vn/wp-content/uploads/2025/11/school_things_basic_unit_game.html
-• https://wewin.edu.vn/wp-content/uploads/2025/11/extra_tools_unit_game.html
+• https://wewin-education.vercel.app/resources/kids/Games/back-to-school-organizer
 • https://www.youtube.com/watch?v=FlgQzX5pZMI
 • https://www.youtube.com/watch?v=uU4H53E7RUk
     `,
@@ -1372,6 +1372,7 @@ My Candy Menu + Candy Art Box:
     order: 16,
     content: `
 • Hoàn thành Worksheet
+• https://wewin-education.vercel.app/resources/kids/Games/sweet-shop-owner
     `,
   },
 ];
@@ -1592,6 +1593,7 @@ Album 6–8 trang gồm:
     order: 15,
     content: `
 • Hoàn thành Worksheet
+• https://wewin-education.vercel.app/resources/kids/Games/nature-photographer
 • https://www.youtube.com/watch?v=VNJ9vPF_R9M
     `,
   },
@@ -1818,8 +1820,7 @@ Mini Dialogue – “At the Beach”:
     order: 16,
     content: `
 • Hoàn thành Worksheet
-• https://wewin.edu.vn/wp-content/uploads/2025/11/sea_animals_unit_game.html
-• https://wewin.edu.vn/wp-content/uploads/2025/11/beach_words_unit_game.html
+• https://wewin-education.vercel.app/resources/kids/Games/ocean-explorer
 • https://www.youtube.com/watch?v=BmNc12K9ePk
     `,
   },
@@ -2291,7 +2292,7 @@ My Fast Food Menu + Paper Plate Food:
     order: 16,
     content: `
 • Hoàn thành Worksheet
-• https://wewin.edu.vn/wp-content/uploads/2025/11/fast_food_unit_game.html
+• https://wewin-education.vercel.app/resources/kids/Games/fast-food-restaurant-owner
     `,
   },
 ];
@@ -2529,6 +2530,7 @@ Sản phẩm thể hiện khả năng nói – hiểu – sáng tạo.
     order: 15,
     content: `
 • Hoàn thành Worksheet
+• https://wewin-education.vercel.app/resources/kids/Games/city-transport-map-maker
 • https://www.youtube.com/watch?v=jytezWJ1vVk
     `,
   },
@@ -2753,8 +2755,7 @@ export const project9WeekBlocks: LessonBlock[] = [
     order: 15,
     content: `
 • Hoàn thành Worksheet
-• https://wewin.edu.vn/wp-content/uploads/2025/11/farm_animals_unit_game.html
-• https://wewin.edu.vn/wp-content/uploads/2025/11/pet_animals_unit_game.html
+• https://wewin-education.vercel.app/resources/kids/Games/farm-day-organizer
 • https://www.youtube.com/watch?v=a3LOgVUd8Vo
 • https://www.youtube.com/watch?v=D9Cc7TGRh00
     `,
@@ -2979,6 +2980,7 @@ export const project8WeekBlocks: LessonBlock[] = [
     order: 15,
     content: `
 • Hoàn thành Worksheet
+• https://wewin-education.vercel.app/resources/kids/Games/hungry-caterpillar-food-diary
 • https://www.youtube.com/watch?v=z0oXMJiRK-c
 • https://www.youtube.com/watch?v=yd1XSWV0dww
 • https://www.youtube.com/watch?v=Sbtma3taSFc
@@ -3390,6 +3392,7 @@ export const reviewWeekBlocks: LessonBlock[] = [
     order: 13,
     content: `
 • Hoàn thành Worksheet
+• https://wewin-education.vercel.app/resources/kids/Games/insect-explorer
     `,
   },
 ];
@@ -3615,7 +3618,7 @@ export const project6WeekBlocks: LessonBlock[] = [
     order: 15,
     content: `
 • Hoàn thành Worksheet
-• https://wewin.edu.vn/wp-content/uploads/2025/11/flowers_unit_game.html
+• https://wewin-education.vercel.app/resources/kids/Games/flower-shop-owner
     `,
   },
 ];
@@ -3883,6 +3886,7 @@ export const project5WeekBlocks: LessonBlock[] = [
     order: 18,
     content: `
 • Hoàn thành Worksheet
+• https://wewin-education.vercel.app/resources/kids/Games/tet-festival-organizer
 • https://www.youtube.com/watch?v=LuIeaioWX74
 
     `,
@@ -4077,6 +4081,7 @@ export const project4WeekBlocks: LessonBlock[] = [
     order: 12,
     content: `
 • Hoàn thành Worksheet
+• https://wewin-education.vercel.app/resources/kids/Games/christmas-party-mini
 • https://www.youtube.com/watch?v=G_NGo52IAwk
     `,
     audioUrl: "https://wewin.edu.vn/wp-content/uploads/2025/11/project4.mp3",
@@ -4254,6 +4259,7 @@ export const project3WeekBlocks: LessonBlock[] = [
     order: 11,
     content: `
 • Hoàn thành Worksheet
+• https://wewin-education.vercel.app/resources/kids/Games/bird-watching-adventure
 • https://www.youtube.com/watch?v=XNupSaW6eO0
 • https://www.youtube.com/watch?v=qW2yOwonRdc
 
@@ -4430,6 +4436,7 @@ export const project2WeekBlocks: LessonBlock[] = [
     order: 12,
     content: `
 • Hoàn thành Worksheet
+• https://wewin-education.vercel.app/resources/kids/Games/im-a-star-performer
 • https://www.youtube.com/watch?v=m80qAEVeW94
     `,
     audioUrl: `
@@ -4753,6 +4760,7 @@ export const project1WeekBlocks: LessonBlock[] = [
     order: 12,
     content: `
 • Hoàn thành Worksheet
+• https://wewin-education.vercel.app/resources/kids/Games/my-future-career-fair
 • https://www.youtube.com/watch?v=ACl4wbkk5FI
 • https://www.youtube.com/watch?v=Gf52YEHBSaQ
 • https://www.youtube.com/watch?v=NWiLhH1Yzig

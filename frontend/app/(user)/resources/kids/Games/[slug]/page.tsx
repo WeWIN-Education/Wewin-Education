@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { UnitGameScreen } from "@/app/components/games/UnitGameScreen";
 import { KidsUnitsSidebar } from "@/app/components/games/KidsUnitsSidebar";
-import { getUnitBySlug, getProjectsFromBook } from "@/app/constants/bookConfig";
+import { getUnitBySlug, getProjectsFromBook, getUnitIndex } from "@/app/constants/bookConfig";
 import { useParams, useRouter } from "next/navigation";
 import { Menu } from "lucide-react";
 
@@ -19,9 +19,15 @@ export default function ProjectGamePage() {
   const unit = getUnitBySlug(slug);
   const router = useRouter();
 
-  // playerId === null nghĩa là chưa load xong từ localStorage
-  const [playerId, setPlayerId] = useState<string | null>(null);
-  const [showIdModal, setShowIdModal] = useState(false);
+  // Load playerId ngay lập tức để tránh flash "Đang tải dữ liệu..."
+  const [playerId, setPlayerId] = useState<string>(() => {
+    if (typeof window === "undefined") return "";
+    return getSavedPlayerId() || "";
+  });
+  const [showIdModal, setShowIdModal] = useState(() => {
+    if (typeof window === "undefined") return false;
+    return !getSavedPlayerId();
+  });
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const RELOAD_FLAG_KEY = "kids_book_was_reloaded";
@@ -81,16 +87,17 @@ export default function ProjectGamePage() {
       sessionStorage.setItem(SESSION_FLAG_KEY, "1");
     }
 
-    // Đọc ID đã lưu (nếu có)
+    // Đồng bộ playerId với localStorage (nếu có thay đổi từ bên ngoài)
     const savedPlayerId = getSavedPlayerId();
-    if (savedPlayerId) {
+    if (savedPlayerId !== playerId) {
       setPlayerId(savedPlayerId);
       setShowIdModal(false);
-    } else {
+    } else if (!savedPlayerId && playerId) {
+      // Nếu localStorage không có nhưng state có, có thể đã bị xóa
       setPlayerId("");
       setShowIdModal(true);
     }
-  }, [router]);
+  }, [router, playerId]);
 
   const handlePlayerIdSubmit = (id: string) => {
     setPlayerId(id);
@@ -117,16 +124,10 @@ export default function ProjectGamePage() {
     );
   }
 
-  if (playerId === null) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-pink-50 to-rose-100 text-pink-600 font-semibold">
-        Đang tải dữ liệu...
-      </div>
-    );
-  }
+  // Không cần check playerId === null nữa vì đã load ngay từ đầu
 
   return (
-    <div className="min-h-screen md:flex md:items-stretch">
+    <div className="min-h-screen md:flex md:items-stretch bg-gradient-to-b from-blue-50 via-blue-50 to-blue-100 bg-fixed">
       {/* Hamburger button cho mobile */}
       <button
         onClick={() => setSidebarOpen(true)}
@@ -142,7 +143,7 @@ export default function ProjectGamePage() {
         onClose={() => setSidebarOpen(false)}
       />
 
-      <div className="flex-1 md:ml-0">
+      <div className="flex-1 md:ml-0 md:min-h-screen">
         <UnitGameScreen
           unit={unit}
           heading={unit.name}
@@ -154,6 +155,7 @@ export default function ProjectGamePage() {
           showIdModal={showIdModal}
           onPlayerIdSubmit={handlePlayerIdSubmit}
           onPlayerIdSkip={handlePlayerIdSkip}
+          unitIndex={getUnitIndex(slug)}
         />
       </div>
     </div>
