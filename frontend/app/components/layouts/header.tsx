@@ -75,7 +75,7 @@ export default function Navbar() {
               {
                 <div className="hidden lg:flex items-center justify-center gap-4 xl:gap-6 mx-auto">
                   {/* Menu 1: Tests */}
-                  {session && !isAdmin && (
+                  {/* {session && !isAdmin && ( */}
                     <Dropdown
                       title="Resources"
                       icon={<IconDoc />}
@@ -93,19 +93,19 @@ export default function Navbar() {
                         { href: Routes.RESOURCES_GAMES, label: "Games" },
                       ]}
                     />
-                  )}
+                  {/* )} */}
                 </div>
               }
 
               {/* 🔹 User / Login */}
-              <div className="flex items-center gap-3 shrink-0">
+              {/* <div className="flex items-center gap-3 shrink-0">
                 <UserSection
                   session={session}
                   isAdmin={isAdmin}
                   setMenuOpen={setMenuOpen}
                 />
                 <BurgerButton menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
-              </div>
+              </div> */}
             </div>
 
             {/* 🔹 Mobile Menu */}
@@ -369,45 +369,7 @@ function MobileMenu({ menuOpen, setMenuOpen, session, isAdmin }: any) {
           {/* ------------------------------------
               USER INFO + LOGIN / LOGOUT
           -------------------------------------- */}
-          <div className="pt-4 border-t border-white/20">
-            {!session ? (
-              <>
-                {/* Guest → show nút login */}
-                <button
-                  onClick={() => {
-                    setMenuOpen(false);
-                    router.push("/login");
-                  }}
-                  className="w-full bg-white text-[#0E4BA9] py-3 rounded-xl font-bold shadow-lg"
-                >
-                  🔐 Đăng nhập
-                </button>
-              </>
-            ) : (
-              <div className="space-y-3">
-                {/* User info */}
-                <div className="bg-white/10 rounded-lg px-4 py-3 flex items-center gap-3 border border-white/20">
-                  <div className="w-10 h-10 rounded-full bg-linear-to-br from-amber-400 to-yellow-500 flex items-center justify-center text-white font-bold shadow-lg">
-                    {session.user?.name?.charAt(0).toUpperCase()}
-                  </div>
-                  <span className="text-white font-semibold">
-                    {session.user?.name}
-                  </span>
-                </div>
-
-                {/* Logout */}
-                <button
-                  onClick={() => {
-                    setMenuOpen(false);
-                    handleLogout();
-                  }}
-                  className="w-full bg-[#E4C28E] text-[#0E4BA9] py-3 rounded-xl font-bold shadow-lg"
-                >
-                  Đăng xuất
-                </button>
-              </div>
-            )}
-          </div>
+          
         </div>
       </motion.div>
     </AnimatePresence>
