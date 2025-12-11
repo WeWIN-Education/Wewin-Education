@@ -21,6 +21,7 @@ export interface Book {
   status: "active" | "inactive";
   imgUrl: string;
   description?: string;
+  gameUrl?: string;
 }
 
 export interface Project {

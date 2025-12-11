@@ -7,6 +7,7 @@ export const mockBooks: Book[] = [
     status: "active",
     imgUrl:"https://wewin.edu.vn/wp-content/uploads/2025/12/books-illustration-cartoon-books-books-vector.jpg",
     description: "KẾ HOẠCH HỌC TIẾNG ANH MẦM NON WEWIN",
+    gameUrl: "/resources/kids/Games",
   },
 
   {
@@ -15,6 +16,7 @@ export const mockBooks: Book[] = [
     status: "active",
     imgUrl:"https://wewin.edu.vn/wp-content/uploads/2025/12/books-illustration-cartoon-books-books-vector.jpg",
     description: "KẾ HOẠCH HỌC TIẾNG ANH MẦM NON WEWIN STARTERS FOUNDATION",
+    gameUrl: "/games/book_starters_foundation",
   },
 ];
 
