@@ -77,37 +77,37 @@ export default function Navbar() {
               {
                 <div className="hidden lg:flex items-center justify-center gap-4 xl:gap-6 mx-auto">
                   {/* Menu 1: Tests */}
-                  {/* {session && !isAdmin && ( */}
-                  <Dropdown
-                    title="Resources"
-                    icon={<IconDoc />}
-                    items={[
-                      { href: Routes.RESOURCES_KIDS, label: "Kids" },
-                      {
-                        href: Routes.RESOURCES_STARTERS_FOUNDATION,
-                        label: "Starters Foundation",
-                      },
-                      { href: Routes.RESOURCES_STARTERS, label: "Starters" },
-                      { href: Routes.RESOURCES_MOVERS, label: "Movers" },
-                      { href: Routes.RESOURCES_FLYERS, label: "Flyers" },
-                      { href: Routes.RESOURCES_AUDIO, label: "Audio" },
-                      { href: Routes.RESOURCES_VIDEO, label: "Video" },
-                      { href: Routes.RESOURCES_GAMES, label: "Games" },
-                    ]}
-                  />
-                  {/* )} */}
+                  {session && !isAdmin && (
+                    <Dropdown
+                      title="Resources"
+                      icon={<IconDoc />}
+                      items={[
+                        { href: Routes.RESOURCES_KIDS, label: "Kids" },
+                        {
+                          href: Routes.RESOURCES_STARTERS_FOUNDATION,
+                          label: "Starters Foundation",
+                        },
+                        { href: Routes.RESOURCES_STARTERS, label: "Starters" },
+                        { href: Routes.RESOURCES_MOVERS, label: "Movers" },
+                        { href: Routes.RESOURCES_FLYERS, label: "Flyers" },
+                        { href: Routes.RESOURCES_AUDIO, label: "Audio" },
+                        { href: Routes.RESOURCES_VIDEO, label: "Video" },
+                        { href: Routes.RESOURCES_GAMES, label: "Games" },
+                      ]}
+                    />
+                  )}
                 </div>
               }
 
               {/* 🔹 User / Login */}
-              {/* <div className="flex items-center gap-3 shrink-0">
+              <div className="flex items-center gap-3 shrink-0">
                 <UserSection
                   session={session}
                   isAdmin={isAdmin}
                   setMenuOpen={setMenuOpen}
                 />
                 <BurgerButton menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
-              </div> */}
+              </div>
             </div>
 
             {/* 🔹 Mobile Menu */}
