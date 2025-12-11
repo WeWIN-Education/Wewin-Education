@@ -11,7 +11,6 @@ export const authOptions: NextAuthOptions = {
       },
 
       async authorize(credentials) {
-        console.log("AUTHORIZE RECEIVED:", credentials);
 
         if (!credentials?.email || !credentials?.password) {
           throw new Error("Missing credentials");

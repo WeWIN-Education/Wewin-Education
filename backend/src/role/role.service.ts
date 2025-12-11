@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CreateRoleDto } from './dto/create-role.dto';
 import { UpdateRoleDto } from './dto/update-role.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -12,9 +12,19 @@ export class RoleService {
     private repo: Repository<Role>,
   ) {}
 
-  create(data: CreateRoleDto) {
-    const role = this.repo.create(data);
-    return this.repo.save(role);
+  async create(data: CreateRoleDto) {
+    try {
+      const role = this.repo.create(data);
+      return await this.repo.save(role);
+    } catch (err) {
+      if (err.code === '23505') {
+        throw new HttpException(
+          'Role name already exists',
+          HttpStatus.CONFLICT,
+        );
+      }
+      throw err;
+    }
   }
 
   findAll() {
