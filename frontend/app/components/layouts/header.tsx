@@ -82,17 +82,8 @@ export default function Navbar() {
                       title="Resources"
                       icon={<IconDoc />}
                       items={[
-                        { href: Routes.RESOURCES_KIDS, label: "Kids" },
-                        {
-                          href: Routes.RESOURCES_STARTERS_FOUNDATION,
-                          label: "Starters Foundation",
-                        },
-                        { href: Routes.RESOURCES_STARTERS, label: "Starters" },
-                        { href: Routes.RESOURCES_MOVERS, label: "Movers" },
-                        { href: Routes.RESOURCES_FLYERS, label: "Flyers" },
-                        { href: Routes.RESOURCES_AUDIO, label: "Audio" },
-                        { href: Routes.RESOURCES_VIDEO, label: "Video" },
-                        { href: Routes.RESOURCES_GAMES, label: "Games" },
+                        { href: Routes.RESOURCES, label: "Books" },
+                        
                       ]}
                     />
                   )}
@@ -289,45 +280,50 @@ function MobileMenu({ menuOpen, setMenuOpen, session, isAdmin }: any) {
             title="Resources"
             items={[
               {
-                href: Routes.RESOURCES_KIDS,
+                href: Routes.RESOURCES,
                 icon: <BookOpen className="w-5 h-5" />,
-                label: "Kids",
+                label: "Books",
               },
-              {
-                href: Routes.RESOURCES_STARTERS_FOUNDATION,
-                icon: <BookOpen className="w-5 h-5" />,
-                label: "Starters Foundation",
-              },
-              {
-                href: Routes.RESOURCES_STARTERS,
-                icon: <BookOpen className="w-5 h-5" />,
-                label: "Starters",
-              },
-              {
-                href: Routes.RESOURCES_MOVERS,
-                icon: <BookOpen className="w-5 h-5" />,
-                label: "Movers",
-              },
-              {
-                href: Routes.RESOURCES_FLYERS,
-                icon: <BookOpen className="w-5 h-5" />,
-                label: "Flyers",
-              },
-              {
-                href: Routes.RESOURCES_AUDIO,
-                icon: <BookOpen className="w-5 h-5" />,
-                label: "Audio",
-              },
-              {
-                href: Routes.RESOURCES_VIDEO,
-                icon: <BookOpen className="w-5 h-5" />,
-                label: "Video",
-              },
-              {
-                href: Routes.RESOURCES_GAMES,
-                icon: <BookOpen className="w-5 h-5" />,
-                label: "Games",
-              },
+              // {
+              //   href: Routes.RESOURCES_KIDS,
+              //   icon: <BookOpen className="w-5 h-5" />,
+              //   label: "Kids",
+              // },
+              // {
+              //   href: Routes.RESOURCES_STARTERS_FOUNDATION,
+              //   icon: <BookOpen className="w-5 h-5" />,
+              //   label: "Starters Foundation",
+              // },
+              // {
+              //   href: Routes.RESOURCES_STARTERS,
+              //   icon: <BookOpen className="w-5 h-5" />,
+              //   label: "Starters",
+              // },
+              // {
+              //   href: Routes.RESOURCES_MOVERS,
+              //   icon: <BookOpen className="w-5 h-5" />,
+              //   label: "Movers",
+              // },
+              // {
+              //   href: Routes.RESOURCES_FLYERS,
+              //   icon: <BookOpen className="w-5 h-5" />,
+              //   label: "Flyers",
+              // },
+              // {
+              //   href: Routes.RESOURCES_AUDIO,
+              //   icon: <BookOpen className="w-5 h-5" />,
+              //   label: "Audio",
+              // },
+              // {
+              //   href: Routes.RESOURCES_VIDEO,
+              //   icon: <BookOpen className="w-5 h-5" />,
+              //   label: "Video",
+              // },
+              // {
+              //   href: Routes.RESOURCES_GAMES,
+              //   icon: <BookOpen className="w-5 h-5" />,
+              //   label: "Games",
+              // },
             ]}
             setMenuOpen={setMenuOpen}
           />
