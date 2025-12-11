@@ -83,7 +83,6 @@ export default function Navbar() {
                       icon={<IconDoc />}
                       items={[
                         { href: Routes.RESOURCES, label: "Books" },
-                        
                       ]}
                     />
                   )}
