@@ -2,6 +2,7 @@
 export const Routes = {
   HOME: "/",
   TEST_IELTS: "/test/ielts",
+  RESOURCES: "/resources",
   RESOURCES_KIDS: "/resources/kids",
   RESOURCES_STARTERS_FOUNDATION: "/resources/starters-foundation",
   RESOURCES_STARTERS: "/resources/starters",
