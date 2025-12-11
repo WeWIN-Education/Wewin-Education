@@ -3,7 +3,7 @@ import { Book, Project, LearningNode, LessonBlock } from "./types";
 export const mockBooks: Book[] = [
   {
     id: "book_kids",
-    name: "KIDS - When I Grow Up",
+    name: "KIDS",
     status: "active",
     imgUrl:"https://wewin.edu.vn/wp-content/uploads/2025/12/books-illustration-cartoon-books-books-vector.jpg",
     description: "KẾ HOẠCH HỌC TIẾNG ANH MẦM NON WEWIN",
@@ -11,7 +11,7 @@ export const mockBooks: Book[] = [
 
   {
     id: "book_starters_foundation",
-    name: "STARTERS FOUNDATION - When I Grow Up",
+    name: "STARTERS FOUNDATION",
     status: "active",
     imgUrl:"https://wewin.edu.vn/wp-content/uploads/2025/12/books-illustration-cartoon-books-books-vector.jpg",
     description: "KẾ HOẠCH HỌC TIẾNG ANH MẦM NON WEWIN STARTERS FOUNDATION",

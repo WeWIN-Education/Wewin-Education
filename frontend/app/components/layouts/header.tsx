@@ -82,17 +82,8 @@ export default function Navbar() {
                       title="Resources"
                       icon={<IconDoc />}
                       items={[
-                        { href: Routes.RESOURCES_KIDS, label: "Kids" },
-                        {
-                          href: Routes.RESOURCES_STARTERS_FOUNDATION,
-                          label: "Starters Foundation",
-                        },
-                        { href: Routes.RESOURCES_STARTERS, label: "Starters" },
-                        { href: Routes.RESOURCES_MOVERS, label: "Movers" },
-                        { href: Routes.RESOURCES_FLYERS, label: "Flyers" },
-                        { href: Routes.RESOURCES_AUDIO, label: "Audio" },
-                        { href: Routes.RESOURCES_VIDEO, label: "Video" },
-                        { href: Routes.RESOURCES_GAMES, label: "Games" },
+                        { href: Routes.RESOURCES, label: "Books" },
+                        
                       ]}
                     />
                   )}

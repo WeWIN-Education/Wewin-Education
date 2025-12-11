@@ -21,7 +21,7 @@ const BookCard: React.FC<BookCardProps> = ({ book }) => {
         />
       </div>
       <div className="p-4">
-        <h3 className="font-semibold text-lg mb-2 text-[#0E4BA9]">
+        <h3 className="font-semibold text-2xl mb-2 text-[#0E4BA9] text-center">
           {book.name}
         </h3>
         <p className="text-sm text-gray-600">{book.description}</p>

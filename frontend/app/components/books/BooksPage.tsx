@@ -23,27 +23,18 @@ const BooksPage: React.FC = () => {
         {/* Page Header */}
         <div className="text-center mb-12">
           <h1 className="text-4xl font-bold text-[#0E4BA9] mb-4">
-            WeWIN Learning Materials
+            Thư viện sách WeWIN
           </h1>
           <p className="text-gray-600 text-lg">
-            Khám phá sách và trò chơi tương tác cho từng cấp độ
+            Dưới đây là các tài nguyên học tập bạn có thể truy cập.
           </p>
         </div>
 
         {/* Grid Layout - 3 columns */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {activeBooks.map((book) => {
-            const classTitle = book.name.split(" - ")[0];
-
             return (
               <div key={book.id} className="flex flex-col gap-6">
-                {/* Title Section */}
-                <div className="bg-linear-to-r from-blue-600 to-blue-800 text-white rounded-lg p-6 shadow-lg">
-                  <h2 className="text-2xl font-bold text-center">
-                    {classTitle}
-                  </h2>
-                </div>
-
                 {/* Book Section */}
                 <Link href={bookRoutes[book.id]}>
                   <div className="bg-gray-50 rounded-lg p-6 shadow-md">
