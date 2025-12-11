@@ -1,5 +1,13 @@
+/** @type {import('next').NextConfig} */
 const nextConfig = {
-  turbopack: {}, // để im lỗi
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "images.unsplash.com",
+      },
+    ],
+  },
 };
 
-export default nextConfig;
+module.exports = nextConfig;
