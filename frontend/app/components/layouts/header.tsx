@@ -78,13 +78,23 @@ export default function Navbar() {
                 <div className="hidden lg:flex items-center justify-center gap-4 xl:gap-6 mx-auto">
                   {/* Menu 1: Tests */}
                   {/* {session && !isAdmin && ( */}
-                    <Dropdown
-                      title="Resources"
-                      icon={<IconDoc />}
-                      items={[
-                        { href: Routes.RESOURCES, label: "Books" },
-                      ]}
-                    />
+                  <Dropdown
+                    title="Resources"
+                    icon={<IconDoc />}
+                    items={[
+                      { href: Routes.RESOURCES_KIDS, label: "Kids" },
+                      {
+                        href: Routes.RESOURCES_STARTERS_FOUNDATION,
+                        label: "Starters Foundation",
+                      },
+                      { href: Routes.RESOURCES_STARTERS, label: "Starters" },
+                      { href: Routes.RESOURCES_MOVERS, label: "Movers" },
+                      { href: Routes.RESOURCES_FLYERS, label: "Flyers" },
+                      { href: Routes.RESOURCES_AUDIO, label: "Audio" },
+                      { href: Routes.RESOURCES_VIDEO, label: "Video" },
+                      { href: Routes.RESOURCES_GAMES, label: "Games" },
+                    ]}
+                  />
                   {/* )} */}
                 </div>
               }
@@ -361,7 +371,6 @@ function MobileMenu({ menuOpen, setMenuOpen, session, isAdmin }: any) {
           {/* ------------------------------------
               USER INFO + LOGIN / LOGOUT
           -------------------------------------- */}
-          
         </div>
       </motion.div>
     </AnimatePresence>
