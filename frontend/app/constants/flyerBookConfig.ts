@@ -2,9 +2,12 @@ import type { UnitGameConfig, WordItem, GameKey } from "@/types/games";
 import { createStandardGameSet } from "@/app/utils/gameRotation";
 
 // Helpers
+// Bổ sung trình bày emoji ổn định hơn bằng cách thêm variation selector (FE0F)
+const forceEmoji = (emoji?: string) => (emoji ? `${emoji}\uFE0F` : undefined);
+
 function createMatchingPairs(words: WordItem[]): { left: string; right: string }[] {
   return words.map((w) => ({
-    left: w.emoji || w.text,
+    left: forceEmoji(w.emoji) || w.text,
     right: w.meaning || w.text,
   }));
 }
