@@ -824,7 +824,7 @@ return (
     -----------------------------------------------------*/}
     {showBreadcrumb && (
       <div className="pt-4 sm:pt-6 mb-4">
-        <div className="max-w-7xl mx-auto px-4">
+        <div className="  mx-auto px-4">
           <nav className="inline-flex items-center gap-2 sm:gap-3 px-4 sm:px-5 py-2.5 sm:py-3 
                           bg-white/90 backdrop-blur-sm rounded-xl border border-gray-200/80 
                           shadow-md hover:shadow-lg transition-all">
