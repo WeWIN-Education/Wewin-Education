@@ -63,45 +63,11 @@ export default function Navbar() {
 
   const menuItems = [
     {
-      href: Routes.RESOURCES_KIDS,
-      label: "Kids",
+      href: Routes.RESOURCES,
+      label: "Books",
       icon: <Palette className="w-5 h-5 text-amber-300" />,
     },
-    {
-      href: Routes.RESOURCES_STARTERS_FOUNDATION,
-      label: "Starters Foundation",
-      icon: <Sprout className="w-5 h-5 text-green-300" />,
-    },
-    {
-      href: Routes.RESOURCES_STARTERS,
-      label: "Starters",
-      icon: <Star className="w-5 h-5 text-yellow-300" />,
-    },
-    {
-      href: Routes.RESOURCES_MOVERS,
-      label: "Movers",
-      icon: <Rocket className="w-5 h-5 text-blue-300" />,
-    },
-    {
-      href: Routes.RESOURCES_FLYERS,
-      label: "Flyers",
-      icon: <Plane className="w-5 h-5 text-cyan-300" />,
-    },
-    {
-      href: Routes.RESOURCES_AUDIO,
-      label: "Audio",
-      icon: <Music className="w-5 h-5 text-pink-300" />,
-    },
-    {
-      href: Routes.RESOURCES_VIDEO,
-      label: "Video",
-      icon: <Video className="w-5 h-5 text-purple-300" />,
-    },
-    {
-      href: Routes.RESOURCES_GAMES,
-      label: "Games",
-      icon: <Gamepad2 className="w-5 h-5 text-red-300" />,
-    },
+   
   ];
 
   return (
