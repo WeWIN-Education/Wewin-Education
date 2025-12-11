@@ -2,177 +2,206 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { MapPin, Phone, Mail, Globe } from "lucide-react";
 
 export default function Footer() {
   return (
     <motion.footer
-      initial={{ opacity: 0, y: 40 }}
+      initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.6, ease: "easeOut" }}
-      className="bg-linear-to-br from-[#0E4BA9] via-[#007BCE] to-[#00A6FB] text-white relative overflow-hidden"
+      transition={{ duration: 0.5 }}
+      className="relative bg-linear-to-br from-[#1057C1] via-[#0E4BA9] to-[#1a5fb4] text-white overflow-hidden"
     >
-      {/* Hiệu ứng nền */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(255,255,255,0.1),transparent_50%)]"></div>
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_80%,rgba(255,224,138,0.08),transparent_50%)]"></div>
+      {/* Decorative Background */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none opacity-30">
+        <div className="absolute top-0 right-1/4 w-64 h-64 bg-amber-400/20 rounded-full blur-3xl" />
+        <div className="absolute bottom-0 left-1/4 w-64 h-64 bg-yellow-400/20 rounded-full blur-3xl" />
+      </div>
 
-      <div className="relative max-w-7xl mx-auto px-2 py-8 lg:py-8">
-        {/* --- 3 phần --- */}
-        <div className="flex flex-col lg:flex-row justify-between items-start gap-6 lg:gap-10 mb-5 text-center lg:text-left">
-          {/* 🔹 Logo + WeWIN Info */}
-          <div className="flex flex-col items-center lg:items-start justify-center gap-3 lg:gap-5 w-full lg:w-1/3">
-            {/* ⭐ Logo Box — Responsive Desktop + Mobile */}
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-4 py-4 sm:py-6">
+        {/* Main Content */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-8 mb-4 sm:mb-6">
+          {/* Logo & Brand Section */}
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.1 }}
+            className="flex flex-col items-center lg:items-start"
+          >
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              className="
-                  relative flex items-center justify-center
-                  w-full max-w-[220px] sm:max-w-[260px] lg:max-w-[360px]
-                  h-[70px] sm:h-[85px] lg:h-[120px]
-                  rounded-2xl lg:rounded-3xl overflow-hidden
-                  shadow-[0_8px_18px_rgba(0,0,0,0.18),0_0_0_1px_rgba(255,255,255,0.1)]
-                  backdrop-blur-sm mx-auto
-              "
+              whileHover={{ scale: 1.03 }}
+              className="relative w-[200px] h-[70px] rounded-xl overflow-hidden mb-4
+                         shadow-lg backdrop-blur-sm"
             >
-              {/* Background gradient */}
-              <div
-                className="absolute inset-0 bg-linear-to-br 
-                  from-[#0185b9] via-[#0E4BA9] to-[#0185b9]"
-              />
-
-              {/* Logo */}
-              <motion.img
-                whileHover={{ scale: 1.05 }}
-                src="/logo.png"
-                alt="WeWIN Logo"
-                className="
-                    relative z-10 object-contain
-                    h-10 sm:h-[45px] lg:h-[50px]
-                    drop-shadow-[0_4px_10px_rgba(255,200,0,0.35)]
-                "
-              />
+              <div className="absolute inset-0 bg-linear-to-br from-[#0185b9] to-[#0E4BA9]" />
+              <div className="relative z-10 h-full flex items-center justify-center">
+                <img
+                  src="/logo.png"
+                  alt="WeWIN Logo"
+                  className="h-10 object-contain drop-shadow-lg"
+                />
+              </div>
             </motion.div>
 
-            {/* Text WeWIN */}
-            <div className="text-center w-full flex flex-col items-center">
-              <h2 className="text-lg lg:text-xl font-bold text-[#E4C28E] mb-1 tracking-wide">
-                WeWIN Education
-              </h2>
-              <p className="text-xs lg:text-sm opacity-90 flex items-center justify-center gap-1">
-                Nâng tầm tiếng Anh – Mở rộng tương lai 🌏
-              </p>
-            </div>
-          </div>
+            <h2 className="text-lg font-bold text-amber-300 mb-1">
+              WeWIN Education
+            </h2>
+            <p className="text-xs text-blue-100/80 text-center lg:text-left mb-4">
+              Nâng tầm tiếng Anh – Mở rộng tương lai 🌏
+            </p>
 
-          {/* 🔹 Liên hệ */}
-          <div
-            className="flex-1 w-full bg-white/5 backdrop-blur-sm rounded-xl lg:rounded-2xl 
-                          p-4 lg:p-6 border border-white/10 hover:bg-white/10 transition-all duration-300"
-          >
-            <h3
-              className="text-sm lg:text-base font-semibold text-[#E4C28E] mb-2 lg:mb-3 
-                           uppercase tracking-wider flex justify-center lg:justify-start items-center gap-2"
-            >
-              📍 Liên hệ
-            </h3>
-            <ul className="space-y-1.5 lg:space-y-2 text-xs lg:text-sm opacity-90">
-              <li>292B Nơ Trang Long, P.12, Bình Thạnh, TP.HCM</li>
-              <li>
-                ☎️{" "}
-                <a
-                  href="tel:0345969388"
-                  className="hover:text-[#E4C28E] transition-colors"
+            {/* Social Icons */}
+            <div className="flex gap-2">
+              {[
+                {
+                  href: "https://wewin.edu.vn",
+                  icon: "https://img.icons8.com/fluency/48/domain.png",
+                },
+                {
+                  href: "https://www.facebook.com/winwineducation",
+                  icon: "https://img.icons8.com/color/48/facebook-new.png",
+                },
+                {
+                  href: "https://www.tiktok.com/@wewin.education.vn",
+                  icon: "https://img.icons8.com/color/48/tiktok--v1.png",
+                },
+                {
+                  href: "https://www.youtube.com/@wewin.education",
+                  icon: "https://img.icons8.com/color/48/youtube-play.png",
+                },
+                {
+                  href: "mailto:officemanager@wewin.edu.vn",
+                  icon: "https://img.icons8.com/color/48/gmail--v1.png",
+                },
+              ].map((social, i) => (
+                <motion.a
+                  key={i}
+                  whileHover={{ scale: 1.1, y: -2 }}
+                  whileTap={{ scale: 0.95 }}
+                  href={social.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-9 h-9 bg-white/10 backdrop-blur-sm rounded-lg 
+                           flex items-center justify-center hover:bg-white/20
+                           transition-all border border-white/20"
                 >
-                  0345 969 388
-                </a>
-              </li>
-              <li>
-                ✉️{" "}
-                <a
-                  href="mailto:officemanager@wewin.edu.vn"
-                  className="hover:text-[#E4C28E] transition-colors break-all"
-                >
-                  officemanager@wewin.edu.vn
-                </a>
-              </li>
-            </ul>
-          </div>
+                  <img src={social.icon} alt="" className="w-5 h-5" />
+                </motion.a>
+              ))}
+            </div>
+          </motion.div>
 
-          {/* 🔹 Kết nối */}
-          <div
-            className="flex-1 w-full bg-white/5 backdrop-blur-sm rounded-xl lg:rounded-2xl 
-                          p-4 lg:p-6 border border-white/10 hover:bg-white/10 transition-all duration-300"
+          {/* Contact Info Section */}
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+            className="lg:col-span-2"
           >
-            <h3
-              className="text-sm lg:text-base font-semibold text-[#E4C28E] mb-2 lg:mb-3 
-                           uppercase tracking-wider flex justify-center lg:justify-start items-center gap-2"
-            >
-              🌐 Kết nối
+            <h3 className="text-sm font-bold text-amber-300 mb-4 flex items-center justify-center lg:justify-start gap-2">
+              <MapPin className="w-4 h-4" />
+              Thông tin liên hệ
             </h3>
 
-            <div className="flex flex-wrap gap-2 lg:gap-4 justify-center lg:justify-start">
-              <SocialButton
-                href="https://wewin.edu.vn"
-                icon="https://img.icons8.com/fluency/48/domain.png"
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 w-full">
+              {/* Contact Items */}
+              <ContactItem
+                icon={<MapPin className="w-4 h-4 text-amber-300" />}
+                label="Địa chỉ"
+                content="292B Nơ Trang Long, P.12, Bình Thạnh, TP.HCM"
               />
-              <SocialButton
-                href="https://www.facebook.com/winwineducation"
-                icon="https://img.icons8.com/color/48/facebook-new.png"
+
+              <ContactItem
+                icon={<Phone className="w-4 h-4 text-amber-300" />}
+                label="Điện thoại"
+                content={
+                  <a
+                    href="tel:0345969388"
+                    className="hover:text-amber-300 transition-colors"
+                  >
+                    0345 969 388
+                  </a>
+                }
               />
-              <SocialButton
-                href="https://www.tiktok.com/@wewin.education.vn"
-                icon="https://img.icons8.com/color/48/tiktok--v1.png"
+
+              <ContactItem
+                icon={<Mail className="w-4 h-4 text-amber-300" />}
+                label="Email"
+                content={
+                  <a
+                    href="mailto:officemanager@wewin.edu.vn"
+                    className="hover:text-amber-300 transition-colors"
+                  >
+                    officemanager@wewin.edu.vn
+                  </a>
+                }
               />
-              <SocialButton
-                href="https://www.youtube.com/@wewin.education"
-                icon="https://img.icons8.com/color/48/youtube-play.png"
-              />
-              <SocialButton
-                href="mailto:officemanager@wewin.edu.vn"
-                icon="https://img.icons8.com/color/48/gmail--v1.png"
+
+              <ContactItem
+                icon={<Globe className="w-4 h-4 text-amber-300" />}
+                label="Website"
+                content={
+                  <a
+                    href="https://wewin.edu.vn"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="hover:text-amber-300 transition-colors"
+                  >
+                    wewin.edu.vn
+                  </a>
+                }
               />
             </div>
-          </div>
+          </motion.div>
         </div>
 
         {/* Divider */}
-        <div className="relative mb-4 lg:mb-5">
-          <div className="absolute inset-0 flex items-center">
-            <div className="w-full border-t border-white/20"></div>
-          </div>
-
-          <div className="relative flex justify-center">
-            <span className="bg-linear-to-br from-[#0E4BA9] to-[#00A6FB] px-3 text-[#FFE08A]">
-              ⭐
-            </span>
-          </div>
-        </div>
+        <div className="h-px bg-linear-to-r from-transparent via-white/20 to-transparent mb-4" />
 
         {/* Copyright */}
-        <p className="text-center text-xs lg:text-sm opacity-80">
-          © {new Date().getFullYear()}{" "}
-          <span className="font-semibold text-[#E4C28E]">WeWIN</span>. All
-          rights reserved.
-        </p>
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.4 }}
+          className="text-center"
+        >
+          <p className="text-xs text-blue-100/70">
+            © {new Date().getFullYear()}{" "}
+            <span className="font-bold text-amber-300">WeWIN Education</span>.
+            All rights reserved. Made with{" "}
+            <span className="text-red-400">❤️</span>
+          </p>
+        </motion.div>
       </div>
     </motion.footer>
   );
 }
 
-/* Component nhỏ: Nút mạng xã hội */
-function SocialButton({ href, icon }: { href: string; icon: string }) {
+/* Contact Item Component */
+function ContactItem({
+  icon,
+  label,
+  content,
+}: {
+  icon: React.ReactNode;
+  label: string;
+  content: React.ReactNode;
+}) {
   return (
-    <motion.a
-      whileHover={{ scale: 1.1, rotate: 5 }}
-      whileTap={{ scale: 0.95 }}
-      href={href}
-      target="_blank"
-      rel="noopener noreferrer"
-      className="w-10 h-10 lg:w-12 lg:h-12 bg-white/10 rounded-lg lg:rounded-xl 
-                 flex items-center justify-center hover:bg-[#FFE08A] hover:shadow-lg 
-                 transition-all duration-300 backdrop-blur-sm border border-white/20"
+    <motion.div
+      whileHover={{ x: 3 }}
+      className="flex items-start gap-3 p-3 rounded-lg bg-white/5 backdrop-blur-sm 
+                 border border-white/10 hover:bg-white/10 transition-all"
     >
-      <img src={icon} alt="icon" className="w-6 h-6 lg:w-7 lg:h-7" />
-    </motion.a>
+      <span className="shrink-0 mt-0.5">{icon}</span>
+      <div className="flex-1 min-w-0">
+        <p className="text-xs font-semibold text-amber-200/80 mb-0.5">
+          {label}
+        </p>
+        <div className="text-xs text-blue-100/90 wrap-break-word">
+          {content}
+        </div>
+      </div>
+    </motion.div>
   );
 }

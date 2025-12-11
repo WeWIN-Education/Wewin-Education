@@ -8,6 +8,14 @@ const nextConfig: NextConfig = {
         hostname: "wewin.edu.vn",
         pathname: "/wp-content/uploads/**",
       },
+      {
+        protocol: "https",
+        hostname: "images.unsplash.com",
+      },
+      {
+        protocol: "https",
+        hostname: "plus.unsplash.com",
+      },
     ],
   },
   turbopack: {},

@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Routes } from "../constants/routes";
-import { FloatingInput } from "../components/floatingInput";
+import { BookOpen, Eye, EyeOff, Target, Trophy } from "lucide-react";
 
 export default function LoginPage() {
   const { data: session, status } = useSession();
@@ -13,8 +13,24 @@ export default function LoginPage() {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+
+  const features = [
+    {
+      icon: <BookOpen className="w-6 h-6 text-white" />,
+      text: "Truy cập hàng nghìn học liệu chất lượng",
+    },
+    {
+      icon: <Target className="w-6 h-6 text-white" />,
+      text: "Theo dõi tiến độ học tập cá nhân",
+    },
+    {
+      icon: <Trophy className="w-6 h-6 text-white" />,
+      text: "Tham gia cộng đồng học viên năng động",
+    },
+  ];
 
   useEffect(() => {
     if (status === "authenticated") {
@@ -30,7 +46,7 @@ export default function LoginPage() {
       redirect: false,
       email,
       password,
-      callbackUrl: "/", // <----- PHẢI CÓ
+      callbackUrl: Routes.HOME,
     });
 
     setIsLoading(false);
@@ -49,154 +65,230 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-[calc(90vh-80px)] bg-linear-to-br from-blue-50 via-white to-cyan-50 flex items-center justify-center p-4 font-[Lexend]">
-      {/* Background bubbles */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-20 left-10 w-72 h-72 bg-blue-100 rounded-full mix-blend-multiply filter blur-3xl opacity-40 animate-pulse" />
-        <div className="absolute bottom-20 right-10 w-96 h-96 bg-cyan-100 rounded-full mix-blend-multiply filter blur-3xl opacity-40 animate-pulse delay-700" />
-      </div>
-
+    <div className="fixed inset-0 flex h-screen w-screen overflow-hidden font-[Lexend] z-9999 text-black">
+      {/* LEFT SIDE (UI mẫu) */}
       <motion.div
-        initial={{ y: 40, opacity: 0, scale: 0.9 }}
-        animate={{ y: 0, opacity: 1, scale: 1 }}
-        transition={{ duration: 0.6, ease: "easeOut" }}
+        initial={{ x: -100, opacity: 0 }}
+        animate={{ x: 0, opacity: 1 }}
+        transition={{ duration: 0.8, ease: "easeOut" }}
+        className="hidden lg:flex lg:w-[60%] relative bg-linear-to-br from-blue-600 via-blue-700 to-cyan-600 items-center justify-center overflow-hidden"
+      >
+        {/* Animated background */}
+        <div className="absolute inset-0">
+          <div className="absolute top-20 left-20 w-96 h-96 bg-white/10 rounded-full blur-3xl animate-pulse" />
+          <div className="absolute bottom-20 right-20 w-[500px] h-[500px] bg-cyan-400/20 rounded-full blur-3xl animate-pulse delay-700" />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-blue-400/10 rounded-full blur-3xl animate-pulse delay-1000" />
+        </div>
+
+        {/* Logo + Text */}
+        <div className="relative z-10 px-16 max-w-4xl">
+          <motion.div
+            initial={{ y: 30, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ delay: 0.3, duration: 0.8 }}
+          >
+            <div className="mb-12">
+              <img
+                src="/logo.png"
+                alt="WeWIN Education Logo"
+                className="h-20 md:h-24 mb-8 filter brightness-0 invert"
+              />
+            </div>
+
+            <h1 className="text-5xl font-black text-white mb-6 leading-tight">
+              Chào mừng trở lại!
+            </h1>
+
+            <p className="text-xl text-white/90 mb-8 leading-relaxed">
+              Đăng nhập để tiếp tục hành trình học tập cùng WeWIN Education
+            </p>
+
+            <div className="space-y-4 mt-12">
+              {features.map((item, idx) => (
+                <motion.div
+                  key={idx}
+                  initial={{ x: -30, opacity: 0 }}
+                  animate={{ x: 0, opacity: 1 }}
+                  transition={{ delay: 0.5 + idx * 0.1 }}
+                  className="flex items-center gap-4 text-white/90"
+                >
+                  {item.icon}
+                  <span className="text-lg">{item.text}</span>
+                </motion.div>
+              ))}
+            </div>
+          </motion.div>
+        </div>
+      </motion.div>
+
+      {/* RIGHT SIDE (Form + Logic NextAuth) */}
+      <motion.div
+        initial={{ x: 100, opacity: 0 }}
+        animate={{ x: 0, opacity: 1 }}
+        transition={{ duration: 0.8, ease: "easeOut" }}
         className="
-          relative bg-white/90 backdrop-blur-xl 
-          px-8 sm:px-10 py-10 sm:py-12 
-          rounded-3xl shadow-2xl 
-          w-full max-w-lg 
-          border border-white/20
+          w-full lg:w-[40%] 
+          bg-white flex items-center justify-center 
+          p-6 sm:p-8 lg:p-16 
+          overflow-y-auto
+          relative
         "
       >
-        {/* Logo + Title */}
-        <motion.div
-          initial={{ scale: 0 }}
-          animate={{ scale: 1 }}
-          transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
-          className="mb-8 text-center"
+        {/* MOBILE BACKGROUND DECORATION */}
+        <div className="absolute inset-0 lg:hidden pointer-events-none">
+          <div className="absolute -top-10 -right-20 w-72 h-72 rounded-full bg-blue-200/40 blur-3xl" />
+          <div className="absolute bottom-[-60px] -left-20 w-72 h-72 rounded-full bg-cyan-200/40 blur-3xl" />
+        </div>
+
+        <div
+          className="
+            w-full max-w-md 
+            relative z-10 
+            bg-white/80 backdrop-blur-xl
+            rounded-[28px] shadow-xl 
+            px-6 py-10 sm:px-8
+            border border-white/50
+          "
         >
-          <h1 className="md:text-3xl text-2xl font-black mb-2 text-[#E4C28E]">
-            WeWIN Education App
-          </h1>
-          <p className="text-[#0E4BA9] text-sm">
-            Đăng nhập để truy cập học liệu
-          </p>
-        </motion.div>
+          {/* MOBILE HEADER — NEW! */}
+          <div className="lg:hidden mb-10 text-center">
+            {/* Title */}
+            <h1 className="text-2xl font-extrabold text-[#0E4BA9] mt-4">
+              WeWIN Education
+            </h1>
 
-        {/* Form Inputs */}
-        <motion.div
-          initial={{ x: -20, opacity: 0 }}
-          animate={{ x: 0, opacity: 1 }}
-          transition={{ delay: 0.3 }}
-          className="space-y-4 mb-6"
-        >
-          {/* Email */}
-          <FloatingInput
-            label="Email"
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            onKeyPress={handleKeyPress}
-          />
-
-          {/* Password */}
-          <FloatingInput
-            label="Mật khẩu"
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            onKeyPress={handleKeyPress}
-          />
-
-          {/* ⭐ NÚT QUÊN MẬT KHẨU — đây là phần cậu cần */}
-          <div className="text-right -mt-2">
-            <button
-              onClick={() => router.push("/forgot-password")}
-              className="text-sm text-blue-600 hover:text-blue-700 hover:underline transition cursor-pointer"
-            >
-              Quên mật khẩu?
-            </button>
+            {/* Subtitle */}
+            <p className="text-gray-600 text-sm mt-1">
+              Học liệu – Hành trình – Thành công
+            </p>
           </div>
 
-          {/* Error message */}
-          {errorMessage && (
-            <motion.div
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="flex items-center gap-2 text-red-500 text-sm bg-red-50 px-4 py-2 rounded-lg"
-            >
-              <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                <path
-                  fillRule="evenodd"
-                  d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
-                  clipRule="evenodd"
-                />
-              </svg>
-              {errorMessage}
-            </motion.div>
-          )}
-
-          {/* Login button */}
-          <motion.button
-            whileHover={{
-              scale: 1.02,
-              boxShadow: "0 10px 30px -10px rgba(14, 75, 169, 0.5)",
-            }}
-            whileTap={{ scale: 0.98 }}
-            onClick={handleCredentialsLogin}
-            disabled={isLoading}
-            className="w-full bg-linear-to-r from-blue-600 to-blue-700 text-white py-3.5 rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all duration-200 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+          {/* DESKTOP TITLE */}
+          <motion.div
+            initial={{ y: 20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ delay: 0.3 }}
+            className="hidden lg:block mb-10"
           >
-            {isLoading ? (
-              <svg
-                className="animate-spin h-5 w-5 text-white"
-                fill="none"
-                viewBox="0 0 24 24"
-              >
-                <circle
-                  className="opacity-25"
-                  cx="12"
-                  cy="12"
-                  r="10"
-                  stroke="currentColor"
-                  strokeWidth="4"
-                ></circle>
-                <path
-                  className="opacity-75"
-                  fill="currentColor"
-                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                />
-              </svg>
-            ) : (
-              <>
-                <svg
-                  className="w-5 h-5"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
-                  />
-                </svg>
-                Đăng nhập
-              </>
-            )}
-          </motion.button>
-        </motion.div>
+            <h2 className="text-3xl font-bold text-gray-900 mb-2">Đăng nhập</h2>
+            <p className="text-gray-600">Nhập thông tin tài khoản của bạn</p>
+          </motion.div>
 
-        {/* Footer */}
-        <motion.p
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.6 }}
-          className="text-center text-xs text-gray-400 mt-8"
-        >
-          © {new Date().getFullYear()} WeWIN Education. All Rights Reserved.
-        </motion.p>
+          {/* FORM */}
+          <motion.div
+            initial={{ y: 20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ delay: 0.4 }}
+            className="space-y-6"
+          >
+            {/* Email */}
+            <div className="relative">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Email
+              </label>
+              <input
+                type="email"
+                value={email}
+                onKeyPress={handleKeyPress}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="example@wewin.edu.vn"
+                className="
+            w-full px-4 py-3.5 
+            border-2 border-gray-200 rounded-xl 
+            focus:border-blue-500 focus:ring-4 focus:ring-blue-100 
+            transition outline-none
+            shadow-sm
+          "
+              />
+            </div>
+
+            {/* Password */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Mật khẩu
+              </label>
+              <div className="relative">
+                <input
+                  type={showPassword ? "text" : "password"}
+                  value={password}
+                  onKeyPress={handleKeyPress}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="••••••••"
+                  className="
+              w-full px-4 py-3.5 
+              border-2 border-gray-200 rounded-xl 
+              focus:border-blue-500 focus:ring-4 focus:ring-blue-100
+              transition outline-none
+              shadow-sm
+            "
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500"
+                >
+                  {showPassword ? (
+                    <EyeOff className="w-5 h-5 text-gray-500" />
+                  ) : (
+                    <Eye className="w-5 h-5 text-gray-500" />
+                  )}
+                </button>
+              </div>
+            </div>
+
+            {/* Forgot Password */}
+            <div className="text-right -mt-2">
+              <button
+                onClick={() => router.push("/forgot-password")}
+                className="text-sm text-blue-600 hover:text-blue-800 font-medium"
+              >
+                Quên mật khẩu?
+              </button>
+            </div>
+
+            {/* Error */}
+            {errorMessage && (
+              <motion.div
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="
+            bg-red-50 text-red-600 text-sm 
+            px-4 py-3 rounded-xl 
+            border border-red-100 flex items-center gap-2
+          "
+              >
+                {errorMessage}
+              </motion.div>
+            )}
+
+            {/* LOGIN BUTTON */}
+            <motion.button
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.97 }}
+              onClick={handleCredentialsLogin}
+              disabled={isLoading}
+              className="
+                w-full py-4 rounded-xl font-semibold 
+                bg-linear-to-r from-[#0E4BA9] to-[#00A6FB]
+                text-white shadow-lg shadow-blue-500/30
+                mt-2
+                disabled:opacity-50
+              "
+            >
+              {isLoading ? "Đang đăng nhập..." : "Đăng nhập"}
+            </motion.button>
+          </motion.div>
+
+          {/* FOOTER */}
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.8 }}
+            className="text-center text-xs text-gray-400 mt-10"
+          >
+            © 2025 WeWIN Education. All Rights Reserved.
+          </motion.p>
+        </div>
       </motion.div>
     </div>
   );
