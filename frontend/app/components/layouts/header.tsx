@@ -65,7 +65,7 @@ export default function Navbar() {
     {
       href: Routes.RESOURCES,
       label: "Books",
-      icon: <Palette className="w-5 h-5 text-amber-300" />,
+      icon: <BookOpen className="w-5 h-5 text-amber-300" />,
     },
    
   ];
@@ -100,7 +100,7 @@ export default function Navbar() {
                     <motion.button
                       whileHover={{ scale: 1.02 }}
                       whileTap={{ scale: 0.98 }}
-                      onClick={() => setDropdownOpen(!dropdownOpen)}
+                      onHoverStart={() => setDropdownOpen(!dropdownOpen)}
                       className="flex items-center gap-2 px-5 py-2.5 rounded-xl
                                bg-white/10 hover:bg-white/20 backdrop-blur-md
                                border border-white/20 text-white font-semibold
