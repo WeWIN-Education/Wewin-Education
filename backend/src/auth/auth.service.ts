@@ -18,7 +18,6 @@ export class AuthService {
      REGISTER
   --------------------------------------------------------- */
   async register(data: any) {
-    console.log('REGISTER RECEIVED:', data);
     const existed = await this.userService.findByEmail(data.email);
     if (existed) {
       throw new BadRequestException('Email already exists');
@@ -37,11 +36,8 @@ export class AuthService {
      LOGIN (CREDENTIALS)
   --------------------------------------------------------- */
   async login(email: string, password: string) {
-    console.log('Login INPUT:', { email, password });
 
     const user = await this.userService.findByEmail(email);
-    console.log('FOUND USER:', user);
-    console.log('USER PASSWORD:', user?.password);
 
     if (!user) throw new UnauthorizedException('User not found');
     if (!user.password) throw new UnauthorizedException('No password stored');

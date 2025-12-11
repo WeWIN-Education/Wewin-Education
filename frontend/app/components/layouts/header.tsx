@@ -15,7 +15,6 @@ import { useRouter } from "next/navigation";
 
 export default function Navbar() {
   const { data: session } = useSession();
-  console.log(session);
 
   const [menuOpen, setMenuOpen] = useState(false);
   const [showNavbar, setShowNavbar] = useState(true);
