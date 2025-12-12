@@ -9,15 +9,16 @@ import { getProjectsFromFlyerBook } from "@/app/constants/flyerBookConfig";
 type FlyerUnitsSidebarProps = {
   isOpen?: boolean;
   onClose?: () => void;
+  basePath?: string;
 };
 
-export function FlyerUnitsSidebar({ isOpen = false, onClose }: FlyerUnitsSidebarProps) {
+export function FlyerUnitsSidebar({ isOpen = false, onClose, basePath = "/resources/flyer/Games" }: FlyerUnitsSidebarProps) {
   const pathname = usePathname();
   const [collapsed, setCollapsed] = useState(false);
 
   const projects = getProjectsFromFlyerBook();
 
-  const isActive = (href: string) => pathname === href;
+  const isActive = (href: string) => pathname === href || pathname.startsWith(href + "/");
 
   const handleLinkClick = () => {
     if (typeof window !== "undefined" && window.innerWidth < 768 && onClose) {
@@ -85,7 +86,7 @@ export function FlyerUnitsSidebar({ isOpen = false, onClose }: FlyerUnitsSidebar
 
         <nav className="flex-1 overflow-y-auto p-3 space-y-2">
           {projects.map((project) => {
-            const href = `/resources/flyer/Games/${project.id}`;
+            const href = `${basePath}/${project.id}`;
             const active = isActive(href);
             return (
               <Link
