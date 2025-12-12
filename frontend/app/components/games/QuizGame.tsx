@@ -42,12 +42,12 @@ export function QuizGame({ title, question, options, answer, onComplete }: Props
       <div className="rounded-2xl border border-zinc-100 bg-white/95 p-4 sm:p-6 shadow-xl max-w-5xl mx-auto">
       <header className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div className="text-center sm:text-left">
-          <p className="text-xs uppercase tracking-wide text-zinc-400">Quiz</p>
-          <h2 className="text-lg sm:text-xl font-semibold text-zinc-900">{title}</h2>
+          <p className="text-sm uppercase tracking-wide text-zinc-400">Quiz</p>
+          <h2 className="text-xl sm:text-2xl font-semibold text-zinc-900">{title}</h2>
         </div>
         {state !== "idle" && (
           <span
-            className={`rounded-full px-3 py-1 text-xs font-medium self-center sm:self-auto ${
+            className={`rounded-full px-3 py-1 text-sm font-medium self-center sm:self-auto ${
               state === "correct"
                 ? "bg-emerald-50 text-emerald-700"
                 : "bg-rose-50 text-rose-700"
@@ -58,7 +58,7 @@ export function QuizGame({ title, question, options, answer, onComplete }: Props
         )}
       </header>
 
-      <p className="mt-4 text-base sm:text-lg font-medium text-zinc-800 text-center sm:text-left">{question}</p>
+      <p className="mt-4 text-lg sm:text-xl font-medium text-zinc-800 text-center sm:text-left">{question}</p>
 
       <div className="mt-6 grid gap-3 sm:grid-cols-2">
         {options.map((option) => {
@@ -87,7 +87,7 @@ export function QuizGame({ title, question, options, answer, onComplete }: Props
                       : "border-zinc-200 hover:border-zinc-300"
               }`}
             >
-              <span className="text-sm sm:text-base font-medium">{option.label}</span>
+              <span className="text-base sm:text-lg font-medium">{option.label}</span>
             </button>
           );
         })}

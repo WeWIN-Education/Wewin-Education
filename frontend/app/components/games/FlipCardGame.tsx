@@ -77,18 +77,18 @@ export function FlipCardGame({ title, words, autoAudio = true, onComplete }: Pro
       <div className="rounded-2xl border border-orange-100 bg-white/90 p-4 sm:p-6 shadow-lg max-w-5xl mx-auto">
       <header className="text-center">
      
-        <h2 className="text-lg sm:text-xl font-semibold text-orange-900">{title}</h2>
-        <p className="mt-2 text-sm text-orange-700">
+        <h2 className="text-xl sm:text-2xl font-semibold text-orange-900">{title}</h2>
+        <p className="mt-2 text-base sm:text-lg text-orange-700">
           Nhấn vào từng thẻ để xem toàn bộ từ và nghe phát âm.
         </p>
       </header>
 
-      <div className="mt-4 text-center text-base sm:text-lg font-bold text-orange-800">
+      <div className="mt-4 text-center text-lg sm:text-xl font-bold text-orange-800">
         Đã mở: <span>{revealedCount}</span>/{words.length}
       </div>
 
       {revealedCount === words.length && (
-        <div className="mt-4 text-center text-lg sm:text-xl font-bold text-orange-600">
+        <div className="mt-4 text-center text-xl sm:text-2xl font-bold text-orange-600">
           🎉 Tuyệt vời! Bạn đã mở hết tất cả các thẻ! 🎉
         </div>
       )}
@@ -112,20 +112,20 @@ export function FlipCardGame({ title, words, autoAudio = true, onComplete }: Pro
             >
               {isRevealed ? (
                 <>
-                  <div className="text-3xl sm:text-4xl mb-2">{word.emoji || "📝"}</div>
-                  <div className="text-lg sm:text-xl font-bold text-orange-900">
+                  <div className="text-4xl sm:text-5xl mb-2">{word.emoji || "📝"}</div>
+                  <div className="text-xl sm:text-2xl font-bold text-orange-900">
                     {word.text}
                   </div>
                   {word.meaning && (
-                    <div className="mt-2 text-sm sm:text-base text-orange-700">
+                    <div className="mt-2 text-base sm:text-lg text-orange-700">
                       {word.meaning}
                     </div>
                   )}
                 </>
               ) : (
                 <>
-                  <div className="text-3xl sm:text-4xl mb-2">{word.emoji || "📝"}</div>
-                  <div className="text-xl sm:text-2xl font-bold text-orange-600">
+                  <div className="text-4xl sm:text-5xl mb-2">{word.emoji || "📝"}</div>
+                  <div className="text-2xl sm:text-3xl font-bold text-orange-600">
                     {word.text[0].toUpperCase()}
                     {dots}
                   </div>

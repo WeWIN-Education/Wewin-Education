@@ -83,6 +83,11 @@ export default function Navbar() {
       label: "Books",
       icon: <BookOpen className="w-5 h-5 text-amber-300" />,
     },
+    {
+      href: Routes.RESOURCES_GAMES,
+      label: "Games",
+      icon: <Gamepad2 className="w-5 h-5 text-amber-300" />,
+    },
   ];
 
   return (
