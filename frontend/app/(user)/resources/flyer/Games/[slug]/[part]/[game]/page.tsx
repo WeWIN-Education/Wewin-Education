@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { UnitGameScreen } from "@/app/components/games/UnitGameScreen";
 import { FlyerUnitsSidebar } from "@/app/components/games/FlyerUnitsSidebar";
@@ -22,7 +22,7 @@ export default function FlyerGamePartGamePage() {
   const unit = getFlyerUnitBySlug(slug);
   const router = useRouter();
 
-  const [playerId, setPlayerId] = useState<string | null>(() => {
+  const [playerId, setPlayerId] = useState<string>(() => {
     if (typeof window === "undefined") return "";
     return getSavedPlayerId() || "";
   });
@@ -36,16 +36,23 @@ export default function FlyerGamePartGamePage() {
 
   useEffect(() => {
     if (typeof window === "undefined") return;
-    const handleBeforeUnload = () => sessionStorage.setItem(RELOAD_FLAG_KEY, "1");
+
+    const handleBeforeUnload = () => {
+      sessionStorage.setItem(RELOAD_FLAG_KEY, "1");
+    };
+
     window.addEventListener("beforeunload", handleBeforeUnload);
     return () => window.removeEventListener("beforeunload", handleBeforeUnload);
   }, []);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
+
+    const SESSION_FLAG_KEY = "flyer_book_session_started";
     const wasReload = sessionStorage.getItem(RELOAD_FLAG_KEY) === "1";
     if (wasReload) {
       localStorage.removeItem("flyer_book_player_id");
+
       const keysToRemove: string[] = [];
       for (let i = 0; i < localStorage.length; i++) {
         const key = localStorage.key(i);
@@ -53,30 +60,34 @@ export default function FlyerGamePartGamePage() {
           keysToRemove.push(key);
         }
       }
-      keysToRemove.forEach((k) => localStorage.removeItem(k));
+      keysToRemove.forEach((key) => localStorage.removeItem(key));
+
       sessionStorage.removeItem(RELOAD_FLAG_KEY);
+
       const projects = getProjectsFromFlyerBook();
-      if (projects.length > 0) router.replace(`/resources/flyer/Games/${projects[0].id}`);
-      else router.replace("/resources/flyer/Games");
-      setPlayerId("");
-      setShowIdModal(true);
+      if (projects.length > 0) {
+        const first = projects[0];
+        router.replace(`/resources/flyer/Games/${first.id}`);
+      } else {
+        router.replace("/resources/flyer/Games");
+      }
       return;
     }
-    const saved = getSavedPlayerId();
-    if (saved) {
-      setPlayerId(saved);
-      setShowIdModal(false);
-    } else {
-      setPlayerId("");
-      setShowIdModal(true);
-    }
-  }, [router]);
 
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-    const SESSION_FLAG_KEY = "flyer_book_session_started";
     if (!sessionStorage.getItem(SESSION_FLAG_KEY)) {
       sessionStorage.setItem(SESSION_FLAG_KEY, "1");
+    }
+
+    // Đồng bộ playerId với localStorage
+    const savedPlayerId = getSavedPlayerId();
+    if (savedPlayerId) {
+      // Có ID đã lưu → dùng ID đó, không hiện modal
+      setPlayerId(savedPlayerId);
+      setShowIdModal(false);
+    } else {
+      // Chưa có ID → hiện modal để nhập
+      setPlayerId("");
+      setShowIdModal(true);
     }
   }, []);
 
@@ -103,19 +114,11 @@ export default function FlyerGamePartGamePage() {
     );
   }
 
-  if (playerId === null) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100 text-blue-600 font-semibold">
-        Đang tải dữ liệu...
-      </div>
-    );
-  }
-
   return (
-    <div className="min-h-screen md:flex md:items-stretch">
+    <div className="min-h-screen md:flex md:items-stretch bg-gradient-to-b from-blue-50 via-blue-50 to-blue-100 bg-fixed">
       <button
         onClick={() => setSidebarOpen(true)}
-        className="fixed top-24 left-4 z-30 md:hidden w-10 h-10 flex items-center justify-center bg-blue-500 hover:bg-blue-600 text-white rounded-lg shadow-lg transition-colors"
+        className="fixed top-60 left-4 z-30 md:hidden w-10 h-10 flex items-center justify-center bg-blue-500 hover:bg-blue-600 text-white rounded-lg shadow-lg transition-colors"
         aria-label="Mở menu"
       >
         <Menu className="w-6 h-6" />
@@ -123,7 +126,7 @@ export default function FlyerGamePartGamePage() {
 
       <FlyerUnitsSidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
 
-      <div className="flex-1 md:ml-0">
+      <div className="flex-1 md:ml-0 md:min-h-screen">
         <UnitGameScreen
           unit={unit}
           heading={unit.name}

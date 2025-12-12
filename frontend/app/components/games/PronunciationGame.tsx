@@ -246,16 +246,16 @@ export function PronunciationGame({ title, words, onComplete }: Props) {
       <div className="rounded-2xl border border-blue-100 bg-white/95 p-4 sm:p-6 shadow-xl max-w-5xl mx-auto">
       <header className="text-center">
       
-        <h2 className="text-lg sm:text-xl font-semibold text-blue-900">{title}</h2>
+        <h2 className="text-xl sm:text-2xl font-semibold text-blue-900">{title}</h2>
       </header>
 
       {!isSupported && (
-        <div className="mt-4 rounded-lg bg-red-100 p-3 text-center text-xs sm:text-sm text-red-700">
+        <div className="mt-4 rounded-lg bg-red-100 p-3 text-center text-sm sm:text-base text-red-700">
           ⚠️ Trình duyệt của bạn không hỗ trợ nhận diện giọng nói. Hãy dùng Chrome hoặc Edge nhé!
         </div>
       )}
 
-      <div className="mt-4 rounded-lg bg-yellow-50 p-4 text-xs sm:text-sm text-yellow-800">
+      <div className="mt-4 rounded-lg bg-yellow-50 p-4 text-sm sm:text-base text-yellow-800">
         <p className="font-semibold">📝 Cách chơi:</p>
         <ol className="mt-2 list-decimal list-inside space-y-1">
           <li>Nhấn "Nghe từ" để nghe phát âm chuẩn.</li>
@@ -266,28 +266,28 @@ export function PronunciationGame({ title, words, onComplete }: Props) {
 
       <div className="mt-4 flex flex-col sm:flex-row gap-4 rounded-xl bg-white p-4 shadow-sm">
         <div className="flex-1 text-center">
-          <div className="text-xs sm:text-sm text-blue-600">⭐ Điểm</div>
-          <div className="text-lg sm:text-xl font-bold text-blue-900">{score}</div>
+          <div className="text-sm sm:text-base text-blue-600">⭐ Điểm</div>
+          <div className="text-xl sm:text-2xl font-bold text-blue-900">{score}</div>
         </div>
         <div className="flex-1 text-center">
-          <div className="text-xs sm:text-sm text-blue-600">📚 Từ</div>
-          <div className="text-lg sm:text-xl font-bold text-blue-900">
+          <div className="text-sm sm:text-base text-blue-600">📚 Từ</div>
+          <div className="text-xl sm:text-2xl font-bold text-blue-900">
             {currentIndex + 1}/{words.length}
           </div>
         </div>
         <div className="flex-1 text-center">
-          <div className="text-xs sm:text-sm text-blue-600">✅ Đúng</div>
-          <div className="text-lg sm:text-xl font-bold text-blue-900">{correctCount}</div>
+          <div className="text-sm sm:text-base text-blue-600">✅ Đúng</div>
+          <div className="text-xl sm:text-2xl font-bold text-blue-900">{correctCount}</div>
         </div>
       </div>
 
       <div className="mt-6 rounded-2xl bg-gradient-to-br from-blue-500 to-blue-600 p-6 sm:p-8 text-center text-white shadow-lg">
-        <div className="text-4xl sm:text-6xl mb-4">{currentWord.emoji || "📝"}</div>
-        <div className="text-2xl sm:text-3xl font-bold mb-2 capitalize">
+        <div className="text-5xl sm:text-7xl mb-4">{currentWord.emoji || "📝"}</div>
+        <div className="text-3xl sm:text-4xl font-bold mb-2 capitalize">
           {currentWord.text}
         </div>
         {currentWord.meaning && (
-          <div className="text-base sm:text-lg bg-white/25 rounded-lg px-4 py-2 inline-block">
+          <div className="text-lg sm:text-xl bg-white/25 rounded-lg px-4 py-2 inline-block">
             {currentWord.meaning}
           </div>
         )}
@@ -327,7 +327,7 @@ export function PronunciationGame({ title, words, onComplete }: Props) {
       </div>
 
       <div
-        className={`mt-6 rounded-xl p-4 text-center text-sm sm:text-base font-bold ${
+        className={`mt-6 rounded-xl p-4 text-center text-base sm:text-lg font-bold ${
           statusType === "correct"
             ? "bg-green-100 text-green-800"
             : statusType === "warning"

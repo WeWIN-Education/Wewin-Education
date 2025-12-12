@@ -247,9 +247,9 @@ export function MemoryGame({ title, words, showScore = true, onComplete }: Props
         </div>
       )}
       <header className="text-center">
-        <p className="text-xs uppercase tracking-wide text-indigo-400">Memory</p>
-        <h2 className="text-lg sm:text-xl font-semibold text-indigo-900">{title}</h2>
-        <p className="mt-2 text-sm text-indigo-700">
+        <p className="text-sm uppercase tracking-wide text-indigo-400">Memory</p>
+        <h2 className="text-xl sm:text-2xl font-semibold text-indigo-900">{title}</h2>
+        <p className="mt-2 text-base sm:text-lg text-indigo-700">
           Lật 2 thẻ để tìm cặp từ khớp!
         </p>
       </header>
@@ -257,18 +257,18 @@ export function MemoryGame({ title, words, showScore = true, onComplete }: Props
       {showScore && (
         <div className="mt-4 flex flex-wrap gap-4 rounded-xl bg-white p-4 shadow-sm">
           <div className="flex-1 text-center">
-            <div className="text-sm text-indigo-600">⭐ Điểm</div>
-            <div className="text-xl font-bold text-indigo-900">{score}</div>
+            <div className="text-base sm:text-lg text-indigo-600">⭐ Điểm</div>
+            <div className="text-2xl sm:text-3xl font-bold text-indigo-900">{score}</div>
           </div>
           <div className="flex-1 text-center">
-            <div className="text-sm text-indigo-600">🎯 Cặp</div>
-            <div className="text-xl font-bold text-indigo-900">
+            <div className="text-base sm:text-lg text-indigo-600">🎯 Cặp</div>
+            <div className="text-2xl sm:text-3xl font-bold text-indigo-900">
               {matchedPairs}/{words.length}
             </div>
           </div>
           <div className="flex-1 text-center">
-            <div className="text-sm text-indigo-600">🔄 Nước đi</div>
-            <div className="text-xl font-bold text-indigo-900">{moves}</div>
+            <div className="text-base sm:text-lg text-indigo-600">🔄 Nước đi</div>
+            <div className="text-2xl sm:text-3xl font-bold text-indigo-900">{moves}</div>
           </div>
         </div>
       )}
@@ -293,17 +293,17 @@ export function MemoryGame({ title, words, showScore = true, onComplete }: Props
             >
               {isFlipped ? (
                 <div className="flex flex-col items-center justify-center h-full">
-                  <div className="text-3xl sm:text-4xl mb-2">{card.emoji || "📝"}</div>
-                  <div className="text-sm sm:text-base font-bold text-indigo-900 text-center">
+                  <div className="text-4xl sm:text-5xl mb-2">{card.emoji || "📝"}</div>
+                  <div className="text-base sm:text-lg font-bold text-indigo-900 text-center">
                     {card.text}
                   </div>
                   {card.meaning && card.id.startsWith("meaning-") && (
-                    <div className="text-xs text-indigo-600 mt-1">{card.meaning}</div>
+                    <div className="text-sm text-indigo-600 mt-1">{card.meaning}</div>
                   )}
                 </div>
               ) : (
                 <div className="flex items-center justify-center h-full">
-                  <span className="text-4xl sm:text-5xl">❓</span>
+                  <span className="text-5xl sm:text-6xl">❓</span>
                 </div>
               )}
             </button>
@@ -321,7 +321,7 @@ export function MemoryGame({ title, words, showScore = true, onComplete }: Props
       </div>
 
       <div
-        className={`mt-6 rounded-xl p-4 text-center font-bold text-base sm:text-lg ${
+        className={`mt-6 rounded-xl p-4 text-center font-bold text-lg sm:text-xl ${
           statusType === "correct"
             ? "bg-green-100 text-green-800"
             : statusType === "warning"

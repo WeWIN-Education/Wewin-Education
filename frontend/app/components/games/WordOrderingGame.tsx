@@ -107,9 +107,9 @@ export function WordOrderingGame({ title, words, showScore = true, onComplete }:
       <button
         key={`${word.id}-${word.originalIndex}`}
         onClick={onClick}
-        className="bg-white border-2 border-green-300 text-green-700 px-4 py-3 rounded-xl font-bold text-base sm:text-lg shadow-md hover:shadow-lg hover:border-green-500 transition hover:-translate-y-1 flex items-center gap-2"
+        className="bg-white border-2 border-green-300 text-green-700 px-4 py-3 rounded-xl font-bold text-lg sm:text-xl shadow-md hover:shadow-lg hover:border-green-500 transition hover:-translate-y-1 flex items-center gap-2"
       >
-        <span>{originalWord?.emoji || "📝"}</span>
+        <span className="text-2xl sm:text-3xl">{originalWord?.emoji || "📝"}</span>
         <span>{word.text}</span>
         {extra}
       </button>
@@ -120,9 +120,9 @@ export function WordOrderingGame({ title, words, showScore = true, onComplete }:
     <section className="min-h-screen bg-blue-50 bg-fixed py-8 sm:py-10 px-3 sm:px-4 md:px-6">
       <div className="rounded-2xl border border-green-100 bg-white/95 p-4 sm:p-6 shadow-xl max-w-5xl mx-auto">
       <header className="text-center">
-        <p className="text-xs uppercase tracking-wide text-green-400">Word Ordering</p>
-        <h2 className="text-lg sm:text-xl font-semibold text-green-900">{title}</h2>
-        <p className="mt-2 text-sm text-green-700">
+        <p className="text-sm uppercase tracking-wide text-green-400">Word Ordering</p>
+        <h2 className="text-xl sm:text-2xl font-semibold text-green-900">{title}</h2>
+        <p className="mt-2 text-base sm:text-lg text-green-700">
           Sắp xếp các từ theo thứ tự bảng chữ cái (A-Z)!
         </p>
       </header>
@@ -130,29 +130,29 @@ export function WordOrderingGame({ title, words, showScore = true, onComplete }:
       {showScore && (
         <div className="mt-4 flex flex-wrap gap-4 rounded-xl bg-white p-4 shadow-sm">
           <div className="flex-1 text-center">
-            <div className="text-sm text-green-600">⭐ Điểm</div>
-            <div className="text-xl font-bold text-green-900">{score}</div>
+            <div className="text-base sm:text-lg text-green-600">⭐ Điểm</div>
+            <div className="text-2xl sm:text-3xl font-bold text-green-900">{score}</div>
           </div>
           <div className="flex-1 text-center">
-            <div className="text-sm text-green-600">📚 Bộ từ</div>
-            <div className="text-xl font-bold text-green-900">
+            <div className="text-base sm:text-lg text-green-600">📚 Bộ từ</div>
+            <div className="text-2xl sm:text-3xl font-bold text-green-900">
               {currentIndex + 1}/{Math.max(words.length, 5)}
             </div>
           </div>
           <div className="flex-1 text-center">
-            <div className="text-sm text-green-600">✅ Đúng</div>
-            <div className="text-xl font-bold text-green-900">{correctCount}</div>
+            <div className="text-base sm:text-lg text-green-600">✅ Đúng</div>
+            <div className="text-2xl sm:text-3xl font-bold text-green-900">{correctCount}</div>
           </div>
         </div>
       )}
 
       <div className="mt-6">
-        <h3 className="text-center text-base sm:text-lg font-semibold text-green-800 mb-4">
+        <h3 className="text-center text-lg sm:text-xl font-semibold text-green-800 mb-4">
           Thứ tự bạn đã chọn:
         </h3>
         <div className="flex flex-wrap gap-3 justify-center min-h-[80px] p-4 bg-white rounded-xl border-2 border-dashed border-green-300">
           {selectedWords.length === 0 ? (
-            <p className="text-gray-400 text-sm sm:text-base">
+            <p className="text-gray-400 text-base sm:text-lg">
               Nhấn vào các từ bên dưới để sắp xếp
             </p>
           ) : (
@@ -160,7 +160,7 @@ export function WordOrderingGame({ title, words, showScore = true, onComplete }:
               renderWordButton(
                 word,
                 () => handleRemoveWord(word),
-                <span className="text-xs bg-white/30 px-2 py-1 rounded-full">{index + 1}</span>,
+                <span className="text-sm bg-white/30 px-2 py-1 rounded-full">{index + 1}</span>,
               ),
             )
           )}
@@ -168,7 +168,7 @@ export function WordOrderingGame({ title, words, showScore = true, onComplete }:
       </div>
 
       <div className="mt-6">
-        <h3 className="text-center text-base sm:text-lg font-semibold text-green-800 mb-4">
+        <h3 className="text-center text-lg sm:text-xl font-semibold text-green-800 mb-4">
           Các từ cần sắp xếp:
         </h3>
         <div className="flex flex-wrap gap-3 justify-center">
@@ -197,7 +197,7 @@ export function WordOrderingGame({ title, words, showScore = true, onComplete }:
       </div>
 
       <div
-        className={`mt-6 rounded-xl p-4 text-center font-bold text-base sm:text-lg ${
+        className={`mt-6 rounded-xl p-4 text-center font-bold text-lg sm:text-xl ${
           statusType === "correct"
             ? "bg-green-100 text-green-800"
             : statusType === "warning"

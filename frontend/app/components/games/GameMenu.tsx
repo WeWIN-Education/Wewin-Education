@@ -336,11 +336,11 @@ export function GameMenu({
             onClick={() => openGame("matching")}
             className="bg-blue-100 rounded-3xl p-8 sm:p-10 text-center cursor-pointer transition-all hover:-translate-y-2 hover:shadow-xl min-h-[220px] sm:min-h-[250px] flex flex-col justify-center items-center w-full"
           >
-            <div className="flex gap-4 justify-center mb-4 text-4xl sm:text-5xl">
+            <div className="flex gap-4 justify-center mb-4 text-5xl sm:text-6xl">
               <span>🔍</span>
               <span>👁️</span>
             </div>
-            <div className="text-lg sm:text-xl font-bold text-gray-800 mb-2 sm:mb-4">Matching Game</div>
+            <div className="text-xl sm:text-2xl font-bold text-gray-800 mb-2 sm:mb-4">Matching Game</div>
           </button>
         )}
 
@@ -349,11 +349,11 @@ export function GameMenu({
             onClick={() => openGame("flip")}
             className="bg-blue-100 rounded-3xl p-8 sm:p-10 text-center cursor-pointer transition-all hover:-translate-y-2 hover:shadow-xl min-h-[220px] sm:min-h-[250px] flex flex-col justify-center items-center w-full"
           >
-            <div className="flex gap-4 justify-center mb-4 text-4xl sm:text-5xl">
+            <div className="flex gap-4 justify-center mb-4 text-5xl sm:text-6xl">
               <span>🔍</span>
               <span>🔊</span>
             </div>
-            <div className="text-lg sm:text-xl font-bold text-gray-800 mb-2 sm:mb-4">Flip Card Game</div>
+            <div className="text-xl sm:text-2xl font-bold text-gray-800 mb-2 sm:mb-4">Flip Card Game</div>
           </button>
         )}
 
@@ -362,11 +362,11 @@ export function GameMenu({
             onClick={() => openGame("speak")}
             className="bg-blue-100 rounded-3xl p-8 sm:p-10 text-center cursor-pointer transition-all hover:-translate-y-2 hover:shadow-xl min-h-[220px] sm:min-h-[250px] flex flex-col justify-center items-center w-full"
           >
-            <div className="flex gap-4 justify-center mb-4 text-4xl sm:text-5xl">
+            <div className="flex gap-4 justify-center mb-4 text-5xl sm:text-6xl">
               <span>📚</span>
               <span>🌙</span>
             </div>
-            <div className="text-lg sm:text-xl font-bold text-gray-800 mb-2 sm:mb-4">Pronunciation Game</div>
+            <div className="text-xl sm:text-2xl font-bold text-gray-800 mb-2 sm:mb-4">Pronunciation Game</div>
           </button>
         )}
 
@@ -375,11 +375,11 @@ export function GameMenu({
             onClick={() => openGame("quiz")}
             className="bg-blue-100 rounded-3xl p-8 sm:p-10 text-center cursor-pointer transition-all hover:-translate-y-2 hover:shadow-xl min-h-[220px] sm:min-h-[250px] flex flex-col justify-center items-center w-full"
           >
-            <div className="flex gap-4 justify-center mb-4 text-4xl sm:text-5xl">
+            <div className="flex gap-4 justify-center mb-4 text-5xl sm:text-6xl">
               <span>❓</span>
               <span>🧠</span>
             </div>
-            <div className="text-lg sm:text-xl font-bold text-gray-800 mb-2 sm:mb-4">Quiz Game</div>
+            <div className="text-xl sm:text-2xl font-bold text-gray-800 mb-2 sm:mb-4">Quiz Game</div>
           </button>
         )}
 
@@ -388,11 +388,11 @@ export function GameMenu({
             onClick={() => openGame("memory")}
             className="bg-blue-100 rounded-3xl p-8 sm:p-10 text-center cursor-pointer transition-all hover:-translate-y-2 hover:shadow-xl min-h-[220px] sm:min-h-[250px] flex flex-col justify-center items-center w-full"
           >
-            <div className="flex gap-4 justify-center mb-4 text-4xl sm:text-5xl">
+            <div className="flex gap-4 justify-center mb-4 text-5xl sm:text-6xl">
               <span>🧠</span>
               <span>🎴</span>
             </div>
-            <div className="text-lg sm:text-xl font-bold text-gray-800 mb-2 sm:mb-4">Memory Game</div>
+            <div className="text-xl sm:text-2xl font-bold text-gray-800 mb-2 sm:mb-4">Memory Game</div>
           </button>
         )}
 
@@ -401,11 +401,11 @@ export function GameMenu({
             onClick={() => openGame("ordering")}
             className="bg-blue-100 rounded-3xl p-8 sm:p-10 text-center cursor-pointer transition-all hover:-translate-y-2 hover:shadow-xl min-h-[220px] sm:min-h-[250px] flex flex-col justify-center items-center w-full"
           >
-            <div className="flex gap-4 justify-center mb-4 text-4xl sm:text-5xl">
+            <div className="flex gap-4 justify-center mb-4 text-5xl sm:text-6xl">
               <span>🔤</span>
               <span>📚</span>
             </div>
-            <div className="text-lg sm:text-xl font-bold text-gray-800 mb-2 sm:mb-4">
+            <div className="text-xl sm:text-2xl font-bold text-gray-800 mb-2 sm:mb-4">
               Word Ordering Game
             </div>
           </button>
@@ -416,11 +416,11 @@ export function GameMenu({
             onClick={() => openGame("scramble")}
             className="bg-blue-100 rounded-3xl p-8 sm:p-10 text-center cursor-pointer transition-all hover:-translate-y-2 hover:shadow-xl min-h-[220px] sm:min-h-[250px] flex flex-col justify-center items-center w-full"
           >
-            <div className="flex gap-4 justify-center mb-4 text-4xl sm:text-5xl">
+            <div className="flex gap-4 justify-center mb-4 text-5xl sm:text-6xl">
               <span>🧩</span>
               <span>🔤</span>
             </div>
-            <div className="text-lg sm:text-xl font-bold text-gray-800 mb-2 sm:mb-4">
+            <div className="text-xl sm:text-2xl font-bold text-gray-800 mb-2 sm:mb-4">
               Word Scramble Game
             </div>
           </button>

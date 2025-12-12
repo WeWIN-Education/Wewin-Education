@@ -23,6 +23,8 @@ import {
   Music,
   Video,
   Gamepad2,
+  LockKeyhole,
+  LibraryBig,
 } from "lucide-react";
 import { handleLogout } from "@/app/api/auth/[...nextauth]/route";
 import { useRouter } from "next/navigation";
@@ -80,6 +82,11 @@ export default function Navbar() {
       href: Routes.RESOURCES,
       label: "Books",
       icon: <BookOpen className="w-5 h-5 text-amber-300" />,
+    },
+    {
+      href: Routes.RESOURCES_GAMES,
+      label: "Games",
+      icon: <Gamepad2 className="w-5 h-5 text-amber-300" />,
     },
   ];
 
@@ -249,7 +256,7 @@ function UserSection({ session, setMenuOpen }: any) {
                    hover:from-amber-300 hover:via-yellow-300 hover:to-amber-300
                    transition-all duration-300 border border-amber-300/50"
       >
-        <span className="text-lg">🔐</span>
+        <LockKeyhole className="w-5 h-5" />
         <span>Đăng nhập</span>
       </motion.button>
     );
@@ -452,7 +459,7 @@ function MobileMenu({
                          transition-all border border-white/50
                          flex items-center justify-center gap-2"
               >
-                <span className="text-xl">🔐</span>
+                <LockKeyhole className="w-5 h-5" />
                 Đăng nhập
               </motion.button>
             )}
@@ -520,11 +527,15 @@ function MobileMenu({
                   </div>
                   <div className="space-y-1.5">
                     {[
-                      { href: Routes.MANAGE_CLASS, label: "Class", icon: "📚" },
+                      {
+                        href: Routes.MANAGE_CLASS,
+                        label: "Class",
+                        icon: <LibraryBig className="w-5 h-5 text-amber-300" />,
+                      },
                       {
                         href: Routes.MANAGE_CLASS_CATEGORY,
                         label: "Category",
-                        icon: "📁",
+                        icon: <FolderOpen className="w-5 h-5 text-amber-300" />,
                       },
                     ].map((item, index) => (
                       <motion.div

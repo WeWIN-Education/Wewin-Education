@@ -10,6 +10,7 @@
 import { getProjectsFromBook, getUnitBySlug, BOOK_CONFIG } from "./bookConfig";
 import { getProjectsFromMoverBook, getMoverUnitBySlug } from "./moverBookConfig";
 import { getProjectsFromFlyerBook, getFlyerUnitBySlug } from "./flyerBookConfig";
+import { getProjectsFromStarterBook, getStarterUnitBySlug } from "./starterBookConfig";
 
 export type BookInfo = {
   bookName: string; // Tên hiển thị của cuốn sách
@@ -46,15 +47,14 @@ export const BOOKS_REGISTRY: Record<string, BookInfo> = {
     basePath: "/resources/flyer/Games",
     defaultBackground: "from-blue-50 via-indigo-50 to-purple-50",
   },
-  // Có thể thêm các cuốn sách khác ở đây:
-  // starters: {
-  //   bookName: "Starters Book",
-  //   bookSlug: "starters",
-  //   getProjects: getProjectsFromStartersBook,
-  //   getUnitBySlug: getStartersUnitBySlug,
-  //   basePath: "/resources/starters/Games",
-  //   defaultBackground: "from-blue-50 via-cyan-50 to-teal-50",
-  // },
+  starter: {
+    bookName: "Starter Book",
+    bookSlug: "starter",
+    getProjects: getProjectsFromStarterBook,
+    getUnitBySlug: getStarterUnitBySlug,
+    basePath: "/resources/starters/Games",
+    defaultBackground: "from-blue-50 via-cyan-50 to-teal-50",
+  },
 };
 
 /**

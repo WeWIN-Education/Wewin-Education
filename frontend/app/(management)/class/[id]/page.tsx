@@ -220,11 +220,12 @@ export default function ClassDetailPage() {
 
           {/* 🔹 Pagination */}
           <Pagination
+            text="Students"
             currentPage={currentPage}
             totalPages={totalPages}
             startIndex={startIndex}
             endIndex={endIndex}
-            totalStudents={totalStudents}
+            total={totalStudents}
             selectedRows={selectedRows}
             onPrev={handlePrev}
             onNext={handleNext}
