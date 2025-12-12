@@ -220,6 +220,7 @@ export default function ClassDetailPage() {
 
           {/* 🔹 Pagination */}
           <Pagination
+            text="Students"
             currentPage={currentPage}
             totalPages={totalPages}
             startIndex={startIndex}
