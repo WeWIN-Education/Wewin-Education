@@ -9,7 +9,21 @@ import { Routes } from "@/app/constants/routes";
 import Dropdown from "../dropdown";
 import Section from "../section";
 import { allowedEmails } from "@/app/constants/email";
-import { BookOpen, FolderOpen, X, Sparkles, ChevronDown, Palette, Sprout, Star, Rocket, Plane, Music, Video, Gamepad2 } from "lucide-react";
+import {
+  BookOpen,
+  FolderOpen,
+  X,
+  Sparkles,
+  ChevronDown,
+  Palette,
+  Sprout,
+  Star,
+  Rocket,
+  Plane,
+  Music,
+  Video,
+  Gamepad2,
+} from "lucide-react";
 import { handleLogout } from "@/app/api/auth/[...nextauth]/route";
 import { useRouter } from "next/navigation";
 
@@ -67,7 +81,6 @@ export default function Navbar() {
       label: "Books",
       icon: <BookOpen className="w-5 h-5 text-amber-300" />,
     },
-   
   ];
 
   return (
@@ -94,20 +107,25 @@ export default function Navbar() {
               </div>
 
               {/* 🔹 Menu chính desktop */}
+              {/* 🔹 Menu chính desktop */}
               <div className="hidden lg:flex items-center justify-center gap-6 mx-auto">
                 {session && !isAdmin && (
-                  <div className="relative">
+                  <div
+                    className="relative"
+                    onMouseEnter={() => setDropdownOpen(true)}
+                    onMouseLeave={() => setDropdownOpen(false)}
+                  >
                     <motion.button
                       whileHover={{ scale: 1.02 }}
                       whileTap={{ scale: 0.98 }}
-                      onHoverStart={() => setDropdownOpen(!dropdownOpen)}
                       className="flex items-center gap-2 px-5 py-2.5 rounded-xl
-                               bg-white/10 hover:bg-white/20 backdrop-blur-md
-                               border border-white/20 text-white font-semibold
-                               transition-all shadow-lg hover:shadow-xl"
+                   bg-white/10 hover:bg-white/20 backdrop-blur-md
+                   border border-white/20 text-white font-semibold
+                   transition-all shadow-lg hover:shadow-xl"
                     >
                       <Sparkles className="w-4 h-4" />
                       <span>Resources</span>
+
                       <motion.div
                         animate={{ rotate: dropdownOpen ? 180 : 0 }}
                         transition={{ duration: 0.2 }}
@@ -116,67 +134,46 @@ export default function Navbar() {
                       </motion.div>
                     </motion.button>
 
+                    {/* ⭐ DROPDOWN MENU */}
                     <AnimatePresence>
                       {dropdownOpen && (
-                        <>
-                          {/* Backdrop để đóng dropdown */}
-                          <div
-                            className="fixed inset-0 z-10"
-                            onClick={() => setDropdownOpen(false)}
-                          />
-
-                          <motion.div
-                            initial={{ opacity: 0, y: -10, scale: 0.95 }}
-                            animate={{ opacity: 1, y: 0, scale: 1 }}
-                            exit={{ opacity: 0, y: -10, scale: 0.95 }}
-                            transition={{ duration: 0.2 }}
-                            className="absolute top-full left-0 mt-2 w-72 z-20
-                                     bg-linear-to-br from-[#1a5fb4] via-[#1c71d8] to-[#3584e4]
-                                     rounded-2xl shadow-2xl border border-white/20 backdrop-blur-xl
-                                     overflow-hidden"
-                          >
-                            <div className="p-3 space-y-1">
-                              {menuItems.map((item, index) => (
-                                <motion.div
-                                  key={item.href}
-                                  initial={{ opacity: 0, x: -20 }}
-                                  animate={{ opacity: 1, x: 0 }}
-                                  transition={{ delay: 0.03 * index }}
+                        <motion.div
+                          initial={{ opacity: 0, y: -10, scale: 0.95 }}
+                          animate={{ opacity: 1, y: 0, scale: 1 }}
+                          exit={{ opacity: 0, y: -10, scale: 0.95 }}
+                          transition={{ duration: 0.2 }}
+                          className="absolute top-full left-0 mt-2 w-72 z-20
+                       bg-linear-to-br from-[#1a5fb4] via-[#1c71d8] to-[#3584e4]
+                       rounded-2xl shadow-2xl border border-white/20
+                       backdrop-blur-xl overflow-hidden"
+                        >
+                          <div className="p-3 space-y-1">
+                            {menuItems.map((item, index) => (
+                              <motion.div
+                                key={item.href}
+                                initial={{ opacity: 0, x: -20 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                transition={{ delay: 0.03 * index }}
+                              >
+                                <Link
+                                  href={item.href}
+                                  onClick={() => setDropdownOpen(false)}
+                                  className="group flex items-center gap-3 px-4 py-3 rounded-xl
+                               bg-white/5 hover:bg-white/15 border border-white/10
+                               transition-all duration-200 hover:scale-[1.02]
+                               hover:shadow-lg"
                                 >
-                                  <Link
-                                    href={item.href}
-                                    onClick={() => setDropdownOpen(false)}
-                                    className="group flex items-center gap-3 px-4 py-3 rounded-xl
-                                             bg-white/5 hover:bg-white/15 border border-white/10
-                                             transition-all duration-200 hover:scale-[1.02]
-                                             hover:shadow-lg"
-                                  >
-                                    <span className="text-xl group-hover:scale-110 transition-transform">
-                                      {item.icon}
-                                    </span>
-                                    <span className="text-white font-medium text-sm flex-1">
-                                      {item.label}
-                                    </span>
-                                    <svg
-                                      className="w-3.5 h-3.5 text-blue-200/50 group-hover:text-amber-300 
-                                               group-hover:translate-x-0.5 transition-all"
-                                      fill="none"
-                                      viewBox="0 0 24 24"
-                                      stroke="currentColor"
-                                    >
-                                      <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth={2}
-                                        d="M9 5l7 7-7 7"
-                                      />
-                                    </svg>
-                                  </Link>
-                                </motion.div>
-                              ))}
-                            </div>
-                          </motion.div>
-                        </>
+                                  <span className="text-xl group-hover:scale-110 transition-transform">
+                                    {item.icon}
+                                  </span>
+                                  <span className="text-white font-medium text-sm flex-1">
+                                    {item.label}
+                                  </span>
+                                </Link>
+                              </motion.div>
+                            ))}
+                          </div>
+                        </motion.div>
                       )}
                     </AnimatePresence>
                   </div>
