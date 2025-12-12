@@ -224,7 +224,7 @@ export default function ClassDetailPage() {
             totalPages={totalPages}
             startIndex={startIndex}
             endIndex={endIndex}
-            totalStudents={totalStudents}
+            total={totalStudents}
             selectedRows={selectedRows}
             onPrev={handlePrev}
             onNext={handleNext}

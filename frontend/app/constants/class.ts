@@ -257,3 +257,23 @@ export const initialData: Class[] = [
     ],
   },
 ];
+
+export const CLASS_HEADERS = [
+  "ID",
+  "Class Name",
+  "Category",
+  "Teachers",
+  "TA",
+  "Schedule",
+  "Students",
+  "Actions",
+];
+
+export const STUDENT_HEADERS = [
+  "ID",
+  "Name",
+  "Age",
+  "Gender",
+  "Status",
+  "Actions",
+];

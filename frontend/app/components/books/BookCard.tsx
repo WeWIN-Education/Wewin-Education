@@ -62,16 +62,21 @@ const BookCard: React.FC<BookCardProps> = ({ book }) => {
         <button
           type="button"
           onClick={handleGameClick}
-          className="relative overflow-hidden mt-2 w-full rounded-full bg-linear-to-r from-blue-600 via-indigo-600 to-purple-600 px-6 py-3.5 text-white font-bold shadow-lg hover:shadow-2xl hover:shadow-blue-300/50 transition-all duration-300 hover:-translate-y-1 group/btn"
+          className="relative overflow-hidden mt-2 w-full rounded-full bg-linear-to-r from-blue-600 via-indigo-600 to-purple-600 px-6 py-3.5 text-white font-bold shadow-lg hover:shadow-2xl hover:shadow-blue-300/50 transition-all duration-300 hover:-translate-y-1 group/btn cursor-pointer"
         >
           {/* Animated background */}
           <div className="absolute inset-0 bg-linear-to-r from-blue-400 via-indigo-400 to-purple-400 opacity-0 group-hover/btn:opacity-100 transition-opacity duration-300" />
-          
+
           {/* Button content */}
           <div className="relative flex items-center justify-center gap-2">
-            <Gamepad2 size={20} className="transition-transform duration-300 group-hover/btn:rotate-12" />
+            <Gamepad2
+              size={20}
+              className="transition-transform duration-300 group-hover/btn:rotate-12"
+            />
             <span className="text-base">Danh sách game</span>
-            <span className="text-xl transition-transform duration-300 group-hover/btn:translate-x-1">→</span>
+            <span className="text-xl transition-transform duration-300 group-hover/btn:translate-x-1">
+              →
+            </span>
           </div>
         </button>
 
@@ -85,7 +90,11 @@ const BookCard: React.FC<BookCardProps> = ({ book }) => {
           </span>
           <span className="px-3 py-1 bg-green-100 text-green-700 rounded-full text-xs font-semibold flex items-center gap-1">
             <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
-              <path fillRule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+              <path
+                fillRule="evenodd"
+                d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                clipRule="evenodd"
+              />
             </svg>
             Fun Learning
           </span>

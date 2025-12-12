@@ -9,8 +9,9 @@ interface PaginationProps {
   totalPages: number;
   startIndex: number;
   endIndex: number;
-  totalStudents: number;
+  total: number;
   selectedRows: RowsPerPage;
+  text: string;
   onPrev: () => void;
   onNext: () => void;
   onRowsChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
@@ -23,23 +24,24 @@ export function Pagination({
   totalPages,
   startIndex,
   endIndex,
-  totalStudents,
+  total,
   selectedRows,
+  text,
   onPrev,
   onNext,
   onRowsChange,
 }: PaginationProps) {
   const safeStart = isNaN(startIndex) ? 0 : startIndex;
-  const safeEnd = isNaN(endIndex) ? totalStudents : endIndex;
+  const safeEnd = isNaN(endIndex) ? total : endIndex;
 
   return (
     <div className="flex flex-col sm:flex-row justify-between items-center mt-6 gap-4 w-full">
       <p className="text-xs sm:text-sm text-gray-600 text-center sm:text-left">
         Showing <span className="font-semibold">{safeStart + 1}</span>–
         <span className="font-semibold">
-          {Math.min(safeEnd, totalStudents)}
+          {Math.min(safeEnd, total)}
         </span>{" "}
-        of {totalStudents} students
+        of {total} {text}
       </p>
 
       <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-4">
