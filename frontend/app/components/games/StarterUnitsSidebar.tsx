@@ -9,18 +9,19 @@ import { getProjectsFromStarterBook } from "@/app/constants/starterBookConfig";
 type StarterUnitsSidebarProps = {
   isOpen?: boolean;
   onClose?: () => void;
+  basePath?: string;
 };
 
 /**
  * Sidebar cho Starter Book
  */
-export function StarterUnitsSidebar({ isOpen = false, onClose }: StarterUnitsSidebarProps) {
+export function StarterUnitsSidebar({ isOpen = false, onClose, basePath = "/resources/starters/Games" }: StarterUnitsSidebarProps) {
   const pathname = usePathname();
   const [collapsed, setCollapsed] = useState(false);
 
   const projects = getProjectsFromStarterBook();
 
-  const isActive = (href: string) => pathname === href;
+  const isActive = (href: string) => pathname === href || pathname.startsWith(href + "/");
 
   // Đóng sidebar khi click vào link trên mobile
   const handleLinkClick = () => {
@@ -96,7 +97,7 @@ export function StarterUnitsSidebar({ isOpen = false, onClose }: StarterUnitsSid
       {/* Danh sách Unit */}
       <nav className="flex-1 overflow-y-auto p-3 space-y-2">
         {projects.map((project) => {
-          const href = `/resources/starters/Games/${project.id}`;
+          const href = `${basePath}/${project.id}`;
           const active = isActive(href);
           return (
             <Link

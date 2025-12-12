@@ -1,10 +1,10 @@
 "use client";
 
-import React from "react";
-import GameCard from "../../../components/books/GameCard";
-import { Book } from "../../../constants/types";
+import React, { useState, useEffect } from "react";
+import GameCard from "../components/books/GameCard";
+import { Book } from "../constants/types";
 
-// Danh sách các sách có game
+// Danh sách các sách có game - sử dụng routes PUBLIC
 const gameBooks: Book[] = [
   {
     id: "game_kids",
@@ -12,7 +12,7 @@ const gameBooks: Book[] = [
     status: "active",
     imgUrl: "https://wewin.edu.vn/wp-content/uploads/2025/12/books-illustration-cartoon-books-books-vector.jpg",
     description: "Trò chơi học tiếng Anh dành cho trẻ mầm non",
-    gameUrl: "/resources/kids/Games",
+    gameUrl: "/games/kids",
   },
   {
     id: "game_starters",
@@ -20,7 +20,7 @@ const gameBooks: Book[] = [
     status: "active",
     imgUrl: "https://wewin.edu.vn/wp-content/uploads/2025/12/books-illustration-cartoon-books-books-vector.jpg",
     description: "Trò chơi học tiếng Anh trình độ Starters",
-    gameUrl: "/resources/starters/Games",
+    gameUrl: "/games/starters",
   },
   {
     id: "game_movers",
@@ -28,7 +28,7 @@ const gameBooks: Book[] = [
     status: "active",
     imgUrl: "https://wewin.edu.vn/wp-content/uploads/2025/12/books-illustration-cartoon-books-books-vector.jpg",
     description: "Trò chơi học tiếng Anh trình độ Movers",
-    gameUrl: "/resources/mover/Games",
+    gameUrl: "/games/movers",
   },
   {
     id: "game_flyers",
@@ -36,12 +36,37 @@ const gameBooks: Book[] = [
     status: "active",
     imgUrl: "https://wewin.edu.vn/wp-content/uploads/2025/12/books-illustration-cartoon-books-books-vector.jpg",
     description: "Trò chơi học tiếng Anh trình độ Flyers",
-    gameUrl: "/resources/flyer/Games",
+    gameUrl: "/games/flyers",
   },
 ];
 
 const GamesPage: React.FC = () => {
+  const [mounted, setMounted] = useState(false);
   const activeBooks = gameBooks.filter((book) => book.status === "active");
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  // Tránh hydration mismatch
+  if (!mounted) {
+    return (
+      <div className="min-h-screen bg-linear-to-br from-blue-50 via-indigo-50 to-purple-50 py-12 px-4">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-12">
+            <div className="inline-flex items-center justify-center gap-3 mb-4">
+              <span className="text-5xl">🎮</span>
+              <h1 className="text-5xl font-bold bg-linear-to-r from-[#0E4BA9] to-indigo-600 bg-clip-text text-transparent">
+                Thư viện Games WeWIN
+              </h1>
+              <span className="text-5xl">🎯</span>
+            </div>
+            <p className="text-gray-600 text-lg">Đang tải...</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-linear-to-br from-blue-50 via-indigo-50 to-purple-50 py-12 px-4">
@@ -67,9 +92,6 @@ const GamesPage: React.FC = () => {
             <GameCard key={book.id} book={book} />
           ))}
         </div>
-
-        {/* Fun decorations */}
-      
       </div>
     </div>
   );
