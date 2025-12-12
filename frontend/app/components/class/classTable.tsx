@@ -2,7 +2,16 @@
 
 import React from "react";
 import { Class, CLASS_HEADERS, STUDENT_HEADERS } from "@/app/constants/class";
-import { Users, Edit, Eye, Ban, Clock, School, UserRound, UsersRound } from "lucide-react";
+import {
+  Users,
+  Edit,
+  Eye,
+  Ban,
+  Clock,
+  School,
+  UserRound,
+  UsersRound,
+} from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Pagination, RowsPerPage } from "@/app/components/pagination";
 import { StatusBadge } from "@/app/components/status";
@@ -91,9 +100,11 @@ export default function ClassTable({
                   >
                     <td className="px-6 py-5 text-center">{cls.id}</td>
 
-                    <td className="px-6 py-5 flex justify-center items-center gap-2 font-semibold text-[#0E4BA9]">
-                      <Users className="w-5 h-5 text-[#0E4BA9]" />
-                      {cls.name}
+                    <td className="px-6 py-5 text-center font-semibold text-[#0E4BA9]">
+                      <div className="inline-flex items-center gap-2 leading-none">
+                        <Users className="w-4 h-4 text-[#0E4BA9] shrink-0" />
+                        <span className="align-middle">{cls.name}</span>
+                      </div>
                     </td>
 
                     <td className="px-6 py-5 text-center">{cls.category}</td>
@@ -136,21 +147,43 @@ export default function ClassTable({
                     >
                       <div className="flex justify-center gap-2">
                         <button
-                          className="p-2 rounded-lg bg-blue-500 text-white shadow"
+                          className="
+                            p-2 rounded-lg 
+                            bg-blue-500 text-white 
+                            shadow-sm
+                            cursor-pointer
+                            transition-all duration-200
+                            hover:bg-blue-600 hover:shadow-lg hover:scale-110
+                            active:scale-95
+                          "
                           onClick={() => onView(cls)}
                         >
                           <Eye size={17} />
                         </button>
 
                         <button
-                          className="p-2 rounded-lg bg-yellow-500 text-white shadow"
+                          className="
+                            p-2 rounded-lg 
+                            bg-yellow-500 text-white 
+                            cursor-pointer
+                            transition-all duration-200
+                            hover:bg-yellow-600 hover:scale-110 hover:shadow-lg
+                            active:scale-95
+                          "
                           onClick={() => onEdit(cls)}
                         >
                           <Edit size={17} />
                         </button>
 
                         <button
-                          className="p-2 rounded-lg bg-red-500 text-white shadow"
+                          className="
+                            p-2 rounded-lg 
+                          bg-red-500 text-white 
+                            cursor-pointer
+                            transition-all duration-200
+                           hover:bg-red-600 hover:scale-110 hover:shadow-lg
+                            active:scale-95
+                          "
                           onClick={() => onCancel(cls)}
                         >
                           <Ban size={17} />

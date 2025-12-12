@@ -12,6 +12,7 @@ export const Routes = {
   RESOURCES_VIDEO: "/resources/video",
   RESOURCES_GAMES: "/resources/kids/Games",
   MANAGE_CLASS: "/class",
+  MANAGE_CLASS_DETAIL: (id: string) => `/class/${id}`,
   MANAGE_CLASS_CATEGORY: "/class/category",
   MANAGE_STUDENT: "/student",
-};
+} as const;
