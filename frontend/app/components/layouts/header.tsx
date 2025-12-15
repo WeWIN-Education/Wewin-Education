@@ -107,7 +107,6 @@ export default function Navbar() {
               </div>
 
               {/* 🔹 Menu chính desktop */}
-              {/* 🔹 Menu chính desktop */}
               <div className="hidden lg:flex items-center justify-center gap-6 mx-auto">
                 {session && !isAdmin && (
                   <div
