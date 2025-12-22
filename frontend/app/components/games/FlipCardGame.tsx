@@ -6,6 +6,41 @@ import type { FlipCardGameConfig } from "@/types/games";
 type Props = FlipCardGameConfig & {
   onComplete?: () => void;
 };
+function ensureVoices(): Promise<SpeechSynthesisVoice[]> {
+  return new Promise((resolve) => {
+    const voices = speechSynthesis.getVoices();
+    if (voices.length) return resolve(voices);
+
+    speechSynthesis.onvoiceschanged = () => {
+      resolve(speechSynthesis.getVoices());
+    };
+  });
+}
+async function speakSafe(wordText: string) {
+  if (!("speechSynthesis" in window)) return;
+
+  // 🚨 iOS cần delay nhỏ sau cancel
+  window.speechSynthesis.cancel();
+  await new Promise(r => setTimeout(r, 50));
+
+  const voices = await ensureVoices();
+  const voice =
+    voices.find(v => v.lang === "en-US") ||
+    voices.find(v => v.lang.startsWith("en"));
+
+  if (!voice) {
+    console.warn("⚠️ iOS chưa có English voice");
+    return;
+  }
+
+  const utterance = new SpeechSynthesisUtterance(wordText);
+  utterance.voice = voice;
+  utterance.lang = "en-US";
+  utterance.rate = 0.85; // iOS nghe rõ hơn
+  utterance.pitch = 1;
+
+  window.speechSynthesis.speak(utterance);
+}
 
 export function FlipCardGame({ title, words, autoAudio = true, onComplete }: Props) {
   const [revealed, setRevealed] = useState<Set<string>>(new Set());
@@ -55,13 +90,10 @@ export function FlipCardGame({ title, words, autoAudio = true, onComplete }: Pro
       });
 
       // Phát âm tự động
-      if (autoAudio && "speechSynthesis" in window) {
-        window.speechSynthesis.cancel();
-        const utterance = new SpeechSynthesisUtterance(wordText);
-        utterance.lang = "en-US";
-        utterance.rate = 0.9;
-        window.speechSynthesis.speak(utterance);
+      if (autoAudio) {
+        speakSafe(wordText);
       }
+      
     },
     [revealed, autoAudio, completed, onComplete, words.length],
   );

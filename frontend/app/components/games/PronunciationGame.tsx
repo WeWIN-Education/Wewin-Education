@@ -37,13 +37,113 @@ export function PronunciationGame({ title, words, onComplete }: Props) {
   const recognitionRef = useRef<SpeechRecognition | null>(null);
   const [isSupported, setIsSupported] = useState(false);
   const [completed, setCompleted] = useState(false);
-
+  const kidResultMessage = ({
+    isCorrect,
+    similarity,
+    spoken,
+    correct,
+  }: {
+    isCorrect: boolean;
+    similarity: number;
+    spoken: string;
+    correct: string;
+  }) => {
+    if (isCorrect) {
+      if (similarity >= 0.9) {
+        return `
+  🎉 Tuyệt vời quá!
+  Con đọc CHUẨN luôn rồi đó 🥳
+  
+  👂 Từ con đọc:
+  "${correct}"
+  
+  ⭐ Cô rất tự hào về con!
+  ➡️ Mình sang từ tiếp theo nhé!
+  `;
+      }
+  
+      if (similarity >= 0.75) {
+        return `
+  🌟 Rất tốt!
+  Con đọc gần đúng rồi đó 👏
+  
+  👂 Con đọc:
+  "${spoken}"
+  
+  👉 Chỉ cần đọc rõ hơn một chút:
+  ${kidSyllableHint(correct)}
+  
+  💪 Con làm được mà!
+  `;
+      }
+  
+      return `
+  👍 Tốt lắm!
+  Con đọc đúng phần lớn rồi đó 😊
+  
+  👉 Cùng đọc lại cho rõ hơn nhé:
+  ${kidSyllableHint(correct)}
+  
+  🗣️ Đọc chậm từng khúc nha!
+  `;
+    }
+  
+    // ❌ TRƯỜNG HỢP SAI
+    if (similarity >= 0.5) {
+      return `
+  😊 Con cố gắng rất tốt rồi!
+  
+  👂 Con đã đọc đúng một phần,
+  nhưng còn thiếu hoặc sai một khúc nhỏ thôi.
+  
+  👉 Cùng cô đọc lại nhé:
+  ${kidSyllableHint(correct)}
+  
+  🗣️ Chậm – rõ – từng khúc nha!
+  `;
+    }
+  
+    return `
+  🤗 Không sao cả!
+  Từ này hơi khó một chút nè.
+  
+  👉 Mình nghe lại và đọc từng khúc nhé:
+  ${kidSyllableHint(correct)}
+  
+  🌈 Cô tin là con sẽ làm được!
+  `;
+  };
+  
   const currentWord = words[currentIndex];
   const progress = useMemo(
     () => ((currentIndex + 1) / words.length) * 100,
     [currentIndex, words.length],
   );
-
+  const kidSyllableHint = (word: string) => {
+    return word
+      .replace(/([aeiouy]+)/gi, "-$1-")
+      .replace(/--+/g, "-")
+      .replace(/^-|-$/g, "")
+      .toUpperCase()
+      .split("-")
+      .join(" – ");
+  };
+  const kidFriendlyFeedback = (
+    spoken: string,
+    correct: string,
+    similarity: number
+  ) => {
+    if (similarity >= 0.75) {
+      return "🎉 Con đọc gần đúng rồi đó! Chỉ cần đọc rõ hơn một chút nữa thôi!";
+    }
+  
+    if (similarity >= 0.5) {
+      return "😊 Con đọc đúng một phần rồi, nhưng còn thiếu hoặc sai một khúc nhỏ.";
+    }
+  
+    return "💡 Con thử đọc chậm hơn và đọc từng khúc nhé!";
+  };
+    
   useEffect(() => {
     // Kiểm tra hỗ trợ Speech Recognition
     if (
@@ -53,10 +153,12 @@ export function PronunciationGame({ title, words, onComplete }: Props) {
       setIsSupported(true);
       const SpeechRecognition =
         window.SpeechRecognition || window.webkitSpeechRecognition;
-      const recognition = new SpeechRecognition();
-      recognition.lang = "en-US";
-      recognition.continuous = false;
-      recognition.interimResults = false;
+        const recognition = new SpeechRecognition();
+        recognition.lang = "en-US";
+        recognition.continuous = false;
+        recognition.interimResults = false;
+        recognition.maxAlternatives = 5;
+        
 
       recognition.onstart = () => {
         setIsRecording(true);
@@ -65,10 +167,33 @@ export function PronunciationGame({ title, words, onComplete }: Props) {
       };
 
       recognition.onresult = (event: any) => {
-        const transcript = event.results[0][0].transcript.toLowerCase().trim();
-        checkPronunciation(transcript, currentWord.text);
+        const alternatives = Array.from(event.results[0]).map(
+          (r: any) => r.transcript.toLowerCase().trim()
+        );
+      
+        const cleanCorrect = currentWord.text.toLowerCase();
+      
+        let bestTranscript = alternatives[0];
+        let bestScore = 0;
+      
+        for (const alt of alternatives) {
+          const sim = calculateSimilarity(
+            alt.replace(/[^\w\s]/g, ""),
+            cleanCorrect
+          );
+          if (sim > bestScore) {
+            bestScore = sim;
+            bestTranscript = alt;
+          }
+        }
+      
+        // 🚫 KHÔNG HIỂN THỊ "MÁY NGHE"
+        // 🚫 KHÔNG RETURN
+        // 👉 COI NHƯ TRẺ ĐỌC SAI → ĐƯA VÀO FEEDBACK CHO TRẺ
+      
+        checkPronunciation(bestTranscript, cleanCorrect);
       };
-
+      
       recognition.onerror = () => {
         setStatus("Không nghe rõ. Bạn thử lại nhé!");
         setStatusType("warning");
@@ -120,52 +245,105 @@ export function PronunciationGame({ title, words, onComplete }: Props) {
     const distance = matrix[shorter.length][longer.length];
     return (longerLength - distance) / longerLength;
   }, []);
-
+  const analyzePronunciation = (
+    transcript: string,
+    correctWord: string,
+    similarity: number,
+  ) => {
+    const a = transcript;
+    const b = correctWord;
+  
+    if (a === b) {
+      return "Phát âm trùng khớp hoàn toàn 🎯";
+    }
+  
+    if (b.includes(a)) {
+      return `Bạn đọc thiếu âm. Từ đúng có thêm "${b.replace(a, "")}"`;
+    }
+  
+    if (a.includes(b)) {
+      return `Bạn đọc dư âm "${a.replace(b, "")}"`;
+    }
+  
+    // tìm ký tự sai
+    let diffs: string[] = [];
+    const maxLen = Math.max(a.length, b.length);
+  
+    for (let i = 0; i < maxLen; i++) {
+      if (a[i] !== b[i]) {
+        diffs.push(`vị trí ${i + 1}: "${a[i] || "_"}" ≠ "${b[i] || "_"}"`);
+      }
+    }
+  
+    return diffs.length
+      ? `Khác nhau tại ${diffs.slice(0, 2).join(", ")}`
+      : "Phát âm gần đúng";
+  };
+  
   const checkPronunciation = useCallback(
     (transcript: string, correctWord: string) => {
-      const cleanTranscript = transcript.replace(/[^\w\s]/g, "").trim();
+      const cleanTranscript = transcript.replace(/[^\w\s]/g, "").trim().toLowerCase();
       const cleanCorrect = correctWord.toLowerCase();
+  
       const similarity = calculateSimilarity(cleanTranscript, cleanCorrect);
-      const contains =
-        cleanTranscript.includes(cleanCorrect) ||
-        cleanCorrect.includes(cleanTranscript);
-
+      const analysis = analyzePronunciation(
+        cleanTranscript,
+        cleanCorrect,
+        similarity,
+      );
+  
       const isPerfect = cleanTranscript === cleanCorrect;
-      const isVeryGood = contains || similarity >= 0.8;
+      const isVeryGood = similarity >= 0.8;
       const isGood = similarity >= 0.6;
       const isCorrect = isPerfect || isVeryGood || isGood;
-
+  
       if (isCorrect) {
         let pointsEarned = 0;
+        let rating = "";
+  
         if (isPerfect) {
           pointsEarned = 15;
-          setStatus(
-            `🎉 Hoàn hảo! Phát âm chính xác 100%! +15 điểm (Tổng: ${score + pointsEarned} điểm)`,
-          );
+          rating = "🎯 Hoàn hảo";
         } else if (isVeryGood) {
           pointsEarned = 12;
-          setStatus(
-            `🌟 Rất tốt! Phát âm gần như hoàn hảo! +12 điểm (Tổng: ${score + pointsEarned} điểm)`,
-          );
+          rating = "🌟 Rất tốt";
         } else {
           pointsEarned = 10;
-          setStatus(
-            `👍 Tốt! Phát âm đúng! +10 điểm (Tổng: ${score + pointsEarned} điểm)`,
-          );
+          rating = "👍 Tốt";
         }
+  
         setScore((prev) => prev + pointsEarned);
         setCorrectCount((prev) => prev + 1);
         setStatusType("correct");
-      } else {
-        setScore((prev) => Math.max(0, prev - 3));
-        setStatus(
-          `Bạn nói "${transcript}". Thử lại nhé! 💪 -3 điểm (Tổng: ${Math.max(0, score - 3)} điểm)`,
-        );
-        setStatusType("warning");
+  
+        const message = kidResultMessage({
+          isCorrect,
+          similarity,
+          spoken: cleanTranscript,
+          correct: cleanCorrect,
+        });
+        
+        if (isCorrect) {
+          let pointsEarned = similarity >= 0.9 ? 15 : similarity >= 0.75 ? 12 : 10;
+        
+          setScore((prev) => prev + pointsEarned);
+          setCorrectCount((prev) => prev + 1);
+          setStatusType("correct");
+        
+          setStatus(message + `\n⭐ +${pointsEarned} điểm`);
+        } else {
+          setScore((prev) => Math.max(0, prev - 3));
+          setStatusType("warning");
+        
+          setStatus(message + `\n💡 Con thử lại nhé!`);
+        }
+        
+          
       }
     },
     [score, calculateSimilarity],
   );
+  
 
   const handleListen = useCallback(() => {
     if (isSpeaking) return;
