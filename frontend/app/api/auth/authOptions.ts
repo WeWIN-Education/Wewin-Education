@@ -1,5 +1,11 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { NextAuthOptions } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
+
+interface User {
+  id: string;
+  name: string;
+}
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -11,7 +17,6 @@ export const authOptions: NextAuthOptions = {
       },
 
       async authorize(credentials) {
-
         if (!credentials?.email || !credentials?.password) {
           throw new Error("Missing credentials");
         }
@@ -48,8 +53,10 @@ export const authOptions: NextAuthOptions = {
         token.userId = user.id ?? "";
         token.name = user.name ?? "";
         token.email = user.email ?? "";
-        token.roles = user.roles?? [];
         token.image = user.image ?? null;
+        token.roles = Array.isArray(user.roles)
+          ? user.roles.map((r: any) => r.name.toUpperCase())
+          : [];
       }
       return token;
     },
@@ -59,8 +66,8 @@ export const authOptions: NextAuthOptions = {
         session.user.id = token.userId ?? "";
         session.user.name = token.name ?? "";
         session.user.email = token.email ?? "";
-        session.user.roles = token.roles ?? [];
         session.user.image = token.image ?? null;
+        session.user.roles = token.roles ?? [];
       }
       return session;
     },
