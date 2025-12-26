@@ -77,11 +77,26 @@ export default function Navbar() {
     };
   }, [menuOpen]);
 
+  // Menu items cho desktop dropdown (có cả Books và Games)
   const menuItems = [
     {
       href: Routes.RESOURCES,
       label: "Books",
       icon: <BookOpen className="w-5 h-5 text-amber-300" />,
+    },
+    {
+      href: Routes.RESOURCES_GAMES,
+      label: "Games",
+      icon: <Gamepad2 className="w-5 h-5 text-amber-300" />,
+    },
+  ];
+
+  // Menu items cho mobile (chỉ Games)
+  const mobileMenuItems = [
+    {
+      href: Routes.RESOURCES_GAMES,
+      label: "Games",
+      icon: <Gamepad2 className="w-5 h-5 text-amber-300" />,
     },
   ];
 
@@ -109,8 +124,26 @@ export default function Navbar() {
               </div>
 
               {/* 🔹 Menu chính desktop */}
-              {/* 🔹 Menu chính desktop */}
               <div className="hidden lg:flex items-center justify-center gap-6 mx-auto">
+                {/* Nút Games cho người chưa đăng nhập */}
+                {!session && !isAdmin && (
+                  <Link href={Routes.RESOURCES_GAMES}>
+                    <motion.button
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                      className="flex items-center gap-2 px-6 py-2.5 rounded-xl
+                        bg-linear-to-r from-amber-400 via-yellow-400 to-amber-400
+                        text-blue-900 font-bold shadow-lg hover:shadow-xl
+                        hover:from-amber-300 hover:via-yellow-300 hover:to-amber-300
+                        transition-all duration-300 border border-amber-300/50"
+                    >
+                      <Gamepad2 className="w-5 h-5" />
+                      <span>Games</span>
+                    </motion.button>
+                  </Link>
+                )}
+
+                {/* Dropdown Resources cho người đã đăng nhập (không phải admin) */}
                 {session && !isAdmin && (
                   <div
                     className="relative"
@@ -181,7 +214,6 @@ export default function Navbar() {
                   </div>
                 )}
               </div>
-
               {/* 🔹 User / Login */}
               <div className="flex items-center gap-3 shrink-0">
                 <UserSection
@@ -202,7 +234,7 @@ export default function Navbar() {
         setMenuOpen={setMenuOpen}
         session={session}
         isAdmin={isAdmin}
-        menuItems={menuItems}
+        menuItems={session ? menuItems : mobileMenuItems}
       />
 
       {/* spacer tránh bị che */}
@@ -303,10 +335,9 @@ function BurgerButton({ menuOpen, setMenuOpen }: any) {
       onClick={() => setMenuOpen(!menuOpen)}
       className={`relative w-11 h-11 flex items-center justify-center rounded-xl 
                   transition-all duration-300 lg:hidden z-60
-        ${
-          menuOpen
-            ? "bg-linear-to-br from-amber-400 to-yellow-500 shadow-lg"
-            : "bg-white/10 hover:bg-white/20 backdrop-blur-md shadow-inner border border-white/20"
+        ${menuOpen
+          ? "bg-linear-to-br from-amber-400 to-yellow-500 shadow-lg"
+          : "bg-white/10 hover:bg-white/20 backdrop-blur-md shadow-inner border border-white/20"
         }`}
     >
       <motion.span
@@ -459,12 +490,18 @@ function MobileMenu({
               </motion.button>
             )}
 
-            {/* Resources Section */}
+      
+
+            {/* Resources/Games Section */}
             <div className="space-y-2">
               <div className="flex items-center gap-2 px-3 py-2">
-                <BookOpen className="w-4 h-4 text-amber-300" />
+                {session ? (
+                  <BookOpen className="w-4 h-4 text-amber-300" />
+                ) : (
+                  <Gamepad2 className="w-4 h-4 text-amber-300" />
+                )}
                 <h3 className="text-xs font-bold text-amber-200 uppercase tracking-wider">
-                  Resources
+                  {session ? "Resources" : "Games"}
                 </h3>
               </div>
 
@@ -509,7 +546,6 @@ function MobileMenu({
                 ))}
               </div>
             </div>
-
             {/* ADMIN MENU */}
             {session && isAdmin && (
               <>

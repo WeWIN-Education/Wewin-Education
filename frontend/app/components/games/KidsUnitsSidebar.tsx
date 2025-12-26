@@ -9,6 +9,7 @@ import { getProjectsFromBook } from "@/app/constants/bookConfig";
 type KidsUnitsSidebarProps = {
   isOpen?: boolean;
   onClose?: () => void;
+  basePath?: string; // Mặc định: "/resources/kids/Games"
 };
 
 /**
@@ -18,13 +19,13 @@ type KidsUnitsSidebarProps = {
  * - Highlight unit đang mở
  * - Responsive: trên mobile có hamburger menu
  */
-export function KidsUnitsSidebar({ isOpen = false, onClose }: KidsUnitsSidebarProps) {
+export function KidsUnitsSidebar({ isOpen = false, onClose, basePath = "/resources/kids/Games" }: KidsUnitsSidebarProps) {
   const pathname = usePathname();
   const [collapsed, setCollapsed] = useState(false);
 
   const projects = getProjectsFromBook();
 
-  const isActive = (href: string) => pathname === href;
+  const isActive = (href: string) => pathname === href || pathname.startsWith(href + "/");
 
   // Đóng sidebar khi click vào link trên mobile
   const handleLinkClick = () => {
@@ -100,7 +101,7 @@ export function KidsUnitsSidebar({ isOpen = false, onClose }: KidsUnitsSidebarPr
       {/* Danh sách Unit */}
       <nav className="flex-1 overflow-y-auto p-3 space-y-2">
         {projects.map((project) => {
-          const href = `/resources/kids/Games/${project.id}`;
+          const href = `${basePath}/${project.id}`;
           const active = isActive(href);
           return (
             <Link

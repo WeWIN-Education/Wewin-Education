@@ -62,15 +62,18 @@ export default function MoverGamePartGamePage() {
       setShowIdModal(true);
       return;
     }
-    const saved = getSavedPlayerId();
-    if (saved) {
-      setPlayerId(saved);
+    // Đồng bộ playerId với localStorage
+    const savedPlayerId = getSavedPlayerId();
+    if (savedPlayerId) {
+      // Có ID đã lưu → dùng ID đó, không hiện modal
+      setPlayerId(savedPlayerId);
       setShowIdModal(false);
     } else {
+      // Chưa có ID → hiện modal để nhập
       setPlayerId("");
       setShowIdModal(true);
     }
-  }, [router]);
+  }, []);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
