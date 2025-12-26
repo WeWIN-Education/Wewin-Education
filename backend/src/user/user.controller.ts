@@ -10,6 +10,7 @@ import {
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { UpdateUserRolesDto } from './dto/update-user-roles.dto';
 
 @Controller('user')
 export class UserController {
@@ -33,6 +34,11 @@ export class UserController {
   @Patch(':id')
   update(@Param('id') id: string, @Body() body: UpdateUserDto) {
     return this.userService.update(id, body);
+  }
+
+  @Patch(':id/roles')
+  updateUserRoles(@Param('id') id: string, @Body() body: UpdateUserRolesDto) {
+    return this.userService.updateUserRoles(id, body.roleIds);
   }
 
   @Delete(':id')
