@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { useState, useEffect, useRef } from "react";
@@ -8,7 +9,6 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Routes } from "@/app/constants/routes";
 import Dropdown from "../dropdown";
 import Section from "../section";
-import { allowedEmails } from "@/app/constants/email";
 import {
   BookOpen,
   FolderOpen,
@@ -23,13 +23,16 @@ import {
   Music,
   Video,
   Gamepad2,
+  LockKeyhole,
+  LibraryBig,
 } from "lucide-react";
 import { handleLogout } from "@/app/api/auth/[...nextauth]/route";
 import { useRouter } from "next/navigation";
 
 export default function Navbar() {
   const { data: session } = useSession();
-
+  const roles = session?.user?.roles ?? [];
+  const isAdmin = roles.includes("ADMIN");
   const [menuOpen, setMenuOpen] = useState(false);
   const [showNavbar, setShowNavbar] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
@@ -37,9 +40,6 @@ export default function Navbar() {
 
   const navRef = useRef<HTMLDivElement>(null);
   const [navHeight, setNavHeight] = useState(72);
-
-  const isAdmin = allowedEmails.includes(session?.user?.email || "");
-
   // Detect Navbar height (dynamically) & update on resize
   useEffect(() => {
     const updateHeight = () => {
@@ -75,11 +75,26 @@ export default function Navbar() {
     };
   }, [menuOpen]);
 
+  // Menu items cho desktop dropdown (có cả Books và Games)
   const menuItems = [
     {
       href: Routes.RESOURCES,
       label: "Books",
       icon: <BookOpen className="w-5 h-5 text-amber-300" />,
+    },
+    {
+      href: Routes.RESOURCES_GAMES,
+      label: "Games",
+      icon: <Gamepad2 className="w-5 h-5 text-amber-300" />,
+    },
+  ];
+
+  // Menu items cho mobile (chỉ Games)
+  const mobileMenuItems = [
+    {
+      href: Routes.RESOURCES_GAMES,
+      label: "Games",
+      icon: <Gamepad2 className="w-5 h-5 text-amber-300" />,
     },
   ];
 
@@ -108,6 +123,25 @@ export default function Navbar() {
 
               {/* 🔹 Menu chính desktop */}
               <div className="hidden lg:flex items-center justify-center gap-6 mx-auto">
+                {/* Nút Games cho người chưa đăng nhập */}
+                {!session && !isAdmin && (
+                  <Link href={Routes.RESOURCES_GAMES}>
+                    <motion.button
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                      className="flex items-center gap-2 px-6 py-2.5 rounded-xl
+                        bg-linear-to-r from-amber-400 via-yellow-400 to-amber-400
+                        text-blue-900 font-bold shadow-lg hover:shadow-xl
+                        hover:from-amber-300 hover:via-yellow-300 hover:to-amber-300
+                        transition-all duration-300 border border-amber-300/50"
+                    >
+                      <Gamepad2 className="w-5 h-5" />
+                      <span>Games</span>
+                    </motion.button>
+                  </Link>
+                )}
+
+                {/* Dropdown Resources cho người đã đăng nhập (không phải admin) */}
                 {session && !isAdmin && (
                   <div
                     className="relative"
@@ -178,7 +212,6 @@ export default function Navbar() {
                   </div>
                 )}
               </div>
-
               {/* 🔹 User / Login */}
               <div className="flex items-center gap-3 shrink-0">
                 <UserSection
@@ -199,7 +232,7 @@ export default function Navbar() {
         setMenuOpen={setMenuOpen}
         session={session}
         isAdmin={isAdmin}
-        menuItems={menuItems}
+        menuItems={session ? menuItems : mobileMenuItems}
       />
 
       {/* spacer tránh bị che */}
@@ -248,7 +281,7 @@ function UserSection({ session, setMenuOpen }: any) {
                    hover:from-amber-300 hover:via-yellow-300 hover:to-amber-300
                    transition-all duration-300 border border-amber-300/50"
       >
-        <span className="text-lg">🔐</span>
+        <LockKeyhole className="w-5 h-5" />
         <span>Đăng nhập</span>
       </motion.button>
     );
@@ -451,17 +484,21 @@ function MobileMenu({
                          transition-all border border-white/50
                          flex items-center justify-center gap-2"
               >
-                <span className="text-xl">🔐</span>
+                <LockKeyhole className="w-5 h-5" />
                 Đăng nhập
               </motion.button>
             )}
 
-            {/* Resources Section */}
+            {/* Resources/Games Section */}
             <div className="space-y-2">
               <div className="flex items-center gap-2 px-3 py-2">
-                <BookOpen className="w-4 h-4 text-amber-300" />
+                {session ? (
+                  <BookOpen className="w-4 h-4 text-amber-300" />
+                ) : (
+                  <Gamepad2 className="w-4 h-4 text-amber-300" />
+                )}
                 <h3 className="text-xs font-bold text-amber-200 uppercase tracking-wider">
-                  Resources
+                  {session ? "Resources" : "Games"}
                 </h3>
               </div>
 
@@ -506,7 +543,6 @@ function MobileMenu({
                 ))}
               </div>
             </div>
-
             {/* ADMIN MENU */}
             {session && isAdmin && (
               <>
@@ -519,11 +555,15 @@ function MobileMenu({
                   </div>
                   <div className="space-y-1.5">
                     {[
-                      { href: Routes.MANAGE_CLASS, label: "Class", icon: "📚" },
+                      {
+                        href: Routes.MANAGE_CLASS,
+                        label: "Class",
+                        icon: <LibraryBig className="w-5 h-5 text-amber-300" />,
+                      },
                       {
                         href: Routes.MANAGE_CLASS_CATEGORY,
                         label: "Category",
-                        icon: "📁",
+                        icon: <FolderOpen className="w-5 h-5 text-amber-300" />,
                       },
                     ].map((item, index) => (
                       <motion.div

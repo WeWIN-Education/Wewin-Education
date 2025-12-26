@@ -95,9 +95,9 @@ export function WordScrambleGame({ title, words, showScore = true, onComplete }:
     <section className="min-h-screen bg-blue-50 bg-fixed py-8 sm:py-10 px-3 sm:px-4 md:px-6">
       <div className="rounded-2xl border border-purple-100 bg-white/95 p-4 sm:p-6 shadow-xl max-w-5xl mx-auto">
       <header className="text-center">
-        <p className="text-xs uppercase tracking-wide text-purple-400">Word Scramble</p>
-        <h2 className="text-lg sm:text-xl font-semibold text-purple-900">{title}</h2>
-        <p className="mt-2 text-sm text-purple-700">
+        <p className="text-sm uppercase tracking-wide text-purple-400">Word Scramble</p>
+        <h2 className="text-xl sm:text-2xl font-semibold text-purple-900">{title}</h2>
+        <p className="mt-2 text-base sm:text-lg text-purple-700">
           Sắp xếp lại các chữ cái để tạo thành từ đúng!
         </p>
       </header>
@@ -105,33 +105,33 @@ export function WordScrambleGame({ title, words, showScore = true, onComplete }:
       {showScore && (
         <div className="mt-4 flex flex-wrap gap-4 rounded-xl bg-white p-4 shadow-sm">
           <div className="flex-1 text-center">
-            <div className="text-sm text-purple-600">⭐ Điểm</div>
-            <div className="text-xl font-bold text-purple-900">{score}</div>
+            <div className="text-base sm:text-lg text-purple-600">⭐ Điểm</div>
+            <div className="text-2xl sm:text-3xl font-bold text-purple-900">{score}</div>
           </div>
           <div className="flex-1 text-center">
-            <div className="text-sm text-purple-600">📚 Từ</div>
-            <div className="text-xl font-bold text-purple-900">
+            <div className="text-base sm:text-lg text-purple-600">📚 Từ</div>
+            <div className="text-2xl sm:text-3xl font-bold text-purple-900">
               {currentIndex + 1}/{words.length}
             </div>
           </div>
           <div className="flex-1 text-center">
-            <div className="text-sm text-purple-600">✅ Đúng</div>
-            <div className="text-xl font-bold text-purple-900">{correctCount}</div>
+            <div className="text-base sm:text-lg text-purple-600">✅ Đúng</div>
+            <div className="text-2xl sm:text-3xl font-bold text-purple-900">{correctCount}</div>
           </div>
         </div>
       )}
 
       <div className="mt-6 rounded-2xl bg-gradient-to-br from-purple-500 to-purple-600 p-6 sm:p-8 text-center text-white shadow-lg">
-        <div className="text-5xl sm:text-6xl mb-4">{currentWord.emoji || "📝"}</div>
+        <div className="text-6xl sm:text-7xl mb-4">{currentWord.emoji || "📝"}</div>
         {currentWord.meaning && (
-          <div className="text-base sm:text-lg bg-white/25 rounded-lg px-4 py-2 inline-block mb-4">
+          <div className="text-lg sm:text-xl bg-white/25 rounded-lg px-4 py-2 inline-block mb-4">
             {currentWord.meaning}
           </div>
         )}
-        <div className="text-3xl sm:text-4xl font-bold mb-4 tracking-wider">
+        <div className="text-4xl sm:text-5xl font-bold mb-4 tracking-wider">
           {scrambledWord}
         </div>
-        <p className="text-sm sm:text-base opacity-90">Sắp xếp lại các chữ cái này!</p>
+        <p className="text-base sm:text-lg opacity-90">Sắp xếp lại các chữ cái này!</p>
       </div>
 
       <div className="mt-6">
@@ -141,7 +141,7 @@ export function WordScrambleGame({ title, words, showScore = true, onComplete }:
           onChange={(e) => setUserInput(e.target.value)}
           onKeyDown={handleKeyPress}
           placeholder="Nhập từ của bạn..."
-          className="w-full p-4 sm:p-5 text-center text-xl sm:text-2xl font-bold border-2 border-purple-300 rounded-2xl focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-200"
+          className="w-full p-4 sm:p-5 text-center text-2xl sm:text-3xl font-bold border-2 border-purple-300 rounded-2xl focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-200"
           autoFocus
         />
       </div>
@@ -162,7 +162,7 @@ export function WordScrambleGame({ title, words, showScore = true, onComplete }:
       </div>
 
       <div
-        className={`mt-6 rounded-xl p-4 text-center font-bold text-base sm:text-lg ${
+        className={`mt-6 rounded-xl p-4 text-center font-bold text-lg sm:text-xl ${
           statusType === "correct"
             ? "bg-green-100 text-green-800"
             : statusType === "warning"

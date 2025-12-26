@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { UnitGameScreen } from "@/app/components/games/UnitGameScreen";
 import { MoverUnitsSidebar } from "@/app/components/games/MoverUnitsSidebar";
 import { getMoverUnitBySlug, getProjectsFromMoverBook, getMoverUnitIndex } from "@/app/constants/moverBookConfig";
-import { useParams, useRouter, usePathname } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { Menu } from "lucide-react";
 
 // Helper: lấy ID từ localStorage (chỉ dùng trong cùng 1 phiên tab)
@@ -18,7 +18,6 @@ export default function MoverGamePage() {
   const slug = params.slug as string;
   const unit = getMoverUnitBySlug(slug);
   const router = useRouter();
-  const pathname = usePathname();
 
   // Load playerId ngay lập tức để tránh flash "Đang tải dữ liệu..."
   const [playerId, setPlayerId] = useState<string>(() => {
@@ -82,13 +81,14 @@ export default function MoverGamePage() {
       return;
     }
 
-    // Đồng bộ playerId với localStorage (nếu có thay đổi từ bên ngoài)
+    // Đồng bộ playerId với localStorage
     const savedPlayerId = getSavedPlayerId();
-    if (savedPlayerId !== playerId) {
+    if (savedPlayerId) {
+      // Có ID đã lưu → dùng ID đó, không hiện modal
       setPlayerId(savedPlayerId);
       setShowIdModal(false);
-    } else if (!savedPlayerId && playerId) {
-      // Nếu localStorage không có nhưng state có, có thể đã bị xóa
+    } else {
+      // Chưa có ID → hiện modal để nhập
       setPlayerId("");
       setShowIdModal(true);
     }

@@ -148,14 +148,14 @@ export function MatchingGame({ title, pairs, showScore = true, onComplete }: Pro
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between border-b border-blue-100 pb-4 mb-6">
         <div>
         
-          <h2 className="text-2xl sm:text-3xl font-bold">{title || "Matching Game"}</h2>
-          <p className="text-sm sm:text-base font-medium">
+          <h2 className="text-3xl sm:text-4xl font-bold">{title || "Matching Game"}</h2>
+          <p className="text-base sm:text-lg font-medium">
             Ghép đúng các cặp từ tiếng Anh – tiếng Việt để tích điểm.
           </p>
         </div>
 
         {showScore && (
-          <div className="flex flex-wrap gap-3 text-sm sm:text-base font-semibold">
+          <div className="flex flex-wrap gap-3 text-base sm:text-lg font-semibold">
             <span className="px-4 py-2 rounded-2xl bg-blue-50 shadow-inner">
               Điểm: <span>{score}</span>
             </span>
@@ -173,7 +173,7 @@ export function MatchingGame({ title, pairs, showScore = true, onComplete }: Pro
         <div className="space-y-3 rounded-[28px] bg-gradient-to-b from-blue-50 to-white p-4 sm:p-6 shadow-inner">
           <div className="mb-3 flex items-center justify-center gap-2 font-semibold">
            
-            <h3 className="text-lg">English</h3>
+            <h3 className="text-xl sm:text-2xl">English</h3>
           </div>
           {shuffledLeft.map((item) => {
             const isSelected = leftSelection === item.id;
@@ -183,7 +183,7 @@ export function MatchingGame({ title, pairs, showScore = true, onComplete }: Pro
                 key={`left-${item.id}`}
                 onClick={() => handleLeftClick(item.id)}
                 disabled={isMatched}
-                className={`flex w-full items-center justify-between rounded-2xl border-2 px-5 py-4 text-base sm:text-lg transition-all ${
+                className={`flex w-full items-center justify-between rounded-2xl border-2 px-5 py-4 text-lg sm:text-xl transition-all ${
                   isMatched
                     ? "border-emerald-400 bg-emerald-50 text-emerald-600 cursor-default shadow-sm"
                     : isSelected
@@ -192,7 +192,7 @@ export function MatchingGame({ title, pairs, showScore = true, onComplete }: Pro
                 }`}
               >
                 <span>{item.left}</span>
-                {isMatched && <span className="text-sm">✓</span>}
+                {isMatched && <span className="text-base sm:text-lg">✓</span>}
               </button>
             );
           })}
@@ -201,7 +201,7 @@ export function MatchingGame({ title, pairs, showScore = true, onComplete }: Pro
         <div className="space-y-3 rounded-[28px] bg-gradient-to-b from-amber-50 to-white p-4 sm:p-6 shadow-inner">
           <div className="mb-3 flex items-center justify-center gap-2 font-semibold">
             
-            <h3 className="text-lg">Nghĩa tiếng Việt</h3>
+            <h3 className="text-xl sm:text-2xl">Nghĩa tiếng Việt</h3>
           </div>
           {shuffledRight.map((item) => {
             const isSelected = rightSelection === item.id;
@@ -211,7 +211,7 @@ export function MatchingGame({ title, pairs, showScore = true, onComplete }: Pro
                 key={`right-${item.id}`}
                 onClick={() => handleRightClick(item.id)}
                 disabled={isMatched}
-                className={`w-full rounded-2xl border-2 px-5 py-4 text-left text-base sm:text-lg font-medium transition-all ${
+                className={`w-full rounded-2xl border-2 px-5 py-4 text-left text-lg sm:text-xl font-medium transition-all ${
                   isMatched
                     ? "border-emerald-400 bg-emerald-50 text-emerald-600 cursor-default shadow-sm"
                     : isSelected

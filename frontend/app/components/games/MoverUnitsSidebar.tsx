@@ -9,18 +9,19 @@ import { getProjectsFromMoverBook } from "@/app/constants/moverBookConfig";
 type MoverUnitsSidebarProps = {
   isOpen?: boolean;
   onClose?: () => void;
+  basePath?: string;
 };
 
 /**
  * Sidebar cho Mover Book
  */
-export function MoverUnitsSidebar({ isOpen = false, onClose }: MoverUnitsSidebarProps) {
+export function MoverUnitsSidebar({ isOpen = false, onClose, basePath = "/resources/mover/Games" }: MoverUnitsSidebarProps) {
   const pathname = usePathname();
   const [collapsed, setCollapsed] = useState(false);
 
   const projects = getProjectsFromMoverBook();
 
-  const isActive = (href: string) => pathname === href;
+  const isActive = (href: string) => pathname === href || pathname.startsWith(href + "/");
 
   // Đóng sidebar khi click vào link trên mobile
   const handleLinkClick = () => {
@@ -96,7 +97,7 @@ export function MoverUnitsSidebar({ isOpen = false, onClose }: MoverUnitsSidebar
       {/* Danh sách Unit */}
       <nav className="flex-1 overflow-y-auto p-3 space-y-2">
         {projects.map((project) => {
-          const href = `/resources/mover/Games/${project.id}`;
+          const href = `${basePath}/${project.id}`;
           const active = isActive(href);
           return (
             <Link
