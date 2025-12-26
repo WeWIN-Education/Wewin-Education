@@ -14,7 +14,8 @@ export default async function ManagementLayout({
   const roles = session.user?.roles ?? [];
 
   const isAdmin = roles.includes("ADMIN");
-  if (!isAdmin) redirect("/login"); 
+  const isTeacher = roles.includes("TEACHER");
+  if (!isAdmin && !isTeacher) redirect("/");
 
   return <>{children}</>;
 }
