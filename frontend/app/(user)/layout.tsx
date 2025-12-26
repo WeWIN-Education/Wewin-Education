@@ -8,12 +8,12 @@ export default async function UserLayout({
 }: {
   children: React.ReactNode;
 }) {
-  // const session = await getServerSession(authOptions);
+  const session = await getServerSession(authOptions);
 
-  // if (!session) redirect("/login");
+  if (!session) redirect("/login");
 
-  // const isAdmin = allowedEmails.includes(session.user?.email || "");
-  // if (isAdmin) redirect("/");
+  const isAdmin = allowedEmails.includes(session.user?.email || "");
+  if (isAdmin) redirect("/");
 
   return (
     <div className="min-h-screen overflow-visible">
