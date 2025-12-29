@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { Class, CLASS_HEADERS, STUDENT_HEADERS } from "@/app/constants/class";
+import { Class, CLASS_HEADERS, STUDENT_HEADERS } from "@/lib/constants/class";
 import {
   Users,
   Edit,

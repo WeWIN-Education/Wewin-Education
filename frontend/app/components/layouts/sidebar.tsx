@@ -12,7 +12,7 @@ import {
   PanelLeftClose,
   PanelLeftOpen,
 } from "lucide-react";
-import { Routes } from "@/app/constants/routes";
+import { Routes } from "@/lib/constants/routes";
 
 export default function Sidebar() {
   const pathname = usePathname();

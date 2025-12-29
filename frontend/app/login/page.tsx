@@ -4,7 +4,7 @@ import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { Routes } from "../constants/routes";
+import { Routes } from "../../lib/constants/routes";
 import { BookOpen, Eye, EyeOff, Target, Trophy } from "lucide-react";
 
 export default function LoginPage() {

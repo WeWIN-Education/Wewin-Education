@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
 import { BookOpen, PanelLeftClose, PanelLeftOpen, X } from "lucide-react";
-import { getProjectsFromBook } from "@/app/constants/bookConfig";
+import { getProjectsFromBook } from "@/lib/constants/bookConfig";
 
 type KidsUnitsSidebarProps = {
   isOpen?: boolean;

@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
 import { BookOpen, PanelLeftClose, PanelLeftOpen, X } from "lucide-react";
-import { getProjectsFromFlyerBook } from "@/app/constants/flyerBookConfig";
+import { getProjectsFromFlyerBook } from "@/lib/constants/flyerBookConfig";
 
 type FlyerUnitsSidebarProps = {
   isOpen?: boolean;

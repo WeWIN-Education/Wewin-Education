@@ -8,7 +8,7 @@ import {
   getMoverUnitBySlug,
   getProjectsFromMoverBook,
   getMoverUnitIndex,
-} from "@/app/constants/moverBookConfig";
+} from "@/lib/constants/moverBookConfig";
 import { Menu } from "lucide-react";
 
 function getSavedPlayerId(): string {

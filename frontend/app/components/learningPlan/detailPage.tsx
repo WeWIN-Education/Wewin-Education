@@ -1,7 +1,7 @@
 import React from "react";
 import Sidebar from "./sidebar";
 import DetailContent from "./detailContent";
-import type { ClassId } from "../../constants/types";
+import type { ClassId } from "../../../lib/constants/types";
 
 interface DetailPageProps {
   classId: ClassId;

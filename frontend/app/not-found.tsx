@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { Search, Home, ArrowLeft } from "lucide-react";
-import { Routes } from "./constants/routes";
+import { Routes } from "../lib/constants/routes";
 
 export default function NotFoundPage() {
   const [particles, setParticles] = useState<{ left: string; top: string }[]>([]);

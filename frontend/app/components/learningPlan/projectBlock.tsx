@@ -1,7 +1,7 @@
 "use client";
 
 import WeekBlock from "./weekBlock";
-import { Project, LearningNode, LessonBlock } from "../../constants/types";
+import { Project, LearningNode, LessonBlock } from "../../../lib/constants/types";
 
 export default function ProjectBlock({
   project,

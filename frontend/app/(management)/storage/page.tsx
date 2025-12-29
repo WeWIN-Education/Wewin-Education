@@ -17,7 +17,7 @@ import {
   MOCK_PRODUCTS,
   MOCK_CATEGORIES,
   MIN_QTY_BY_PRODUCT_ID,
-} from "@/app/constants/inventory";
+} from "@/lib/constants/inventory";
 import type { Product, Category } from "@/types/inventory";
 import PageToolbar from "@/app/components/toolBar";
 import ConfirmPopup from "@/app/components/confirmPopup";

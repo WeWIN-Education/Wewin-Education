@@ -1,4 +1,4 @@
-import { ACTIONS } from "@/app/constants/icon";
+import { ACTIONS } from "@/lib/constants/icon";
 import { calculateAge } from "@/app/utils/date";
 
 export function StudentRow({

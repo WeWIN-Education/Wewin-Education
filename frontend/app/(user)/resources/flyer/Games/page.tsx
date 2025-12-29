@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { getProjectsFromFlyerBook } from "@/app/constants/flyerBookConfig";
+import { getProjectsFromFlyerBook } from "@/lib/constants/flyerBookConfig";
 
 export default function FlyerBookGamesPage() {
   const router = useRouter();

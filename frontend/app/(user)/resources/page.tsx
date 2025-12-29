@@ -2,8 +2,8 @@
 
 import React from "react";
 import BookCard from "../../components/books/BookCard";
-import { mockBooks } from "../../constants/mockData";
-import { Routes } from "@/app/constants/routes";
+import { mockBooks } from "../../../lib/constants/mockData";
+import { Routes } from "@/lib/constants/routes";
 import Link from "next/link";
 
 const bookRoutes: Record<string, string> = {

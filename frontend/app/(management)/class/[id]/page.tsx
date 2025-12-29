@@ -4,8 +4,8 @@ import { useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { Users, GraduationCap, UserCheck } from "lucide-react";
 
-import { initialData } from "@/app/constants/class";
-import { Routes } from "@/app/constants/routes";
+import { initialData } from "@/lib/constants/class";
+import { Routes } from "@/lib/constants/routes";
 import { Pagination } from "@/app/components/pagination";
 import { calculateAge } from "@/app/utils/date";
 import { ClassUI } from "@/app/components/class/classDetail";

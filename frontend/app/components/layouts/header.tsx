@@ -5,8 +5,8 @@ import { useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
-import { Routes } from "@/app/constants/routes";
-import { allowedEmails } from "@/app/constants/email";
+import { Routes } from "@/lib/constants/routes";
+import { allowedEmails } from "@/lib/constants/email";
 import {
   BookOpen,
   FolderOpen,

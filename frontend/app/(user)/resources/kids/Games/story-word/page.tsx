@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { UnitGameScreen } from "@/app/components/games/UnitGameScreen";
-import { getUnitBySlug } from "@/app/constants/bookConfig";
+import { getUnitBySlug } from "@/lib/constants/bookConfig";
 
 // Helper function để load playerId từ localStorage (chỉ trong cùng 1 phiên tab)
 function getSavedPlayerId(): string {

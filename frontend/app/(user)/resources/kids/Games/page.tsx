@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { getProjectsFromBook } from "@/app/constants/bookConfig";
+import { getProjectsFromBook } from "@/lib/constants/bookConfig";
 
 /**
  * Khi vào lần đầu `/resources/kids/Games`:

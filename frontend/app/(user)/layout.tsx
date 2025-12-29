@@ -1,6 +1,6 @@
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
-import { allowedEmails } from "@/app/constants/email";
+import { allowedEmails } from "@/lib/constants/email";
 import { authOptions } from "../api/auth/authOptions";
 
 export default async function UserLayout({

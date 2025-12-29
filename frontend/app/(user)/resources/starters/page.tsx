@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import type { ClassId } from "@/app/constants/types";
+import type { ClassId } from "@/lib/constants/types";
 import DetailPage from "@/app/components/learningPlan/detailPage";
 
 export default function StartersFoundationPage() {

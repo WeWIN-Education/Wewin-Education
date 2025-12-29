@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { CirclePlus, Pencil } from "lucide-react";
-import { MOCK_CATEGORIES } from "@/app/constants/inventory";
+import { MOCK_CATEGORIES } from "@/lib/constants/inventory";
 import FormField from "../form/formField";
 import TextInput from "../form/field/textInput";
 import SelectInput from "../form/field/selectInput";

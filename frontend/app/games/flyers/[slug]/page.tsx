@@ -5,7 +5,7 @@ import { useParams, useRouter } from "next/navigation";
 import { Menu } from "lucide-react";
 import { UnitGameScreen } from "@/app/components/games/UnitGameScreen";
 import { FlyerUnitsSidebar } from "@/app/components/games/FlyerUnitsSidebar";
-import { getFlyerUnitBySlug, getProjectsFromFlyerBook, getFlyerUnitIndex } from "@/app/constants/flyerBookConfig";
+import { getFlyerUnitBySlug, getProjectsFromFlyerBook, getFlyerUnitIndex } from "@/lib/constants/flyerBookConfig";
 
 function getSavedPlayerId(): string {
   if (typeof window === "undefined") return "";

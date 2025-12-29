@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
-import { getProjectsFromMoverBook } from "@/app/constants/moverBookConfig";
+import { getProjectsFromMoverBook } from "@/lib/constants/moverBookConfig";
 
 export default function MoverBookGamesPage() {
   const router = useRouter();

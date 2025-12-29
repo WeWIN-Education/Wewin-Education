@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { CirclePlus, Pencil } from "lucide-react";
-import { categoryOptions, Class } from "@/app/constants/class";
+import { categoryOptions, Class } from "@/lib/constants/class";
 import BaseEntityFormModal from "../form";
 
 interface ClassFormProps {

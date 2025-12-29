@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import { StatusBadge } from "@/app/components/status";
 import ReusableTable from "@/app/components/table";
-import { STUDENT_HEADERS } from "@/app/constants/class";
+import { STUDENT_HEADERS } from "@/lib/constants/class";
 import { calculateAge } from "@/app/utils/date";
 import { Ban, Edit, Eye } from "lucide-react";
 import { Pagination, RowsPerPage } from "@/app/components/pagination";
@@ -38,7 +38,7 @@ export default function StudentTable({ students }: StudentTableProps) {
 
   return (
     <div className="space-y-3">
-      <ReusableTable
+      {/* <ReusableTable
         columns={STUDENT_HEADERS}
         data={visibleStudents}
         renderRow={(stu) => (
@@ -69,7 +69,7 @@ export default function StudentTable({ students }: StudentTableProps) {
             </td>
           </>
         )}
-      />
+      /> */}
 
       {/* Pagination cho student list */}
       <Pagination

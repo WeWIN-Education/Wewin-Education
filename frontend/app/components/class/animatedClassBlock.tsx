@@ -14,7 +14,7 @@ import {
   ExternalLink,
   Sparkles,
 } from "lucide-react";
-import { initialData } from "@/app/constants/class";
+import { initialData } from "@/lib/constants/class";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 25, scale: 0.98 },

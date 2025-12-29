@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import ClassTable from "@/app/components/class/classTable";
-import { Class, initialData } from "@/app/constants/class";
+import { Class, initialData } from "@/lib/constants/class";
 import {
   Pagination,
   RowsPerPage,
@@ -13,7 +13,7 @@ import EditClassForm from "@/app/components/class/classForm";
 import Button from "@/app/components/button";
 import SearchInput from "@/app/components/search";
 import { useRouter } from "next/navigation";
-import { Routes } from "@/app/constants/routes";
+import { Routes } from "@/lib/constants/routes";
 
 export default function ClassPage() {
   const router = useRouter();

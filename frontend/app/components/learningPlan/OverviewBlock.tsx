@@ -1,5 +1,5 @@
 "use client";
-import { OverviewSection } from "../../constants/types";
+import { OverviewSection } from "../../../lib/constants/types";
 
 export default function OverviewBlock({ title, learningTitle, overview }: {
   title: string;
