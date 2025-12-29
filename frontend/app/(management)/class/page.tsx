@@ -5,11 +5,10 @@ import ClassTable from "@/app/components/class/classTable";
 import { Class, initialData } from "@/app/constants/class";
 import {
   Pagination,
-  ROWS_PER_PAGE,
   RowsPerPage,
 } from "@/app/components/pagination";
 
-import { CirclePlus, Search, BookOpen, School } from "lucide-react";
+import { CirclePlus } from "lucide-react";
 import EditClassForm from "@/app/components/class/classForm";
 import Button from "@/app/components/button";
 import SearchInput from "@/app/components/search";

@@ -1,13 +1,11 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { useSession, signIn } from "next-auth/react";
+import { useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { Routes } from "@/app/constants/routes";
-import Dropdown from "../dropdown";
-import Section from "../section";
 import { allowedEmails } from "@/app/constants/email";
 import {
   BookOpen,
@@ -15,13 +13,6 @@ import {
   X,
   Sparkles,
   ChevronDown,
-  Palette,
-  Sprout,
-  Star,
-  Rocket,
-  Plane,
-  Music,
-  Video,
   Gamepad2,
   LockKeyhole,
   LibraryBig,
@@ -267,7 +258,7 @@ function Logo() {
   );
 }
 
-function UserSection({ session, setMenuOpen }: any) {
+function UserSection({ session }: any) {
   const router = useRouter();
 
   if (!session)

@@ -123,6 +123,15 @@ export default function Sidebar() {
           active={isActive(Routes.MANAGE_STUDENT)}
           collapsed={collapsed}
         />
+
+        {/* Storage Link */}
+        <SidebarLink
+          href={Routes.MANAGE_STORAGE}
+          label="Storage"
+          icon={<Users className="w-4 h-4" />}
+          active={isActive(Routes.MANAGE_STORAGE)}
+          collapsed={collapsed}
+        />
       </nav>
 
       {/* 🔹 Nút toggle thu gọn ở cuối sidebar */}
