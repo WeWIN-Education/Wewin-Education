@@ -5,6 +5,7 @@ export const allowedEmails = [
   "prin@wewin.edu.vn",
   "vipkenly1@gmail.com",
   "haoquang16122004@gmail.com",
+  "admin@gmail.com"
 ];
 
 export const adminEmails = [

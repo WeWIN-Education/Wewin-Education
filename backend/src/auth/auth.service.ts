@@ -1,3 +1,8 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/require-await */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import {
   BadRequestException,
   Injectable,
@@ -6,6 +11,7 @@ import {
 import { JwtService } from '@nestjs/jwt';
 import { UserService } from 'src/user/user.service';
 import bcrypt from 'bcrypt';
+import { Roles } from './roles.decorator';
 
 @Injectable()
 export class AuthService {
@@ -36,8 +42,8 @@ export class AuthService {
      LOGIN (CREDENTIALS)
   --------------------------------------------------------- */
   async login(email: string, password: string) {
-
     const user = await this.userService.findByEmail(email);
+    // const user = await this.userService.findByEmailWithRoles(email);
 
     if (!user) throw new UnauthorizedException('User not found');
     if (!user.password) throw new UnauthorizedException('No password stored');
@@ -46,12 +52,12 @@ export class AuthService {
     if (!match) throw new UnauthorizedException('Wrong password');
     // JWT 15 mins
     const accessToken = this.jwt.sign(
-      { id: user.id, email: user.email },
+      { id: user.id, email: user.email, roles: user.roles },
       { expiresIn: '15m' },
     );
 
     const refreshToken = this.jwt.sign(
-      { id: user.id, email: user.email },
+      { id: user.id, email: user.email, roles: user.roles },
       { expiresIn: '30d' },
     );
 
@@ -63,7 +69,9 @@ export class AuthService {
     return {
       message: 'Login success',
       access_token: accessToken,
-      user: safeUser,
+      user: {
+        ...safeUser,
+      },
     };
   }
 

@@ -1,4 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  BadRequestException,
+} from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -52,6 +56,34 @@ export class UserService {
     });
 
     return this.findOne(id);
+  }
+
+  async updateUserRoles(userId: string, roleIds: string[]) {
+    const user = await this.repo.findOne({
+      where: { id: userId },
+      relations: ['roles'],
+    });
+
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+
+    const roles = await this.roleRepo.find({
+      where: { id: In(roleIds) },
+    });
+
+    if (roles.length !== roleIds.length) {
+      throw new BadRequestException('One or more roles not found');
+    }
+
+    user.roles = roles;
+    await this.repo.save(user);
+
+    return {
+      id: user.id,
+      email: user.email,
+      roles: roles.map((r) => r.name),
+    };
   }
 
   remove(id: string) {
