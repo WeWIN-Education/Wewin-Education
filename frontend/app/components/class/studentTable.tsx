@@ -1,46 +1,53 @@
 "use client";
 
 import React, { useState } from "react";
-import { StatusBadge } from "@/app/components/status";
 import ReusableTable from "@/app/components/table";
 import { STUDENT_HEADERS } from "@/lib/constants/class";
 import { calculateAge } from "@/app/utils/date";
-import { Ban, Edit, Eye } from "lucide-react";
+import { StatusBadge } from "@/app/components/status";
 import { Pagination, RowsPerPage } from "@/app/components/pagination";
 
+interface Student {
+  id: string;
+  name: string;
+  dob: string;
+  gender: string;
+  status: string;
+}
+
 interface StudentTableProps {
-  students: any[];
+  students: Student[];
 }
 
 export default function StudentTable({ students }: StudentTableProps) {
   const [page, setPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState<RowsPerPage>(5);
 
-  const totalStudents = students.length;
-
+  const total = students.length;
   const totalPages =
     rowsPerPage === "all"
       ? 1
-      : Math.ceil(totalStudents / (rowsPerPage as number));
+      : Math.ceil(total / (rowsPerPage as number));
 
   const startIndex =
     rowsPerPage === "all" ? 0 : (page - 1) * (rowsPerPage as number);
 
-  const endIndex =
-    rowsPerPage === "all"
-      ? totalStudents
-      : startIndex + (rowsPerPage as number);
-
   const visibleStudents =
     rowsPerPage === "all"
       ? students
-      : students.slice(startIndex, endIndex);
+      : students.slice(
+          startIndex,
+          startIndex + (rowsPerPage as number)
+        );
 
   return (
     <div className="space-y-3">
-      {/* <ReusableTable
+      <ReusableTable<Student>
         columns={STUDENT_HEADERS}
         data={visibleStudents}
+        getKey={(stu) => stu.id}
+
+        /* ===== DESKTOP ROW ===== */
         renderRow={(stu) => (
           <>
             <td className="px-5 py-3 text-[#0E4BA9] font-semibold">
@@ -54,31 +61,54 @@ export default function StudentTable({ students }: StudentTableProps) {
             <td className="px-5 py-3">
               <StatusBadge status={stu.status} />
             </td>
-            <td className="px-5 py-3 text-center">
-              <div className="flex justify-left gap-2">
-                <button className="p-2 rounded-md bg-blue-500 text-white">
-                  <Eye size={16} />
-                </button>
-                <button className="p-2 rounded-md bg-yellow-500 text-white">
-                  <Edit size={16} />
-                </button>
-                <button className="p-2 rounded-md bg-orange-500 text-white">
-                  <Ban size={16} />
-                </button>
-              </div>
-            </td>
           </>
         )}
-      /> */}
 
-      {/* Pagination cho student list */}
+        /* ===== MOBILE CARD ===== */
+        renderMobileCard={(stu) => (
+          <div className="space-y-2">
+            <div className="flex justify-between">
+              <span className="font-semibold text-[#0E4BA9]">
+                #{stu.id}
+              </span>
+              <StatusBadge status={stu.status} />
+            </div>
+
+            <div className="text-sm">
+              <div>
+                <span className="font-medium">Tên:</span> {stu.name}
+              </div>
+              <div>
+                <span className="font-medium">Tuổi:</span>{" "}
+                {calculateAge(new Date(stu.dob))}
+              </div>
+              <div>
+                <span className="font-medium">Giới tính:</span>{" "}
+                {stu.gender}
+              </div>
+            </div>
+          </div>
+        )}
+
+        /* ===== ACTIONS ===== */
+        actions={{
+          onView: (stu) => console.log("View", stu),
+          onEdit: (stu) => console.log("Edit", stu),
+          onDisable: (stu) => console.log("Disable", stu),
+        }}
+      />
+
+      {/* ===== PAGINATION ===== */}
       <Pagination
-      text="Students"
+        text="Students"
         currentPage={page}
         totalPages={totalPages}
         startIndex={startIndex}
-        endIndex={endIndex}
-        total={totalStudents}
+        endIndex={Math.min(
+          startIndex + (rowsPerPage as number),
+          total
+        )}
+        total={total}
         selectedRows={rowsPerPage}
         onPrev={() => setPage((p) => Math.max(1, p - 1))}
         onNext={() =>
@@ -86,7 +116,9 @@ export default function StudentTable({ students }: StudentTableProps) {
         }
         onRowsChange={(e) => {
           const value =
-            e.target.value === "all" ? "all" : Number(e.target.value);
+            e.target.value === "all"
+              ? "all"
+              : Number(e.target.value);
           setRowsPerPage(value);
           setPage(1);
         }}
