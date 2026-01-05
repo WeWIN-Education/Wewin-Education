@@ -47,7 +47,7 @@ export default function Footer() {
               WeWIN Education
             </h2>
             <p className="text-xs text-blue-100/80 text-center lg:text-left mb-4">
-              Nâng tầm tiếng Anh – Mở rộng tương lai 🌏
+              WEWIN BỨT PHÁ TIẾNG ANH – VƯƠN TẦM THẾ GIỚI 🌏
             </p>
 
             {/* Social Icons */}

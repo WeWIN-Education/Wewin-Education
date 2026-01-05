@@ -15,10 +15,9 @@ import { CirclePlus } from "lucide-react";
 /* ===== DATA ===== */
 import {
   MOCK_PRODUCTS,
-  MOCK_CATEGORIES,
   MIN_QTY_BY_PRODUCT_ID,
 } from "@/lib/constants/inventory";
-import type { Product, Category } from "@/types/storage";
+import type { Product } from "@/types/storage";
 import PageToolbar from "@/app/components/toolBar";
 import ConfirmPopup from "@/app/components/confirmPopup";
 
@@ -40,15 +39,12 @@ export default function StoragePage() {
 
   /* ================= SOURCE DATA ================= */
   const products: Product[] = MOCK_PRODUCTS;
-  const categories: Category[] = MOCK_CATEGORIES;
 
   /* ================= MAP FOR UI ================= */
   const tableData = products.map((p) => {
-    const category = categories.find((c) => c.id === p.categoryId);
-
     return {
       ...p,
-      categoryName: category?.name ?? "—",
+      categoryName: p.categoryId?.name ?? "—",
       minQuantity: MIN_QTY_BY_PRODUCT_ID[p.id] ?? 0,
     };
   });
@@ -102,7 +98,7 @@ export default function StoragePage() {
           "Danh mục",
           "Tồn kho",
           "Đơn vị",
-          "Trạng thái",
+          "Tình trạng",
         ]}
         data={filteredTableData}
         getKey={(row) => row.id}
@@ -190,7 +186,7 @@ export default function StoragePage() {
               data: {
                 id: row.id,
                 name: row.name,
-                categoryId: row.categoryId,
+                categoryId: row.categoryId.id, // ✅ LẤY ID
                 unit: row.unit,
                 quantity: row.quantity,
               },

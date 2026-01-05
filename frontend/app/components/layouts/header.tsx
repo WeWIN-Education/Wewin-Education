@@ -15,6 +15,10 @@ import {
   Gamepad2,
   LockKeyhole,
   LibraryBig,
+  Warehouse,
+  School,
+  Users,
+  Box,
 } from "lucide-react";
 import { handleLogout } from "@/app/api/auth/[...nextauth]/route";
 import { useRouter } from "next/navigation";
@@ -375,9 +379,17 @@ function MobileMenu({
           exit={{ x: "100%" }}
           transition={{ type: "spring", damping: 25, stiffness: 200 }}
           onClick={(e) => e.stopPropagation()}
-          className="absolute right-0 top-0 bottom-0 w-[320px]
-                     bg-linear-to-br from-[#1a5fb4] via-[#1c71d8] to-[#3584e4]
-                     shadow-2xl overflow-y-auto"
+          className="
+            absolute right-0 top-0
+            w-[320px]
+            h-dvh
+            max-h-screen
+            bg-linear-to-br from-[#1a5fb4] via-[#1c71d8] to-[#3584e4]
+            shadow-2xl
+            overflow-y-auto
+            overscroll-contain
+            touch-pan-y
+          "
         >
           {/* Header với Close Button */}
           <div
@@ -583,7 +595,7 @@ function MobileMenu({
 
                 <div className="space-y-2 mt-6">
                   <div className="flex items-center gap-2 px-3 py-2">
-                    <BookOpen className="w-4 h-4 text-amber-300" />
+                    <School className="w-4 h-4 text-amber-300" />
                     <h3 className="text-xs font-bold text-amber-200 uppercase tracking-wider">
                       Student Management
                     </h3>
@@ -595,7 +607,7 @@ function MobileMenu({
                              bg-amber-500/10 hover:bg-amber-500/20 border border-amber-400/30
                              transition-all duration-200 hover:scale-[1.02]"
                   >
-                    <span className="text-2xl">👨‍🎓</span>
+                    <Users className="w-5 h-5 text-amber-300" />
                     <span className="text-white font-medium text-sm flex-1">
                       Student
                     </span>
@@ -604,7 +616,7 @@ function MobileMenu({
 
                 <div className="space-y-2 mt-6">
                   <div className="flex items-center gap-2 px-3 py-2">
-                    <BookOpen className="w-4 h-4 text-amber-300" />
+                    <Warehouse className="w-4 h-4 text-amber-300" />
                     <h3 className="text-xs font-bold text-amber-200 uppercase tracking-wider">
                       Storage Management
                     </h3>
@@ -616,7 +628,7 @@ function MobileMenu({
                              bg-amber-500/10 hover:bg-amber-500/20 border border-amber-400/30
                              transition-all duration-200 hover:scale-[1.02]"
                   >
-                    <span className="text-2xl">👨‍🎓</span>
+                    <Box className="w-4 h-4 text-amber-300" />
                     <span className="text-white font-medium text-sm flex-1">
                       Storage
                     </span>

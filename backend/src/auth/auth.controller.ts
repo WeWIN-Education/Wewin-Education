@@ -1,11 +1,23 @@
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-argument */
-/* eslint-disable prettier/prettier */
 import { Controller, Get, Post, Body, Req, UseGuards } from '@nestjs/common';
+import { Request } from 'express';
 import { AuthService } from './auth.service';
 import { LoginDto } from './dto/login.dto';
 import { RegisterDto } from './dto/register.dto';
 import { JwtAuthGuard } from './jwt-auth.guard';
+
+/* ===== JWT PAYLOAD (PHẢI TRÙNG VỚI GUARD) ===== */
+interface JwtPayload {
+  sub: string;
+  email: string;
+  roles?: string[];
+  iat?: number;
+  exp?: number;
+}
+
+/* ===== REQUEST CÓ USER ===== */
+interface AuthenticatedRequest extends Request {
+  user: JwtPayload;
+}
 
 @Controller('auth')
 export class AuthController {
@@ -33,7 +45,7 @@ export class AuthController {
 
   @UseGuards(JwtAuthGuard)
   @Get('me')
-  getMe(@Req() req) {
-    return this.authService.getMeById(req.user.id);
+  getMe(@Req() req: AuthenticatedRequest) {
+    return this.authService.getMeById(req.user.sub);
   }
 }

@@ -2,39 +2,42 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import {
   ChevronDown,
   GraduationCap,
-  BookOpen,
   FolderOpen,
   Users,
   PanelLeftClose,
   PanelLeftOpen,
+  Warehouse,
+  School,
+  List,
 } from "lucide-react";
 import { Routes } from "@/lib/constants/routes";
 
 export default function Sidebar() {
   const pathname = usePathname();
-  const [openMenu, setOpenMenu] = useState(true);
+  /* ===== DERIVED STATE (QUAN TRỌNG) ===== */
+  const isClassRoute =
+    pathname === Routes.MANAGE_CLASS ||
+    pathname.startsWith(`${Routes.MANAGE_CLASS}/`);
+
+  /* ===== UI STATE ===== */
+  const [manualOpen, setManualOpen] = useState(true);
   const [collapsed, setCollapsed] = useState(false);
+
+  const openMenu = isClassRoute || manualOpen;
 
   // ✅ Logic xác định active
   const isActive = (href: string) => pathname === href;
   const isGroupActive = (base: string) =>
     pathname === base || pathname.startsWith(`${base}/`);
 
-  // ✅ Mở menu tự động nếu đang ở trang con của /management/class
-  useEffect(() => {
-    if (pathname.startsWith(Routes.MANAGE_CLASS)) {
-      setOpenMenu(true);
-    }
-  }, [pathname]);
-
   return (
     <div
       className={`h-full transition-all duration-300 ease-in-out ${
-        collapsed ? "w-20" : "w-72"
+        collapsed ? "w-20" : "w-70"
       } bg-linear-to-br from-[#0B4BA8] via-[#1565C0] to-[#1976D2]
         text-white shadow-2xl flex flex-col overflow-hidden`}
     >
@@ -45,9 +48,7 @@ export default function Sidebar() {
         </div>
         {!collapsed && (
           <div>
-            <h2 className="text-sm font-semibold text-white/90">
-              Admin Panel
-            </h2>
+            <h2 className="text-sm font-semibold text-white/90">Admin Panel</h2>
             <p className="text-xs text-white/60">Management System</p>
           </div>
         )}
@@ -58,10 +59,14 @@ export default function Sidebar() {
         {/* Group: Class Management */}
         <div>
           <button
-            onClick={() => setOpenMenu(!openMenu)}
+            onClick={() => setManualOpen((v) => !v)}
             className={`flex items-center justify-between w-full text-left px-3 py-2.5 rounded-xl 
                         transition-all duration-200 group 
-                        ${isGroupActive(Routes.MANAGE_CLASS) ? "bg-white/10" : "hover:bg-white/10"}`}
+                        ${
+                          isGroupActive(Routes.MANAGE_CLASS)
+                            ? "bg-white/10"
+                            : "hover:bg-white/10"
+                        }`}
           >
             <span className="flex items-center gap-3">
               <div
@@ -71,11 +76,11 @@ export default function Sidebar() {
                     : "bg-white/10 group-hover:bg-white/20"
                 }`}
               >
-                <BookOpen className="w-4 h-4" />
+                <School className="w-4 h-4" />
               </div>
               {!collapsed && (
                 <span className="font-semibold text-[15px]">
-                  Class Management
+                  Class
                 </span>
               )}
             </span>
@@ -98,8 +103,8 @@ export default function Sidebar() {
               <li>
                 <SidebarLink
                   href={Routes.MANAGE_CLASS}
-                  label="Class"
-                  icon={<BookOpen className="w-4 h-4" />}
+                  label="List"
+                  icon={<List className="w-4 h-4" />}
                   active={isActive(Routes.MANAGE_CLASS)}
                 />
               </li>
@@ -128,7 +133,7 @@ export default function Sidebar() {
         <SidebarLink
           href={Routes.MANAGE_STORAGE}
           label="Storage"
-          icon={<Users className="w-4 h-4" />}
+          icon={<Warehouse className="w-4 h-4" />}
           active={isActive(Routes.MANAGE_STORAGE)}
           collapsed={collapsed}
         />
