@@ -1,46 +1,6 @@
-import {
-  Category,
-  Product,
-  Inventory_Docment,
-} from "@/types/storage";
-import { MOCK_USERS } from "./userMock";
-
-
-/* =======================
-   MOCK CATEGORIES
-======================= */
-export const MOCK_CATEGORIES: Category[] = [
-  {
-    id: "c1",
-    name: "Văn phòng",
-    isActive: true,
-  },
-  {
-    id: "c2",
-    name: "Thiết bị lớp học",
-    isActive: true,
-  },
-];
-
-/* =======================
-   MOCK INVENTORY DOCUMENTS
-======================= */
-export const MOCK_INVENTORY_DOCUMENTS: Inventory_Docment[] = [
-  {
-    id: "INV-001",
-    note: "Nhập kho đầu kỳ",
-    createdAt: "2025-01-01T08:00:00.000Z",
-    updatedAt: "2025-01-01T08:00:00.000Z",
-    createdBy: MOCK_USERS[0],
-  },
-  {
-    id: "INV-002",
-    note: "Xuất kho cho lớp học",
-    createdAt: "2025-01-03T09:30:00.000Z",
-    updatedAt: "2025-01-03T09:30:00.000Z",
-    createdBy: MOCK_USERS[0],
-  },
-];
+import { Product } from "@/types/storage";
+import { MOCK_CATEGORIES } from "./category";
+import { MOCK_INVENTORY_DOCUMENTS } from "./inventory_document";
 
 /* =======================
    MOCK PRODUCTS
@@ -52,8 +12,9 @@ export const MOCK_PRODUCTS: Product[] = [
     name: "Bút lông bảng",
     unit: "Cây",
     quantity: 120,
-    imageUrl: undefined,
-    status: "ACTIVE",
+    imageUrl:
+      "https://images.unsplash.com/photo-1587825140708-dfaf72ae4b04?q=80&w=800&auto=format&fit=crop",
+    status: "IN_STOCK",
     createdAt: "2025-01-01T08:00:00.000Z",
     updatedAt: "2025-01-05T10:30:00.000Z",
     inventoryDocmentsId: [MOCK_INVENTORY_DOCUMENTS[0]],
@@ -65,7 +26,9 @@ export const MOCK_PRODUCTS: Product[] = [
     name: "Giấy A4",
     unit: "Ram",
     quantity: 8,
-    status: "ACTIVE",
+    imageUrl:
+      "https://images.unsplash.com/photo-1589254065878-42c9da997008?q=80&w=800&auto=format&fit=crop",
+    status: "LOW_STOCK",
     createdAt: "2025-01-02T09:00:00.000Z",
     updatedAt: "2025-01-05T10:30:00.000Z",
     inventoryDocmentsId: [
@@ -80,7 +43,9 @@ export const MOCK_PRODUCTS: Product[] = [
     name: "Khăn lau bảng",
     unit: "Cái",
     quantity: 0,
-    status: "INACTIVE",
+    imageUrl:
+      "https://images.unsplash.com/photo-1601004890684-d8cbf643f5f2?q=80&w=800&auto=format&fit=crop",
+    status: "OUT_OF_STOCK",
     createdAt: "2025-01-03T09:00:00.000Z",
     updatedAt: "2025-01-05T10:30:00.000Z",
     inventoryDocmentsId: [],

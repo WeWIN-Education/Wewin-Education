@@ -58,10 +58,12 @@ export interface Inventory_Docment {
 export interface Inventory_Docment_Items {
   id: string;
   quantity: number;
-  creadedAt: string;   // ISO
-  updatedAt: string;   // ISO
-  productId: string;
+  creadedAt: string;
+  updatedAt: string;
+  productId: Product;           // giữ nguyên
+  inventoryDocumentId: string;  // ✅ NEW – FK tới Inventory_Docment.id
 }
 
 export type Type = "IN" | "OUT";
 
+export type StockStatus = "IN_STOCK" | "LOW_STOCK" | "OUT_OF_STOCK";

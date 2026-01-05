@@ -12,26 +12,42 @@ interface ClassFormProps {
   onCancel: () => void;
 }
 
+type ClassFormData = {
+  name: string;
+  category: string;
+  teacher1: string;
+  teacher2: string;
+  ta1: string;
+  ta2: string;
+  schedule: string;
+};
+
 export default function ClassForm({
   cls,
   isAddMode = false,
   onSave,
   onCancel,
 }: ClassFormProps) {
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<ClassFormData>({
     name: cls?.name || "",
     category: cls?.category || "",
     teacher1: cls?.teacher1 || "",
     teacher2: cls?.teacher2 || "",
     ta1: cls?.ta1 || "",
     ta2: cls?.ta2 || "",
-    schedule: cls?.schedule || "",
+    schedule: Array.isArray(cls?.schedule)
+      ? cls.schedule.join("; ")
+      : cls?.schedule || "",
   });
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
   };
 
   const handleSubmit = () => {
@@ -42,47 +58,61 @@ export default function ClassForm({
     });
   };
 
+  const fields: {
+    name: keyof ClassFormData;
+    label: string;
+    hint?: string;
+  }[] = [
+    { name: "teacher1", label: "Giáo viên 1" },
+    { name: "teacher2", label: "Giáo viên 2" },
+    { name: "ta1", label: "Trợ giảng 1" },
+    { name: "ta2", label: "Trợ giảng 2" },
+    {
+      name: "schedule",
+      label: "Lịch dạy",
+      hint: "VD: T4 17:30 - 19:00; T6 17:30 - 19:00",
+    },
+  ];
+
   return (
     <BaseEntityFormModal
       mode={isAddMode ? "add" : "edit"}
-      submitText={isAddMode ? "Add Class" : "Save Changes"}
+      submitText={isAddMode ? "Thêm lớp học" : "Lưu thay đổi"}
       onSubmit={handleSubmit}
       onCancel={onCancel}
       title={
         isAddMode ? (
           <>
             <CirclePlus className="w-6 h-6 text-green-600" />
-            <span className="text-green-700">Add New Class</span>
+            <span className="text-green-700">Thêm lớp học mới</span>
           </>
         ) : (
           <>
             <Pencil className="w-5 h-5 text-[#0E4BA9]" />
-            <span className="text-[#0E4BA9]">Edit Class</span>
+            <span className="text-[#0E4BA9]">Chỉnh sửa lớp học</span>
           </>
         )
       }
     >
-      {/* ===== Fields (UI giữ y chang) ===== */}
-
-      {/* Class Name */}
+      {/* Tên lớp */}
       <div>
         <label className="block text-sm font-semibold text-[#0E4BA9] mb-1">
-          Class Name <span className="text-red-500">*</span>
+          Tên lớp học <span className="text-red-500">*</span>
         </label>
         <input
           name="name"
           value={formData.name}
           onChange={handleChange}
           required
-          placeholder="Enter class name (e.g., IELTS Foundation 1)"
+          placeholder="Tên lớp học (VD: IELTS Foundation 1)"
           className="w-full border border-blue-200 rounded-lg p-2.5 focus:ring-2 focus:ring-[#0E4BA9] outline-none"
         />
       </div>
 
-      {/* Category */}
+      {/* Phân loại */}
       <div>
         <label className="block text-sm font-semibold text-[#0E4BA9] mb-1">
-          Category <span className="text-red-500">*</span>
+          Phân loại <span className="text-red-500">*</span>
         </label>
         <select
           name="category"
@@ -92,7 +122,7 @@ export default function ClassForm({
           className="w-full border border-blue-200 rounded-lg p-2.5 bg-white focus:ring-2 focus:ring-[#0E4BA9] outline-none"
         >
           <option value="" disabled>
-            Select category
+            Chọn phân loại
           </option>
           {categoryOptions.map((cat) => (
             <option key={cat} value={cat}>
@@ -102,27 +132,17 @@ export default function ClassForm({
         </select>
       </div>
 
-      {/* Teachers / TAs / Schedule */}
-      {[
-        { name: "teacher1", label: "Teacher 1" },
-        { name: "teacher2", label: "Teacher 2" },
-        { name: "ta1", label: "TA 1" },
-        { name: "ta2", label: "TA 2" },
-        {
-          name: "schedule",
-          label: "Schedule",
-          hint: "Example: T4 17:30 - 19:00; T6 17:30 - 19:00",
-        },
-      ].map(({ name, label, hint }) => (
+      {/* Giáo viên / Trợ giảng / Lịch dạy */}
+      {fields.map(({ name, label, hint }) => (
         <div key={name}>
           <label className="block text-sm font-semibold text-[#0E4BA9] mb-1">
             {label}
           </label>
           <input
             name={name}
-            value={(formData as any)[name]}
+            value={formData[name]}
             onChange={handleChange}
-            placeholder={`Enter ${label.toLowerCase()}`}
+            placeholder={`Thêm ${label.toLowerCase()}`}
             className="w-full border border-blue-200 rounded-lg p-2.5 focus:ring-2 focus:ring-[#0E4BA9] outline-none"
           />
           {hint && <p className="text-xs text-gray-400 mt-1">{hint}</p>}

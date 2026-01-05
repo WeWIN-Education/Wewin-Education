@@ -40,7 +40,7 @@ export default function BaseEntityFormModal({
       >
         {/* ===== Header ===== */}
         <div className="flex justify-between items-center mb-4">
-          <div className="flex items-center gap-2 text-xl font-bold">
+          <div className="flex items-center gap-2 text-xl font-bold text-gray-900">
             {title}
           </div>
           <button

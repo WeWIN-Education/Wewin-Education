@@ -7,6 +7,7 @@ import { Pagination, Autoplay } from "swiper/modules";
 import Image from "next/image";
 import { BookOpen, LineChart, Headphones } from "lucide-react";
 
+
 const slides = [
   {
     title: "Lộ trình học thông minh",

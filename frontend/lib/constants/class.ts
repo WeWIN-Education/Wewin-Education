@@ -266,20 +266,20 @@ export const initialData: Class[] = [
 
 export const CLASS_HEADERS = [
   "ID",
-  "Class Name",
-  "Category",
-  "Teachers",
-  "TA",
-  "Schedule",
-  "Students",
-  "Actions",
+  "Tên lớp",
+  "Phân loại",
+  "Giáo viên",
+  "Trợ giảng",
+  "Lịch dạy",
+  "Số học sinh",
+  "Hành động",
 ];
 
 export const STUDENT_HEADERS = [
   "ID",
-  "Name",
-  "Age",
-  "Gender",
-  "Status",
-  "Actions",
+  "Tên học sinh",
+  "Tuổi",
+  "Giới tính",
+  "Trạng thái",
+  "Hành động",
 ];

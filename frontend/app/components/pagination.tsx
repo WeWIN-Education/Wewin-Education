@@ -37,17 +37,17 @@ export function Pagination({
   return (
     <div className="flex flex-col sm:flex-row justify-between items-center mt-6 gap-4 w-full">
       <p className="text-xs sm:text-sm text-gray-600 text-center sm:text-left">
-        Showing <span className="font-semibold">{safeStart + 1}</span>–
+        Danh sách <span className="font-semibold">{safeStart + 1}</span>–
         <span className="font-semibold">
           {Math.min(safeEnd, total)}
         </span>{" "}
-        of {total} {text}
+        của {total} {text}
       </p>
 
       <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-4">
         <div className="flex items-center gap-1 sm:gap-2">
           <label className="text-xs sm:text-sm font-medium text-gray-700">
-            Rows per page:
+            Số hàng:
           </label>
           <select
             value={selectedRows}
@@ -76,7 +76,7 @@ export function Pagination({
                 : "bg-[#0E4BA9] text-white hover:bg-blue-700"
             }`}
           >
-            Prev
+            Trước
           </button>
           <span className="text-xs sm:text-sm font-semibold text-gray-700">
             {currentPage}/{totalPages}
@@ -90,7 +90,7 @@ export function Pagination({
                 : "bg-[#0E4BA9] text-white hover:bg-blue-700"
             }`}
           >
-            Next
+            Sau
           </button>
         </div>
       </div>

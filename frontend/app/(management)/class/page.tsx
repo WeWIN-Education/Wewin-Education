@@ -3,10 +3,7 @@
 import React, { useState } from "react";
 import ClassTable from "@/app/components/class/classTable";
 import { Class, initialData } from "@/lib/constants/class";
-import {
-  Pagination,
-  RowsPerPage,
-} from "@/app/components/pagination";
+import { Pagination, RowsPerPage } from "@/app/components/pagination";
 
 import { CirclePlus } from "lucide-react";
 import EditClassForm from "@/app/components/class/classForm";
@@ -14,6 +11,11 @@ import Button from "@/app/components/button";
 import SearchInput from "@/app/components/search";
 import { useRouter } from "next/navigation";
 import { Routes } from "@/lib/constants/routes";
+
+type StudentPaginationPatch = {
+  page?: number;
+  rows?: RowsPerPage;
+};
 
 export default function ClassPage() {
   const router = useRouter();
@@ -55,7 +57,11 @@ export default function ClassPage() {
   const toggleExpand = (id: string) => {
     setExpanded((prev) => {
       const next = new Set(prev);
-      next.has(id) ? next.delete(id) : next.add(id);
+      if (next.has(id)) {
+        next.delete(id);
+      } else {
+        next.add(id);
+      }
       return next;
     });
   };
@@ -65,7 +71,10 @@ export default function ClassPage() {
     [classId: string]: { page: number; rows: RowsPerPage };
   }>({});
 
-  const updateStudentPagination = (id: string, patch: any) => {
+  const updateStudentPagination = (
+    id: string,
+    patch: StudentPaginationPatch
+  ) => {
     setStudentPagination((prev) => ({
       ...prev,
       [id]: {
@@ -116,7 +125,7 @@ export default function ClassPage() {
         {/* HEADER WITH ADD BUTTON */}
         <div className="flex items-center justify-between gap-4">
           <div className="text-xl lg:text-4xl md:text-3xl sm:text-2xl font-bold text-[#0E4BA9] tracking-tight">
-            Class Management
+            Quản lý lớp học
           </div>
 
           {/* Add Class Button */}
@@ -125,7 +134,7 @@ export default function ClassPage() {
             leftIcon={<CirclePlus />}
             onClick={handleOpenAddModal}
           >
-            Add Class
+            Thêm lớp
           </Button>
         </div>
 
@@ -154,7 +163,7 @@ export default function ClassPage() {
         {/* PAGINATION */}
         <div>
           <Pagination
-            text="Classes"
+            text="Lớp"
             currentPage={currentPage}
             totalPages={totalPages}
             startIndex={startIndex}

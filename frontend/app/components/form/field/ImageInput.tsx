@@ -16,7 +16,7 @@ export default function ImageInput({ value, onChange }: ImageInputProps) {
     <div className="flex items-center gap-4">
       <div
         onClick={() => ref.current?.click()}
-        className="relative w-24 h-24 rounded-xl border border-dashed border-blue-300
+        className="relative w-48 h-48 rounded-xl border border-dashed border-blue-300
                    flex items-center justify-center cursor-pointer
                    hover:bg-blue-50 transition overflow-hidden"
       >
@@ -26,11 +26,11 @@ export default function ImageInput({ value, onChange }: ImageInputProps) {
             alt="preview"
             fill
             sizes="96px"
-            className="object-cover rounded-xl"
+            className="object-contain rounded-xl bg-white"
             unoptimized={value.startsWith("blob:")}
           />
         ) : (
-          <ImagePlus className="w-8 h-8 text-blue-400" />
+          <ImagePlus className="w-10 h-10 text-blue-400 " />
         )}
       </div>
 

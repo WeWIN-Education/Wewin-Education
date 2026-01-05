@@ -20,5 +20,5 @@ export const Routes = {
   MANAGE_CLASS_CATEGORY: "/class/category",
   MANAGE_STUDENT: "/student",
   MANAGE_STORAGE: "/storage",
-  mANAGE_STORAGE_DETAIL: (id: string) => `/storage/${id}`,
+  MANAGE_STORAGE_DETAIL: (id: string) => `/storage/${id}`,
 } as const;

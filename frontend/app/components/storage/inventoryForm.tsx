@@ -2,13 +2,13 @@
 
 import { useEffect, useState } from "react";
 import { CirclePlus, Pencil } from "lucide-react";
-import { MOCK_CATEGORIES } from "@/lib/constants/inventory";
 import FormField from "../form/formField";
 import TextInput from "../form/field/textInput";
 import SelectInput from "../form/field/selectInput";
 import TextArea from "../form/field/textArea";
 import ImageInput from "../form/field/ImageInput";
 import BaseEntityFormModal from "../form";
+import { MOCK_CATEGORIES } from "@/lib/constants/storage/category";
 
 export type InventoryFormData = {
   id: string;
