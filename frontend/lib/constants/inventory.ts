@@ -1,4 +1,4 @@
-import { Category, Product } from "@/types/inventory";
+import { Category, Product } from "@/types/storage";
 
 export const MOCK_CATEGORIES: Category[] = [
   { id: "c1", name: "Văn phòng", isActive: true },

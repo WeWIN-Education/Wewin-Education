@@ -133,7 +133,7 @@ export default function Navbar() {
                 )}
 
                 {/* Dropdown Resources cho người đã đăng nhập (không phải admin) */}
-                {session && !isAdmin && (
+                {session && (
                   <div
                     className="relative"
                     onMouseEnter={() => setDropdownOpen(true)}
@@ -534,6 +534,7 @@ function MobileMenu({
                 ))}
               </div>
             </div>
+
             {/* ADMIN MENU */}
             {session && isAdmin && (
               <>
@@ -597,6 +598,27 @@ function MobileMenu({
                     <span className="text-2xl">👨‍🎓</span>
                     <span className="text-white font-medium text-sm flex-1">
                       Student
+                    </span>
+                  </Link>
+                </div>
+
+                <div className="space-y-2 mt-6">
+                  <div className="flex items-center gap-2 px-3 py-2">
+                    <BookOpen className="w-4 h-4 text-amber-300" />
+                    <h3 className="text-xs font-bold text-amber-200 uppercase tracking-wider">
+                      Storage Management
+                    </h3>
+                  </div>
+                  <Link
+                    href={Routes.MANAGE_STORAGE}
+                    onClick={() => setMenuOpen(false)}
+                    className="group flex items-center gap-3 px-4 py-3 rounded-xl
+                             bg-amber-500/10 hover:bg-amber-500/20 border border-amber-400/30
+                             transition-all duration-200 hover:scale-[1.02]"
+                  >
+                    <span className="text-2xl">👨‍🎓</span>
+                    <span className="text-white font-medium text-sm flex-1">
+                      Storage
                     </span>
                   </Link>
                 </div>
