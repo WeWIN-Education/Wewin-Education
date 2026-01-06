@@ -15,17 +15,20 @@ import { CirclePlus } from "lucide-react";
 /* ===== DATA ===== */
 import {
   MOCK_PRODUCTS,
-  MOCK_CATEGORIES,
   MIN_QTY_BY_PRODUCT_ID,
-} from "@/lib/constants/inventory";
-import type { Product, Category } from "@/types/inventory";
+} from "@/lib/constants/storage/product";
+import type { Product } from "@/types/storage";
 import PageToolbar from "@/app/components/toolBar";
 import ConfirmPopup from "@/app/components/confirmPopup";
+import { useRouter } from "next/navigation";
+import { Routes } from "@/lib/constants/routes";
+import { getStockStatus } from "@/app/utils/stockStatus";
 
 /* =======================================================
    PAGE
 ======================================================= */
 export default function StoragePage() {
+  const router = useRouter();
   /* ================= FORM STATE ================= */
   const [openForm, setOpenForm] = useState<{
     mode: "add" | "edit";
@@ -37,18 +40,28 @@ export default function StoragePage() {
     name: string;
   } | null>(null);
   const [search, setSearch] = useState("");
+  const [hoverPreview, setHoverPreview] = useState<{
+    visible: boolean;
+    x: number;
+    y: number;
+    name: string;
+    imageUrl?: string;
+  }>({
+    visible: false,
+    x: 0,
+    y: 0,
+    name: "",
+    imageUrl: undefined,
+  });
 
   /* ================= SOURCE DATA ================= */
   const products: Product[] = MOCK_PRODUCTS;
-  const categories: Category[] = MOCK_CATEGORIES;
 
   /* ================= MAP FOR UI ================= */
   const tableData = products.map((p) => {
-    const category = categories.find((c) => c.id === p.categoryId);
-
     return {
       ...p,
-      categoryName: category?.name ?? "—",
+      categoryName: p.categoryId?.name ?? "—",
       minQuantity: MIN_QTY_BY_PRODUCT_ID[p.id] ?? 0,
     };
   });
@@ -107,25 +120,35 @@ export default function StoragePage() {
         data={filteredTableData}
         getKey={(row) => row.id}
         renderRow={(row) => {
-          const status =
-            row.quantity === 0
-              ? "Hết hàng"
-              : row.quantity <= row.minQuantity
-              ? "Sắp hết"
-              : "Còn hàng";
-
-          const statusColor =
-            row.quantity === 0
-              ? "text-red-600"
-              : row.quantity <= row.minQuantity
-              ? "text-yellow-600"
-              : "text-green-600";
-
+          const stock = getStockStatus(row.quantity, row.minQuantity);
           return (
             <>
               <td className="px-6 py-3 text-center font-medium">{row.id}</td>
               <td className="px-6 py-3 font-semibold text-[#0E4BA9]">
-                {row.name}
+                <span
+                  className="cursor-default underline-offset-2 hover:underline"
+                  onMouseEnter={(e) => {
+                    setHoverPreview({
+                      visible: true,
+                      x: e.clientX,
+                      y: e.clientY,
+                      name: row.name,
+                      imageUrl: row.imageUrl, // nếu field bạn đang dùng tên khác, đổi tại đây
+                    });
+                  }}
+                  onMouseMove={(e) => {
+                    setHoverPreview((prev) =>
+                      prev.visible
+                        ? { ...prev, x: e.clientX, y: e.clientY }
+                        : prev
+                    );
+                  }}
+                  onMouseLeave={() => {
+                    setHoverPreview((prev) => ({ ...prev, visible: false }));
+                  }}
+                >
+                  {row.name}
+                </span>
               </td>
               <td className="px-6 py-3 text-center">{row.categoryName}</td>
               <td className="px-6 py-3 text-center font-bold">
@@ -133,9 +156,9 @@ export default function StoragePage() {
               </td>
               <td className="px-6 py-3 text-center">{row.unit}</td>
               <td
-                className={`px-6 py-3 text-center font-semibold ${statusColor}`}
+                className={`px-6 py-3 text-center font-semibold ${stock.textColor}`}
               >
-                {status}
+                {stock.label}
               </td>
             </>
           );
@@ -190,13 +213,15 @@ export default function StoragePage() {
               data: {
                 id: row.id,
                 name: row.name,
-                categoryId: row.categoryId,
+                categoryId: row.categoryId.id, // ✅ LẤY ID
                 unit: row.unit,
                 quantity: row.quantity,
               },
             });
           },
-          onView: (row) => console.log("VIEW PRODUCT", row.id),
+          onView: (row) => {
+            router.push(Routes.MANAGE_STORAGE_DETAIL(row.id));
+          },
           onDisable: (row) =>
             setDisableTarget({
               id: row.id,
@@ -244,6 +269,67 @@ export default function StoragePage() {
           setDisableTarget(null);
         }}
       />
+      {/* ================= BEAUTIFUL HOVER PREVIEW ================= */}
+      {hoverPreview.visible && (
+        <div
+          className="fixed z-99999 pointer-events-none"
+          style={{
+            left: hoverPreview.x + 18,
+            top: hoverPreview.y + 18,
+          }}
+        >
+          <div
+            className="
+              relative w-96 rounded-3xl
+              bg-white/90 backdrop-blur-xl
+              shadow-[0_20px_50px_rgba(0,0,0,0.25)]
+              border border-white/60
+              animate-tooltip-in
+            "
+          >
+            {/* ===== ARROW ===== */}
+            <div
+              className="
+                absolute -left-3 top-8
+                w-4 h-4 rotate-45
+                bg-white/90
+                border-l border-t border-white/60
+              "
+            />
+
+            {/* ===== HEADER ===== */}
+            <div className="px-4 py-2 text-sm font-semibold text-[#0E4BA9] border-b border-gray-200/60">
+              {hoverPreview.name}
+            </div>
+
+            {/* ===== IMAGE ===== */}
+            <div className="p-4">
+              {hoverPreview.imageUrl ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
+                  src={hoverPreview.imageUrl}
+                  alt={hoverPreview.name}
+                  className="
+                    w-full h-56 object-cover rounded-2xl
+                    shadow-md
+                  "
+                />
+              ) : (
+                <div
+                  className="
+                    w-full h-36 rounded-2xl
+                    bg-linear-to-br from-gray-100 to-gray-200
+                    flex items-center justify-center
+                    text-sm text-gray-500 italic
+                  "
+                >
+                  Không có hình ảnh
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

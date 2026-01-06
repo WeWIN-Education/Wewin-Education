@@ -1,12 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import {
-  Package,
-  AlertTriangle,
-  XCircle,
-  Layers,
-} from "lucide-react";
+import { Package, AlertTriangle, XCircle, Layers } from "lucide-react";
 
 export type StatTone = "neutral" | "positive" | "warning" | "negative";
 
@@ -94,9 +89,8 @@ export default function StatCard({
 
       {/* Content */}
       <div className="flex-1">
-        <p className="text-sm font-semibold text-gray-500">
-          {title}
-        </p>
+        <p className="text-sm font-semibold text-gray-500"></p>
+        <p className="text-sm font-semibold text-gray-500">{title}</p>
 
         <div className="flex items-end gap-1">
           <span
@@ -105,17 +99,11 @@ export default function StatCard({
             {value}
           </span>
           {unit && (
-            <span className="px-1 py-1 text-sm text-gray-500">
-              {unit}
-            </span>
+            <span className="px-1 py-1 text-sm text-gray-500">{unit}</span>
           )}
         </div>
 
-        {subtitle && (
-          <p className="text-xs text-gray-400 mt-1">
-            {subtitle}
-          </p>
-        )}
+        {subtitle && <p className="text-xs text-gray-400 mt-1">{subtitle}</p>}
       </div>
     </motion.div>
   );

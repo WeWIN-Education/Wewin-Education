@@ -51,3 +51,21 @@ export function toPureArrayBuffer(u8: Uint8Array): ArrayBuffer {
   view.set(u8);
   return buffer; // always pure ArrayBuffer (never SharedArrayBuffer)
 }
+
+// yyyy-mm-dd 또는 ISO → dd/mm/yyyy hh:mm:ss
+export function formatDateTimeFull(value?: string | Date | null): string {
+  if (!value) return "";
+
+  const d = value instanceof Date ? value : new Date(value);
+  if (isNaN(d.getTime())) return "";
+
+  const dd = String(d.getDate()).padStart(2, "0");
+  const mm = String(d.getMonth() + 1).padStart(2, "0");
+  const yyyy = d.getFullYear();
+
+  const hh = String(d.getHours()).padStart(2, "0");
+  const mi = String(d.getMinutes()).padStart(2, "0");
+  const ss = String(d.getSeconds()).padStart(2, "0");
+
+  return `${dd}/${mm}/${yyyy} ${hh}:${mi}:${ss}`;
+}

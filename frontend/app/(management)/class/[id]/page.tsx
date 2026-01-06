@@ -67,7 +67,7 @@ export default function ClassDetailPage() {
     <div className="min-h-screen bg-linear-to-br from-blue-50 to-indigo-50 p-6 font-[Lexend]">
       <div className="max-w-8xl mx-auto">
         {/* 🔹 Back */}
-        <ClassUI.BackButton onClick={() => router.push(Routes.MANAGE_CLASS)} />
+        <ClassUI.BackButton onClick={() => router.push(Routes.MANAGE_CLASS)}  label="Back to Classes"/>
 
         {/* 🔹 Header + Stats */}
         <div className="bg-white rounded-2xl shadow-xl overflow-hidden mb-8">
