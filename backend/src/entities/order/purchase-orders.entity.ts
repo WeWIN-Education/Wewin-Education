@@ -1,17 +1,18 @@
 import {
   Column,
   Entity,
+  JoinColumn,
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { PurchaseOrdersItems } from './purchase-orders-items.entity';
-import { User } from '../user/user.entity';
 import {
   PURCHASE_ORDERS_STATUS_ENUM,
   PURCHASE_ORDERS_TYPE_ENUM,
 } from '../../util/enum';
 import { BaseEntity } from '../base.entity';
+import { User } from '../user/user.entity';
 
 @Entity()
 export class PurchaseOrders extends BaseEntity {
@@ -27,7 +28,7 @@ export class PurchaseOrders extends BaseEntity {
   @Column({ type: 'text', nullable: true })
   note: string;
 
-  @Column({ type: 'simple-array', nullable: true })
+  @Column({ name: 'image_url', type: 'simple-array', nullable: true })
   imageUrl: string[] | null;
 
   @Column({ type: 'enum', enum: PURCHASE_ORDERS_STATUS_ENUM, nullable: true })
@@ -36,13 +37,14 @@ export class PurchaseOrders extends BaseEntity {
   @Column({ type: 'enum', enum: PURCHASE_ORDERS_TYPE_ENUM, nullable: true })
   type: PURCHASE_ORDERS_TYPE_ENUM;
 
-  @ManyToOne(() => User, (user) => user.id, { cascade: false })
+  @ManyToOne(() => User)
+  @JoinColumn({ name: 'create_by' })
   createBy: User;
 
   @OneToMany(
     () => PurchaseOrdersItems,
     (purchaseOrderItem) => purchaseOrderItem.purchaseOrder,
-    { cascade: true },
+    { cascade: true, orphanedRowAction: 'delete' },
   )
   items: PurchaseOrdersItems[];
 }
