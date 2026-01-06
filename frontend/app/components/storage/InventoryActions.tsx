@@ -3,8 +3,8 @@
 import { CirclePlus, MinusCircleIcon, PlusCircle } from "lucide-react";
 import { useState } from "react";
 import BaseEntityFormModal from "../form";
-import ImportInventoryForm from "../../(management)/storage/[id]/components/importInventoryForm";
-import ExportInventoryForm from "../../(management)/storage/[id]/components/exportInventoryForm";
+import ImportInventoryForm from "../../(management)/storage/list/[id]/components/importInventoryForm";
+import ExportInventoryForm from "../../(management)/storage/list/[id]/components/exportInventoryForm";
 
 export default function InventoryActions({ productId }: { productId: string }) {
   const [openImport, setOpenImport] = useState(false);

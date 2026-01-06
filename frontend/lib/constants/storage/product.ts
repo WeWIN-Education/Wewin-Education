@@ -17,7 +17,7 @@ export const MOCK_PRODUCTS: Product[] = [
     status: "IN_STOCK",
     createdAt: "2025-01-01T08:00:00.000Z",
     updatedAt: "2025-01-05T10:30:00.000Z",
-    inventoryDocmentsId: [MOCK_INVENTORY_DOCUMENTS[0]],
+    inventoryDocuments: [MOCK_INVENTORY_DOCUMENTS[0]],
     categoryId: MOCK_CATEGORIES[0],
   },
   {
@@ -31,7 +31,7 @@ export const MOCK_PRODUCTS: Product[] = [
     status: "LOW_STOCK",
     createdAt: "2025-01-02T09:00:00.000Z",
     updatedAt: "2025-01-05T10:30:00.000Z",
-    inventoryDocmentsId: [
+    inventoryDocuments: [
       MOCK_INVENTORY_DOCUMENTS[0],
       MOCK_INVENTORY_DOCUMENTS[1],
     ],
@@ -48,7 +48,7 @@ export const MOCK_PRODUCTS: Product[] = [
     status: "OUT_OF_STOCK",
     createdAt: "2025-01-03T09:00:00.000Z",
     updatedAt: "2025-01-05T10:30:00.000Z",
-    inventoryDocmentsId: [],
+    inventoryDocuments: [],
     categoryId: MOCK_CATEGORIES[1],
   },
 ];

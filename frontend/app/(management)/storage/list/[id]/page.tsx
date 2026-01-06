@@ -64,8 +64,8 @@ export default function ProductDetailPage() {
   );
 
   const documentMap = useMemo(
-    () => new Map(product.inventoryDocmentsId.map((d) => [d.id, d])),
-    [product.inventoryDocmentsId]
+    () => new Map(product.inventoryDocuments.map((d) => [d.id, d])),
+    [product.inventoryDocuments]
   );
 
   const history: InventoryHistoryView[] = useMemo(() => {
@@ -73,7 +73,7 @@ export default function ProductDetailPage() {
       const doc = documentMap.get(item.inventoryDocumentId);
       return {
         id: doc?.id ?? "—",
-        date: formatDateTimeFull(item.creadedAt),
+        date: formatDateTimeFull(item.createdAt),
         type: item.quantity > 0 ? "IN" : "OUT",
         quantity: Math.abs(item.quantity),
         note: doc?.note ?? "—",
@@ -112,7 +112,7 @@ export default function ProductDetailPage() {
           Quản lý kho thiết bị
         </button>
         <ChevronRight size={16} />
-        <span className="font-medium text-blue-600">{product.name}</span>
+        <span className="font-medium text-blue-600">{product.name} ({product.code})</span>
       </div>
 
       {/* ================= ACTION BAR ================= */}

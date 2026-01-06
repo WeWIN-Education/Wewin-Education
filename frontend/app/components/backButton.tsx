@@ -16,7 +16,7 @@ export function BackButton({ onClick, label }: BackButtonProps) {
       "
     >
       <ArrowLeft className="w-5 h-5" />
-      <span className="font-medium text-sm sm:text-base cursor-pointer">
+      <span className="font-medium text-xs sm:text-lg cursor-pointer">
         {label}
       </span>
     </button>

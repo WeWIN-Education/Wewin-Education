@@ -5,13 +5,13 @@ export interface Product {
   code: string;
   name: string;
   unit: string;
-  quantity: number;   // TỒN KHO HIỆN TẠI
+  quantity: number; // TỒN KHO HIỆN TẠI
   imageUrl?: string;
   status: string;
-  createdAt: string;   // ISO
-  updatedAt: string;   // ISO
-  inventoryDocmentsId: Inventory_Docment[];  // MẢNG CÁC PHIẾU NHẬP/XUẤT HÀNG LIÊN QUAN
-  categoryId: Category;  // FK → Category.id
+  createdAt: string; // ISO
+  updatedAt: string; // ISO
+  inventoryDocuments: Inventory_Docment[]; // MẢNG CÁC PHIẾU NHẬP/XUẤT HÀNG LIÊN QUAN
+  categoryId: Category; // FK → Category.id
 }
 
 export interface Category {
@@ -25,16 +25,25 @@ export interface Purchase_Orders {
   code: string;
   name: string;
   note?: string;
-  status: string;
+  status: ApprovalStatus;
   type: Type;
-  createdBy: User;   // FK → User.id
-  createdAt: string;   // ISO
-  updatedAt: string;   // ISO
+  createdBy: User; // FK → User.id
+  createdAt: string; // ISO
+  updatedAt: string; // ISO
 }
+
+export type ApprovalStatus =
+  | "DRAFT"
+  | "REQUESTED"
+  | "APPROVED"
+  | "ORDER_REQUEST"
+  | "ORDER_APPROVED"
+  | "CANCELLED"
+  | "SUCCESS";
 
 export interface Purchase_Order_Items {
   productId: string;
-  orderId: string; 
+  orderId: string;
   quantityRequest: number;
   unitPriceRequest: number;
   vatPriceRequest: number;
@@ -50,18 +59,18 @@ export interface Purchase_Order_Items {
 export interface Inventory_Docment {
   id: string;
   note?: string;
-  createdAt: string;   // ISO
-  updatedAt: string;   // ISO
-  createdBy: User;   // FK → User.id
+  createdAt: string; // ISO
+  updatedAt: string; // ISO
+  createdBy: User; // FK → User.id
 }
 
 export interface Inventory_Docment_Items {
   id: string;
   quantity: number;
-  creadedAt: string;
+  createdAt: string;
   updatedAt: string;
-  productId: Product;           // giữ nguyên
-  inventoryDocumentId: string;  // ✅ NEW – FK tới Inventory_Docment.id
+  productId: Product; // giữ nguyên
+  inventoryDocumentId: string; // ✅ NEW – FK tới Inventory_Docment.id
 }
 
 export type Type = "IN" | "OUT";

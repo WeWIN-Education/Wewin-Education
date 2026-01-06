@@ -13,6 +13,8 @@ import {
   Warehouse,
   School,
   List,
+  ListChecks,
+  History,
 } from "lucide-react";
 import { Routes } from "@/lib/constants/routes";
 
@@ -26,8 +28,15 @@ export default function Sidebar() {
   /* ===== UI STATE ===== */
   const [manualOpen, setManualOpen] = useState(true);
   const [collapsed, setCollapsed] = useState(false);
-
   const openMenu = isClassRoute || manualOpen;
+
+  const isStorageRoute =
+    pathname === Routes.MANAGE_STORAGE ||
+    pathname.startsWith(`${Routes.MANAGE_STORAGE}/`);
+
+  const [storageOpen, setStorageOpen] = useState(true);
+
+  const openStorageMenu = isStorageRoute || storageOpen;
 
   // ✅ Logic xác định active
   const isActive = (href: string) => pathname === href;
@@ -48,8 +57,10 @@ export default function Sidebar() {
         </div>
         {!collapsed && (
           <div>
-            <h2 className="text-sm font-semibold text-white/90">Admin Panel</h2>
-            <p className="text-xs text-white/60">Management System</p>
+            <h2 className="text-sm font-semibold text-white/90">
+              Bảng điều khiển
+            </h2>
+            <p className="text-xs text-white/60">Hệ thống quản lý</p>
           </div>
         )}
       </div>
@@ -79,9 +90,7 @@ export default function Sidebar() {
                 <School className="w-4 h-4" />
               </div>
               {!collapsed && (
-                <span className="font-semibold text-[15px]">
-                  Class
-                </span>
+                <span className="font-semibold text-[15px]">Lớp học</span>
               )}
             </span>
 
@@ -103,7 +112,7 @@ export default function Sidebar() {
               <li>
                 <SidebarLink
                   href={Routes.MANAGE_CLASS}
-                  label="List"
+                  label="Danh sách"
                   icon={<List className="w-4 h-4" />}
                   active={isActive(Routes.MANAGE_CLASS)}
                 />
@@ -111,7 +120,7 @@ export default function Sidebar() {
               <li>
                 <SidebarLink
                   href={Routes.MANAGE_CLASS_CATEGORY}
-                  label="Category"
+                  label="Phân loại"
                   icon={<FolderOpen className="w-4 h-4" />}
                   active={isActive(Routes.MANAGE_CLASS_CATEGORY)}
                 />
@@ -123,20 +132,82 @@ export default function Sidebar() {
         {/* Student Link */}
         <SidebarLink
           href={Routes.MANAGE_STUDENT}
-          label="Student"
+          label="Học sinh"
           icon={<Users className="w-4 h-4" />}
           active={isActive(Routes.MANAGE_STUDENT)}
           collapsed={collapsed}
         />
 
-        {/* Storage Link */}
-        <SidebarLink
-          href={Routes.MANAGE_STORAGE}
-          label="Storage"
-          icon={<Warehouse className="w-4 h-4" />}
-          active={isActive(Routes.MANAGE_STORAGE)}
-          collapsed={collapsed}
-        />
+        {/* Group: Storage Management */}
+        <div>
+          <button
+            onClick={() => setStorageOpen((v) => !v)}
+            className={`flex items-center justify-between w-full text-left px-3 py-2.5 rounded-xl 
+            transition-all duration-200 group 
+            ${
+              isGroupActive(Routes.MANAGE_STORAGE)
+                ? "bg-white/10"
+                : "hover:bg-white/10"
+            }`}
+          >
+            <span className="flex items-center gap-3">
+              <div
+                className={`w-8 h-8 rounded-lg flex items-center justify-center transition-all ${
+                  isGroupActive(Routes.MANAGE_STORAGE)
+                    ? "bg-white/20"
+                    : "bg-white/10 group-hover:bg-white/20"
+                }`}
+              >
+                <Warehouse className="w-4 h-4" />
+              </div>
+
+              {!collapsed && (
+                <span className="font-semibold text-[15px]">Kho lưu trữ</span>
+              )}
+            </span>
+
+            {!collapsed && (
+              <div
+                className={`w-6 h-6 bg-white/10 rounded-md flex items-center justify-center 
+          group-hover:bg-white/20 transition-all ${
+            openStorageMenu ? "rotate-0" : "-rotate-90"
+          }`}
+              >
+                <ChevronDown size={14} className="text-white/80" />
+              </div>
+            )}
+          </button>
+
+          {/* Submenu Storage */}
+          {!collapsed && openStorageMenu && (
+            <ul className="ml-3 mt-2 space-y-1 border-l-2 border-white/20 pl-4">
+              <li>
+                <SidebarLink
+                  href={Routes.MANAGE_STORAGE_LIST}
+                  label="Danh sách"
+                  icon={<List className="w-4 h-4" />}
+                  active={isActive(Routes.MANAGE_STORAGE_LIST)}
+                />
+              </li>
+              <li>
+                <SidebarLink
+                  href={Routes.MANAGE_STORAGE_REQUEST}
+                  label="Chờ duyệt"
+                  icon={<ListChecks className="w-4 h-4" />}
+                  active={isActive(Routes.MANAGE_STORAGE_REQUEST )}
+                />
+              </li>
+              <li>
+                <SidebarLink
+                  href={Routes.MANAGE_STORAGE_HISTORY}
+                  label="Lịch sử"
+                  icon={<History className="w-4 h-4" />}
+                  active={isActive(Routes.MANAGE_STORAGE_HISTORY)}
+                />
+              </li>
+            </ul>
+          )}
+        </div>
       </nav>
 
       {/* 🔹 Nút toggle thu gọn ở cuối sidebar */}
