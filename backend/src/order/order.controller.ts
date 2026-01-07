@@ -15,6 +15,7 @@ import { CreateOrderDto } from './dto/create-order.dto';
 import { PURCHASE_ORDERS_STATUS_ENUM } from 'src/util/enum';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { UpdateOrderDto } from './dto/update-order.dto';
+import { UpdateStatusDto } from 'src/user/dto/update-status.dto';
 
 @Controller('order')
 export class OrderController {
@@ -45,6 +46,11 @@ export class OrderController {
     return this.orderService.findByStatus(status, req.user.id);
   }
 
+  @Get(':id/duplicate')
+  copyPurchaseOrder(@Param('id') id: string) {
+    return this.orderService.duplicatePurchaseOrder(id);
+  }
+
   @UseGuards(JwtAuthGuard)
   @Post('create')
   create(@Body() createOrderDto: CreateOrderDto, @Req() req) {
@@ -57,13 +63,15 @@ export class OrderController {
     return this.orderService.update(id, updateOrderDto);
   }
 
-  @Patch(':id/updateStatus')
+  @UseGuards(JwtAuthGuard)
+  @Post(':id/status')
   updateStatus(
     @Param('id') id: string,
-    @Body('status') status: PURCHASE_ORDERS_STATUS_ENUM,
+    @Body()
+    updateStatusDto: UpdateStatusDto,
     @Req() req,
   ) {
-    return this.orderService.updateStatus(id, status, req.user.id);
+    return this.orderService.updateStatus(id, req.user.id, updateStatusDto);
   }
 
   @UseGuards(JwtAuthGuard)

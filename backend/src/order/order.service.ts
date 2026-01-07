@@ -3,10 +3,14 @@ import { CreateOrderDto } from './dto/create-order.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DataSource, In, Repository } from 'typeorm';
 import { PurchaseOrders } from 'src/entities/order/purchase-orders.entity';
-import { PURCHASE_ORDERS_STATUS_ENUM } from 'src/util/enum';
+import {
+  PURCHASE_ORDERS_ACTION_ENUM,
+  PURCHASE_ORDERS_STATUS_ENUM,
+} from 'src/util/enum';
 import { UserService } from 'src/user/user.service';
 import { Product } from 'src/entities/inventory/product.entity';
 import { UpdateOrderDto } from './dto/update-order.dto';
+import { UpdateStatusDto } from 'src/user/dto/update-status.dto';
 
 type WhereCondition<T> = Partial<Record<keyof T, any>>;
 
@@ -123,6 +127,22 @@ export class OrderService {
     return this.convertDBToResponse(purchaseOrders);
   }
 
+  async duplicatePurchaseOrder(id: string) {
+    const purchaseOrders = await this.findByCondition({
+      id,
+    });
+
+    const purchaseOrder = {
+      ...purchaseOrders[0],
+      id: '',
+      status: PURCHASE_ORDERS_STATUS_ENUM.DRAFT,
+      isActive: true,
+      deleteAt: null,
+    };
+
+    return purchaseOrder;
+  }
+
   async update(id: string, updateOrderDto: UpdateOrderDto) {
     const purchaseOrder = await this.repoPurchaseOrders.findOne({
       where: {
@@ -150,8 +170,8 @@ export class OrderService {
 
   async updateStatus(
     id: string,
-    status: PURCHASE_ORDERS_STATUS_ENUM,
     userId: string,
+    updateStatusDto: UpdateStatusDto,
   ) {
     const purchaseOrder = await this.repoPurchaseOrders.findOne({
       where: {
@@ -163,30 +183,80 @@ export class OrderService {
       throw new Error('Order not found');
     }
 
-    if (this.allowedStatusesForAdminAction.includes(purchaseOrder.status)) {
-      const user = await this.userService.findOne(userId);
-      if (!user) {
-        throw new Error('User not found');
-      }
+    const stateAction = this.doAction(updateStatusDto.action);
 
-      const roles = user.roles
-        .map((role) => role.name)
-        .filter((name) => name === 'ADMIN');
+    const isValidStatus = Array.isArray(stateAction.from)
+      ? stateAction.from.includes(purchaseOrder.status)
+      : purchaseOrder.status === stateAction.from;
 
-      if (roles.length === 0) {
-        throw new Error('You are not authorized to approved this order');
-      }
+    if (!isValidStatus) {
+      throw new Error('Cannot update purchase order status');
     }
 
-    purchaseOrder.status = status;
+    const user = await this.userService.findOne(userId);
+    if (!user) {
+      throw new Error('User not found');
+    }
+
+    const roles = user.roles
+      .map((role) => role.name)
+      .filter((name) => stateAction.permission.includes(name));
+
+    if (roles.length === 0) {
+      throw new Error('You are not authorized to approved this order');
+    }
+
+    purchaseOrder.status = stateAction.to;
     purchaseOrder.updateAt = new Date();
 
     await this.repoPurchaseOrders.save(purchaseOrder);
 
     return {
       statusCode: 201,
+      newStatus: stateAction.to,
       message: 'Order status updated successfully',
     };
+  }
+
+  private doAction(action: PURCHASE_ORDERS_ACTION_ENUM) {
+    switch (action) {
+      case PURCHASE_ORDERS_ACTION_ENUM.REQUEST:
+        return {
+          from: PURCHASE_ORDERS_STATUS_ENUM.DRAFT,
+          to: PURCHASE_ORDERS_STATUS_ENUM.REQUESTED,
+          permission: ['USER', 'ADMIN'],
+        };
+      case PURCHASE_ORDERS_ACTION_ENUM.APPROVE:
+        return {
+          from: PURCHASE_ORDERS_STATUS_ENUM.REQUESTED,
+          to: PURCHASE_ORDERS_STATUS_ENUM.APPROVED,
+          permission: ['ADMIN'],
+        };
+      case PURCHASE_ORDERS_ACTION_ENUM.ORDER:
+        return {
+          from: PURCHASE_ORDERS_STATUS_ENUM.APPROVED,
+          to: PURCHASE_ORDERS_STATUS_ENUM.ORDER_REQUESTED,
+          permission: ['USER', 'ADMIN'],
+        };
+      case PURCHASE_ORDERS_ACTION_ENUM.ORDER_APPROVE:
+        return {
+          from: PURCHASE_ORDERS_STATUS_ENUM.ORDER_REQUESTED,
+          to: PURCHASE_ORDERS_STATUS_ENUM.ORDER_APPROVED,
+          permission: ['ADMIN'],
+        };
+      case PURCHASE_ORDERS_ACTION_ENUM.CANCEL:
+        return {
+          from: [
+            PURCHASE_ORDERS_STATUS_ENUM.REQUESTED,
+            PURCHASE_ORDERS_STATUS_ENUM.APPROVED,
+            PURCHASE_ORDERS_STATUS_ENUM.ORDER_APPROVED,
+          ],
+          to: PURCHASE_ORDERS_STATUS_ENUM.CANCELLED,
+          permission: ['USER', 'ADMIN'],
+        };
+      default:
+        throw new Error('Invalid action');
+    }
   }
 
   async remove(id: string) {
@@ -202,7 +272,7 @@ export class OrderService {
     };
   }
 
-  convertDBToResponse(purchaseOrders: PurchaseOrders[]) {
+  private convertDBToResponse(purchaseOrders: PurchaseOrders[]) {
     return purchaseOrders.map((order) => ({
       ...order,
       createBy: {
