@@ -1,14 +1,6 @@
-import {
-  Column,
-  Entity,
-  ManyToOne,
-  OneToMany,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
-import { Category } from './category.entity';
-import { IntentoryDocumentItems } from './inventory-document-items.entity';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { InventoryDocumentItems } from './inventory-document-items.entity';
 import { PurchaseOrdersItems } from '../order/purchase-orders-items.entity';
-import { InventoryDocument } from './inventory-document.entity';
 import { PRODUCT_STATUS_ENUM } from '../../util/enum';
 import { BaseEntity } from '../base.entity';
 
@@ -29,30 +21,27 @@ export class Product extends BaseEntity {
   @Column({ type: 'int', nullable: true })
   quantity: number;
 
-  @Column({ type: 'simple-array', nullable: true })
+  @Column({ type: 'simple-array', nullable: true, name: 'image_url' })
   imageUrl: string[] | null;
 
   @Column({ type: 'enum', enum: PRODUCT_STATUS_ENUM, nullable: true })
   status: PRODUCT_STATUS_ENUM;
 
-  @ManyToOne(() => Category, (category) => category.id)
-  category: Category;
+  @Column({ name: 'category_id', type: 'uuid', nullable: false })
+  categoryId: string;
 
-  @ManyToOne(
-    () => InventoryDocument,
-    (inventoryDocument) => inventoryDocument.id,
-  )
-  inventoryDocument: InventoryDocument;
+  @Column({ name: 'inventory_document_id', type: 'uuid', nullable: false })
+  inventoryDocumentId: string;
 
   @OneToMany(
-    () => IntentoryDocumentItems,
-    (inventoryDocumentItems) => inventoryDocumentItems.id,
+    () => InventoryDocumentItems,
+    (inventoryDocumentItems) => inventoryDocumentItems.productId,
     {
       cascade: true,
       onDelete: 'CASCADE',
     },
   )
-  inventoryDocumentItems: IntentoryDocumentItems[];
+  inventoryDocumentItems: InventoryDocumentItems[];
 
   @OneToMany(
     () => PurchaseOrdersItems,

@@ -50,6 +50,7 @@ export default function EditClassForm({
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       className="fixed inset-0 bg-black/40 flex justify-center items-center z-50"
+      onClick={onCancel}
     >
       <motion.div
         initial={{ scale: 0.9 }}
@@ -57,6 +58,7 @@ export default function EditClassForm({
         exit={{ scale: 0.9 }}
         transition={{ duration: 0.25 }}
         className="bg-white rounded-2xl shadow-xl w-[90%] max-w-lg p-6"
+        onClick={(e) => e.stopPropagation()} 
       >
         {/* Header */}
         <div className="flex justify-between items-center mb-4">

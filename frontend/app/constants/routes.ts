@@ -16,6 +16,7 @@ export const Routes = {
   RESOURCES_GAMES_MOVERS: "/resources/mover/Games",
   RESOURCES_GAMES_FLYERS: "/resources/flyer/Games",
   MANAGE_CLASS: "/class",
+  MANAGE_CLASS_DETAIL: (id: string) => `/class/${id}`,
   MANAGE_CLASS_CATEGORY: "/class/category",
   MANAGE_STUDENT: "/student",
-};
+} as const;

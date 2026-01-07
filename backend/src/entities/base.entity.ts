@@ -1,16 +1,31 @@
-import { Column } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  DeleteDateColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 
 export abstract class BaseEntity {
-  @Column({ type: 'boolean', default: true })
+  @Column({ type: 'boolean', default: true, name: 'is_active' })
   isActive: boolean;
 
-  @Column({ type: 'date', nullable: false, default: () => 'CURRENT_DATE' })
-  createAt: Date;
-
-  @Column({
-    type: 'date',
-    default: () => 'CURRENT_DATE',
-    onUpdate: 'CURRENT_DATE',
+  @CreateDateColumn({
+    name: 'create_at',
+    type: 'timestamp',
   })
-  updateAt: Date;
+  createAt?: Date;
+
+  @UpdateDateColumn({
+    name: 'update_at',
+    type: 'timestamp',
+  })
+  updateAt?: Date;
+
+  @DeleteDateColumn({
+    name: 'delete_at',
+    type: 'timestamp',
+    select: false,
+    nullable: true,
+  })
+  deleteAt: Date;
 }

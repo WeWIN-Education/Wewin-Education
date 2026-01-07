@@ -1,15 +1,21 @@
 // =======================
 // 🔹 Interfaces
 // =======================
+// =======================
+// 🔹 Interfaces (DOMAIN)
+// =======================
+
+export type StudentStatus = "Active" | "Inactive";
+
 export interface Student {
   id: string;
   name: string;
-  dob: Date;
-  gender: string;
+  dob: Date; // ✅ Date thật
+  gender: "Male" | "Female";
   email?: string;
   phone?: string;
   address?: string;
-  status: string;
+  status: StudentStatus;
 }
 
 export interface Resource {
@@ -17,7 +23,7 @@ export interface Resource {
   title: string;
   type: string;
   link: string;
-  description: string;
+  description?: string; // ✅ optional
 }
 
 export interface Class {
@@ -28,7 +34,7 @@ export interface Class {
   teacher2?: string | null;
   ta1?: string | null;
   ta2?: string | null;
-  schedule: Array<string> | string;
+  schedule: string[] | string;
   students: Student[];
   resources?: Resource[];
 }
