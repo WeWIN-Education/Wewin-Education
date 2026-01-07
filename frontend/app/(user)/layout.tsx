@@ -19,3 +19,4 @@ export default async function ManagementLayout({
 
   return <>{children}</>;
 }
+

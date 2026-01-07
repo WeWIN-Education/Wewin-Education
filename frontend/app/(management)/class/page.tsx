@@ -9,16 +9,35 @@ import {
   RowsPerPage,
 } from "@/app/components/pagination";
 
-export default function ClassPage() {
-  const [data] = useState<Class[]>(initialData);
+import { CirclePlus, Search, BookOpen, School } from "lucide-react";
+import EditClassForm from "@/app/components/class/classForm";
+import Button from "@/app/components/button";
+import SearchInput from "@/app/components/search";
+import { useRouter } from "next/navigation";
+import { Routes } from "@/app/constants/routes";
 
-  /* --------------------------------------------- */
-  /* CLASS LIST PAGINATION (desktop + mobile outer) */
-  /* --------------------------------------------- */
+export default function ClassPage() {
+  const router = useRouter();
+
+  const [data, setData] = useState<Class[]>(initialData);
+
+  /* ------------------------------- SEARCH ------------------------------- */
+  const [search, setSearch] = useState("");
+
+  const filtered = data.filter((cls) => {
+    const query = search.toLowerCase();
+    return (
+      cls.name.toLowerCase().includes(query) ||
+      cls.category.toLowerCase().includes(query) ||
+      cls.teacher1?.toLowerCase().includes(query)
+    );
+  });
+
+  /* ------------------------- PAGINATION CLASS LIST ---------------------- */
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState<RowsPerPage>(10);
 
-  const totalClasses = data.length;
+  const totalClasses = filtered.length;
   const totalPages =
     rowsPerPage === "all"
       ? 1
@@ -30,11 +49,9 @@ export default function ClassPage() {
   const endIndex =
     rowsPerPage === "all" ? totalClasses : startIndex + (rowsPerPage as number);
 
-  const displayedClasses = data.slice(startIndex, endIndex);
+  const displayedClasses = filtered.slice(startIndex, endIndex);
 
-  /* --------------------------------------------- */
-  /* EXPAND STATE */
-  /* --------------------------------------------- */
+  /* ------------------------------- EXPANDED ----------------------------- */
   const [expanded, setExpanded] = useState<Set<string>>(new Set());
   const toggleExpand = (id: string) => {
     setExpanded((prev) => {
@@ -44,17 +61,12 @@ export default function ClassPage() {
     });
   };
 
-  /* --------------------------------------------- */
-  /* STUDENT PAGINATION FOR EACH CLASS */
-  /* --------------------------------------------- */
+  /* ------------------------- STUDENT PAGINATION ------------------------- */
   const [studentPagination, setStudentPagination] = useState<{
     [classId: string]: { page: number; rows: RowsPerPage };
   }>({});
 
-  const updateStudentPagination = (
-    id: string,
-    patch: { page?: number; rows?: RowsPerPage }
-  ) => {
+  const updateStudentPagination = (id: string, patch: any) => {
     setStudentPagination((prev) => ({
       ...prev,
       [id]: {
@@ -64,28 +76,34 @@ export default function ClassPage() {
     }));
   };
 
-  /* --------------------------------------------- */
-  /* MOBILE MENU STATE */
-  /* --------------------------------------------- */
+  /* ------------------------------- MOBILE MENU -------------------------- */
   const [openMenu, setOpenMenu] = useState<string | null>(null);
 
-  /* --------------------------------------------- */
-  /* ACTION HANDLERS */
-  /* --------------------------------------------- */
-  const handleViewClass = (cls: Class) => console.log("View:", cls);
-  const handleEditClass = (cls: Class) => console.log("Edit:", cls);
-  const handleCancelClass = (cls: Class) => console.log("Cancel:", cls);
+  /* --------------------------- ADD / EDIT MODAL ------------------------- */
+  const [editingClass, setEditingClass] = useState<Class | null>(null);
+  const [isAddMode, setIsAddMode] = useState(false);
 
-  /* --------------------------------------------- */
-  /* CLASS TABLE PAGINATION HANDLERS */
-  /* --------------------------------------------- */
-  const handlePrev = () => {
-    if (currentPage > 1) setCurrentPage((p) => p - 1);
+  const handleOpenAddModal = () => {
+    setEditingClass(null);
+    setIsAddMode(true);
   };
 
-  const handleNext = () => {
-    if (currentPage < totalPages) setCurrentPage((p) => p + 1);
+  const handleSaveClass = (cls: Class) => {
+    setData((prev) => {
+      const exists = prev.find((c) => c.id === cls.id);
+      if (exists) {
+        return prev.map((c) => (c.id === cls.id ? cls : c));
+      }
+      return [...prev, cls];
+    });
+    setEditingClass(null);
+    setIsAddMode(false);
   };
+
+  /* ------------------------------- PAGINATION --------------------------- */
+  const handlePrev = () => currentPage > 1 && setCurrentPage((p) => p - 1);
+  const handleNext = () =>
+    currentPage < totalPages && setCurrentPage((p) => p + 1);
 
   const handleRowsChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const value = e.target.value === "all" ? "all" : Number(e.target.value);
@@ -94,38 +112,75 @@ export default function ClassPage() {
   };
 
   return (
-    <div className="p-8">
-      <h1 className="text-3xl font-bold text-[#0E4BA9] mb-6">
-        Class Management
-      </h1>
+    <div className=" bg-linear-to-br from-slate-50 via-blue-50/30 to-indigo-50/40 p-6 lg:p-8 text-black">
+      <div className="max-w-8xl mx-auto space-y-6">
+        {/* HEADER WITH ADD BUTTON */}
+        <div className="flex items-center justify-between gap-4">
+          <div className="text-xl lg:text-4xl md:text-3xl sm:text-2xl font-bold text-[#0E4BA9] tracking-tight">
+            Class Management
+          </div>
 
-      {/* CLASS TABLE */}
-      <ClassTable
-        data={displayedClasses}
-        expanded={expanded}
-        studentPagination={studentPagination}
-        openMenu={openMenu}
-        onExpand={toggleExpand}
-        onMenuToggle={setOpenMenu}
-        updateStudentPagination={updateStudentPagination}
-        onView={handleViewClass}
-        onEdit={handleEditClass}
-        onCancel={handleCancelClass}
-      />
+          {/* Add Class Button */}
+          <Button
+            variant="gradient"
+            leftIcon={<CirclePlus />}
+            onClick={handleOpenAddModal}
+          >
+            Add Class
+          </Button>
+        </div>
 
-      {/* OUTER PAGINATION FOR CLASS LIST */}
-      <Pagination
-        text="Classes"
-        currentPage={currentPage}
-        totalPages={totalPages}
-        startIndex={startIndex}
-        endIndex={endIndex}
-        total={totalClasses}
-        selectedRows={rowsPerPage}
-        onPrev={handlePrev}
-        onNext={handleNext}
-        onRowsChange={handleRowsChange}
-      />
+        {/* SEARCH BAR */}
+        <SearchInput value={search} onChange={setSearch} />
+
+        {/* TABLE CONTAINER */}
+        <div>
+          <ClassTable
+            data={displayedClasses}
+            expanded={expanded}
+            studentPagination={studentPagination}
+            openMenu={openMenu}
+            onExpand={toggleExpand}
+            onMenuToggle={setOpenMenu}
+            updateStudentPagination={updateStudentPagination}
+            onView={(cls) => router.push(Routes.MANAGE_CLASS_DETAIL(cls.id))}
+            onEdit={(cls) => {
+              setEditingClass(cls);
+              setIsAddMode(false);
+            }}
+            onCancel={(cls) => console.log("Cancel:", cls)}
+          />
+        </div>
+
+        {/* PAGINATION */}
+        <div>
+          <Pagination
+            text="Classes"
+            currentPage={currentPage}
+            totalPages={totalPages}
+            startIndex={startIndex}
+            endIndex={endIndex}
+            total={totalClasses}
+            selectedRows={rowsPerPage}
+            onPrev={handlePrev}
+            onNext={handleNext}
+            onRowsChange={handleRowsChange}
+          />
+        </div>
+
+        {/* ADD / EDIT MODAL */}
+        {isAddMode || editingClass ? (
+          <EditClassForm
+            cls={editingClass}
+            isAddMode={isAddMode}
+            onSave={handleSaveClass}
+            onCancel={() => {
+              setEditingClass(null);
+              setIsAddMode(false);
+            }}
+          />
+        ) : null}
+      </div>
     </div>
   );
 }
