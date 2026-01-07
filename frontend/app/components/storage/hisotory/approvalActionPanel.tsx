@@ -1,8 +1,8 @@
 "use client";
 
-import { useMemo, useState } from "react";
-import { Purchase_Order_Items, Type } from "@/types/storage";
 import { findProductById } from "@/lib/constants/storage/request/selectors";
+import { Purchase_Order_Items, Type } from "@/types/storage";
+import { useMemo, useState } from "react";
 
 export function ApprovalActionPanel({
   requestId,
@@ -30,8 +30,6 @@ export function ApprovalActionPanel({
   const disableApprove = notEnoughList.length > 0;
 
   const onApprove = () => {
-    // TODO: call API:
-    // PUT /purchase-orders/:id/approve  (backend bạn làm sau)
     console.log("APPROVE", { requestId, note });
     alert("Đã duyệt (demo). Nối API ở đây.");
   };
@@ -41,8 +39,6 @@ export function ApprovalActionPanel({
       alert("Vui lòng nhập ghi chú khi từ chối.");
       return;
     }
-    // TODO: call API:
-    // PUT /purchase-orders/:id/reject
     console.log("REJECT", { requestId, note });
     alert("Đã từ chối (demo). Nối API ở đây.");
   };
@@ -65,7 +61,7 @@ export function ApprovalActionPanel({
       )}
 
       <textarea
-        className="w-full border rounded-lg p-3 min-h-[110px]"
+        className="w-full border rounded-lg p-3 min-h-27.5"
         placeholder="Ghi chú (bắt buộc khi từ chối)"
         value={note}
         onChange={(e) => setNote(e.target.value)}

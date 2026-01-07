@@ -11,10 +11,13 @@ export function typeLabel(type: Type) {
 
 export function statusLabel(status: string) {
   const map: Record<string, string> = {
-    PENDING: "Chờ duyệt",
+    REQUESTED: "Đã gửi",
     APPROVED: "Đã duyệt",
-    REJECTED: "Từ chối",
-    COMPLETED: "Hoàn tất",
+    ORDER_REQUEST: "Yêu cầu đặt hàng",
+    ORDER_APPROVED: "Đã đặt hàng",
+    CANCELLED: "Đã huỷ",
+    SUCCESS: "Hoàn tất",
   };
+
   return map[status] ?? status;
 }

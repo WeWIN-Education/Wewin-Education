@@ -53,12 +53,8 @@ export class OrderController {
 
   @UseGuards(JwtAuthGuard)
   @Patch(':id')
-  update(
-    @Param('id') id: string,
-    @Body() updateOrderDto: UpdateOrderDto,
-    @Req() req,
-  ) {
-    return this.orderService.update(id, updateOrderDto, req.user.id);
+  update(@Param('id') id: string, @Body() updateOrderDto: UpdateOrderDto) {
+    return this.orderService.update(id, updateOrderDto);
   }
 
   @Patch(':id/updateStatus')

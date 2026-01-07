@@ -39,7 +39,8 @@ export default function Sidebar() {
   const openStorageMenu = isStorageRoute || storageOpen;
 
   // ✅ Logic xác định active
-  const isActive = (href: string) => pathname === href;
+  const isActive = (paths: string[]) =>
+    paths.some((p) => pathname === p || pathname.startsWith(`${p}/`));
   const isGroupActive = (base: string) =>
     pathname === base || pathname.startsWith(`${base}/`);
 
@@ -114,7 +115,7 @@ export default function Sidebar() {
                   href={Routes.MANAGE_CLASS}
                   label="Danh sách"
                   icon={<List className="w-4 h-4" />}
-                  active={isActive(Routes.MANAGE_CLASS)}
+                  active={isActive([Routes.MANAGE_CLASS])}
                 />
               </li>
               <li>
@@ -122,7 +123,7 @@ export default function Sidebar() {
                   href={Routes.MANAGE_CLASS_CATEGORY}
                   label="Phân loại"
                   icon={<FolderOpen className="w-4 h-4" />}
-                  active={isActive(Routes.MANAGE_CLASS_CATEGORY)}
+                  active={isActive([Routes.MANAGE_CLASS_CATEGORY])}
                 />
               </li>
             </ul>
@@ -134,7 +135,7 @@ export default function Sidebar() {
           href={Routes.MANAGE_STUDENT}
           label="Học sinh"
           icon={<Users className="w-4 h-4" />}
-          active={isActive(Routes.MANAGE_STUDENT)}
+          active={isActive([Routes.MANAGE_STUDENT])}
           collapsed={collapsed}
         />
 
@@ -186,7 +187,7 @@ export default function Sidebar() {
                   href={Routes.MANAGE_STORAGE_LIST}
                   label="Danh sách"
                   icon={<List className="w-4 h-4" />}
-                  active={isActive(Routes.MANAGE_STORAGE_LIST)}
+                  active={isActive([Routes.MANAGE_STORAGE_LIST])}
                 />
               </li>
               <li>
@@ -194,7 +195,7 @@ export default function Sidebar() {
                   href={Routes.MANAGE_STORAGE_REQUEST}
                   label="Chờ duyệt"
                   icon={<ListChecks className="w-4 h-4" />}
-                  active={isActive(Routes.MANAGE_STORAGE_REQUEST )}
+                  active={isActive([Routes.MANAGE_STORAGE_REQUEST])}
                 />
               </li>
               <li>
@@ -202,7 +203,7 @@ export default function Sidebar() {
                   href={Routes.MANAGE_STORAGE_HISTORY}
                   label="Lịch sử"
                   icon={<History className="w-4 h-4" />}
-                  active={isActive(Routes.MANAGE_STORAGE_HISTORY)}
+                  active={isActive([Routes.MANAGE_STORAGE_HISTORY])}
                 />
               </li>
             </ul>

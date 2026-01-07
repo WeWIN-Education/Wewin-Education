@@ -26,7 +26,7 @@ function FilterItem({
   children: React.ReactNode;
 }) {
   return (
-    <div className="flex flex-col min-w-[180px]">
+    <div className="flex flex-col min-w-45">
       {/* LABEL SLOT */}
       <div className="h-5 mb-1 flex items-end">
         {label && (
@@ -59,7 +59,7 @@ export default function DynamicFilterBar<T>({
         if (filter.type === "search") {
           return (
             <FilterItem key={String(key)} label={filter.label}>
-              <div className="relative min-w-[260px]">
+              <div className="relative min-w-65">
                 <Search
                   size={16}
                   className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"

@@ -1,15 +1,20 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import { Purchase_Orders } from "@/types/storage";
-
 import { Pagination, RowsPerPage } from "../../pagination";
 import ReusableTable from "../../table";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { Purchase_Orders } from "@/types/storage";
+import { Routes } from "@/lib/constants/routes";
+import { ApprovalStatusBadge, RequestTypeBadge } from "../history/requestBadge";
+import { formatDateTimeFull } from "@/app/utils/format";
+import { typeLabel } from "@/app/utils/request";
 
 export function RequestListPage({ data }: { data: Purchase_Orders[] }) {
   const [page, setPage] = useState(1);
   const [rows, setRows] = useState<RowsPerPage>(10);
-
+  const router = useRouter();
   const pageSize = rows === "all" ? data.length : rows;
   const totalPages = rows === "all" ? 1 : Math.ceil(data.length / pageSize);
 
@@ -32,9 +37,12 @@ export function RequestListPage({ data }: { data: Purchase_Orders[] }) {
           "Trạng thái",
         ]}
         getKey={(row) => row.id}
-        renderRow={renderRequestRow}
+        renderRow={(po) => renderRequestRow(po)}
         renderMobileCard={renderRequestMobileCard}
         emptyText="Không có request phù hợp bộ lọc"
+        onRowClick={(row) =>
+          router.push(Routes.MANAGE_STORAGE_HISTORY_DETAIL(row.id))
+        }
       />
 
       <Pagination
@@ -57,12 +65,6 @@ export function RequestListPage({ data }: { data: Purchase_Orders[] }) {
   );
 }
 
-import { typeLabel } from "@/app/utils/request";
-import { formatDateTimeFull } from "@/app/utils/format";
-import { ApprovalStatusBadge } from "./requestBadge";
-import Link from "next/link";
-import { Routes } from "@/lib/constants/routes";
-
 export function renderRequestRow(po: Purchase_Orders) {
   return (
     <>
@@ -75,7 +77,9 @@ export function renderRequestRow(po: Purchase_Orders) {
         )}
       </td>
 
-      <td className="px-6 py-4 text-center">{typeLabel(po.type)}</td>
+      <td className="px-6 py-4 text-center">
+        <RequestTypeBadge type={po.type} />
+      </td>
 
       <td className="px-6 py-4 text-center">{po.createdBy?.name ?? "—"}</td>
 
@@ -92,7 +96,21 @@ export function renderRequestRow(po: Purchase_Orders) {
 
 export function renderRequestMobileCard(po: Purchase_Orders) {
   return (
-    <div className="space-y-2">
+    <Link
+      href={Routes.MANAGE_STORAGE_HISTORY_DETAIL(po.id)}
+      className="
+        block
+        rounded-xl
+        border border-gray-200
+        p-4
+        space-y-2
+        bg-white
+        transition
+        hover:shadow-md
+        hover:border-blue-300
+        active:scale-[0.99]
+      "
+    >
       <div className="flex justify-between items-center">
         <span className="font-semibold">{po.code}</span>
         <ApprovalStatusBadge status={po.status} />
@@ -112,13 +130,6 @@ export function renderRequestMobileCard(po: Purchase_Orders) {
       <div className="text-xs text-gray-500">
         {formatDateTimeFull(po.createdAt)}
       </div>
-
-      <Link
-        href={Routes.MANAGE_STORAGE_REQUEST_DETAIL(po.id)}
-        className="inline-block text-sm text-blue-600 font-medium hover:underline"
-      >
-        Xem chi tiết →
-      </Link>
-    </div>
+    </Link>
   );
 }

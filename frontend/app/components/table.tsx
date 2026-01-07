@@ -24,7 +24,7 @@ interface ReusableTableProps<T> {
 
   actions?: TableActions<T>;
   getKey: (row: T) => string;
-
+  onRowClick?: (row: T) => void;
   emptyText?: string;
   className?: string;
   headerClassName?: string;
@@ -41,6 +41,7 @@ export default function ReusableTable<T>({
   emptyText = "No data available",
   className = "",
   headerClassName = "",
+  onRowClick,
 }: ReusableTableProps<T>) {
   const hasActions = Boolean(
     actions?.onView || actions?.onEdit || actions?.onDisable
@@ -170,7 +171,11 @@ export default function ReusableTable<T>({
                   initial={{ opacity: 0, y: -6 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.25 }}
-                  className="hover:bg-blue-50 transition"
+                  onClick={() => onRowClick?.(row)}
+                  className={`
+                    transition
+                    ${onRowClick ? "cursor-pointer hover:bg-blue-50 active:bg-blue-100" : ""}
+                  `}
                 >
                   {renderRow(row)}
 
@@ -198,9 +203,7 @@ export default function ReusableTable<T>({
               className="bg-white text-black rounded-2xl shadow-md border border-blue-100 overflow-hidden"
             >
               {/* CONTENT */}
-              <div className="p-4">
-                {renderMobileCard(row)}
-              </div>
+              <div className="p-4">{renderMobileCard(row)}</div>
 
               {/* ✅ BOTTOM ACTION BAR */}
               {hasActions && <MobileActionBar row={row} />}

@@ -7,6 +7,7 @@ import { LucideIcon } from "lucide-react";
 
 interface PageToolbarProps {
   title: string;
+  subtitle?: string | React.ReactNode;
   addLabel?: string;
   onAdd?: () => void;
   addIcon?: LucideIcon;
@@ -26,13 +27,11 @@ function ToolbarItem({
   children: React.ReactNode;
 }) {
   return (
-    <div className="flex flex-col min-w-[260px]">
+    <div className="flex flex-col min-w-65">
       {/* LABEL SLOT – LUÔN CÓ CHIỀU CAO */}
       <div className="h-5 mb-1 flex items-end">
         {label && (
-          <span className="text-xs font-medium text-gray-600">
-            {label}
-          </span>
+          <span className="text-xs font-medium text-gray-600">{label}</span>
         )}
       </div>
 
@@ -43,6 +42,7 @@ function ToolbarItem({
 
 export default function PageToolbar({
   title,
+  subtitle,
   addLabel,
   onAdd,
   addIcon: AddIcon,
@@ -54,8 +54,16 @@ export default function PageToolbar({
     <div className="space-y-4">
       {/* ===== HEADER ===== */}
       <div className="flex items-center justify-between gap-4">
-        <div className="text-xl lg:text-4xl md:text-3xl sm:text-2xl font-bold text-[#0E4BA9] tracking-tight">
-          {title}
+        <div className="flex flex-col gap-1">
+          <div className="text-xl lg:text-4xl md:text-3xl sm:text-2xl font-bold text-[#0E4BA9] tracking-tight">
+            {title}
+          </div>
+
+          {subtitle && (
+            <div className="text-sm md:text-sm text-gray-500 leading-snug italic">
+              {subtitle}
+            </div>
+          )}
         </div>
 
         {onAdd && addLabel && (
@@ -84,9 +92,7 @@ export default function PageToolbar({
 
           {/* FILTERS */}
           {rightFilters && (
-            <div className="flex items-end gap-3">
-              {rightFilters}
-            </div>
+            <div className="flex items-end gap-3">{rightFilters}</div>
           )}
         </div>
       )}

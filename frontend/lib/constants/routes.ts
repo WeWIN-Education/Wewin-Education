@@ -23,6 +23,6 @@ export const Routes = {
   MANAGE_STORAGE_LIST: "/storage/list",
   MANAGE_STORAGE_DETAIL: (id: string) => `/storage/list/${id}`,
   MANAGE_STORAGE_REQUEST: "/storage/request",
-  MANAGE_STORAGE_REQUEST_DETAIL: (id: string) => `/storage/request/${id}`,
   MANAGE_STORAGE_HISTORY: "/storage/history",
+  MANAGE_STORAGE_HISTORY_DETAIL: (id: string) => `/storage/history/${id}`,
 } as const;
