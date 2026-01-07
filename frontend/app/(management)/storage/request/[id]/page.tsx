@@ -33,7 +33,7 @@ export default function Page({
 
       <RequestTimeline docs={timeline} />
 
-      {po.status === "PENDING" && (
+      {po.status === "REQUESTED" && (
         <ApprovalActionPanel
           requestId={po.id}
           requestType={po.type}
