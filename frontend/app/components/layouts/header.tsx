@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { useState, useEffect, useRef } from "react";
@@ -8,7 +9,6 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Routes } from "@/app/constants/routes";
 import Dropdown from "../dropdown";
 import Section from "../section";
-import { allowedEmails } from "@/app/constants/email";
 import {
   BookOpen,
   FolderOpen,
@@ -31,7 +31,8 @@ import { useRouter } from "next/navigation";
 
 export default function Navbar() {
   const { data: session } = useSession();
-
+  const roles = session?.user?.roles ?? [];
+  const isAdmin = roles.includes("ADMIN");
   const [menuOpen, setMenuOpen] = useState(false);
   const [showNavbar, setShowNavbar] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
@@ -39,9 +40,6 @@ export default function Navbar() {
 
   const navRef = useRef<HTMLDivElement>(null);
   const [navHeight, setNavHeight] = useState(72);
-
-  const isAdmin = allowedEmails.includes(session?.user?.email || "");
-
   // Detect Navbar height (dynamically) & update on resize
   useEffect(() => {
     const updateHeight = () => {
@@ -335,9 +333,10 @@ function BurgerButton({ menuOpen, setMenuOpen }: any) {
       onClick={() => setMenuOpen(!menuOpen)}
       className={`relative w-11 h-11 flex items-center justify-center rounded-xl 
                   transition-all duration-300 lg:hidden z-60
-        ${menuOpen
-          ? "bg-linear-to-br from-amber-400 to-yellow-500 shadow-lg"
-          : "bg-white/10 hover:bg-white/20 backdrop-blur-md shadow-inner border border-white/20"
+        ${
+          menuOpen
+            ? "bg-linear-to-br from-amber-400 to-yellow-500 shadow-lg"
+            : "bg-white/10 hover:bg-white/20 backdrop-blur-md shadow-inner border border-white/20"
         }`}
     >
       <motion.span
@@ -489,8 +488,6 @@ function MobileMenu({
                 Đăng nhập
               </motion.button>
             )}
-
-      
 
             {/* Resources/Games Section */}
             <div className="space-y-2">

@@ -1,9 +1,8 @@
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
-import { allowedEmails } from "@/app/constants/email";
-import { authOptions } from "../api/auth/authOptions";
+import { authOptions } from "@/app/api/auth/authOptions";
 
-export default async function UserLayout({
+export default async function ManagementLayout({
   children,
 }: {
   children: React.ReactNode;
@@ -12,13 +11,12 @@ export default async function UserLayout({
 
   if (!session) redirect("/login");
 
-  const isAdmin = allowedEmails.includes(session.user?.email || "");
-  if (isAdmin) redirect("/");
+  const roles = session.user?.roles ?? [];
 
-  return (
-    <div className="min-h-screen overflow-visible">
-      {children}
-    </div>
-  );
+  const isAdmin = roles.includes("ADMIN");
+  const isTeacher = roles.includes("TEACHER");
+  if (!isAdmin && !isTeacher) redirect("/");
+
+  return <>{children}</>;
 }
 
