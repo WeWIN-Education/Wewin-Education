@@ -25,6 +25,7 @@ export interface Purchase_Orders {
   code: string;
   name: string;
   note?: string;
+  imageUrl?: string[];
   status: ApprovalStatus;
   type: Type;
   createdBy: User; // FK → User.id

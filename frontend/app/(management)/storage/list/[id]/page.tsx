@@ -109,7 +109,7 @@ export default function ProductDetailPage() {
           onClick={() => router.push(Routes.MANAGE_STORAGE)}
           className="hover:text-blue-600 cursor-pointer font-medium"
         >
-          Quản lý kho thiết bị
+          Quản lý kho vật dụng
         </button>
         <ChevronRight size={16} />
         <span className="font-medium text-blue-600">{product.name} ({product.code})</span>
@@ -118,7 +118,7 @@ export default function ProductDetailPage() {
       {/* ================= ACTION BAR ================= */}
       <div className="flex flex-wrap items-center justify-between gap-4">
         <BackButton
-          label="Quay lại kho thiết bị"
+          label="Quay lại kho vật dụng"
           onClick={() => router.push("/storage")}
         />
 
