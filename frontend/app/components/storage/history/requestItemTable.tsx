@@ -163,6 +163,7 @@ export function RequestItemsTable({
 
           return (
             <div className="space-y-3 text-sm">
+<<<<<<< HEAD
               <div className="flex items-start justify-between">
                 <div>
                   <div className="font-semibold text-base text-gray-900">
@@ -176,6 +177,11 @@ export function RequestItemsTable({
                 <span className="text-[10px] px-2 py-0.5 rounded-full bg-blue-50 text-blue-700 font-medium">
                   SP
                 </span>
+=======
+              <div className="font-semibold text-base">{p?.name ?? "—"}</div>
+              <div className="text-xs text-gray-500">
+                {p?.code} • {p?.unit}
+>>>>>>> fc79087ff2ed55196f160110086f7dc73d4e2ee0
               </div>
 
               <div className="flex items-center gap-2 text-sm">
@@ -223,6 +229,7 @@ export function RequestItemsTable({
                   <div className="text-xs font-semibold text-green-500 mb-1">
                     ĐẶT HÀNG
                   </div>
+<<<<<<< HEAD
 
                   <div>Giá: {formatCurrency(it.unitPriceOrdered ?? 0)}</div>
                   <div>VAT: {formatCurrency(it.vatPriceOrdered ?? 0)}</div>
@@ -259,6 +266,26 @@ export function RequestItemsTable({
                     {it.noteOrdered}
                   </div>
                 </div>
+=======
+                  {orderExists ? (
+                    <>
+                      <div>Giá: {formatCurrency(it.unitPriceOrdered ?? 0)}</div>
+                      <div>VAT: {formatCurrency(it.vatPriceOrdered ?? 0)}</div>
+                      <div className="font-semibold text-green-700">
+                        Tổng: {formatCurrency(it.totalPriceOrdered ?? 0)}
+                      </div>
+                    </>
+                  ) : (
+                    <div className="text-gray-400 italic">
+                      Chưa có dữ liệu đặt hàng
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {it.noteRequest && (
+                <div className="text-gray-500">Ghi chú: {it.noteRequest}</div>
+>>>>>>> fc79087ff2ed55196f160110086f7dc73d4e2ee0
               )}
             </div>
           );

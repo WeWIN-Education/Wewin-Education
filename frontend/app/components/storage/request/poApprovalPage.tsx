@@ -14,7 +14,7 @@ export default function ProductOrderApprovalPage({
   return (
     <div className="space-y-6 px-8 py-8 text-black">
       {/* ===== HEADER ===== */}
-      <PageToolbar title="Duyệt đơn hàng" subtitle="Các đơn nhập / xuất kho đang chờ duyệt" />
+      <PageToolbar title="Duyệt yêu cầu" subtitle="Các đơn nhập / xuất kho đang chờ duyệt" />
 
       {/* ===== EMPTY STATE ===== */}
       {requestedOrders.length === 0 && (
