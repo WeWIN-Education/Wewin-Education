@@ -24,8 +24,7 @@ export function RequestItemsTable({
   const [rows, setRows] = useState<RowsPerPage>(5);
 
   const pageSize = rows === "all" ? items.length : rows;
-  const totalPages =
-    rows === "all" ? 1 : Math.ceil(items.length / pageSize);
+  const totalPages = rows === "all" ? 1 : Math.ceil(items.length / pageSize);
 
   const sliced = useMemo(() => {
     if (rows === "all") return items;
@@ -50,13 +49,10 @@ export function RequestItemsTable({
           "Giá yêu cầu",
           "VAT (YC)",
           "Tổng (YC)",
-          ...(showOrder
-            ? ["Giá đặt", "VAT (Đặt)", "Tổng (Đặt)"]
-            : []),
+          ...(showOrder ? ["Giá đặt", "VAT (Đặt)", "Tổng (Đặt)"] : []),
           "Ghi chú",
         ]}
         emptyText="Phiếu chưa có sản phẩm"
-
         /* ================= DESKTOP ================= */
         renderRow={(it) => {
           const p = findProductById(it.productId);
@@ -77,9 +73,7 @@ export function RequestItemsTable({
                 {orderExists ? (
                   <span>
                     {it.quantityRequest} →{" "}
-                    <span className="text-green-700">
-                      {it.quantityOrdered}
-                    </span>
+                    <span className="text-green-700">{it.quantityOrdered}</span>
                   </span>
                 ) : (
                   it.quantityRequest
@@ -134,7 +128,6 @@ export function RequestItemsTable({
             </>
           );
         }}
-
         /* ================= MOBILE ================= */
         renderMobileCard={(it) => {
           const p = findProductById(it.productId);
@@ -142,9 +135,7 @@ export function RequestItemsTable({
 
           return (
             <div className="space-y-3 text-sm">
-              <div className="font-semibold text-base">
-                {p?.name ?? "—"}
-              </div>
+              <div className="font-semibold text-base">{p?.name ?? "—"}</div>
               <div className="text-xs text-gray-500">
                 {p?.code} • {p?.unit}
               </div>
@@ -183,17 +174,10 @@ export function RequestItemsTable({
                   </div>
                   {orderExists ? (
                     <>
-                      <div>
-                        Giá:{" "}
-                        {formatCurrency(it.unitPriceOrdered ?? 0)}
-                      </div>
-                      <div>
-                        VAT:{" "}
-                        {formatCurrency(it.vatPriceOrdered ?? 0)}
-                      </div>
+                      <div>Giá: {formatCurrency(it.unitPriceOrdered ?? 0)}</div>
+                      <div>VAT: {formatCurrency(it.vatPriceOrdered ?? 0)}</div>
                       <div className="font-semibold text-green-700">
-                        Tổng:{" "}
-                        {formatCurrency(it.totalPriceOrdered ?? 0)}
+                        Tổng: {formatCurrency(it.totalPriceOrdered ?? 0)}
                       </div>
                     </>
                   ) : (
@@ -205,9 +189,7 @@ export function RequestItemsTable({
               )}
 
               {it.noteRequest && (
-                <div className="text-gray-500">
-                  Ghi chú: {it.noteRequest}
-                </div>
+                <div className="text-gray-500">Ghi chú: {it.noteRequest}</div>
               )}
             </div>
           );
@@ -225,14 +207,9 @@ export function RequestItemsTable({
           selectedRows={rows}
           text="sản phẩm"
           onPrev={() => setPage((p) => Math.max(1, p - 1))}
-          onNext={() =>
-            setPage((p) => Math.min(totalPages, p + 1))
-          }
+          onNext={() => setPage((p) => Math.min(totalPages, p + 1))}
           onRowsChange={(e) => {
-            const v =
-              e.target.value === "all"
-                ? "all"
-                : Number(e.target.value);
+            const v = e.target.value === "all" ? "all" : Number(e.target.value);
             setRows(v);
             setPage(1);
           }}

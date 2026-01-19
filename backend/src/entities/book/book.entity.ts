@@ -1,5 +1,4 @@
 import { Entity, Column, OneToMany } from 'typeorm';
-
 import { BaseEntity } from '../base.entity';
 import { Project } from './project.entity';
 import { BookStatus } from './book.enums';

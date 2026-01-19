@@ -77,7 +77,7 @@ export default function Page() {
   return (
     <div className="space-y-6 px-8 py-8 text-black">
       <PageToolbar
-        title="Lịch sử sản phẩm"
+        title="Lịch sử kho lưu trữ"
         searchValue={filters.q}
         onSearchChange={(v) => updateFilter("q", v)}
         rightFilters={
