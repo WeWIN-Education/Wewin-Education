@@ -1,7 +1,6 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
@@ -25,6 +24,14 @@ import {
 import { handleLogout } from "@/app/api/auth/[...nextauth]/route";
 import { useRouter } from "next/navigation";
 import { Routes } from "@/lib/constants/routes";
+import type { Session } from "next-auth";
+import type { Dispatch, SetStateAction, ReactNode } from "react";
+
+type MenuItem = {
+  href: string;
+  label: string;
+  icon: ReactNode;
+};
 
 export default function Navbar() {
   const { data: session } = useSession();
@@ -34,20 +41,7 @@ export default function Navbar() {
   const [showNavbar, setShowNavbar] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
   const [dropdownOpen, setDropdownOpen] = useState(false);
-
-  const navRef = useRef<HTMLDivElement>(null);
-  const [navHeight, setNavHeight] = useState(72);
-  // Detect Navbar height (dynamically) & update on resize
-  useEffect(() => {
-    const updateHeight = () => {
-      if (navRef.current) {
-        setNavHeight(navRef.current.offsetHeight);
-      }
-    };
-    updateHeight();
-    window.addEventListener("resize", updateHeight);
-    return () => window.removeEventListener("resize", updateHeight);
-  }, [showNavbar]);
+  const NAVBAR_HEIGHT = 80;
 
   // 🔹 Hiệu ứng ẩn/hiện khi cuộn
   useEffect(() => {
@@ -97,131 +91,137 @@ export default function Navbar() {
 
   return (
     <>
-      <AnimatePresence>
-        {showNavbar && (
-          <motion.nav
-            ref={navRef}
-            initial={{ opacity: 0, y: -40 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -40 }}
-            transition={{ duration: 0.4, ease: "easeOut" }}
-            className="fixed top-0 left-0 right-0 z-50 bg-linear-to-r 
-                       from-[#1057C1]/95 via-[#0E4BA9]/95 to-[#1057C1]/95 
-                       backdrop-blur-md shadow-lg border-b border-white/10"
-          >
-            <div
-              className="max-w-8xl mx-auto flex items-center justify-between 
+      <motion.nav
+        initial={false}
+        animate={{
+          y: showNavbar ? 0 : -NAVBAR_HEIGHT,
+          opacity: showNavbar ? 1 : 0,
+          backdropFilter: showNavbar ? "blur(12px)" : "blur(6px)",
+          boxShadow: showNavbar
+            ? "0 10px 30px rgba(0,0,0,0.18)"
+            : "0 4px 10px rgba(0,0,0,0.08)",
+        }}
+        transition={{
+          type: "spring",
+          stiffness: 260,
+          damping: 32,
+          mass: 0.9,
+        }}
+        className="fixed top-0 left-0 right-0 z-50
+                 h-20
+                 bg-linear-to-r 
+                 from-[#1057C1]/95 via-[#0E4BA9]/95 to-[#1057C1]/95
+                 border-b border-white/10"
+      >
+        <div
+          className="max-w-8xl mx-auto flex items-center justify-between 
                             px-4 sm:px-6 md:px-8 lg:px-10 py-3 gap-3"
-            >
-              {/* 🔹 Logo */}
-              <div className="flex items-center gap-2 sm:gap-3 shrink-0">
-                <Logo />
-              </div>
+        >
+          {/* 🔹 Logo */}
+          <div className="flex items-center gap-2 sm:gap-3 shrink-0">
+            <Logo />
+          </div>
 
-              {/* 🔹 Menu chính desktop */}
-              <div className="hidden lg:flex items-center justify-center gap-6 mx-auto">
-                {/* Nút Games cho người chưa đăng nhập */}
-                {!session && !isAdmin && (
-                  <Link href={Routes.RESOURCES_GAMES}>
-                    <motion.button
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
-                      className="flex items-center gap-2 px-6 py-2.5 rounded-xl
+          {/* 🔹 Menu chính desktop */}
+          <div className="hidden lg:flex items-center justify-center gap-6 mx-auto">
+            {/* Nút Games cho người chưa đăng nhập */}
+            {!session && !isAdmin && (
+              <Link href={Routes.RESOURCES_GAMES}>
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="flex items-center gap-2 px-6 py-2.5 rounded-xl
                         bg-linear-to-r from-amber-400 via-yellow-400 to-amber-400
                         text-blue-900 font-bold shadow-lg hover:shadow-xl
                         hover:from-amber-300 hover:via-yellow-300 hover:to-amber-300
                         transition-all duration-300 border border-amber-300/50"
-                    >
-                      <Gamepad2 className="w-5 h-5" />
-                      <span>Games</span>
-                    </motion.button>
-                  </Link>
-                )}
+                >
+                  <Gamepad2 className="w-5 h-5" />
+                  <span>Games</span>
+                </motion.button>
+              </Link>
+            )}
 
-                {/* Dropdown Resources cho người đã đăng nhập (không phải admin) */}
-                {session && (
-                  <div
-                    className="relative"
-                    onMouseEnter={() => setDropdownOpen(true)}
-                    onMouseLeave={() => setDropdownOpen(false)}
-                  >
-                    <motion.button
-                      whileHover={{ scale: 1.02 }}
-                      whileTap={{ scale: 0.98 }}
-                      className="flex items-center gap-2 px-5 py-2.5 rounded-xl
+            {/* Dropdown Resources cho người đã đăng nhập (không phải admin) */}
+            {session && (
+              <div
+                className="relative"
+                onMouseEnter={() => setDropdownOpen(true)}
+                onMouseLeave={() => setDropdownOpen(false)}
+              >
+                <motion.button
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  className="flex items-center gap-2 px-5 py-2.5 rounded-xl
                    bg-white/10 hover:bg-white/20 backdrop-blur-md
                    border border-white/20 text-white font-semibold
                    transition-all shadow-lg hover:shadow-xl"
-                    >
-                      <Sparkles className="w-4 h-4" />
-                      <span>Resources</span>
+                >
+                  <Sparkles className="w-4 h-4" />
+                  <span>Resources</span>
 
-                      <motion.div
-                        animate={{ rotate: dropdownOpen ? 180 : 0 }}
-                        transition={{ duration: 0.2 }}
-                      >
-                        <ChevronDown className="w-4 h-4" />
-                      </motion.div>
-                    </motion.button>
+                  <motion.div
+                    animate={{ rotate: dropdownOpen ? 180 : 0 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    <ChevronDown className="w-4 h-4" />
+                  </motion.div>
+                </motion.button>
 
-                    {/* ⭐ DROPDOWN MENU */}
-                    <AnimatePresence>
-                      {dropdownOpen && (
-                        <motion.div
-                          initial={{ opacity: 0, y: -10, scale: 0.95 }}
-                          animate={{ opacity: 1, y: 0, scale: 1 }}
-                          exit={{ opacity: 0, y: -10, scale: 0.95 }}
-                          transition={{ duration: 0.2 }}
-                          className="absolute top-full left-0 mt-2 w-72 z-20
+                {/* ⭐ DROPDOWN MENU */}
+                <AnimatePresence>
+                  {dropdownOpen && (
+                    <motion.div
+                      initial={{ opacity: 0, y: -10, scale: 0.95 }}
+                      animate={{ opacity: 1, y: 0, scale: 1 }}
+                      exit={{ opacity: 0, y: -10, scale: 0.95 }}
+                      transition={{ duration: 0.2 }}
+                      className="absolute top-full left-0 mt-2 w-72 z-20
                        bg-linear-to-br from-[#1a5fb4] via-[#1c71d8] to-[#3584e4]
                        rounded-2xl shadow-2xl border border-white/20
                        backdrop-blur-xl overflow-hidden"
-                        >
-                          <div className="p-3 space-y-1">
-                            {menuItems.map((item, index) => (
-                              <motion.div
-                                key={item.href}
-                                initial={{ opacity: 0, x: -20 }}
-                                animate={{ opacity: 1, x: 0 }}
-                                transition={{ delay: 0.03 * index }}
-                              >
-                                <Link
-                                  href={item.href}
-                                  onClick={() => setDropdownOpen(false)}
-                                  className="group flex items-center gap-3 px-4 py-3 rounded-xl
+                    >
+                      <div className="p-3 space-y-1">
+                        {menuItems.map((item, index) => (
+                          <motion.div
+                            key={item.href}
+                            initial={{ opacity: 0, x: -20 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            transition={{ delay: 0.03 * index }}
+                          >
+                            <Link
+                              href={item.href}
+                              onClick={() => setDropdownOpen(false)}
+                              className="group flex items-center gap-3 px-4 py-3 rounded-xl
                                bg-white/5 hover:bg-white/15 border border-white/10
                                transition-all duration-200 hover:scale-[1.02]
                                hover:shadow-lg"
-                                >
-                                  <span className="text-xl group-hover:scale-110 transition-transform">
-                                    {item.icon}
-                                  </span>
-                                  <span className="text-white font-medium text-sm flex-1">
-                                    {item.label}
-                                  </span>
-                                </Link>
-                              </motion.div>
-                            ))}
-                          </div>
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
-                  </div>
-                )}
+                            >
+                              <span className="text-xl group-hover:scale-110 transition-transform">
+                                {item.icon}
+                              </span>
+                              <span className="text-white font-medium text-sm flex-1">
+                                {item.label}
+                              </span>
+                            </Link>
+                          </motion.div>
+                        ))}
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </div>
-              {/* 🔹 User / Login */}
-              <div className="flex items-center gap-3 shrink-0">
-                <UserSection
-                  session={session}
-                  isAdmin={isAdmin}
-                  setMenuOpen={setMenuOpen}
-                />
-                <BurgerButton menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
-              </div>
-            </div>
-          </motion.nav>
-        )}
-      </AnimatePresence>
+            )}
+          </div>
+          {/* 🔹 User / Login */}
+          <div className="flex items-center gap-3 shrink-0">
+            <UserSection session={session} />
+            <BurgerButton menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
+          </div>
+        </div>
+      </motion.nav>
+
+      <div className="h-20" aria-hidden />
 
       {/* 🔹 Mobile Menu - Fixed fullscreen overlay */}
       <MobileMenu
@@ -233,7 +233,6 @@ export default function Navbar() {
       />
 
       {/* spacer tránh bị che */}
-      <div style={{ height: `${navHeight}px` }} />
     </>
   );
 }
@@ -262,7 +261,11 @@ function Logo() {
   );
 }
 
-function UserSection({ session }: any) {
+type UserSectionProps = {
+  session: Session | null;
+};
+
+function UserSection({ session }: UserSectionProps) {
   const router = useRouter();
 
   if (!session)
@@ -270,7 +273,7 @@ function UserSection({ session }: any) {
       <motion.button
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
-        onClick={() => router.push("/login")}
+        onClick={() => router.push(Routes.LOGIN)}
         className="hidden lg:flex items-center gap-2 
                    px-6 py-2.5 rounded-xl font-bold
                    bg-linear-to-r from-amber-400 via-yellow-400 to-amber-400
@@ -323,7 +326,12 @@ function UserSection({ session }: any) {
   );
 }
 
-function BurgerButton({ menuOpen, setMenuOpen }: any) {
+type BurgerButtonProps = {
+  menuOpen: boolean;
+  setMenuOpen: Dispatch<SetStateAction<boolean>>;
+};
+
+function BurgerButton({ menuOpen, setMenuOpen }: BurgerButtonProps) {
   return (
     <motion.button
       whileTap={{ scale: 0.92 }}
@@ -355,13 +363,21 @@ function BurgerButton({ menuOpen, setMenuOpen }: any) {
   );
 }
 
+type MobileMenuProps = {
+  menuOpen: boolean;
+  setMenuOpen: Dispatch<SetStateAction<boolean>>;
+  session: Session | null;
+  isAdmin: boolean;
+  menuItems: MenuItem[];
+};
+
 function MobileMenu({
   menuOpen,
   setMenuOpen,
   session,
   isAdmin,
   menuItems,
-}: any) {
+}: MobileMenuProps) {
   if (!menuOpen) return null;
 
   return (
@@ -508,7 +524,7 @@ function MobileMenu({
               </div>
 
               <div className="space-y-1.5">
-                {menuItems.map((item: any, index: number) => (
+                {menuItems.map((item: MenuItem, index: number) => (
                   <motion.div
                     key={item.href}
                     initial={{ opacity: 0, x: 20 }}
