@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { Eye, Pencil, Ban } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
 
@@ -15,19 +15,17 @@ export interface TableActions<T> {
 interface ReusableTableProps<T> {
   data: T[];
   columns: string[];
-
-  /* Desktop */
   renderRow: (row: T) => React.ReactNode;
-
-  /* Mobile */
   renderMobileCard: (row: T) => React.ReactNode;
-
   actions?: TableActions<T>;
   getKey: (row: T) => string;
   onRowClick?: (row: T) => void;
   emptyText?: string;
   className?: string;
   headerClassName?: string;
+  hasMore?: boolean;
+  isLoadingMore?: boolean;
+  onLoadMore?: () => void;
 }
 
 /* ================= COMPONENT ================= */
@@ -42,10 +40,36 @@ export default function ReusableTable<T>({
   className = "",
   headerClassName = "",
   onRowClick,
+
+  hasMore = false,
+  isLoadingMore = false,
+  onLoadMore,
 }: ReusableTableProps<T>) {
   const hasActions = Boolean(
-    actions?.onView || actions?.onEdit || actions?.onDisable
+    actions?.onView || actions?.onEdit || actions?.onDisable,
   );
+
+  /* ================= LAZY LOAD OBSERVER ================= */
+  const loadMoreRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    if (!hasMore || !onLoadMore) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          onLoadMore();
+        }
+      },
+      { rootMargin: "200px" }, // load sớm trước khi chạm đáy
+    );
+
+    if (loadMoreRef.current) {
+      observer.observe(loadMoreRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, [hasMore, onLoadMore]);
 
   /* ================= DESKTOP ACTION BUTTONS ================= */
   const ActionButtons = ({ row }: { row: T }) => (
@@ -55,35 +79,25 @@ export default function ReusableTable<T>({
     >
       {actions?.onView && (
         <button
-          title="Xem"
           onClick={() => actions.onView?.(row)}
-          className="h-9 w-9 rounded-full bg-blue-500 text-white
-                   flex items-center justify-center
-                   hover:bg-blue-600 transition"
+          className="h-9 w-9 rounded-full flex items-center justify-center
+           bg-blue-500 text-white hover:bg-blue-600 transition"
         >
           <Eye size={18} />
         </button>
       )}
-
       {actions?.onEdit && (
         <button
-          title="Sửa"
           onClick={() => actions.onEdit?.(row)}
-          className="h-9 w-9 rounded-full bg-yellow-500 text-white
-                   flex items-center justify-center
-                   hover:bg-yellow-600 transition"
+          className="h-9 w-9 rounded-full flex items-center justify-center bg-yellow-500 text-white hover:bg-yellow-600"
         >
           <Pencil size={18} />
         </button>
       )}
-
       {actions?.onDisable && (
         <button
-          title="Ngưng"
           onClick={() => actions.onDisable?.(row)}
-          className="h-9 w-9 rounded-full bg-red-500 text-white
-                   flex items-center justify-center
-                   hover:bg-red-600 transition"
+          className="h-9 w-9 rounded-full flex items-center justify-center bg-red-500 text-white hover:bg-red-600"
         >
           <Ban size={18} />
         </button>
@@ -91,42 +105,35 @@ export default function ReusableTable<T>({
     </div>
   );
 
-  /* ================= MOBILE BOTTOM ACTION BAR ================= */
+  /* ================= MOBILE ACTION BAR ================= */
   const MobileActionBar = ({ row }: { row: T }) => (
-    <div
-      className="grid grid-cols-3 divide-x border-t border-blue-100"
-      onClick={(e) => e.stopPropagation()}
-    >
+    <div className="grid grid-cols-3 divide-x border-t border-blue-100">
       {actions?.onView && (
         <button
           onClick={() => actions.onView?.(row)}
           className="py-3 flex flex-col items-center gap-1
-                   text-blue-600 hover:bg-blue-50 transition"
+             text-blue-600 hover:bg-blue-50 transition"
         >
           <Eye size={18} />
           <span className="text-xs font-medium">Xem</span>
         </button>
       )}
-
       {actions?.onEdit && (
         <button
           onClick={() => actions.onEdit?.(row)}
-          className="py-3 flex flex-col items-center gap-1
-                   text-yellow-600 hover:bg-yellow-50 transition"
+          className="py-3 flex flex-col items-center gap-1 text-yellow-600 hover:bg-yellow-50"
         >
           <Pencil size={18} />
-          <span className="text-xs font-medium">Sửa</span>
+          <p className="text-xs font-medium">Sửa</p>
         </button>
       )}
-
       {actions?.onDisable && (
         <button
           onClick={() => actions.onDisable?.(row)}
-          className="py-3 flex flex-col items-center gap-1
-                   text-red-600 hover:bg-red-50 transition"
+          className="py-3 flex flex-col items-center gap-1 text-red-600 hover:bg-red-50"
         >
           <Ban size={18} />
-          <span className="text-xs font-medium">Ngưng</span>
+          <p className="text-xs font-medium">Ngưng</p>
         </button>
       )}
     </div>
@@ -138,7 +145,7 @@ export default function ReusableTable<T>({
       <div
         className={`hidden md:block bg-white rounded-2xl shadow-xl border border-blue-100 overflow-x-auto ${className}`}
       >
-        <table className="w-full border-collapse text-gray-800">
+        <table className="w-full border-collapse">
           <thead
             className={`bg-linear-to-r from-[#0E4BA9] to-[#007BCE] text-white uppercase text-sm ${headerClassName}`}
           >
@@ -154,7 +161,7 @@ export default function ReusableTable<T>({
             </tr>
           </thead>
 
-          <tbody className="divide-y divide-blue-100">
+          <tbody className="divide-y divide-blue-100 text-gray-800">
             {data.length === 0 ? (
               <tr>
                 <td
@@ -172,13 +179,11 @@ export default function ReusableTable<T>({
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.25 }}
                   onClick={() => onRowClick?.(row)}
-                  className={`
-                    transition
-                    ${onRowClick ? "cursor-pointer hover:bg-blue-50 active:bg-blue-100" : ""}
-                  `}
+                  className={
+                    onRowClick ? "cursor-pointer hover:bg-blue-50" : ""
+                  }
                 >
                   {renderRow(row)}
-
                   {hasActions && (
                     <td className="px-6 py-4">
                       <ActionButtons row={row} />
@@ -187,11 +192,26 @@ export default function ReusableTable<T>({
                 </motion.tr>
               ))
             )}
+            {hasMore && (
+              <tr>
+                <td
+                  colSpan={columns.length + (hasActions ? 1 : 0)}
+                  className="py-4 text-center"
+                >
+                  <div ref={loadMoreRef} />
+                  {isLoadingMore && (
+                    <span className="text-sm text-gray-400">
+                      Đang tải thêm dữ liệu...
+                    </span>
+                  )}
+                </td>
+              </tr>
+            )}
           </tbody>
         </table>
       </div>
 
-      {/* ================= MOBILE CARD ================= */}
+      {/* ================= MOBILE ================= */}
       <div className="md:hidden space-y-4 mt-4">
         <AnimatePresence>
           {data.map((row) => (
@@ -200,16 +220,23 @@ export default function ReusableTable<T>({
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: 10 }}
-              className="bg-white text-black rounded-2xl shadow-md border border-blue-100 overflow-hidden"
+              className="bg-white rounded-2xl shadow border border-blue-100"
             >
-              {/* CONTENT */}
               <div className="p-4">{renderMobileCard(row)}</div>
-
-              {/* ✅ BOTTOM ACTION BAR */}
               {hasActions && <MobileActionBar row={row} />}
             </motion.div>
           ))}
         </AnimatePresence>
+
+        {/* ===== MOBILE LOAD MORE ===== */}
+        {hasMore && (
+          <div
+            ref={loadMoreRef}
+            className="py-4 text-center text-sm text-gray-400"
+          >
+            {isLoadingMore ? "Đang tải thêm..." : "Cuộn để tải thêm"}
+          </div>
+        )}
       </div>
     </>
   );

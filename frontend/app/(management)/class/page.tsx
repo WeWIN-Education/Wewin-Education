@@ -39,29 +39,31 @@ export default function ClassPage() {
   const [rowsPerPage, setRowsPerPage] = useState<RowsPerPage>(10);
 
   const totalClasses = filtered.length;
+
   const totalPages =
     rowsPerPage === "all"
       ? 1
-      : Math.ceil(totalClasses / (rowsPerPage as number));
+      : Math.ceil(totalClasses / rowsPerPage);
 
   const startIndex =
-    rowsPerPage === "all" ? 0 : (currentPage - 1) * (rowsPerPage as number);
+    rowsPerPage === "all"
+      ? 0
+      : (currentPage - 1) * rowsPerPage;
 
   const endIndex =
-    rowsPerPage === "all" ? totalClasses : startIndex + (rowsPerPage as number);
+    rowsPerPage === "all"
+      ? totalClasses
+      : startIndex + rowsPerPage;
 
   const displayedClasses = filtered.slice(startIndex, endIndex);
 
   /* ------------------------------- EXPANDED ----------------------------- */
   const [expanded, setExpanded] = useState<Set<string>>(new Set());
+
   const toggleExpand = (id: string) => {
     setExpanded((prev) => {
       const next = new Set(prev);
-      if (next.has(id)) {
-        next.delete(id);
-      } else {
-        next.add(id);
-      }
+      next.has(id) ? next.delete(id) : next.add(id);
       return next;
     });
   };
@@ -109,26 +111,29 @@ export default function ClassPage() {
   };
 
   /* ------------------------------- PAGINATION --------------------------- */
-  const handlePrev = () => currentPage > 1 && setCurrentPage((p) => p - 1);
-  const handleNext = () =>
-    currentPage < totalPages && setCurrentPage((p) => p + 1);
+  const handlePrev = () => {
+    if (currentPage > 1) setCurrentPage((p) => p - 1);
+  };
 
-  const handleRowsChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const value = e.target.value === "all" ? "all" : Number(e.target.value);
-    setRowsPerPage(value);
+  const handleNext = () => {
+    if (currentPage < totalPages) setCurrentPage((p) => p + 1);
+  };
+
+  // ✅ SỬA QUAN TRỌNG: nhận RowsPerPage, KHÔNG nhận event
+  const handleRowsChange = (rows: RowsPerPage) => {
+    setRowsPerPage(rows);
     setCurrentPage(1);
   };
 
   return (
-    <div className=" bg-linear-to-br from-slate-50 via-blue-50/30 to-indigo-50/40 p-6 lg:p-8 text-black">
+    <div className="bg-linear-to-br from-slate-50 via-blue-50/30 to-indigo-50/40 p-6 lg:p-8 text-black">
       <div className="max-w-8xl mx-auto space-y-6">
-        {/* HEADER WITH ADD BUTTON */}
+        {/* HEADER */}
         <div className="flex items-center justify-between gap-4">
-          <div className="text-xl lg:text-4xl md:text-3xl sm:text-2xl font-bold text-[#0E4BA9] tracking-tight">
+          <div className="text-xl lg:text-4xl font-bold text-[#0E4BA9]">
             Quản lý lớp học
           </div>
 
-          {/* Add Class Button */}
           <Button
             variant="gradient"
             leftIcon={<CirclePlus />}
@@ -138,46 +143,42 @@ export default function ClassPage() {
           </Button>
         </div>
 
-        {/* SEARCH BAR */}
+        {/* SEARCH */}
         <SearchInput value={search} onChange={setSearch} />
 
-        {/* TABLE CONTAINER */}
-        <div>
-          <ClassTable
-            data={displayedClasses}
-            expanded={expanded}
-            studentPagination={studentPagination}
-            openMenu={openMenu}
-            onExpand={toggleExpand}
-            onMenuToggle={setOpenMenu}
-            updateStudentPagination={updateStudentPagination}
-            onView={(cls) => router.push(Routes.MANAGE_CLASS_DETAIL(cls.id))}
-            onEdit={(cls) => {
-              setEditingClass(cls);
-              setIsAddMode(false);
-            }}
-            onCancel={(cls) => console.log("Cancel:", cls)}
-          />
-        </div>
+        {/* TABLE */}
+        <ClassTable
+          data={displayedClasses}
+          expanded={expanded}
+          studentPagination={studentPagination}
+          openMenu={openMenu}
+          onExpand={toggleExpand}
+          onMenuToggle={setOpenMenu}
+          updateStudentPagination={updateStudentPagination}
+          onView={(cls) => router.push(Routes.MANAGE_CLASS_DETAIL(cls.id))}
+          onEdit={(cls) => {
+            setEditingClass(cls);
+            setIsAddMode(false);
+          }}
+          onCancel={(cls) => console.log("Cancel:", cls)}
+        />
 
         {/* PAGINATION */}
-        <div>
-          <Pagination
-            text="Lớp"
-            currentPage={currentPage}
-            totalPages={totalPages}
-            startIndex={startIndex}
-            endIndex={endIndex}
-            total={totalClasses}
-            selectedRows={rowsPerPage}
-            onPrev={handlePrev}
-            onNext={handleNext}
-            onRowsChange={handleRowsChange}
-          />
-        </div>
+        <Pagination
+          text="Lớp"
+          currentPage={currentPage}
+          totalPages={totalPages}
+          startIndex={startIndex}
+          endIndex={endIndex}
+          total={totalClasses}
+          selectedRows={rowsPerPage}
+          onPrev={handlePrev}
+          onNext={handleNext}
+          onRowsChange={handleRowsChange} // ✅ ĐÚNG KIẾN TRÚC
+        />
 
         {/* ADD / EDIT MODAL */}
-        {isAddMode || editingClass ? (
+        {(isAddMode || editingClass) && (
           <EditClassForm
             cls={editingClass}
             isAddMode={isAddMode}
@@ -187,7 +188,7 @@ export default function ClassPage() {
               setIsAddMode(false);
             }}
           />
-        ) : null}
+        )}
       </div>
     </div>
   );

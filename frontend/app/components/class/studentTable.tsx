@@ -25,9 +25,7 @@ export default function StudentTable({ students }: StudentTableProps) {
 
   const total = students.length;
   const totalPages =
-    rowsPerPage === "all"
-      ? 1
-      : Math.ceil(total / (rowsPerPage as number));
+    rowsPerPage === "all" ? 1 : Math.ceil(total / (rowsPerPage as number));
 
   const startIndex =
     rowsPerPage === "all" ? 0 : (page - 1) * (rowsPerPage as number);
@@ -35,10 +33,7 @@ export default function StudentTable({ students }: StudentTableProps) {
   const visibleStudents =
     rowsPerPage === "all"
       ? students
-      : students.slice(
-          startIndex,
-          startIndex + (rowsPerPage as number)
-        );
+      : students.slice(startIndex, startIndex + (rowsPerPage as number));
 
   return (
     <div className="space-y-3">
@@ -46,31 +41,23 @@ export default function StudentTable({ students }: StudentTableProps) {
         columns={STUDENT_HEADERS}
         data={visibleStudents}
         getKey={(stu) => stu.id}
-
         /* ===== DESKTOP ROW ===== */
         renderRow={(stu) => (
           <>
-            <td className="px-5 py-3 text-[#0E4BA9] font-semibold">
-              {stu.id}
-            </td>
+            <td className="px-5 py-3 text-[#0E4BA9] font-semibold">{stu.id}</td>
             <td className="px-5 py-3">{stu.name}</td>
-            <td className="px-5 py-3">
-              {calculateAge(new Date(stu.dob))}
-            </td>
+            <td className="px-5 py-3">{calculateAge(new Date(stu.dob))}</td>
             <td className="px-5 py-3">{stu.gender}</td>
             <td className="px-5 py-3">
               <StatusBadge status={stu.status} />
             </td>
           </>
         )}
-
         /* ===== MOBILE CARD ===== */
         renderMobileCard={(stu) => (
           <div className="space-y-2">
             <div className="flex justify-between">
-              <span className="font-semibold text-[#0E4BA9]">
-                #{stu.id}
-              </span>
+              <span className="font-semibold text-[#0E4BA9]">#{stu.id}</span>
               <StatusBadge status={stu.status} />
             </div>
 
@@ -83,13 +70,11 @@ export default function StudentTable({ students }: StudentTableProps) {
                 {calculateAge(new Date(stu.dob))}
               </div>
               <div>
-                <span className="font-medium">Giới tính:</span>{" "}
-                {stu.gender}
+                <span className="font-medium">Giới tính:</span> {stu.gender}
               </div>
             </div>
           </div>
         )}
-
         /* ===== ACTIONS ===== */
         actions={{
           onView: (stu) => console.log("View", stu),
@@ -104,22 +89,13 @@ export default function StudentTable({ students }: StudentTableProps) {
         currentPage={page}
         totalPages={totalPages}
         startIndex={startIndex}
-        endIndex={Math.min(
-          startIndex + (rowsPerPage as number),
-          total
-        )}
+        endIndex={Math.min(startIndex + (rowsPerPage as number), total)}
         total={total}
         selectedRows={rowsPerPage}
         onPrev={() => setPage((p) => Math.max(1, p - 1))}
-        onNext={() =>
-          setPage((p) => (p < totalPages ? p + 1 : p))
-        }
-        onRowsChange={(e) => {
-          const value =
-            e.target.value === "all"
-              ? "all"
-              : Number(e.target.value);
-          setRowsPerPage(value);
+        onNext={() => setPage((p) => (p < totalPages ? p + 1 : p))}
+        onRowsChange={(rows) => {
+          setRowsPerPage(rows);
           setPage(1);
         }}
       />

@@ -6,9 +6,9 @@ import {
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
-import { User } from './entities/user.entity';
 import { In, Repository } from 'typeorm';
-import { Role } from 'src/role/entities/role.entity';
+import { User } from 'src/entities/user/user.entity';
+import { Role } from 'src/entities/role/role.entity';
 
 @Injectable()
 export class UserService {
@@ -36,11 +36,14 @@ export class UserService {
   }
 
   findAll() {
-    return this.repo.find({ relations: ['roles'] });
+    return this.repo.find({ relations: ['roles', 'roles.permissions'] });
   }
 
   findOne(id: string) {
-    return this.repo.findOne({ where: { id }, relations: ['roles'] });
+    return this.repo.findOne({
+      where: { id },
+      relations: ['roles', 'roles.permissions'],
+    });
   }
 
   async update(id: string, data: UpdateUserDto) {
@@ -105,7 +108,7 @@ export class UserService {
         'phone',
         'image',
       ],
-      relations: ['roles'],
+      relations: ['roles', 'roles.permissions'],
     });
   }
 

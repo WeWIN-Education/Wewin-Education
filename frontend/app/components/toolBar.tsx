@@ -51,11 +51,11 @@ export default function PageToolbar({
   rightFilters,
 }: PageToolbarProps) {
   return (
-    <div className="space-y-4">
+    <div>
       {/* ===== HEADER ===== */}
       <div className="flex items-center justify-between gap-4">
         <div className="flex flex-col gap-1">
-          <div className="text-xl lg:text-4xl md:text-3xl sm:text-2xl font-bold text-[#0E4BA9] tracking-tight">
+          <div className="text-xl lg:text-3xl md:text-2xl sm:text-xl font-bold text-[#0E4BA9] tracking-tight">
             {title}
           </div>
 

@@ -11,7 +11,6 @@ import {
 import { JwtService } from '@nestjs/jwt';
 import { UserService } from 'src/user/user.service';
 import bcrypt from 'bcrypt';
-import { Roles } from './roles.decorator';
 
 @Injectable()
 export class AuthService {
@@ -43,23 +42,34 @@ export class AuthService {
   --------------------------------------------------------- */
   async login(email: string, password: string) {
     const user = await this.userService.findByEmail(email);
-    // const user = await this.userService.findByEmailWithRoles(email);
 
     if (!user) throw new UnauthorizedException('User not found');
     if (!user.password) throw new UnauthorizedException('No password stored');
 
     const match = await bcrypt.compare(password, user.password);
     if (!match) throw new UnauthorizedException('Wrong password');
-    // JWT 15 mins
-    const accessToken = this.jwt.sign(
-      { id: user.id, email: user.email, roles: user.roles },
-      { expiresIn: '15m' },
-    );
 
-    const refreshToken = this.jwt.sign(
-      { id: user.id, email: user.email, roles: user.roles },
-      { expiresIn: '30d' },
-    );
+    // ===== Build roles WITH permissions =====
+    const roles =
+      user.roles?.map((r) => ({
+        id: r.id,
+        name: r.name,
+        permissions:
+          r.permissions?.map((p) => ({
+            id: p.id,
+            name: p.name,
+          })) ?? [],
+      })) ?? [];
+
+    // ===== JWT payload (ID only, KHÔNG nhét full object) =====
+    const payload = {
+      sub: user.id,
+      email: user.email,
+      roleIds: roles.map((r) => r.id),
+    };
+
+    const accessToken = this.jwt.sign(payload, { expiresIn: '15m' });
+    const refreshToken = this.jwt.sign(payload, { expiresIn: '30d' });
 
     const hashed = await bcrypt.hash(refreshToken, 10);
     await this.userService.updateRefreshToken(user.id, hashed);
@@ -71,6 +81,7 @@ export class AuthService {
       access_token: accessToken,
       user: {
         ...safeUser,
+        roles, // ⭐ permissions nằm TRONG role
       },
     };
   }

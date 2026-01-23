@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 /* ===== COMPONENTS ===== */
 import InventoryStats from "@/app/components/storage/inventoryStat";
@@ -8,11 +8,7 @@ import ReusableTable from "@/app/components/table";
 import InventoryForm, {
   InventoryFormData,
 } from "@/app/components/storage/inventoryForm";
-
-/* ===== ICONS ===== */
 import { CirclePlus } from "lucide-react";
-
-/* ===== DATA ===== */
 import {
   MOCK_PRODUCTS,
   MIN_QTY_BY_PRODUCT_ID,
@@ -23,10 +19,14 @@ import ConfirmPopup from "@/app/components/confirmPopup";
 import { useRouter } from "next/navigation";
 import { Routes } from "@/lib/constants/routes";
 import { getStockStatus } from "@/app/utils/stockStatus";
+import {
+  PaginatedResponse,
+  Pagination,
+  RowsPerPage,
+} from "@/app/components/pagination";
 
-/* =======================================================
-   PAGE
-======================================================= */
+type TableRow = Product & { categoryName: string; minQuantity: number };
+
 export default function StoragePage() {
   const router = useRouter();
   /* ================= FORM STATE ================= */
@@ -39,7 +39,7 @@ export default function StoragePage() {
     id: string;
     name: string;
   } | null>(null);
-  const [search, setSearch] = useState("");
+
   const [hoverPreview, setHoverPreview] = useState<{
     visible: boolean;
     x: number;
@@ -53,37 +53,108 @@ export default function StoragePage() {
     name: "",
     imageUrl: undefined,
   });
-
-  /* ================= SOURCE DATA ================= */
+  const [search, setSearch] = useState("");
+  const [page, setPage] = useState(1);
+  const [limit, setLimit] = useState<RowsPerPage>(10);
+  const [loading, setLoading] = useState(false);
+  const [rows, setRows] = useState<TableRow[]>([]);
+  const [total, setTotal] = useState(0);
   const products: Product[] = MOCK_PRODUCTS;
 
-  /* ================= MAP FOR UI ================= */
-  const tableData = products.map((p) => {
-    return {
+  const tableData: TableRow[] = useMemo(() => {
+    return products.map((p) => ({
       ...p,
       categoryName: p.categoryId?.name ?? "—",
       minQuantity: MIN_QTY_BY_PRODUCT_ID[p.id] ?? 0,
-    };
-  });
+    }));
+  }, [products]);
 
-  /* ================= STATS ================= */
   const totalItems = tableData.length;
   const totalQuantity = tableData.reduce((s, i) => s + i.quantity, 0);
   const lowStock = tableData.filter(
-    (i) => i.quantity > 0 && i.quantity <= i.minQuantity
+    (i) => i.quantity > 0 && i.quantity <= i.minQuantity,
   ).length;
   const outOfStock = tableData.filter((i) => i.quantity === 0).length;
 
-  const filteredTableData = search
-    ? tableData.filter((row) => {
-        const q = search.toLowerCase();
+  const totalPages =
+    limit === "all" ? 1 : Math.max(1, Math.ceil(total / limit));
+  const startIndex = limit === "all" ? 0 : (page - 1) * limit;
+  const endIndex = limit === "all" ? total : startIndex + rows.length;
+
+  async function fetchProducts(params: {
+    page: number;
+    limit: RowsPerPage;
+    search: string;
+  }): Promise<PaginatedResponse<TableRow>> {
+    let source = tableData;
+
+    if (params.search.trim()) {
+      const q = params.search.toLowerCase();
+      source = source.filter((row) => {
         return (
           row.id.toLowerCase().includes(q) ||
           row.name.toLowerCase().includes(q) ||
           row.categoryName.toLowerCase().includes(q)
         );
-      })
-    : tableData;
+      });
+    }
+
+    const total = source.length;
+
+    const data =
+      params.limit === "all"
+        ? source
+        : source.slice(
+            (params.page - 1) * params.limit,
+            params.page * params.limit,
+          );
+
+    return {
+      data,
+      total,
+      page: params.page,
+      limit: params.limit,
+    };
+  }
+
+  useEffect(() => {
+    let ignore = false;
+
+    async function load() {
+      setLoading(true);
+
+      // Nếu user chọn "all" thì page luôn = 1 (tránh bug phân trang)
+      const effectivePage = limit === "all" ? 1 : page;
+
+      const res = await fetchProducts({
+        page: effectivePage,
+        limit,
+        search,
+      });
+
+      if (!ignore) {
+        setRows(res.data);
+        setTotal(res.total);
+
+        // đảm bảo page hợp lệ khi totalPages thay đổi (search làm giảm total)
+        if (limit !== "all") {
+          const totalPages = Math.max(1, Math.ceil(res.total / limit));
+          if (page > totalPages) setPage(totalPages);
+        } else {
+          setPage(1);
+        }
+      }
+
+      setLoading(false);
+    }
+
+    load();
+
+    return () => {
+      ignore = true;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [page, limit, search, tableData]);
 
   return (
     <div className="space-y-6 px-8 py-8">
@@ -117,7 +188,7 @@ export default function StoragePage() {
           "Đơn vị",
           "Trạng thái",
         ]}
-        data={filteredTableData}
+        data={rows}
         getKey={(row) => row.id}
         renderRow={(row) => {
           const stock = getStockStatus(row.quantity, row.minQuantity);
@@ -140,7 +211,7 @@ export default function StoragePage() {
                     setHoverPreview((prev) =>
                       prev.visible
                         ? { ...prev, x: e.clientX, y: e.clientY }
-                        : prev
+                        : prev,
                     );
                   }}
                   onMouseLeave={() => {
@@ -168,15 +239,15 @@ export default function StoragePage() {
             row.quantity === 0
               ? "Hết hàng"
               : row.quantity <= row.minQuantity
-              ? "Sắp hết"
-              : "Còn hàng";
+                ? "Sắp hết"
+                : "Còn hàng";
 
           const statusColor =
             row.quantity === 0
               ? "text-red-600"
               : row.quantity <= row.minQuantity
-              ? "text-yellow-600"
-              : "text-green-600";
+                ? "text-yellow-600"
+                : "text-green-600";
 
           return (
             <>
@@ -229,6 +300,21 @@ export default function StoragePage() {
             }),
         }}
       />
+      <Pagination
+        currentPage={page}
+        totalPages={totalPages}
+        startIndex={startIndex}
+        endIndex={endIndex}
+        total={total}
+        selectedRows={limit}
+        text="vật dụng"
+        onPrev={() => setPage((p) => Math.max(1, p - 1))}
+        onNext={() => setPage((p) => Math.min(totalPages, p + 1))}
+        onRowsChange={(rows) => {
+          setLimit(rows);
+          setPage(1); // ✅ reset page khi đổi limit
+        }}
+      />
 
       {/* ================= FORM ================= */}
       {openForm && (
@@ -239,7 +325,7 @@ export default function StoragePage() {
           onSubmit={(data) => {
             console.log(
               openForm.mode === "edit" ? "UPDATE BY ID:" : "CREATE:",
-              data
+              data,
             );
 
             setOpenForm(null);

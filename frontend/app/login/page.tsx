@@ -8,7 +8,7 @@ import { Routes } from "../../lib/constants/routes";
 import { BookOpen, Eye, EyeOff, Target, Trophy } from "lucide-react";
 
 export default function LoginPage() {
-  const { data: session, status } = useSession();
+  const { status } = useSession();
   const router = useRouter();
 
   const [email, setEmail] = useState("");
@@ -76,8 +76,8 @@ export default function LoginPage() {
         {/* Animated background */}
         <div className="absolute inset-0">
           <div className="absolute top-20 left-20 w-96 h-96 bg-white/10 rounded-full blur-3xl animate-pulse" />
-          <div className="absolute bottom-20 right-20 w-[500px] h-[500px] bg-cyan-400/20 rounded-full blur-3xl animate-pulse delay-700" />
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-blue-400/10 rounded-full blur-3xl animate-pulse delay-1000" />
+          <div className="absolute bottom-20 right-20 w-125 h-125 bg-cyan-400/20 rounded-full blur-3xl animate-pulse delay-700" />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-150 h-150 bg-blue-400/10 rounded-full blur-3xl animate-pulse delay-1000" />
         </div>
 
         {/* Logo + Text */}
@@ -137,7 +137,7 @@ export default function LoginPage() {
         {/* MOBILE BACKGROUND DECORATION */}
         <div className="absolute inset-0 lg:hidden pointer-events-none">
           <div className="absolute -top-10 -right-20 w-72 h-72 rounded-full bg-blue-200/40 blur-3xl" />
-          <div className="absolute bottom-[-60px] -left-20 w-72 h-72 rounded-full bg-cyan-200/40 blur-3xl" />
+          <div className="absolute -bottom-15 -left-20 w-72 h-72 rounded-full bg-cyan-200/40 blur-3xl" />
         </div>
 
         <div
@@ -278,16 +278,6 @@ export default function LoginPage() {
               {isLoading ? "Đang đăng nhập..." : "Đăng nhập"}
             </motion.button>
           </motion.div>
-
-          {/* FOOTER */}
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.8 }}
-            className="text-center text-xs text-gray-400 mt-10"
-          >
-            © 2025 WeWIN Education. All Rights Reserved.
-          </motion.p>
         </div>
       </motion.div>
     </div>

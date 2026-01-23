@@ -7,7 +7,7 @@ import Image from "next/image";
 
 export function RequestDetailHeader({ po }: { po: Purchase_Orders }) {
   return (
-    <div className="relative bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
+    <div className="relative bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden py-3">
       {/* Accent bar */}
       <div className="absolute left-0 top-0 h-full w-1 bg-linear-to-b from-[#0E4BA9] to-[#007BCE]" />
 
@@ -62,7 +62,7 @@ export function RequestDetailHeader({ po }: { po: Purchase_Orders }) {
         <div className="mt-6 pl-4 pt-4 border-t">
           <div className="flex items-center gap-2 text-sm font-medium text-gray-600 mb-3">
             <ImageIcon className="w-4 h-4" />
-            Tài liệu đính kèm ({po.imageUrl.length})
+            Hình ảnh đính kèm ({po.imageUrl.length})
           </div>
 
           <div className="flex flex-wrap gap-3">

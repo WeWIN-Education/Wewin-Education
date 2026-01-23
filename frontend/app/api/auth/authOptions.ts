@@ -1,11 +1,25 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import { NextAuthOptions } from "next-auth";
+import type { NextAuthOptions } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
+import { Routes } from "@/lib/constants/routes";
 
-interface User {
-  id: string;
-  name: string;
-}
+type LoginResponse = {
+  accessToken: string;
+  user: {
+    id: string;
+    name: string;
+    email: string;
+    image?: string | null;
+    roles: Array<{
+      id: string;
+      name: string;
+      isDisabled?: boolean;
+      permissions: Array<{
+        id: string;
+        name: string;
+      }>;
+    }>;
+  };
+};
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -17,9 +31,7 @@ export const authOptions: NextAuthOptions = {
       },
 
       async authorize(credentials) {
-        if (!credentials?.email || !credentials?.password) {
-          throw new Error("Missing credentials");
-        }
+        if (!credentials?.email || !credentials?.password) return null;
 
         const res = await fetch(
           `${process.env.NEXT_PUBLIC_API_URL}/auth/login`,
@@ -30,18 +42,20 @@ export const authOptions: NextAuthOptions = {
               email: credentials.email,
               password: credentials.password,
             }),
-          }
+          },
         );
 
         if (!res.ok) return null;
 
-        const result = await res.json();
+        const result = (await res.json()) as LoginResponse;
+
         return {
           id: result.user.id,
           name: result.user.name,
           email: result.user.email,
-          roles: result.user.roles,
-          image: result.user.image,
+          image: result.user.image ?? null,
+          roles: result.user.roles ?? [], // 🔒 QUAN TRỌNG
+          accessToken: result.accessToken,
         };
       },
     }),
@@ -50,29 +64,19 @@ export const authOptions: NextAuthOptions = {
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
-        token.userId = user.id ?? "";
-        token.name = user.name ?? "";
-        token.email = user.email ?? "";
-        token.image = user.image ?? null;
-        token.roles = Array.isArray(user.roles)
-          ? user.roles.map((r: any) => r.name.toUpperCase())
-          : [];
+        token.user = user;
       }
       return token;
     },
 
     async session({ session, token }) {
-      if (session.user) {
-        session.user.id = token.userId ?? "";
-        session.user.name = token.name ?? "";
-        session.user.email = token.email ?? "";
-        session.user.image = token.image ?? null;
-        session.user.roles = token.roles ?? [];
+      if (token.user) {
+        session.user = token.user;
       }
       return session;
     },
   },
 
   secret: process.env.NEXTAUTH_SECRET,
-  pages: { signIn: "/login" },
+  pages: { signIn: Routes.LOGIN },
 };

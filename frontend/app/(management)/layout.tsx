@@ -11,10 +11,5 @@ export default async function ManagementLayout({
 
   if (!session) redirect("/login");
 
-  const roles = session.user?.roles ?? [];
-
-  const isAdmin = roles.includes("ADMIN");
-  if (!isAdmin) redirect("/"); 
-
   return <>{children}</>;
 }

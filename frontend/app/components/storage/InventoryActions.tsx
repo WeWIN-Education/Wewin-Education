@@ -2,6 +2,8 @@
 
 import { CirclePlus, MinusCircleIcon, PlusCircle } from "lucide-react";
 import { useState } from "react";
+
+import Button from "@/app/components/button";
 import BaseEntityFormModal from "../form";
 import ImportInventoryForm from "../../(management)/storage/list/[id]/components/importInventoryForm";
 import ExportInventoryForm from "../../(management)/storage/list/[id]/components/exportInventoryForm";
@@ -14,28 +16,33 @@ export default function InventoryActions({ productId }: { productId: string }) {
     <>
       <div className="flex flex-wrap items-center gap-3">
         {/* ===== NHẬP KHO ===== */}
-        <button
+        <Button
           onClick={() => setOpenImport(true)}
-          className="flex items-center gap-2 px-4 py-2.5 rounded-lg
-                     bg-green-600 hover:bg-green-700
-                     text-white font-semibold shadow-sm"
+          leftIcon={<PlusCircle size={18} />}
+          variant="primary" // fallback
+          className="
+            bg-green-600 hover:bg-green-700
+            text-white
+          "
         >
-          <PlusCircle size={18} />
           Gửi yêu cầu Nhập kho
-        </button>
+        </Button>
 
         {/* ===== XUẤT KHO ===== */}
-        <button
+        <Button
           onClick={() => setOpenExport(true)}
-          className="flex items-center gap-2 px-4 py-2.5 rounded-lg
-                     bg-blue-600 hover:bg-blue-700
-                     text-white font-semibold shadow-sm"
+          leftIcon={<MinusCircleIcon size={18} />}
+          variant="primary" // fallback
+          className="
+            bg-blue-600 hover:bg-blue-700
+            text-white
+          "
         >
-          <MinusCircleIcon size={18} />
           Gửi yêu cầu Xuất kho
-        </button>
+        </Button>
       </div>
 
+      {/* ================= IMPORT MODAL ================= */}
       {openImport && (
         <BaseEntityFormModal
           mode="add"
@@ -56,6 +63,7 @@ export default function InventoryActions({ productId }: { productId: string }) {
         </BaseEntityFormModal>
       )}
 
+      {/* ================= EXPORT MODAL ================= */}
       {openExport && (
         <BaseEntityFormModal
           mode="edit"

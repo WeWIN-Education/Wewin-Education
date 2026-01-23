@@ -56,8 +56,7 @@ export function RequestListPage({ data }: { data: Purchase_Orders[] }) {
         onPrev={() => setPage((p) => Math.max(1, p - 1))}
         onNext={() => setPage((p) => Math.min(totalPages, p + 1))}
         onRowsChange={(e) => {
-          const v = e.target.value;
-          setRows(v === "all" ? "all" : Number(v));
+          setRows(e);
           setPage(1);
         }}
       />

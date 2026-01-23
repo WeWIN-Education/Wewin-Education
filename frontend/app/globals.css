@@ -33,3 +33,11 @@ body {
 .animate-fadeIn {
   animation: fadeIn 0.25s ease-out;
 }
+
+/* ===== Hide scrollbar (desktop only) ===== */
+.hide-scrollbar {
+  scrollbar-width: none; /* Firefox */
+}
+.hide-scrollbar::-webkit-scrollbar {
+  display: none; /* Chrome, Edge, Safari */
+}

@@ -16,7 +16,7 @@ export default function ImageInput({ value, onChange }: ImageInputProps) {
     <div className="flex items-center gap-4">
       <div
         onClick={() => ref.current?.click()}
-        className="relative w-48 h-48 rounded-xl border border-dashed border-blue-300
+        className="relative w-full h-84 rounded-xl border border-dashed border-blue-300
                    flex items-center justify-center cursor-pointer
                    hover:bg-blue-50 transition overflow-hidden"
       >

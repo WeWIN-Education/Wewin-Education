@@ -3,7 +3,6 @@
 import { useParams, useRouter, notFound } from "next/navigation";
 import { ChevronRight, Package, Pencil } from "lucide-react";
 import { useMemo, useState } from "react";
-
 import {
   MOCK_PRODUCTS,
   MIN_QTY_BY_PRODUCT_ID,
@@ -25,6 +24,7 @@ import { HistorySection } from "@/app/components/storage/historySection";
 import InventoryForm from "@/app/components/storage/inventoryForm";
 import { Routes } from "@/lib/constants/routes";
 import InventoryActions from "@/app/components/storage/InventoryActions";
+import Button from "@/app/components/button";
 
 /* ================= TYPES ================= */
 export interface InventoryHistoryView {
@@ -60,12 +60,12 @@ export default function ProductDetailPage() {
 
   /* ================= HISTORY MAP ================= */
   const items = MOCK_INVENTORY_ITEMS.filter(
-    (i) => i.productId.id === product.id
+    (i) => i.productId.id === product.id,
   );
 
   const documentMap = useMemo(
     () => new Map(product.inventoryDocuments.map((d) => [d.id, d])),
-    [product.inventoryDocuments]
+    [product.inventoryDocuments],
   );
 
   const history: InventoryHistoryView[] = useMemo(() => {
@@ -97,7 +97,7 @@ export default function ProductDetailPage() {
 
   const pagedHistory = useMemo(
     () => history.slice(startIndex, endIndex),
-    [history, startIndex, endIndex]
+    [history, startIndex, endIndex],
   );
 
   return (
@@ -112,30 +112,32 @@ export default function ProductDetailPage() {
           Quản lý kho vật dụng
         </button>
         <ChevronRight size={16} />
-        <span className="font-medium text-blue-600">{product.name} ({product.code})</span>
+        <span className="font-medium text-blue-600">
+          {product.name} ({product.code})
+        </span>
       </div>
 
       {/* ================= ACTION BAR ================= */}
       <div className="flex flex-wrap items-center justify-between gap-4">
         <BackButton
           label="Quay lại kho vật dụng"
-          onClick={() => router.push("/storage")}
+          onClick={() => router.push(Routes.MANAGE_STORAGE_LIST)}
         />
 
         <div className="flex flex-wrap items-center gap-3">
-          {/* ===== NHẬP KHO ===== */}
-         <InventoryActions productId={product.id} />
+          <InventoryActions productId={product.id} />
 
-          {/* ===== EDIT PRODUCT ===== */}
-          <button
+          <Button
             onClick={() => setOpenEditForm(true)}
-            className="flex items-center gap-2 px-5 py-2.5 rounded-lg
-             bg-[#FF9933] hover:bg-[#E88A2E]
-             text-white font-semibold"
+            leftIcon={<Pencil size={18} />}
+            variant="primary"
+            className="
+              bg-[#FF9933]! hover:bg-[#E88A2E]!
+              text-white!
+            "
           >
-            <Pencil size={18} />
             Chỉnh sửa thông tin
-          </button>
+          </Button>
         </div>
       </div>
 
@@ -236,10 +238,8 @@ export default function ProductDetailPage() {
             text="giao dịch"
             onPrev={() => setPage((p) => Math.max(1, p - 1))}
             onNext={() => setPage((p) => Math.min(totalPages, p + 1))}
-            onRowsChange={(e) => {
-              const value =
-                e.target.value === "all" ? "all" : Number(e.target.value);
-              setRowsPerPage(value);
+            onRowsChange={(rows) => {
+              setRowsPerPage(rows);
               setPage(1);
             }}
           />

@@ -11,7 +11,13 @@ interface ButtonProps {
   className?: string;
   disabled?: boolean;
   type?: "button" | "submit" | "reset";
-  variant?: "primary" | "secondary" | "danger" | "outline" | "ghost" | "gradient";
+  variant?:
+    | "primary"
+    | "secondary"
+    | "danger"
+    | "outline"
+    | "ghost"
+    | "gradient";
 }
 
 export default function Button({
@@ -27,11 +33,11 @@ export default function Button({
   const base =
     // mobile: px-4 py-2, gap-1
     // md+: px-6 py-3, gap-2
-    "inline-flex items-center justify-center rounded-xl font-semibold " +
+    "inline-flex items-center justify-center rounded-xl font-semibold" +
     "transition-all active:scale-95 whitespace-nowrap disabled:opacity-50 disabled:cursor-not-allowed " +
-    "px-4 py-2 gap-1 text-sm " +          // mobile styles
-    "md:px-6 md:py-3 md:gap-2 md:text-base"; // tablet + desktop styles
-
+    "px-3 py-2 gap-1 text-xs " + // mobile styles
+    "md:gap-1 md:text-sm"; // tablet + desktop styles
+    
   const variants = {
     primary: "bg-blue-600 text-white hover:bg-blue-700 shadow-md",
     secondary: "bg-slate-200 text-slate-700 hover:bg-slate-300",
@@ -51,7 +57,11 @@ export default function Button({
       className={cn(base, variants[variant], className)}
     >
       {leftIcon && (
-        <span className="flex items-center justify-center">
+        <span
+          className="flex items-center justify-center
+          [&>svg]:w-4 [&>svg]:h-4
+          md:[&>svg]:w-5 md:[&>svg]:h-5"
+        >
           {leftIcon}
         </span>
       )}
@@ -59,7 +69,11 @@ export default function Button({
       {children}
 
       {rightIcon && (
-        <span className="flex items-center justify-center">
+        <span
+          className="flex items-center justify-center
+            [&>svg]:w-4 [&>svg]:h-4
+            md:[&>svg]:w-5 md:[&>svg]:h-5"
+        >
           {rightIcon}
         </span>
       )}

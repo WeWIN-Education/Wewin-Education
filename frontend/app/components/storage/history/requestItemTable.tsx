@@ -163,25 +163,9 @@ export function RequestItemsTable({
 
           return (
             <div className="space-y-3 text-sm">
-<<<<<<< HEAD
-              <div className="flex items-start justify-between">
-                <div>
-                  <div className="font-semibold text-base text-gray-900">
-                    {p?.name ?? "—"}
-                  </div>
-                  <div className="text-xs text-gray-500 mt-0.5">
-                    {p?.code} • {p?.unit}
-                  </div>
-                </div>
-
-                <span className="text-[10px] px-2 py-0.5 rounded-full bg-blue-50 text-blue-700 font-medium">
-                  SP
-                </span>
-=======
               <div className="font-semibold text-base">{p?.name ?? "—"}</div>
               <div className="text-xs text-gray-500">
                 {p?.code} • {p?.unit}
->>>>>>> fc79087ff2ed55196f160110086f7dc73d4e2ee0
               </div>
 
               <div className="flex items-center gap-2 text-sm">
@@ -229,44 +213,6 @@ export function RequestItemsTable({
                   <div className="text-xs font-semibold text-green-500 mb-1">
                     ĐẶT HÀNG
                   </div>
-<<<<<<< HEAD
-
-                  <div>Giá: {formatCurrency(it.unitPriceOrdered ?? 0)}</div>
-                  <div>VAT: {formatCurrency(it.vatPriceOrdered ?? 0)}</div>
-                  <div className="font-semibold text-green-700">
-                    Tổng: {formatCurrency(it.totalPriceOrdered ?? 0)}
-                  </div>
-                </div>
-              )}
-              {/* NOTE REQUEST */}
-              {it.noteRequest && (
-                <div className="rounded-xl bg-blue-50 border border-blue-200 p-3">
-                  <div className="flex items-center gap-2 mb-1">
-                    <FileText size={14} className="text-blue-600" />
-                    <span className="text-xs font-semibold text-blue-700">
-                      GHI CHÚ YÊU CẦU
-                    </span>
-                  </div>
-                  <div className="text-sm text-gray-800 leading-relaxed">
-                    {it.noteRequest}
-                  </div>
-                </div>
-              )}
-
-              {/* NOTE ORDER */}
-              {orderExists && it.noteOrdered && (
-                <div className="rounded-xl bg-green-50 border border-green-200 p-3">
-                  <div className="flex items-center gap-2 mb-1">
-                    <ClipboardList size={14} className="text-green-600" />
-                    <span className="text-xs font-semibold text-green-700">
-                      GHI CHÚ ĐẶT HÀNG
-                    </span>
-                  </div>
-                  <div className="text-sm text-gray-800 leading-relaxed">
-                    {it.noteOrdered}
-                  </div>
-                </div>
-=======
                   {orderExists ? (
                     <>
                       <div>Giá: {formatCurrency(it.unitPriceOrdered ?? 0)}</div>
@@ -285,7 +231,6 @@ export function RequestItemsTable({
 
               {it.noteRequest && (
                 <div className="text-gray-500">Ghi chú: {it.noteRequest}</div>
->>>>>>> fc79087ff2ed55196f160110086f7dc73d4e2ee0
               )}
             </div>
           );
@@ -305,8 +250,7 @@ export function RequestItemsTable({
           onPrev={() => setPage((p) => Math.max(1, p - 1))}
           onNext={() => setPage((p) => Math.min(totalPages, p + 1))}
           onRowsChange={(e) => {
-            const v = e.target.value === "all" ? "all" : Number(e.target.value);
-            setRows(v);
+            setRows(e);
             setPage(1);
           }}
         />
