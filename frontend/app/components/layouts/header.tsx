@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
@@ -21,22 +20,17 @@ import {
   ListChecks,
   List,
 } from "lucide-react";
-import { handleLogout } from "@/app/api/auth/[...nextauth]/route";
 import { useRouter } from "next/navigation";
 import { Routes } from "@/lib/constants/routes";
-import type { Session } from "next-auth";
-import type { Dispatch, SetStateAction, ReactNode } from "react";
-
-type MenuItem = {
-  href: string;
-  label: string;
-  icon: ReactNode;
-};
+import type { Dispatch, SetStateAction } from "react";
+import { handleLogout } from "@/lib/auth/logout";
+import { useAuthStore } from "@/stores/auth.store";
+import { PERMISSIONS } from "@/lib/constants/permission";
 
 export default function Navbar() {
-  const { data: session } = useSession();
-  const roles = session?.user?.roles ?? [];
-  const isAdmin = roles.includes("ADMIN");
+  const hasPermission = useAuthStore((s) => s.hasPermission);
+  const user = useAuthStore((s) => s.user);
+
   const [menuOpen, setMenuOpen] = useState(false);
   const [showNavbar, setShowNavbar] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
@@ -80,15 +74,6 @@ export default function Navbar() {
     },
   ];
 
-  // Menu items cho mobile (chỉ Games)
-  const mobileMenuItems = [
-    {
-      href: Routes.RESOURCES_GAMES,
-      label: "Games",
-      icon: <Gamepad2 className="w-5 h-5 text-amber-300" />,
-    },
-  ];
-
   return (
     <>
       <motion.nav
@@ -125,7 +110,7 @@ export default function Navbar() {
           {/* 🔹 Menu chính desktop */}
           <div className="hidden lg:flex items-center justify-center gap-6 mx-auto">
             {/* Nút Games cho người chưa đăng nhập */}
-            {!session && !isAdmin && (
+            {(!user || user === null) && (
               <Link href={Routes.RESOURCES_GAMES}>
                 <motion.button
                   whileHover={{ scale: 1.05 }}
@@ -143,7 +128,7 @@ export default function Navbar() {
             )}
 
             {/* Dropdown Resources cho người đã đăng nhập (không phải admin) */}
-            {session && (
+            {!!user && (
               <div
                 className="relative"
                 onMouseEnter={() => setDropdownOpen(true)}
@@ -158,7 +143,7 @@ export default function Navbar() {
                    transition-all shadow-lg hover:shadow-xl"
                 >
                   <Sparkles className="w-4 h-4" />
-                  <span>Resources</span>
+                  <span>Tài nguyên</span>
 
                   <motion.div
                     animate={{ rotate: dropdownOpen ? 180 : 0 }}
@@ -215,7 +200,7 @@ export default function Navbar() {
           </div>
           {/* 🔹 User / Login */}
           <div className="flex items-center gap-3 shrink-0">
-            <UserSection session={session} />
+            <UserSection user={user} />
             <BurgerButton menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
           </div>
         </div>
@@ -227,9 +212,8 @@ export default function Navbar() {
       <MobileMenu
         menuOpen={menuOpen}
         setMenuOpen={setMenuOpen}
-        session={session}
-        isAdmin={isAdmin}
-        menuItems={session ? menuItems : mobileMenuItems}
+        hasPermission={hasPermission}
+        user={user}
       />
 
       {/* spacer tránh bị che */}
@@ -262,13 +246,16 @@ function Logo() {
 }
 
 type UserSectionProps = {
-  session: Session | null;
+  user: {
+    name?: string;
+    email?: string;
+  } | null;
 };
 
-function UserSection({ session }: UserSectionProps) {
+function UserSection({ user }: UserSectionProps) {
   const router = useRouter();
 
-  if (!session)
+  if (!user)
     return (
       <motion.button
         whileHover={{ scale: 1.05 }}
@@ -299,15 +286,11 @@ function UserSection({ session }: UserSectionProps) {
                       flex items-center justify-center text-white font-bold text-sm shadow-lg
                       ring-2 ring-white/30"
         >
-          {session.user?.name?.charAt(0).toUpperCase()}
+          {user?.name?.charAt(0).toUpperCase()}
         </div>
         <div className="flex flex-col">
-          <span className="font-bold text-sm leading-tight">
-            {session.user?.name}
-          </span>
-          <span className="text-xs text-blue-100/70">
-            {session.user?.email}
-          </span>
+          <span className="font-bold text-sm leading-tight">{user?.name}</span>
+          <span className="text-xs text-blue-100/70">{user?.email}</span>
         </div>
       </motion.div>
 
@@ -347,17 +330,17 @@ function BurgerButton({ menuOpen, setMenuOpen }: BurgerButtonProps) {
       <motion.span
         animate={menuOpen ? { rotate: 45, y: 0 } : { rotate: 0, y: -6 }}
         transition={{ duration: 0.25 }}
-        className="absolute w-6 h-[3px] rounded-full bg-white"
+        className="absolute w-6 h-0.75 rounded-full bg-white"
       />
       <motion.span
         animate={menuOpen ? { opacity: 0 } : { opacity: 1 }}
         transition={{ duration: 0.15 }}
-        className="absolute w-6 h-[3px] rounded-full bg-white"
+        className="absolute w-6 h-0.75 rounded-full bg-white"
       />
       <motion.span
         animate={menuOpen ? { rotate: -45, y: 0 } : { rotate: 0, y: 6 }}
         transition={{ duration: 0.25 }}
-        className="absolute w-6 h-[3px] rounded-full bg-white"
+        className="absolute w-6 h-0.75 rounded-full bg-white"
       />
     </motion.button>
   );
@@ -366,19 +349,30 @@ function BurgerButton({ menuOpen, setMenuOpen }: BurgerButtonProps) {
 type MobileMenuProps = {
   menuOpen: boolean;
   setMenuOpen: Dispatch<SetStateAction<boolean>>;
-  session: Session | null;
-  isAdmin: boolean;
-  menuItems: MenuItem[];
+  hasPermission: (permission: string) => boolean;
+  user: {
+    name?: string;
+    email?: string;
+  } | null;
 };
 
 function MobileMenu({
   menuOpen,
   setMenuOpen,
-  session,
-  isAdmin,
-  menuItems,
+  hasPermission,
+  user,
 }: MobileMenuProps) {
   if (!menuOpen) return null;
+
+  const canViewClassList = hasPermission(PERMISSIONS.CLASS_VIEW_LIST);
+  const canViewClassCategory = hasPermission(PERMISSIONS.CLASS_CATEGORY_VIEW);
+  const canViewStudent = hasPermission(PERMISSIONS.STUDENT_VIEW);
+  const canViewStorageList = hasPermission(PERMISSIONS.STORAGE_VIEW_LIST);
+  const canViewStorageApprove = hasPermission(PERMISSIONS.STORAGE_APPROVE_VIEW);
+  const canViewStorageHistory = hasPermission(PERMISSIONS.STORAGE_HISTORY_VIEW);
+  const canViewClass = canViewClassList || canViewClassCategory;
+  const canViewStorage =
+    canViewStorageList || canViewStorageApprove || canViewStorageHistory;
 
   return (
     <AnimatePresence>
@@ -442,7 +436,7 @@ function MobileMenu({
 
           <div className="px-4 py-6 space-y-4 pb-20">
             {/* User Card */}
-            {session && (
+            {user && (
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -461,14 +455,14 @@ function MobileMenu({
                                   flex items-center justify-center text-white font-black text-xl 
                                   shadow-lg ring-2 ring-white/30"
                   >
-                    {session.user?.name?.charAt(0).toUpperCase()}
+                    {user?.name?.charAt(0).toUpperCase()}
                   </div>
                   <div className="flex-1 min-w-0">
                     <p className="text-white font-bold text-base truncate">
-                      {session.user?.name}
+                      {user?.name}
                     </p>
                     <p className="text-blue-100/60 text-xs truncate mt-0.5">
-                      {session.user?.email}
+                      {user?.email}
                     </p>
                     <motion.button
                       whileTap={{ scale: 0.97 }}
@@ -489,14 +483,14 @@ function MobileMenu({
             )}
 
             {/* Login Button */}
-            {!session && (
+            {!user && (
               <motion.button
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.1 }}
                 whileTap={{ scale: 0.97 }}
                 onClick={() => {
-                  window.location.href = "/login";
+                  window.location.href = Routes.LOGIN;
                   setMenuOpen(false);
                 }}
                 className="w-full px-5 py-4 rounded-2xl font-bold text-base
@@ -513,169 +507,179 @@ function MobileMenu({
             {/* Resources/Games Section */}
             <div className="space-y-2">
               <div className="flex items-center gap-2 px-3 py-2">
-                {session ? (
+                {user ? (
                   <BookOpen className="w-4 h-4 text-amber-300" />
                 ) : (
                   <Gamepad2 className="w-4 h-4 text-amber-300" />
                 )}
                 <h3 className="text-xs font-bold text-amber-200 uppercase tracking-wider">
-                  {session ? "Resources" : "Games"}
+                  {user ? "Tài nguyên" : "Games"}
                 </h3>
               </div>
 
               <div className="space-y-1.5">
-                {menuItems.map((item: MenuItem, index: number) => (
-                  <motion.div
-                    key={item.href}
-                    initial={{ opacity: 0, x: 20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 0.05 * index }}
+                {/* GAMES – luôn cho khách */}
+                {!user && (
+                  <Link
+                    href={Routes.RESOURCES_GAMES}
+                    onClick={() => setMenuOpen(false)}
+                    className="group flex items-center gap-3 px-4 py-3 rounded-xl
+                 bg-white/5 hover:bg-white/15 border border-white/10"
                   >
-                    <Link
-                      href={item.href}
-                      onClick={() => setMenuOpen(false)}
-                      className="group flex items-center gap-3 px-4 py-3 rounded-xl
-                               bg-white/5 hover:bg-white/15 border border-white/10
-                               transition-all duration-200 hover:scale-[1.02]
-                               hover:shadow-lg"
-                    >
-                      <span className="text-2xl group-hover:scale-110 transition-transform">
-                        {item.icon}
-                      </span>
-                      <span className="text-white font-medium text-sm flex-1">
-                        {item.label}
-                      </span>
-                      <svg
-                        className="w-4 h-4 text-blue-200/50 group-hover:text-amber-300 
-                                   group-hover:translate-x-1 transition-all"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M9 5l7 7-7 7"
-                        />
-                      </svg>
-                    </Link>
-                  </motion.div>
-                ))}
+                    <Gamepad2 className="w-5 h-5 text-amber-300" />
+                    <span className="text-white font-medium text-sm">
+                      Games
+                    </span>
+                  </Link>
+                )}
+
+                {/* BOOKS – chỉ user đã login */}
+                {user && (
+                  <Link
+                    href={Routes.RESOURCES}
+                    onClick={() => setMenuOpen(false)}
+                    className="group flex items-center gap-3 px-4 py-3 rounded-xl
+                 bg-white/5 hover:bg-white/15 border border-white/10"
+                  >
+                    <BookOpen className="w-5 h-5 text-amber-300" />
+                    <span className="text-white font-medium text-sm">
+                      Sách
+                    </span>
+                  </Link>
+                )}
               </div>
             </div>
 
             {/* ADMIN MENU */}
-            {session && isAdmin && (
+            {user && (
               <>
-                <div className="space-y-2 mt-6">
-                  <div className="flex items-center gap-2 px-3 py-2">
-                    <FolderOpen className="w-4 h-4 text-amber-300" />
-                    <h3 className="text-xs font-bold text-amber-200 uppercase tracking-wider">
-                      Lớp học
-                    </h3>
-                  </div>
-                  <div className="space-y-1.5">
-                    {[
-                      {
-                        href: Routes.MANAGE_CLASS,
-                        label: "Danh sách",
-                        icon: <LibraryBig className="w-5 h-5 text-amber-300" />,
-                      },
-                      {
-                        href: Routes.MANAGE_CLASS_CATEGORY,
-                        label: "Phân loại",
-                        icon: <FolderOpen className="w-5 h-5 text-amber-300" />,
-                      },
-                    ].map((item, index) => (
-                      <motion.div
-                        key={item.href}
-                        initial={{ opacity: 0, x: 20 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ delay: 0.05 * index }}
-                      >
-                        <Link
-                          href={item.href}
-                          onClick={() => setMenuOpen(false)}
-                          className="group flex items-center gap-3 px-4 py-3 rounded-xl
+                {canViewClass && (
+                  <div className="space-y-2 mt-6">
+                    {canViewClassList && (
+                      <div className="flex items-center gap-2 px-3 py-2">
+                        <FolderOpen className="w-4 h-4 text-amber-300" />
+                        <h3 className="text-xs font-bold text-amber-200 uppercase tracking-wider">
+                          Lớp học
+                        </h3>
+                      </div>
+                    )}
+                    {canViewClassCategory && (
+                      <div className="space-y-1.5">
+                        {[
+                          {
+                            href: Routes.MANAGE_CLASS,
+                            label: "Danh sách",
+                            icon: (
+                              <LibraryBig className="w-5 h-5 text-amber-300" />
+                            ),
+                          },
+                          {
+                            href: Routes.MANAGE_CLASS_CATEGORY,
+                            label: "Phân loại",
+                            icon: (
+                              <FolderOpen className="w-5 h-5 text-amber-300" />
+                            ),
+                          },
+                        ].map((item, index) => (
+                          <motion.div
+                            key={item.href}
+                            initial={{ opacity: 0, x: 20 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            transition={{ delay: 0.05 * index }}
+                          >
+                            <Link
+                              href={item.href}
+                              onClick={() => setMenuOpen(false)}
+                              className="group flex items-center gap-3 px-4 py-3 rounded-xl
                                    bg-amber-500/10 hover:bg-amber-500/20 border border-amber-400/30
                                    transition-all duration-200 hover:scale-[1.02]"
-                        >
-                          <span className="text-2xl">{item.icon}</span>
-                          <span className="text-white font-medium text-sm flex-1">
-                            {item.label}
-                          </span>
-                        </Link>
-                      </motion.div>
-                    ))}
+                            >
+                              <span className="text-2xl">{item.icon}</span>
+                              <span className="text-white font-medium text-sm flex-1">
+                                {item.label}
+                              </span>
+                            </Link>
+                          </motion.div>
+                        ))}
+                      </div>
+                    )}
                   </div>
-                </div>
+                )}
+                {canViewStudent && (
+                  <div className="space-y-2 mt-6">
+                    <div className="flex items-center gap-2 px-3 py-2">
+                      <School className="w-4 h-4 text-amber-300" />
+                      <h3 className="text-xs font-bold text-amber-200 uppercase tracking-wider">
+                        Học viên
+                      </h3>
+                    </div>
+                    <Link
+                      href={Routes.MANAGE_STUDENT}
+                      onClick={() => setMenuOpen(false)}
+                      className="group flex items-center gap-3 px-4 py-3 rounded-xl
+                             bg-amber-500/10 hover:bg-amber-500/20 border border-amber-400/30
+                             transition-all duration-200 hover:scale-[1.02]"
+                    >
+                      <Users className="w-5 h-5 text-amber-300" />
+                      <span className="text-white font-medium text-sm flex-1">
+                        Danh sách
+                      </span>
+                    </Link>
+                  </div>
+                )}
 
-                <div className="space-y-2 mt-6">
-                  <div className="flex items-center gap-2 px-3 py-2">
-                    <School className="w-4 h-4 text-amber-300" />
-                    <h3 className="text-xs font-bold text-amber-200 uppercase tracking-wider">
-                      Học viên
-                    </h3>
+                {canViewStorage && (
+                  <div className="space-y-2 mt-6">
+                    <div className="flex items-center gap-2 px-3 py-2">
+                      <Warehouse className="w-4 h-4 text-amber-300" />
+                      <h3 className="text-xs font-bold text-amber-200 uppercase tracking-wider">
+                        Kho lưu trữ
+                      </h3>
+                    </div>
+                    {canViewStorageList && (
+                      <Link
+                        href={Routes.MANAGE_STORAGE_LIST}
+                        onClick={() => setMenuOpen(false)}
+                        className="group flex items-center gap-3 px-4 py-3 rounded-xl
+                             bg-amber-500/10 hover:bg-amber-500/20 border border-amber-400/30
+                             transition-all duration-200 hover:scale-[1.02]"
+                      >
+                        <List className="w-4 h-4 text-amber-300" />
+                        <span className="text-white font-medium text-sm flex-1">
+                          Danh sách
+                        </span>
+                      </Link>
+                    )}
+                    {canViewStorageApprove && (
+                      <Link
+                        href={Routes.MANAGE_STORAGE_REQUEST}
+                        onClick={() => setMenuOpen(false)}
+                        className="group flex items-center gap-3 px-4 py-3 rounded-xl
+                             bg-amber-500/10 hover:bg-amber-500/20 border border-amber-400/30
+                             transition-all duration-200 hover:scale-[1.02]"
+                      >
+                        <ListChecks className="w-4 h-4 text-amber-300" />
+                        <span className="text-white font-medium text-sm flex-1">
+                          Chờ duyệt
+                        </span>
+                      </Link>
+                    )}
+                    {canViewStorageHistory && (
+                      <Link
+                        href={Routes.MANAGE_STORAGE_HISTORY}
+                        onClick={() => setMenuOpen(false)}
+                        className="group flex items-center gap-3 px-4 py-3 rounded-xl
+                             bg-amber-500/10 hover:bg-amber-500/20 border border-amber-400/30
+                             transition-all duration-200 hover:scale-[1.02]"
+                      >
+                        <History className="w-4 h-4 text-amber-300" />
+                        <span className="text-white font-medium text-sm flex-1">
+                          Lịch sử
+                        </span>
+                      </Link>
+                    )}
                   </div>
-                  <Link
-                    href={Routes.MANAGE_STUDENT}
-                    onClick={() => setMenuOpen(false)}
-                    className="group flex items-center gap-3 px-4 py-3 rounded-xl
-                             bg-amber-500/10 hover:bg-amber-500/20 border border-amber-400/30
-                             transition-all duration-200 hover:scale-[1.02]"
-                  >
-                    <Users className="w-5 h-5 text-amber-300" />
-                    <span className="text-white font-medium text-sm flex-1">
-                      Danh sách
-                    </span>
-                  </Link>
-                </div>
-
-                <div className="space-y-2 mt-6">
-                  <div className="flex items-center gap-2 px-3 py-2">
-                    <Warehouse className="w-4 h-4 text-amber-300" />
-                    <h3 className="text-xs font-bold text-amber-200 uppercase tracking-wider">
-                      Kho lưu trữ
-                    </h3>
-                  </div>
-                  <Link
-                    href={Routes.MANAGE_STORAGE_LIST}
-                    onClick={() => setMenuOpen(false)}
-                    className="group flex items-center gap-3 px-4 py-3 rounded-xl
-                             bg-amber-500/10 hover:bg-amber-500/20 border border-amber-400/30
-                             transition-all duration-200 hover:scale-[1.02]"
-                  >
-                    <List className="w-4 h-4 text-amber-300" />
-                    <span className="text-white font-medium text-sm flex-1">
-                      Danh sách
-                    </span>
-                  </Link>
-                  <Link
-                    href={Routes.MANAGE_STORAGE_REQUEST}
-                    onClick={() => setMenuOpen(false)}
-                    className="group flex items-center gap-3 px-4 py-3 rounded-xl
-                             bg-amber-500/10 hover:bg-amber-500/20 border border-amber-400/30
-                             transition-all duration-200 hover:scale-[1.02]"
-                  >
-                    <ListChecks className="w-4 h-4 text-amber-300" />
-                    <span className="text-white font-medium text-sm flex-1">
-                      Chờ duyệt
-                    </span>
-                  </Link>
-                  <Link
-                    href={Routes.MANAGE_STORAGE_HISTORY}
-                    onClick={() => setMenuOpen(false)}
-                    className="group flex items-center gap-3 px-4 py-3 rounded-xl
-                             bg-amber-500/10 hover:bg-amber-500/20 border border-amber-400/30
-                             transition-all duration-200 hover:scale-[1.02]"
-                  >
-                    <History className="w-4 h-4 text-amber-300" />
-                    <span className="text-white font-medium text-sm flex-1">
-                      Lịch sử
-                    </span>
-                  </Link>
-                </div>
+                )}
               </>
             )}
           </div>

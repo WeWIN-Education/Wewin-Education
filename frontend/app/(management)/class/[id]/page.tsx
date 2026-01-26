@@ -179,7 +179,7 @@ export default function ClassDetailPage() {
           </div>
 
           {/* Pagination */}
-          <Pagination
+          {/* <Pagination
             text="Students"
             currentPage={currentPage}
             totalPages={totalPages}
@@ -190,12 +190,12 @@ export default function ClassDetailPage() {
             onPrev={handlePrev}
             onNext={handleNext}
             onRowsChange={handleRowsChange}
-          />
+          /> */}
 
           {/* Resources */}
-          {classData.resources?.length! > 0 && (
+          {/* {classData.resources?.length! > 0 && (
             <ClassUI.LearningResources resources={classData.resources} />
-          )}
+          )} */}
         </div>
       </div>
     </div>

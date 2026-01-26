@@ -33,7 +33,7 @@ interface Props {
 
   updateStudentPagination: (
     classId: string,
-    data: { page?: number; rows?: RowsPerPage }
+    data: { page?: number; rows?: RowsPerPage },
   ) => void;
 
   onView: (c: Class) => void;
@@ -278,13 +278,10 @@ export default function ClassTable({
                                     page < totalPages ? page + 1 : totalPages,
                                 })
                               }
-                              onRowsChange={(e) =>
+                              onRowsChange={(rows) =>
                                 updateStudentPagination(cls.id, {
+                                  rows,
                                   page: 1,
-                                  rows:
-                                    e.target.value === "all"
-                                      ? "all"
-                                      : Number(e.target.value),
                                 })
                               }
                             />
@@ -410,12 +407,9 @@ export default function ClassTable({
                               page: page < totalPages ? page + 1 : totalPages,
                             })
                           }
-                          onRowsChange={(e) =>
+                          onRowsChange={(rows) =>
                             updateStudentPagination(cls.id, {
-                              rows:
-                                e.target.value === "all"
-                                  ? "all"
-                                  : Number(e.target.value),
+                              rows,
                               page: 1,
                             })
                           }

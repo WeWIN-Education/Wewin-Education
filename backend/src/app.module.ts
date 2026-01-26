@@ -7,6 +7,7 @@ import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from './auth/auth.module';
 import { OrderModule } from './order/order.module';
+import { PermissionModule } from './permission/permission.module';
 import { ProductModule } from './inventory/product/product.module';
 
 @Module({
@@ -27,6 +28,7 @@ import { ProductModule } from './inventory/product/product.module';
     RoleModule,
     AuthModule,
     OrderModule,
+    PermissionModule,
     ProductModule,
   ],
 

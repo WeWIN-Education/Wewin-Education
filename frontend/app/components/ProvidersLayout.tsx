@@ -1,18 +1,23 @@
 "use client";
 
-import { useSession } from "next-auth/react";
 import Navbar from "./layouts/header";
 import Sidebar from "./layouts/sidebar";
 import Footer from "./layouts/footer";
+import { useAuthStore } from "@/stores/auth.store";
+import { PERMISSIONS } from "@/lib/constants/permission";
 
 export default function ProvidersLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const { data: session } = useSession();
-  const roles = session?.user?.roles ?? [];
-  const isAdmin = roles.includes("ADMIN");
+  // ✅ Lấy trực tiếp từ Zustand
+  const hasPermission = useAuthStore((s) => s.hasPermission);
+  const user = useAuthStore((s) => s.user);
+
+  const canViewSidebar =
+    !!user && hasPermission(PERMISSIONS.SIDEBAR_MANAGEMENT);
+
   return (
     <>
       {/* 🧭 Navbar */}
@@ -20,7 +25,7 @@ export default function ProvidersLayout({
 
       {/* 🧩 Main Area */}
       <div className="flex flex-1 w-full overflow-hidden">
-        {isAdmin && (
+        {canViewSidebar && (
           <aside className="hidden md:flex text-white shadow-lg flex-col justify-between">
             <Sidebar />
           </aside>

@@ -35,19 +35,19 @@ export default function BaseEntityFormModal({
         animate={{ scale: 1 }}
         exit={{ scale: 0.9 }}
         transition={{ duration: 0.25 }}
-        className="bg-white rounded-2xl shadow-xl w-[90%] max-w-lg p-6"
+        className="bg-white rounded-2xl shadow-xl w-[85%] sm:w-[90%] max-w-lg max-h-[90vh] overflow-y-auto p-4 sm:p-6"
         onClick={(e) => e.stopPropagation()}
       >
         {/* ===== Header ===== */}
-        <div className="flex justify-between items-center mb-4">
-          <div className="flex items-center gap-2 text-xl font-bold text-gray-900">
+        <div className="flex justify-between items-center mb-4 sm:mb-5">
+          <div className="flex items-center gap-2 text-lg sm:text-xl font-bold text-gray-900">
             {title}
           </div>
           <button
             onClick={onCancel}
-            className="p-2 rounded-full hover:bg-gray-100 transition"
+            className="p-1.5 sm:p-2 rounded-full hover:bg-gray-100 transition shrink-0"
           >
-            <X className="w-5 h-5 text-gray-500" />
+            <X className="w-4 h-4 sm:w-5 sm:h-5 text-gray-500" />
           </button>
         </div>
 
@@ -57,23 +57,23 @@ export default function BaseEntityFormModal({
             e.preventDefault();
             onSubmit();
           }}
-          className="space-y-5 text-black"
+          className="space-y-4 sm:space-y-5 text-black text-sm sm:text-base"
         >
           {children}
 
           {/* ===== Footer ===== */}
-          <div className="flex justify-end gap-3 mt-6">
+          <div className="flex flex-col-reverse sm:flex-row justify-end gap-2 sm:gap-3 mt-5 sm:mt-6 pt-4 border-t border-gray-100">
             <button
               type="button"
               onClick={onCancel}
-              className="px-4 py-2 rounded-lg border border-gray-300 hover:bg-gray-100 transition"
+              className="w-full sm:w-auto px-4 py-2.5 sm:py-2 rounded-lg border border-gray-300 hover:bg-gray-100 transition text-sm sm:text-base font-medium"
             >
               Hủy
             </button>
 
             <button
               type="submit"
-              className={`px-5 py-2 rounded-lg font-semibold hover:scale-[1.02] transition
+              className={`w-full sm:w-auto px-5 py-2.5 sm:py-2 rounded-lg font-semibold hover:scale-[1.02] transition text-sm sm:text-base
                 ${
                   mode === "add"
                     ? "bg-linear-to-r from-emerald-500 to-green-600 hover:from-emerald-600 hover:to-green-700 text-white"

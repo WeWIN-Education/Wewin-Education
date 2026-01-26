@@ -3,6 +3,7 @@ import { Lexend } from "next/font/google";
 import "./globals.css";
 import Providers from "./components/providers";
 import ProvidersLayout from "./components/ProvidersLayout";
+import AuthHydrator from "./components/auth/authHydrator";
 
 const lexend = Lexend({
   subsets: ["latin"],
@@ -32,6 +33,7 @@ export default function RootLayout({
       >
         {/* ✅ Wrap toàn app trong SessionProvider */}
         <Providers>
+          <AuthHydrator />
           <ProvidersLayout>{children}</ProvidersLayout>
         </Providers>
       </body>
