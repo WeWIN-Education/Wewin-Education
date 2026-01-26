@@ -213,44 +213,6 @@ export function RequestItemsTable({
                   <div className="text-xs font-semibold text-green-500 mb-1">
                     ĐẶT HÀNG
                   </div>
-<<<<<<< HEAD
-
-                  <div>Giá: {formatCurrency(it.unitPriceOrdered ?? 0)}</div>
-                  <div>VAT: {formatCurrency(it.vatPriceOrdered ?? 0)}</div>
-                  <div className="font-semibold text-green-700">
-                    Tổng: {formatCurrency(it.totalPriceOrdered ?? 0)}
-                  </div>
-                </div>
-              )}
-              {/* NOTE REQUEST */}
-              {it.noteRequest && (
-                <div className="rounded-xl bg-blue-50 border border-blue-200 p-3">
-                  <div className="flex items-center gap-2 mb-1">
-                    <FileText size={14} className="text-blue-600" />
-                    <span className="text-xs font-semibold text-blue-700">
-                      GHI CHÚ YÊU CẦU
-                    </span>
-                  </div>
-                  <div className="text-sm text-gray-800 leading-relaxed">
-                    {it.noteRequest}
-                  </div>
-                </div>
-              )}
-
-              {/* NOTE ORDER */}
-              {orderExists && it.noteOrdered && (
-                <div className="rounded-xl bg-green-50 border border-green-200 p-3">
-                  <div className="flex items-center gap-2 mb-1">
-                    <ClipboardList size={14} className="text-green-600" />
-                    <span className="text-xs font-semibold text-green-700">
-                      GHI CHÚ ĐẶT HÀNG
-                    </span>
-                  </div>
-                  <div className="text-sm text-gray-800 leading-relaxed">
-                    {it.noteOrdered}
-                  </div>
-                </div>
-=======
                   {orderExists ? (
                     <>
                       <div>Giá: {formatCurrency(it.unitPriceOrdered ?? 0)}</div>
@@ -269,7 +231,6 @@ export function RequestItemsTable({
 
               {it.noteRequest && (
                 <div className="text-gray-500">Ghi chú: {it.noteRequest}</div>
->>>>>>> fec02b48c034b2adfd21dd9e75734a71fb4b27b6
               )}
             </div>
           );
