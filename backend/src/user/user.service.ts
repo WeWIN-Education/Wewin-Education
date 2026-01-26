@@ -82,7 +82,7 @@ export class UserService {
     return {
       id: user.id,
       email: user.email,
-      roles: roles.map((r) => r.name),
+      roles: roles,
     };
   }
 
