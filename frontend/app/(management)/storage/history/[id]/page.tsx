@@ -6,12 +6,10 @@ import { use } from "react";
 import {
   getRequestById,
   getRequestItems,
-  getRequestTimeline,
 } from "@/lib/constants/storage/request/selectors";
 
 import { RequestDetailHeader } from "@/app/components/storage/history/requestDetailHeader";
 import { RequestItemsTable } from "@/app/components/storage/history/requestItemTable";
-import { RequestTimeline } from "@/app/components/storage/history/requestTimeLine";
 import { BackButton } from "@/app/components/backButton";
 import { Routes } from "@/lib/constants/routes";
 
@@ -27,7 +25,7 @@ export default function HistoryDetailPage({
   if (!po) return notFound();
 
   const items = getRequestItems(po.id);
-  const timeline = getRequestTimeline(po.id);
+  // const timeline = getRequestTimeline(po.id);
 
   return (
     <div className="p-6 space-y-6 text-black">
@@ -44,7 +42,7 @@ export default function HistoryDetailPage({
       <RequestItemsTable items={items} orderStatus={po.status} />
 
       {/* ===== TIMELINE ===== */}
-      <RequestTimeline docs={timeline} />
+      {/* <RequestTimeline docs={timeline} /> */}
     </div>
   );
 }

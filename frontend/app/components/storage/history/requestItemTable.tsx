@@ -213,7 +213,6 @@ export function RequestItemsTable({
                   <div className="text-xs font-semibold text-green-500 mb-1">
                     ĐẶT HÀNG
                   </div>
-<<<<<<< HEAD
 
                   <div>Giá: {formatCurrency(it.unitPriceOrdered ?? 0)}</div>
                   <div>VAT: {formatCurrency(it.vatPriceOrdered ?? 0)}</div>
@@ -250,26 +249,6 @@ export function RequestItemsTable({
                     {it.noteOrdered}
                   </div>
                 </div>
-=======
-                  {orderExists ? (
-                    <>
-                      <div>Giá: {formatCurrency(it.unitPriceOrdered ?? 0)}</div>
-                      <div>VAT: {formatCurrency(it.vatPriceOrdered ?? 0)}</div>
-                      <div className="font-semibold text-green-700">
-                        Tổng: {formatCurrency(it.totalPriceOrdered ?? 0)}
-                      </div>
-                    </>
-                  ) : (
-                    <div className="text-gray-400 italic">
-                      Chưa có dữ liệu đặt hàng
-                    </div>
-                  )}
-                </div>
-              )}
-
-              {it.noteRequest && (
-                <div className="text-gray-500">Ghi chú: {it.noteRequest}</div>
->>>>>>> fec02b48c034b2adfd21dd9e75734a71fb4b27b6
               )}
             </div>
           );

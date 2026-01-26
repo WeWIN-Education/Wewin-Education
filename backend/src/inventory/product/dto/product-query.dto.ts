@@ -1,51 +1,29 @@
-import {
-  IsEnum,
-  IsInt,
-  IsOptional,
-  IsString,
-  IsUUID,
-  Min,
-} from 'class-validator';
-import { Type } from 'class-transformer';
+import { ApiPropertyOptional } from '@nestjs/swagger';
 import { PRODUCT_STATUS_ENUM } from '../../../util/enum';
+import { BaseQueryDto } from 'src/common/base-query-dto';
 
-export class ProductQueryDto {
-  // search theo code/name (contains, case-insensitive)
-  @IsOptional()
-  @IsString()
-  q?: string;
-
-  // filter theo status
-  @IsOptional()
-  @IsEnum(PRODUCT_STATUS_ENUM)
+export class ProductQueryDto extends BaseQueryDto {
+  @ApiPropertyOptional({
+    enum: PRODUCT_STATUS_ENUM,
+    description: 'Product status',
+  })
   status?: PRODUCT_STATUS_ENUM;
 
-  // filter theo category
-  @IsOptional()
-  @IsUUID()
+  @ApiPropertyOptional({
+    format: 'uuid',
+    description: 'Filter by category',
+  })
   categoryId?: string;
 
-  // filter theo inventoryDocument
-  @IsOptional()
-  @IsUUID()
+  @ApiPropertyOptional({
+    format: 'uuid',
+    description: 'Filter by inventory document',
+  })
   inventoryDocumentId?: string;
 
-  // (tuỳ chọn) include cancelled hay không
-  // - mặc định: không trả cancelled
-  @IsOptional()
-  @Type(() => String)
+  @ApiPropertyOptional({
+    enum: ['true', 'false'],
+    description: 'Include cancelled products',
+  })
   includeCancelled?: 'true' | 'false';
-
-  // paging
-  @IsOptional()
-  @Type(() => Number)
-  @IsInt()
-  @Min(1)
-  page?: number = 1;
-
-  @IsOptional()
-  @Type(() => Number)
-  @IsInt()
-  @Min(1)
-  limit?: number = 10;
 }

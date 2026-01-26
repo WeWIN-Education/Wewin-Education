@@ -16,9 +16,11 @@ export class ProductService {
   ) {}
 
   async getProducts() {
-    return this.productRepo.find();
+    return this.productRepo.find({
+      where: { status: PRODUCT_STATUS_ENUM.IN_STOCK },
+      order: { createAt: 'DESC' },
+    });
   }
-
   async addProduct(data: Partial<Product>) {
     if (!data.code) {
       throw new BadRequestException('Product code is required');
@@ -150,9 +152,10 @@ export class ProductService {
       });
     }
 
-    // sort mới nhất trước
-    // chú ý tên cột: nếu entity là createAt/updateAt thì đổi thành p.createAt
-    qb.orderBy('p.createAt', 'DESC');
+    const sortBy = query.sortBy ?? 'createAt';
+    const order = query.order ?? 'DESC';
+
+    qb.orderBy(`p.${sortBy}`, order);
 
     const [items, total] = await qb.skip(skip).take(limit).getManyAndCount();
 

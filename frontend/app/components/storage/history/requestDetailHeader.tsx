@@ -7,7 +7,7 @@ import Image from "next/image";
 
 export function RequestDetailHeader({ po }: { po: Purchase_Orders }) {
   return (
-    <div className="relative bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden py-3">
+    <div className="relative bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden py-5">
       {/* Accent bar */}
       <div className="absolute left-0 top-0 h-full w-1 bg-linear-to-b from-[#0E4BA9] to-[#007BCE]" />
 

@@ -6,20 +6,21 @@ import {
   Patch,
   Param,
   Query,
+  UseGuards,
 } from '@nestjs/common';
 import { ProductService } from './product.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { ProductQueryDto } from './dto/product-query.dto';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 
+@ApiTags('Product')
+@ApiBearerAuth('access-token')
+@UseGuards(JwtAuthGuard)
 @Controller('product')
 export class ProductController {
   constructor(private readonly productService: ProductService) {}
-
-  @Get()
-  getProducts() {
-    return this.productService.getProducts();
-  }
 
   @Post()
   addProduct(@Body() body: CreateProductDto) {
@@ -41,7 +42,7 @@ export class ProductController {
     return this.productService.activateProduct(id);
   }
 
-  @Get('search')
+  @Get()
   searchProducts(@Query() query: ProductQueryDto) {
     return this.productService.searchProducts(query);
   }
