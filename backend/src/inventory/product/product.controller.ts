@@ -22,6 +22,10 @@ import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 export class ProductController {
   constructor(private readonly productService: ProductService) {}
 
+  @Get()
+  searchProducts(@Query() query: ProductQueryDto) {
+    return this.productService.searchProducts(query);
+  }
   @Post()
   addProduct(@Body() body: CreateProductDto) {
     return this.productService.addProduct(body);
@@ -42,8 +46,11 @@ export class ProductController {
     return this.productService.activateProduct(id);
   }
 
-  @Get()
-  searchProducts(@Query() query: ProductQueryDto) {
-    return this.productService.searchProducts(query);
+  @Get(':id')
+  getById(
+    @Param('id') id: string,
+    @Query('includeCancelled') includeCancelled?: string,
+  ) {
+    return this.productService.getProductById(id, includeCancelled === 'true');
   }
 }

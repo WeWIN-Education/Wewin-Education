@@ -1,4 +1,4 @@
-import { Product } from "@/types/storage";
+import { Product } from "@/types/product";
 import { MOCK_CATEGORIES } from "./category";
 import { MOCK_INVENTORY_DOCUMENTS } from "./inventory_document";
 
@@ -12,47 +12,16 @@ export const MOCK_PRODUCTS: Product[] = [
     name: "Bút lông bảng",
     unit: "Cây",
     quantity: 120,
-    imageUrl:
+    imageUrl: [
       "https://images.unsplash.com/photo-1587825140708-dfaf72ae4b04?q=80&w=800&auto=format&fit=crop",
+    ],
     status: "IN_STOCK",
     createdAt: "2025-01-01T08:00:00.000Z",
     updatedAt: "2025-01-05T10:30:00.000Z",
-    inventoryDocuments: [MOCK_INVENTORY_DOCUMENTS[0]],
-    categoryId: MOCK_CATEGORIES[0],
-  },
-  {
-    id: "VT-002",
-    code: "VT-002",
-    name: "Giấy A4",
-    unit: "Ram",
-    quantity: 8,
-    imageUrl:
-      "https://images.unsplash.com/photo-1589254065878-42c9da997008?q=80&w=800&auto=format&fit=crop",
-    status: "LOW_STOCK",
-    createdAt: "2025-01-02T09:00:00.000Z",
-    updatedAt: "2025-01-05T10:30:00.000Z",
-    inventoryDocuments: [
-      MOCK_INVENTORY_DOCUMENTS[0],
-      MOCK_INVENTORY_DOCUMENTS[1],
-    ],
-    categoryId: MOCK_CATEGORIES[0],
-  },
-  {
-    id: "VT-003",
-    code: "VT-003",
-    name: "Khăn lau bảng",
-    unit: "Cái",
-    quantity: 0,
-    imageUrl:
-      "https://images.unsplash.com/photo-1601004890684-d8cbf643f5f2?q=80&w=800&auto=format&fit=crop",
-    status: "OUT_OF_STOCK",
-    createdAt: "2025-01-03T09:00:00.000Z",
-    updatedAt: "2025-01-05T10:30:00.000Z",
-    inventoryDocuments: [],
-    categoryId: MOCK_CATEGORIES[1],
+    inventoryDocumentId: MOCK_INVENTORY_DOCUMENTS[0]?.id ?? null,
+    categoryId: MOCK_CATEGORIES[0].id,
   },
 ];
-
 /* =======================
    MIN QUANTITY CONFIG
 ======================= */

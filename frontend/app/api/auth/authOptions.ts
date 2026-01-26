@@ -3,7 +3,7 @@ import Credentials from "next-auth/providers/credentials";
 import { Routes } from "@/lib/constants/routes";
 
 type LoginResponse = {
-  accessToken: string;
+  access_token: string;
   user: {
     id: string;
     name: string;
@@ -55,7 +55,7 @@ export const authOptions: NextAuthOptions = {
           email: result.user.email,
           image: result.user.image ?? null,
           roles: result.user.roles ?? [], // 🔒 QUAN TRỌNG
-          accessToken: result.accessToken,
+          access_token: result.access_token,
         };
       },
     }),
@@ -64,15 +64,23 @@ export const authOptions: NextAuthOptions = {
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
-        token.user = user;
+        token.access_token = user.access_token;
+        token.roles = user.roles;
+        token.sub = user.id;
       }
       return token;
     },
-
     async session({ session, token }) {
-      if (token.user) {
-        session.user = token.user;
-      }
+      session.access_token = token.access_token as string;
+
+      session.user = {
+        id: token.sub!,
+        name: session.user?.name ?? "",
+        email: session.user?.email ?? "",
+        image: session.user?.image ?? null,
+        roles: token.roles ?? [],
+      };
+
       return session;
     },
   },

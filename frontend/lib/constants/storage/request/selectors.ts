@@ -1,9 +1,10 @@
-import { Purchase_Orders, Purchase_Order_Items, Product } from "@/types/storage";
+import { Purchase_Orders, Purchase_Order_Items } from "@/types/storage";
 import {
   MOCK_PURCHASE_ORDERS,
   MOCK_PURCHASE_ORDER_ITEMS,
 } from "./mock.purchase_orders";
 import { MOCK_PRODUCTS } from "../product";
+import { Product } from "@/types/product";
 
 export function getAllRequests(): Purchase_Orders[] {
   return MOCK_PURCHASE_ORDERS;
@@ -21,6 +22,6 @@ export function getRequestItems(orderId: string): Purchase_Order_Items[] {
 //   return MOCK_PO_TIMELINE_BY_ORDER_ID[orderId] ?? [];
 // }
 
-export function findProductById(productId: string): Product | undefined {
-  return MOCK_PRODUCTS.find((p) => p.id === productId);
+export function findProductById(productId: string): Product | null {
+  return MOCK_PRODUCTS.find((p) => p.id === productId) ?? null;
 }
