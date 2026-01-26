@@ -4,6 +4,7 @@ import {
   IsOptional,
   IsString,
   IsUUID,
+  IsIn,
   Min,
 } from 'class-validator';
 import { Type } from 'class-transformer';
@@ -32,9 +33,10 @@ export class ProductQueryDto {
 
   // (tuỳ chọn) include cancelled hay không
   // - mặc định: không trả cancelled
+  // ✅ QUERY BOOLEAN → STRING
   @IsOptional()
-  @Type(() => String)
-  includeCancelled?: 'true' | 'false';
+  @IsIn(['true', 'false'])
+  includeCancelled?: string;
 
   // paging
   @IsOptional()
