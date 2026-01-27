@@ -1,10 +1,20 @@
-import { Entity, Column, ManyToOne, JoinColumn, Index } from 'typeorm';
+import {
+  Entity,
+  Column,
+  ManyToOne,
+  JoinColumn,
+  Index,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { BaseEntity } from '../base.entity';
 import { LearningNode } from './learning-node.entity';
 import { LessonBlockType } from './book.enums';
 
 @Entity('lesson_blocks')
 export class LessonBlock extends BaseEntity {
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
+
   @ManyToOne(() => LearningNode, (node) => node.lessonBlocks, {
     onDelete: 'CASCADE',
   })
