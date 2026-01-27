@@ -9,7 +9,6 @@ export class BaseQueryDto {
   limit?: number = 10;
 
   @ApiPropertyOptional({
-    example: 'English',
     description: 'Search by code or name',
   })
   q?: string;

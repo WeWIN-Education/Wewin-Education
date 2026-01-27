@@ -1,29 +1,20 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
-
-/* ===== COMPONENTS ===== */
+import { useEffect, useState } from "react";
 import InventoryStats from "@/app/components/storage/inventoryStat";
 import ReusableTable from "@/app/components/table";
 import InventoryForm, {
   InventoryFormData,
 } from "@/app/components/storage/inventoryForm";
 import { CirclePlus } from "lucide-react";
-import {
-  MOCK_PRODUCTS,
-  MIN_QTY_BY_PRODUCT_ID,
-} from "@/lib/constants/storage/product";
-import type { Product } from "@/types/storage";
 import PageToolbar from "@/app/components/toolBar";
 import ConfirmPopup from "@/app/components/confirmPopup";
 import { useRouter } from "next/navigation";
 import { Routes } from "@/lib/constants/routes";
 import { getStockStatus } from "@/app/utils/stockStatus";
-import {
-  PaginatedResponse,
-  Pagination,
-  RowsPerPage,
-} from "@/app/components/pagination";
+import { Pagination, RowsPerPage } from "@/app/components/pagination";
+import { Product } from "@/types/product";
+import { searchProducts } from "@/services/storage.service";
 
 type TableRow = Product & { categoryName: string; minQuantity: number };
 
@@ -45,7 +36,7 @@ export default function StoragePage() {
     x: number;
     y: number;
     name: string;
-    imageUrl?: string;
+    imageUrl?: string[];
   }>({
     visible: false,
     x: 0,
@@ -59,15 +50,8 @@ export default function StoragePage() {
   const [loading, setLoading] = useState(false);
   const [rows, setRows] = useState<TableRow[]>([]);
   const [total, setTotal] = useState(0);
-  const products: Product[] = MOCK_PRODUCTS;
 
-  const tableData: TableRow[] = useMemo(() => {
-    return products.map((p) => ({
-      ...p,
-      categoryName: p.categoryId?.name ?? "—",
-      minQuantity: MIN_QTY_BY_PRODUCT_ID[p.id] ?? 0,
-    }));
-  }, [products]);
+  const tableData = rows;
 
   const totalItems = tableData.length;
   const totalQuantity = tableData.reduce((s, i) => s + i.quantity, 0);
@@ -81,71 +65,44 @@ export default function StoragePage() {
   const startIndex = limit === "all" ? 0 : (page - 1) * limit;
   const endIndex = limit === "all" ? total : startIndex + rows.length;
 
-  async function fetchProducts(params: {
-    page: number;
-    limit: RowsPerPage;
-    search: string;
-  }): Promise<PaginatedResponse<TableRow>> {
-    let source = tableData;
-
-    if (params.search.trim()) {
-      const q = params.search.toLowerCase();
-      source = source.filter((row) => {
-        return (
-          row.id.toLowerCase().includes(q) ||
-          row.name.toLowerCase().includes(q) ||
-          row.categoryName.toLowerCase().includes(q)
-        );
-      });
-    }
-
-    const total = source.length;
-
-    const data =
-      params.limit === "all"
-        ? source
-        : source.slice(
-            (params.page - 1) * params.limit,
-            params.page * params.limit,
-          );
-
-    return {
-      data,
-      total,
-      page: params.page,
-      limit: params.limit,
-    };
-  }
-
   useEffect(() => {
     let ignore = false;
 
     async function load() {
       setLoading(true);
 
-      // Nếu user chọn "all" thì page luôn = 1 (tránh bug phân trang)
-      const effectivePage = limit === "all" ? 1 : page;
+      try {
+        const res = await searchProducts({
+          page,
+          limit: limit === "all" ? undefined : Number(limit),
+          q: search || undefined,
+        });
 
-      const res = await fetchProducts({
-        page: effectivePage,
-        limit,
-        search,
-      });
+        if (ignore) return;
 
-      if (!ignore) {
-        setRows(res.data);
-        setTotal(res.total);
+        const mappedRows: TableRow[] = res.items.map((p: Product) => ({
+          ...p,
+          categoryName: p.categoryId, // backend trả string → tạm hiển thị ID
+          minQuantity: 0, // giữ logic cũ, có thể nâng cấp sau
+        }));
 
-        // đảm bảo page hợp lệ khi totalPages thay đổi (search làm giảm total)
+        setRows(mappedRows);
+        setTotal(res.pagination.total);
+
         if (limit !== "all") {
-          const totalPages = Math.max(1, Math.ceil(res.total / limit));
+          const totalPages = Math.max(
+            1,
+            Math.ceil(res.pagination.total / Number(limit)),
+          );
           if (page > totalPages) setPage(totalPages);
         } else {
           setPage(1);
         }
+      } catch (err) {
+        console.error("Fetch storage error:", err);
+      } finally {
+        setLoading(false);
       }
-
-      setLoading(false);
     }
 
     load();
@@ -154,7 +111,7 @@ export default function StoragePage() {
       ignore = true;
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [page, limit, search, tableData]);
+  }, [page, limit, search]);
 
   return (
     <div className="space-y-6 px-8 py-8">
@@ -194,7 +151,7 @@ export default function StoragePage() {
           const stock = getStockStatus(row.quantity, row.minQuantity);
           return (
             <>
-              <td className="px-6 py-3 text-center font-medium">{row.id}</td>
+              <td className="px-6 py-3 text-center font-medium">{row.code}</td>
               <td className="px-6 py-3 font-semibold text-[#0E4BA9]">
                 <span
                   className="cursor-default underline-offset-2 hover:underline"
@@ -256,7 +213,7 @@ export default function StoragePage() {
                   <h3 className="text-lg font-bold text-[#0E4BA9]">
                     {row.name}
                   </h3>
-                  <p className="text-sm text-gray-600">Mã: {row.id}</p>
+                  <p className="text-sm text-gray-600">Mã: {row.code}</p>
                   <p className="text-sm text-gray-600">
                     Danh mục: {row.categoryName}
                   </p>
@@ -283,8 +240,9 @@ export default function StoragePage() {
               mode: "edit",
               data: {
                 id: row.id,
+                code: row.code,
                 name: row.name,
-                categoryId: row.categoryId.id, // ✅ LẤY ID
+                categoryId: row.categoryId, // ✅ LẤY ID
                 unit: row.unit,
                 quantity: row.quantity,
               },
@@ -393,7 +351,7 @@ export default function StoragePage() {
               {hoverPreview.imageUrl ? (
                 // eslint-disable-next-line @next/next/no-img-element
                 <img
-                  src={hoverPreview.imageUrl}
+                  src={hoverPreview.imageUrl[0]}
                   alt={hoverPreview.name}
                   className="
                     w-full h-56 object-cover rounded-2xl

@@ -77,7 +77,7 @@ export function ProductInfoCard({
         <div>
           <div className="text-sm text-gray-500 mb-1">Tồn kho hiện tại</div>
           <div className="text-3xl font-extrabold text-gray-900">
-            {quantity.toLocaleString()}
+            {(quantity ?? 0).toLocaleString()}
             <span className="ml-1 text-base font-semibold text-gray-500">
               {unit}
             </span>

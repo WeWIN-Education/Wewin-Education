@@ -2,12 +2,7 @@
 
 import { useParams, useRouter, notFound } from "next/navigation";
 import { ChevronRight, Package, Pencil } from "lucide-react";
-import { useMemo, useState } from "react";
-import {
-  MOCK_PRODUCTS,
-  MIN_QTY_BY_PRODUCT_ID,
-} from "@/lib/constants/storage/product";
-import { MOCK_INVENTORY_ITEMS } from "@/lib/constants/storage/inventory_document_item";
+import { useEffect, useMemo, useState } from "react";
 import { Type } from "@/types/storage";
 import { User } from "@/types/user";
 import { getStockStatus } from "@/app/utils/stockStatus";
@@ -25,6 +20,18 @@ import InventoryForm from "@/app/components/storage/inventoryForm";
 import { Routes } from "@/lib/constants/routes";
 import InventoryActions from "@/app/components/storage/InventoryActions";
 import Button from "@/app/components/button";
+import { storageService } from "@/services/storage.service";
+import { Product } from "@/types/product";
+
+type InventoryHistoryApiItem = {
+  quantity: number;
+  createdAt: string;
+  inventoryDocument?: {
+    id?: string;
+    note?: string;
+    createdBy?: User | null;
+  };
+};
 
 /* ================= TYPES ================= */
 export interface InventoryHistoryView {
@@ -50,38 +57,9 @@ export default function ProductDetailPage() {
   const { id } = useParams<{ id: string }>();
 
   const [openEditForm, setOpenEditForm] = useState(false);
-
-  const product = MOCK_PRODUCTS.find((p) => p.id === id);
-  if (!product) notFound();
-
-  /* ================= STOCK STATUS ================= */
-  const minQuantity = MIN_QTY_BY_PRODUCT_ID[product.id] ?? 5;
-  const stock = getStockStatus(product.quantity, minQuantity);
-
-  /* ================= HISTORY MAP ================= */
-  const items = MOCK_INVENTORY_ITEMS.filter(
-    (i) => i.productId.id === product.id,
-  );
-
-  const documentMap = useMemo(
-    () => new Map(product.inventoryDocuments.map((d) => [d.id, d])),
-    [product.inventoryDocuments],
-  );
-
-  const history: InventoryHistoryView[] = useMemo(() => {
-    return items.map((item) => {
-      const doc = documentMap.get(item.inventoryDocumentId);
-      return {
-        id: doc?.id ?? "—",
-        date: formatDateTimeFull(item.createdAt),
-        type: item.quantity > 0 ? "IN" : "OUT",
-        quantity: Math.abs(item.quantity),
-        note: doc?.note ?? "—",
-        createdBy: doc?.createdBy ?? null,
-      };
-    });
-  }, [items, documentMap]);
-
+  const [product, setProduct] = useState<Product | null>(null);
+  const [history, setHistory] = useState<InventoryHistoryView[]>([]);
+  const [loading, setLoading] = useState(true);
   const totalIn = history.filter((h) => h.type === "IN").length;
   const totalOut = history.filter((h) => h.type === "OUT").length;
 
@@ -100,6 +78,56 @@ export default function ProductDetailPage() {
     [history, startIndex, endIndex],
   );
 
+  useEffect(() => {
+    if (!id) return;
+
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+
+        const [productRes, historyRes] = await Promise.all([
+          storageService.getProductById(id),
+          storageService.getInventoryHistory(id),
+        ]);
+
+        setProduct(productRes.data);
+
+        setHistory(
+          historyRes.data.map((item: InventoryHistoryApiItem) => ({
+            id: item.inventoryDocument?.id ?? "—",
+            date: formatDateTimeFull(item.createdAt),
+            type: item.quantity > 0 ? "IN" : "OUT",
+            quantity: Math.abs(item.quantity),
+            note: item.inventoryDocument?.note ?? "—",
+            createdBy: item.inventoryDocument?.createdBy ?? null,
+          })),
+        );
+      } catch (err: any) {
+        if (err?.response?.status === 401) {
+          router.push(Routes.LOGIN);
+          return;
+        }
+        notFound();
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [id, router]);
+
+  /* ================= STOCK STATUS ================= */
+  const minQuantity = 20;
+  if (loading) {
+    return <div className="p-8">Đang tải dữ liệu...</div>;
+  }
+  if (!product) {
+    notFound();
+  }
+  const stock = getStockStatus(product.quantity, minQuantity);
+
+  
+
   return (
     <div className="space-y-6 px-8 py-8">
       {/* ================= BREADCRUMB ================= */}
@@ -113,7 +141,7 @@ export default function ProductDetailPage() {
         </button>
         <ChevronRight size={16} />
         <span className="font-medium text-blue-600">
-          {product.name} ({product.code})
+          {product?.name} ({product?.code})
         </span>
       </div>
 
@@ -125,7 +153,7 @@ export default function ProductDetailPage() {
         />
 
         <div className="flex flex-wrap items-center gap-3">
-          <InventoryActions productId={product.id} />
+          {product && <InventoryActions productId={product.id} />}
 
           <Button
             onClick={() => setOpenEditForm(true)}
@@ -145,15 +173,18 @@ export default function ProductDetailPage() {
       <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
         {/* LEFT: INFO CARD */}
         <div className="lg:col-span-3">
-          <ProductInfoCard
-            name={product.name}
-            code={product.code}
-            category={product.categoryId.name}
-            quantity={product.quantity}
-            unit={product.unit}
-            statusLabel={stock.label}
-            statusColor={stock.badgeColor}
-          />
+          {product && (
+            <ProductInfoCard
+              name={product.name}
+              code={product.code}
+              category={product.categoryId ?? "—"}
+              quantity={product.quantity}
+              unit={product.unit}
+              statusLabel={stock.label}
+              statusColor={stock.badgeColor}
+            />
+          )}
+
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-6">
             <StatCard value={totalIn} label="Tổng số lần nhập" color="green" />
             <StatCard value={totalOut} label="Tổng số lần xuất" color="blue" />
@@ -167,10 +198,16 @@ export default function ProductDetailPage() {
 
         {/* RIGHT: IMAGE */}
         <div className="lg:col-span-2">
-          <ProductImageCard
-            imageUrl={product.imageUrl}
-            productName={product.name}
-          />
+          {product && (
+            <ProductImageCard
+              imageUrl={
+                Array.isArray(product.imageUrl)
+                  ? product.imageUrl[0]
+                  : product.imageUrl
+              }
+              productName={product.name}
+            />
+          )}
         </div>
       </div>
 
@@ -246,13 +283,13 @@ export default function ProductDetailPage() {
         </>
       </HistorySection>
 
-      {openEditForm && (
+      {product && openEditForm && (
         <InventoryForm
           mode="edit"
           initialData={{
             id: product.id,
             name: product.name,
-            categoryId: product.categoryId.id,
+            categoryId: product.categoryId ?? "",
             unit: product.unit,
             quantity: product.quantity,
           }}

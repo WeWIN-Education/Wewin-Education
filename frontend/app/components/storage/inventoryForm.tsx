@@ -12,6 +12,7 @@ import { MOCK_CATEGORIES } from "@/lib/constants/storage/category";
 
 export type InventoryFormData = {
   id: string;
+  code: string;
   name: string;
   categoryId: string;
   unit: string;
@@ -35,6 +36,7 @@ export default function InventoryForm({
 }: InventoryFormProps) {
   const [formData, setFormData] = useState<InventoryFormData>({
     id: "",
+    code: "",
     name: "",
     categoryId: "",
     unit: "",

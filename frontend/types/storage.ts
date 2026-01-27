@@ -1,18 +1,6 @@
+import { Product } from "./product";
 import { User } from "./user";
 
-export interface Product {
-  id: string;
-  code: string;
-  name: string;
-  unit: string;
-  quantity: number; // TỒN KHO HIỆN TẠI
-  imageUrl?: string;
-  status: string;
-  createdAt: string; // ISO
-  updatedAt: string; // ISO
-  inventoryDocuments: Inventory_Docment[]; // MẢNG CÁC PHIẾU NHẬP/XUẤT HÀNG LIÊN QUAN
-  categoryId: Category; // FK → Category.id
-}
 
 export interface Category {
   id: string;

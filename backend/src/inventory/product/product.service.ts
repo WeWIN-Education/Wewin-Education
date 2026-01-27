@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import type { Repository } from 'typeorm';
 import { Product } from '../../entities/inventory/product.entity';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { BadRequestException } from '@nestjs/common';
@@ -102,6 +102,29 @@ export class ProductService {
 
     return {
       message: 'Product activated successfully',
+    };
+  }
+
+  async getProductById(id: string, includeCancelled = false) {
+    const qb = this.productRepo.createQueryBuilder('p');
+
+    qb.where('p.id = :id', { id });
+
+    if (!includeCancelled) {
+      qb.andWhere('p.status != :cancelled', {
+        cancelled: PRODUCT_STATUS_ENUM.CANCELLED,
+      });
+    }
+
+    const product = await qb.getOne();
+
+    if (!product) {
+      throw new NotFoundException('Product not found');
+    }
+
+    return {
+      message: 'Get product successfully',
+      data: product,
     };
   }
 
