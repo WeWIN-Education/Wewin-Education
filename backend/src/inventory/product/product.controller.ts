@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-call */
 import {
   Body,
   Controller,
@@ -21,7 +22,10 @@ import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 @Controller('product')
 export class ProductController {
   constructor(private readonly productService: ProductService) {}
-
+  @Get()
+  getProducts() {
+    return this.productService.getProducts();
+  }
   @Post()
   addProduct(@Body() body: CreateProductDto) {
     return this.productService.addProduct(body);
@@ -42,7 +46,7 @@ export class ProductController {
     return this.productService.activateProduct(id);
   }
 
-  @Get()
+  @Get('search')
   searchProducts(@Query() query: ProductQueryDto) {
     return this.productService.searchProducts(query);
   }
