@@ -2,10 +2,12 @@
 
 import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { useState, useEffect } from "react";
+import { useState, useEffect, KeyboardEvent } from "react";
 import { motion } from "framer-motion";
 import { Routes } from "../../lib/constants/routes";
-import { BookOpen, Eye, EyeOff, Target, Trophy } from "lucide-react";
+import { ArrowLeft, BookOpen, Eye, EyeOff, Target, Trophy } from "lucide-react";
+import Notification from "../components/notification";
+import Image from "next/image";
 
 export default function LoginPage() {
   const { status } = useSession();
@@ -16,6 +18,22 @@ export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [notification, setNotification] = useState<{
+    message: string;
+    type: "info" | "success" | "error";
+    visible: boolean;
+  }>({
+    message: "",
+    type: "info",
+    visible: false,
+  });
+
+  const showNotification = (
+    message: string,
+    type: "info" | "success" | "error" = "info",
+  ) => {
+    setNotification({ message, type, visible: true });
+  };
 
   const features = [
     {
@@ -36,29 +54,47 @@ export default function LoginPage() {
     if (status === "authenticated") {
       router.push(Routes.HOME);
     }
-  }, [status]);
+  }, [status, router]);
 
   const handleCredentialsLogin = async () => {
     setIsLoading(true);
     setErrorMessage("");
 
-    const res = await signIn("credentials", {
-      redirect: false,
-      email,
-      password,
-      callbackUrl: Routes.HOME,
-    });
+    try {
+      // 1️⃣ Gọi API login để lấy message
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/login`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      });
 
-    setIsLoading(false);
+      const data = await res.json();
 
-    if (res?.error) {
-      setErrorMessage("Sai email hoặc mật khẩu!");
-    } else {
+      if (!res.ok) {
+        showNotification(data.message || "Đăng nhập thất bại", "error");
+        setIsLoading(false);
+        return;
+      }
+
+      // 2️⃣ Show success message
+      showNotification(data.message || "Đăng nhập thành công", "success");
+
+      // 3️⃣ Gọi NextAuth signIn
+      await signIn("credentials", {
+        email,
+        password,
+        redirect: false,
+      });
+
       router.push(Routes.HOME);
+    } catch {
+      showNotification("Có lỗi xảy ra, vui lòng thử lại", "error");
+    } finally {
+      setIsLoading(false);
     }
   };
 
-  const handleKeyPress = (e: any) => {
+  const handleKeyPress = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
       handleCredentialsLogin();
     }
@@ -88,10 +124,12 @@ export default function LoginPage() {
             transition={{ delay: 0.3, duration: 0.8 }}
           >
             <div className="mb-12">
-              <img
+              <Image
                 src="/logo.png"
                 alt="WeWIN Education Logo"
-                className="h-20 md:h-24 mb-8 filter brightness-0 invert"
+                width={480}
+                height={96}
+                className="mb-8 filter brightness-0 invert"
               />
             </div>
 
@@ -150,28 +188,43 @@ export default function LoginPage() {
             border border-white/50
           "
         >
-          {/* MOBILE HEADER — NEW! */}
-          <div className="lg:hidden mb-10 text-center">
-            {/* Title */}
-            <h1 className="text-2xl font-extrabold text-[#0E4BA9] mt-4">
-              WeWIN Education
-            </h1>
+          {/* BACK TO HOME — INSIDE CARD */}
+          <button
+            onClick={() => router.push(Routes.HOME)}
+            className="
+              flex items-center gap-2
+              text-sm font-medium text-gray-500
+              hover:text-blue-600 transition
+              mb-6
+            "
+          >
+            <ArrowLeft className="w-4 h-4" />
+            Trang chủ
+          </button>
 
-            {/* Subtitle */}
-            <p className="text-gray-600 text-sm mt-1">
-              Học liệu – Hành trình – Thành công
-            </p>
+          <div className="lg:hidden flex justify-center mb-6">
+            <Image
+              src="/logo.png"
+              alt="WeWIN Education"
+              width={160}
+              height={40}
+              className="object-contain"
+              priority
+            />
           </div>
 
-          {/* DESKTOP TITLE */}
           <motion.div
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ delay: 0.3 }}
-            className="hidden lg:block mb-10"
+            className="mb-8"
           >
-            <h2 className="text-3xl font-bold text-gray-900 mb-2">Đăng nhập</h2>
-            <p className="text-gray-600">Nhập thông tin tài khoản của bạn</p>
+            <h2 className="text-2xl lg:text-3xl font-bold text-gray-900 mb-2">
+              Đăng nhập
+            </h2>
+            <p className="text-sm lg:text-base text-gray-600">
+              Nhập thông tin tài khoản của bạn
+            </p>
           </motion.div>
 
           {/* FORM */}
@@ -280,6 +333,13 @@ export default function LoginPage() {
           </motion.div>
         </div>
       </motion.div>
+
+      <Notification
+        message={notification.message}
+        type={notification.type}
+        visible={notification.visible}
+        onClose={() => setNotification((prev) => ({ ...prev, visible: false }))}
+      />
     </div>
   );
 }

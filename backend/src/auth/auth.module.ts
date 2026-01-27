@@ -12,7 +12,7 @@ import { JwtAuthGuard } from './jwt-auth.guard';
     UserModule,
     PassportModule,
     JwtModule.register({
-      secret: process.env.JWT_SECRET || 'default_secret',
+      secret: process.env.JWT_ACCESS_SECRET || 'default_secret',
       signOptions: { expiresIn: '7d' },
     }),
   ],

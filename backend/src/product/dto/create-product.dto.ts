@@ -1,41 +1,39 @@
 import {
-  IsEnum,
-  IsNumber,
-  IsOptional,
   IsString,
+  IsOptional,
+  IsInt,
   IsUUID,
+  IsEnum,
+  IsArray,
 } from 'class-validator';
-import { PRODUCT_STATUS_ENUM } from '../../../util/enum';
+import { PRODUCT_STATUS_ENUM } from '../../util/enum';
 
-export class UpdateProductDto {
-  @IsOptional()
+export class CreateProductDto {
   @IsString()
-  code?: string;
+  code: string;
 
-  @IsOptional()
   @IsString()
-  name?: string;
+  name: string;
 
   @IsOptional()
   @IsString()
   unit?: string;
 
   @IsOptional()
-  @IsNumber()
+  @IsInt()
   quantity?: number;
 
   @IsOptional()
+  @IsArray()
   imageUrl?: string[];
 
   @IsOptional()
   @IsEnum(PRODUCT_STATUS_ENUM)
   status?: PRODUCT_STATUS_ENUM;
 
-  @IsOptional()
   @IsUUID()
-  categoryId?: string;
+  categoryId: string;
 
-  @IsOptional()
   @IsUUID()
-  inventoryDocumentId?: string;
+  inventoryDocumentId: string;
 }

@@ -1,4 +1,4 @@
-import axiosClient from "@/lib/axios";
+import axiosClient from "@/lib/auth/axios";
 
 export interface StorageSearchParams {
   page?: number;
@@ -16,9 +16,11 @@ export async function searchProducts(params: unknown) {
 }
 
 export const storageService = {
-  searchProducts(params: unknown) {
-    return axiosClient.get("/product", { params }).then((res) => res.data.data);
+  async searchProducts(params: unknown) {
+    const res = await axiosClient.get("/product", { params });
+    return res.data.data;
   },
+  
   getProductById(id: string) {
     return axiosClient.get(`/product/${id}`);
   },

@@ -3,6 +3,7 @@ import { MOCK_PURCHASE_ORDERS } from "@/lib/constants/storage/request/mock.purch
 
 export default function RequestPage() {
   return (
-    <ProductOrderApprovalPage data={MOCK_PURCHASE_ORDERS} />
+    // <ProductOrderApprovalPage data={MOCK_PURCHASE_ORDERS} />
+    <></>
   );
 }

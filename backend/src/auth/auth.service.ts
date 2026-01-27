@@ -11,6 +11,7 @@ import {
 import { JwtService } from '@nestjs/jwt';
 import { UserService } from 'src/user/user.service';
 import bcrypt from 'bcrypt';
+import { JwtPayload } from './auth.controller';
 
 @Injectable()
 export class AuthService {
@@ -47,7 +48,7 @@ export class AuthService {
     if (!user.password) throw new UnauthorizedException('No password stored');
 
     const match = await bcrypt.compare(password, user.password);
-    if (!match) throw new UnauthorizedException('Wrong password');
+    if (!match) throw new UnauthorizedException('Wrong email or password');
 
     // ===== Build roles WITH permissions =====
     const roles =
@@ -79,6 +80,7 @@ export class AuthService {
     return {
       message: 'Login success',
       access_token: accessToken,
+      refresh_token: refreshToken,
       user: {
         ...safeUser,
         roles, // ⭐ permissions nằm TRONG role
@@ -133,26 +135,26 @@ export class AuthService {
   /* ---------------------------------------------------------
      REFRESH TOKEN
   --------------------------------------------------------- */
-  async refresh(refreshToken: string) {
-    try {
-      const decoded = this.jwt.verify(refreshToken);
-      const user = await this.userService.findByEmail(decoded.email);
+  async refresh(payload: JwtPayload) {
+    const user = await this.userService.findById(payload.sub);
+    if (!user || !user.refreshToken) throw new UnauthorizedException();
 
-      if (!user || !user.refreshToken)
-        throw new UnauthorizedException('Invalid token');
+    // 🔥 LẤY ROLE MỚI NHẤT TỪ DB
+    const roleIds = user.roles?.map((r) => r.id) ?? [];
 
-      const match = await bcrypt.compare(refreshToken, user.refreshToken);
-      if (!match) throw new UnauthorizedException('Invalid refresh token');
+    const newAccessToken = this.jwt.sign(
+      {
+        sub: user.id,
+        email: user.email,
+        roleIds, // ⭐ luôn fresh
+      },
+      {
+        secret: process.env.JWT_ACCESS_SECRET,
+        expiresIn: '15m',
+      },
+    );
 
-      const newAccess = this.jwt.sign(
-        { id: user.id, email: user.email },
-        { expiresIn: '15m' },
-      );
-
-      return { access_token: newAccess };
-    } catch (e) {
-      throw new UnauthorizedException('Expired or invalid token');
-    }
+    return { access_token: newAccessToken };
   }
 
   /* ---------------------------------------------------------
