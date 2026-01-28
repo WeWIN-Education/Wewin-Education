@@ -33,7 +33,9 @@ export function PronunciationGame({ title, words, onComplete }: Props) {
   const [isRecording, setIsRecording] = useState(false);
   const [isSpeaking, setIsSpeaking] = useState(false);
   const [status, setStatus] = useState("Nhấn 'Nghe từ' để bắt đầu nhé! 🎧");
-  const [statusType, setStatusType] = useState<"info" | "correct" | "warning">("info");
+  const [statusType, setStatusType] = useState<"info" | "correct" | "warning">(
+    "info",
+  );
   const recognitionRef = useRef<SpeechRecognition | null>(null);
   const [isSupported, setIsSupported] = useState(false);
   const [completed, setCompleted] = useState(false);
@@ -46,10 +48,7 @@ export function PronunciationGame({ title, words, onComplete }: Props) {
 
   useEffect(() => {
     // Kiểm tra hỗ trợ Speech Recognition
-    if (
-      "webkitSpeechRecognition" in window ||
-      "SpeechRecognition" in window
-    ) {
+    if ("webkitSpeechRecognition" in window || "SpeechRecognition" in window) {
       setIsSupported(true);
       const SpeechRecognition =
         window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -129,7 +128,6 @@ export function PronunciationGame({ title, words, onComplete }: Props) {
       const contains =
         cleanTranscript.includes(cleanCorrect) ||
         cleanCorrect.includes(cleanTranscript);
-
       const isPerfect = cleanTranscript === cleanCorrect;
       const isVeryGood = contains || similarity >= 0.8;
       const isGood = similarity >= 0.6;
@@ -195,7 +193,9 @@ export function PronunciationGame({ title, words, onComplete }: Props) {
 
   const handleRecord = useCallback(() => {
     if (!isSupported || !recognitionRef.current) {
-      alert("Trình duyệt của bạn chưa hỗ trợ ghi âm. Hãy dùng Chrome hoặc Edge nhé!");
+      alert(
+        "Trình duyệt của bạn chưa hỗ trợ ghi âm. Hãy dùng Chrome hoặc Edge nhé!",
+      );
       return;
     }
 
@@ -209,7 +209,7 @@ export function PronunciationGame({ title, words, onComplete }: Props) {
     } else {
       try {
         recognitionRef.current.start();
-      } catch (error) {
+      } catch {
         setStatus("Không thể bắt đầu ghi âm. Bạn thử lại nhé!");
         setStatusType("warning");
         stopRecording();
@@ -219,7 +219,9 @@ export function PronunciationGame({ title, words, onComplete }: Props) {
 
   const handleNext = useCallback(() => {
     if (currentIndex >= words.length - 1) {
-      setStatus(`🎉 Xuất sắc! Bạn đã hoàn thành tất cả các từ! Tổng điểm: ${score} điểm`);
+      setStatus(
+        `🎉 Xuất sắc! Bạn đã hoàn thành tất cả các từ! Tổng điểm: ${score} điểm`,
+      );
       setStatusType("correct");
       if (!completed) {
         setCompleted(true);
@@ -244,108 +246,119 @@ export function PronunciationGame({ title, words, onComplete }: Props) {
   return (
     <section className="min-h-screen bg-blue-50 bg-fixed py-8 sm:py-10 px-3 sm:px-4 md:px-6">
       <div className="rounded-2xl border border-blue-100 bg-white/95 p-4 sm:p-6 shadow-xl max-w-5xl mx-auto">
-      <header className="text-center">
-      
-        <h2 className="text-xl sm:text-2xl font-semibold text-blue-900">{title}</h2>
-      </header>
+        <header className="text-center">
+          <h2 className="text-xl sm:text-2xl font-semibold text-blue-900">
+            {title}
+          </h2>
+        </header>
 
-      {!isSupported && (
-        <div className="mt-4 rounded-lg bg-red-100 p-3 text-center text-sm sm:text-base text-red-700">
-          ⚠️ Trình duyệt của bạn không hỗ trợ nhận diện giọng nói. Hãy dùng Chrome hoặc Edge nhé!
-        </div>
-      )}
-
-      <div className="mt-4 rounded-lg bg-yellow-50 p-4 text-sm sm:text-base text-yellow-800">
-        <p className="font-semibold">📝 Cách chơi:</p>
-        <ol className="mt-2 list-decimal list-inside space-y-1">
-          <li>Nhấn "Nghe từ" để nghe phát âm chuẩn.</li>
-          <li>Nhấn "Ghi âm" và đọc theo.</li>
-          <li>Nhận phản hồi và chuyển sang từ mới!</li>
-        </ol>
-      </div>
-
-      <div className="mt-4 flex flex-col sm:flex-row gap-4 rounded-xl bg-white p-4 shadow-sm">
-        <div className="flex-1 text-center">
-          <div className="text-sm sm:text-base text-blue-600">⭐ Điểm</div>
-          <div className="text-xl sm:text-2xl font-bold text-blue-900">{score}</div>
-        </div>
-        <div className="flex-1 text-center">
-          <div className="text-sm sm:text-base text-blue-600">📚 Từ</div>
-          <div className="text-xl sm:text-2xl font-bold text-blue-900">
-            {currentIndex + 1}/{words.length}
-          </div>
-        </div>
-        <div className="flex-1 text-center">
-          <div className="text-sm sm:text-base text-blue-600">✅ Đúng</div>
-          <div className="text-xl sm:text-2xl font-bold text-blue-900">{correctCount}</div>
-        </div>
-      </div>
-
-      <div className="mt-6 rounded-2xl bg-gradient-to-br from-blue-500 to-blue-600 p-6 sm:p-8 text-center text-white shadow-lg">
-        <div className="text-5xl sm:text-7xl mb-4">{currentWord.emoji || "📝"}</div>
-        <div className="text-3xl sm:text-4xl font-bold mb-2 capitalize">
-          {currentWord.text}
-        </div>
-        {currentWord.meaning && (
-          <div className="text-lg sm:text-xl bg-white/25 rounded-lg px-4 py-2 inline-block">
-            {currentWord.meaning}
+        {!isSupported && (
+          <div className="mt-4 rounded-lg bg-red-100 p-3 text-center text-sm sm:text-base text-red-700">
+            ⚠️ Trình duyệt của bạn không hỗ trợ nhận diện giọng nói. Hãy dùng
+            Chrome hoặc Edge nhé!
           </div>
         )}
-      </div>
 
-      <div className="mt-6 flex flex-col sm:flex-row gap-3 justify-center">
-        <button
-          onClick={handleListen}
-          disabled={isSpeaking}
-          className={`rounded-xl px-6 py-3 font-bold text-white transition ${
-            isSpeaking
-              ? "bg-gray-400 cursor-not-allowed"
-              : "bg-green-500 hover:bg-green-600 hover:shadow-lg"
-          } w-full sm:w-auto`}
-        >
-          🔊 Nghe từ
-        </button>
-        <button
-          onClick={handleRecord}
-          disabled={!isSupported || isSpeaking}
-          className={`rounded-xl px-6 py-3 font-bold text-white transition ${
-            isRecording
-              ? "bg-red-600 animate-pulse"
-              : isSpeaking || !isSupported
+        <div className="mt-4 rounded-lg bg-yellow-50 p-4 text-sm sm:text-base text-yellow-800">
+          <p className="font-semibold">📝 Cách chơi:</p>
+          <ol className="mt-2 list-decimal list-inside space-y-1">
+            <li>Nhấn "Nghe từ" để nghe phát âm chuẩn.</li>
+            <li>Nhấn "Ghi âm" và đọc theo.</li>
+            <li>Nhận phản hồi và chuyển sang từ mới!</li>
+          </ol>
+        </div>
+
+        <div className="mt-4 flex flex-col sm:flex-row gap-4 rounded-xl bg-white p-4 shadow-sm">
+          <div className="flex-1 text-center">
+            <div className="text-sm sm:text-base text-blue-600">⭐ Điểm</div>
+            <div className="text-xl sm:text-2xl font-bold text-blue-900">
+              {score}
+            </div>
+          </div>
+          <div className="flex-1 text-center">
+            <div className="text-sm sm:text-base text-blue-600">📚 Từ</div>
+            <div className="text-xl sm:text-2xl font-bold text-blue-900">
+              {currentIndex + 1}/{words.length}
+            </div>
+          </div>
+          <div className="flex-1 text-center">
+            <div className="text-sm sm:text-base text-blue-600">✅ Đúng</div>
+            <div className="text-xl sm:text-2xl font-bold text-blue-900">
+              {correctCount}
+            </div>
+          </div>
+        </div>
+
+        <div className="mt-6 rounded-2xl bg-gradient-to-br from-blue-500 to-blue-600 p-6 sm:p-8 text-center text-white shadow-lg">
+          <div className="text-5xl sm:text-7xl mb-4">
+            {currentWord.emoji || "📝"}
+          </div>
+          <div className="text-3xl sm:text-4xl font-bold mb-2 capitalize">
+            {currentWord.text}
+          </div>
+          {currentWord.meaning && (
+            <div className="text-lg sm:text-xl bg-white/25 rounded-lg px-4 py-2 inline-block">
+              {currentWord.meaning}
+            </div>
+          )}
+        </div>
+
+        <div className="mt-6 flex flex-col sm:flex-row gap-3 justify-center">
+          <button
+            onClick={handleListen}
+            disabled={isSpeaking}
+            className={`rounded-xl px-6 py-3 font-bold text-white transition ${
+              isSpeaking
                 ? "bg-gray-400 cursor-not-allowed"
-                : "bg-orange-500 hover:bg-orange-600 hover:shadow-lg"
-          } w-full sm:w-auto`}
-        >
-          {isRecording ? "⏹️ Dừng ghi" : "🎤 Ghi âm"}
-        </button>
-        <button
-          onClick={currentIndex >= words.length - 1 ? handleReset : handleNext}
-          className="rounded-xl bg-blue-500 px-6 py-3 font-bold text-white transition hover:bg-blue-600 hover:shadow-lg w-full sm:w-auto"
-        >
-          {currentIndex >= words.length - 1 ? "🔄 Chơi lại" : "➡️ Từ tiếp theo"}
-        </button>
-      </div>
+                : "bg-green-500 hover:bg-green-600 hover:shadow-lg"
+            } w-full sm:w-auto`}
+          >
+            🔊 Nghe từ
+          </button>
+          <button
+            onClick={handleRecord}
+            disabled={!isSupported || isSpeaking}
+            className={`rounded-xl px-6 py-3 font-bold text-white transition ${
+              isRecording
+                ? "bg-red-600 animate-pulse"
+                : isSpeaking || !isSupported
+                  ? "bg-gray-400 cursor-not-allowed"
+                  : "bg-orange-500 hover:bg-orange-600 hover:shadow-lg"
+            } w-full sm:w-auto`}
+          >
+            {isRecording ? "⏹️ Dừng ghi" : "🎤 Ghi âm"}
+          </button>
+          <button
+            onClick={
+              currentIndex >= words.length - 1 ? handleReset : handleNext
+            }
+            className="rounded-xl bg-blue-500 px-6 py-3 font-bold text-white transition hover:bg-blue-600 hover:shadow-lg w-full sm:w-auto"
+          >
+            {currentIndex >= words.length - 1
+              ? "🔄 Chơi lại"
+              : "➡️ Từ tiếp theo"}
+          </button>
+        </div>
 
-      <div
-        className={`mt-6 rounded-xl p-4 text-center text-base sm:text-lg font-bold ${
-          statusType === "correct"
-            ? "bg-green-100 text-green-800"
-            : statusType === "warning"
-              ? "bg-orange-100 text-orange-800"
-              : "bg-blue-100 text-blue-800"
-        }`}
-      >
-        {status}
-      </div>
-
-      <div className="mt-4 h-2 rounded-full bg-gray-200 overflow-hidden">
         <div
-          className="h-full bg-gradient-to-r from-blue-400 to-blue-600 transition-all duration-300"
-          style={{ width: `${progress}%` }}
-        />
-      </div>
+          className={`mt-6 rounded-xl p-4 text-center text-base sm:text-lg font-bold ${
+            statusType === "correct"
+              ? "bg-green-100 text-green-800"
+              : statusType === "warning"
+                ? "bg-orange-100 text-orange-800"
+                : "bg-blue-100 text-blue-800"
+          }`}
+        >
+          {status}
+        </div>
+
+        <div className="mt-4 h-2 rounded-full bg-gray-200 overflow-hidden">
+          <div
+            className="h-full bg-gradient-to-r from-blue-400 to-blue-600 transition-all duration-300"
+            style={{ width: `${progress}%` }}
+          />
+        </div>
       </div>
     </section>
   );
 }
-

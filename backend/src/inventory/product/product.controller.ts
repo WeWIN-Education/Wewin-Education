@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-call */
 import {
   Body,
   Controller,
@@ -27,6 +26,7 @@ export class ProductController {
   searchProducts(@Query() query: ProductQueryDto) {
     return this.productService.searchProducts(query);
   }
+
   @Post()
   addProduct(@Body() body: CreateProductDto) {
     return this.productService.addProduct(body);

@@ -128,7 +128,7 @@ export default function FlyerGamePage() {
   // Không cần check playerId === null nữa vì đã load ngay từ đầu
 
   return (
-    <div className="min-h-screen md:flex md:items-stretch bg-gradient-to-b from-blue-50 via-blue-50 to-blue-100 bg-fixed">
+    <div className="min-h-screen md:flex md:items-stretch bg-linear-to-b from-blue-50 via-blue-50 to-blue-100 bg-fixed">
       {/* Hamburger button cho mobile */}
       <button
         onClick={() => setSidebarOpen(true)}

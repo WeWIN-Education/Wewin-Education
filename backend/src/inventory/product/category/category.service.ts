@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import {
   BadRequestException,
   Injectable,
@@ -8,15 +6,15 @@ import {
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Category } from 'src/entities/inventory/category.entity';
 import { CategoryQueryDto } from './dto/category-query.dto';
+import { ProductCategory } from 'src/entities/inventory/category.entity';
 import { Repository } from 'typeorm';
 
 @Injectable()
 export class CategoryService {
   constructor(
-    @InjectRepository(Category)
-    private readonly categoryRepo: Repository<Category>,
+    @InjectRepository(ProductCategory)
+    private readonly categoryRepo: Repository<ProductCategory>,
   ) {}
 
   /* ================= CREATE ================= */
