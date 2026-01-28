@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
@@ -15,15 +14,22 @@ export class RolesGuard implements CanActivate {
       [context.getHandler(), context.getClass()],
     );
 
+    // Không khai báo @Roles → cho qua
     if (!requiredRoles || requiredRoles.length === 0) {
-      return true; // Không khai báo role → cho qua
+      return true;
     }
 
     const request = context.switchToHttp().getRequest();
-    const user = request.user;
+    const user = request.user as {
+      roleIds?: string[];
+    };
 
-    if (!user || !user.roles) return false;
+    if (!user || !Array.isArray(user.roleIds)) {
+      return false;
+    }
 
-    return requiredRoles.some((role) => user.roles.includes(role));
+    // requiredRoles = role CODE / NAME
+    // user.roleIds = role ID
+    return requiredRoles.some((roleId) => user.roleIds!.includes(roleId));
   }
 }

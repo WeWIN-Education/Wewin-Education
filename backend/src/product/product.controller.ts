@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-call */
 import {
   Body,
   Controller,
@@ -10,8 +9,8 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { ProductService } from './product.service';
-import { CreateProductDto } from 'src/product/dto/create-product.dto';
-import { UpdateProductDto } from 'src/product/dto/update-product.dto';
+import { CreateProductDto } from './dto/create-product.dto';
+import { UpdateProductDto } from './dto/update-product.dto';
 import { ProductQueryDto } from './dto/product-query.dto';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
@@ -27,6 +26,7 @@ export class ProductController {
   searchProducts(@Query() query: ProductQueryDto) {
     return this.productService.searchProducts(query);
   }
+
   @Post()
   addProduct(@Body() body: CreateProductDto) {
     return this.productService.addProduct(body);

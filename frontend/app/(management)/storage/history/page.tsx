@@ -75,21 +75,22 @@ export default function Page() {
   ) => setFilters((prev) => ({ ...prev, [key]: value }));
 
   return (
-    <div className="space-y-6 px-8 py-8 text-black">
-      <PageToolbar
-        title="Lịch sử kho lưu trữ"
-        searchValue={filters.q}
-        onSearchChange={(v) => updateFilter("q", v)}
-        rightFilters={
-          <DynamicFilterBar
-            filters={FILTERS.filter((f) => f.key !== "q")}
-            values={filters}
-            onChange={updateFilter}
-          />
-        }
-      />
+    // <div className="space-y-6 px-8 py-8 text-black">
+    //   <PageToolbar
+    //     title="Lịch sử kho lưu trữ"
+    //     searchValue={filters.q}
+    //     onSearchChange={(v) => updateFilter("q", v)}
+    //     rightFilters={
+    //       <DynamicFilterBar
+    //         filters={FILTERS.filter((f) => f.key !== "q")}
+    //         values={filters}
+    //         onChange={updateFilter}
+    //       />
+    //     }
+    //   />
 
-      <RequestListPage data={filtered} />
-    </div>
+    //   <RequestListPage data={filtered} />
+    // </div>
+    <></>
   );
 }

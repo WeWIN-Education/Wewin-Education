@@ -36,10 +36,10 @@ export default function HistoryDetailPage({
       />
 
       {/* ===== HEADER ===== */}
-      <RequestDetailHeader po={po} />
+      {/* <RequestDetailHeader po={po} /> */}
 
       {/* ===== ITEMS TABLE ===== */}
-      <RequestItemsTable items={items} orderStatus={po.status} />
+      {/* <RequestItemsTable items={items} orderStatus={po.status} /> */}
 
       {/* ===== TIMELINE ===== */}
       {/* <RequestTimeline docs={timeline} /> */}

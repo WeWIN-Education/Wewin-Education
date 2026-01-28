@@ -1,10 +1,10 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import type { Repository } from 'typeorm';
-import { Product } from '../../entities/inventory/product.entity';
-import { UpdateProductDto } from 'src/product/dto/update-product.dto';
+import { Product } from '../entities/inventory/product.entity';
+import { UpdateProductDto } from './dto/update-product.dto';
 import { BadRequestException } from '@nestjs/common';
-import { PRODUCT_STATUS_ENUM } from '../../util/enum';
+import { PRODUCT_STATUS_ENUM } from '../util/enum';
 import { Brackets } from 'typeorm';
 import { ProductQueryDto } from './dto/product-query.dto';
 
@@ -135,6 +135,7 @@ export class ProductService {
 
     const qb = this.productRepo.createQueryBuilder('p');
 
+    // mặc định không lấy cancelled
     const includeCancelled = query.includeCancelled === 'true';
     if (!includeCancelled) {
       qb.andWhere('p.status != :cancelled', {

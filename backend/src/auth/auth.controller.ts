@@ -4,9 +4,10 @@ import { AuthService } from './auth.service';
 import { LoginDto } from './dto/login.dto';
 import { RegisterDto } from './dto/register.dto';
 import { JwtAuthGuard } from './jwt-auth.guard';
+import { JwtRefreshGuard } from './jwt-refresh.guard';
 
 /* ===== JWT PAYLOAD (PHẢI TRÙNG VỚI GUARD) ===== */
-interface JwtPayload {
+export interface JwtPayload {
   sub: string;
   email: string;
   roles?: string[];
@@ -33,14 +34,16 @@ export class AuthController {
     return this.authService.login(data.email, data.password);
   }
 
+  @UseGuards(JwtRefreshGuard)
   @Post('refresh')
-  refreshToken(@Body('refresh_token') token: string) {
-    return this.authService.refresh(token);
+  refresh(@Req() req: AuthenticatedRequest) {
+    return this.authService.refresh(req.user);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Post('logout')
-  logout(@Body('userId') userId: string) {
-    return this.authService.logout(userId);
+  logout(@Req() req: AuthenticatedRequest) {
+    return this.authService.logout(req.user.sub);
   }
 
   @UseGuards(JwtAuthGuard)

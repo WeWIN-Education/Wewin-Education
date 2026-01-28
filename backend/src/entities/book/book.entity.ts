@@ -1,10 +1,13 @@
-import { Entity, Column, OneToMany } from 'typeorm';
+import { Entity, Column, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { BaseEntity } from '../base.entity';
 import { Project } from './project.entity';
 import { BookStatus } from './book.enums';
 
 @Entity('books')
 export class Book extends BaseEntity {
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
+
   @Column()
   name: string;
 
