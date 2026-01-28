@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-call */
 import { ApiPropertyOptional } from '@nestjs/swagger';
 import { PRODUCT_STATUS_ENUM } from '../../../util/enum';
 import { BaseQueryDto } from 'src/common/base-query-dto';

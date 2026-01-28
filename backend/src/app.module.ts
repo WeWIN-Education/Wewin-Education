@@ -8,8 +8,14 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from './auth/auth.module';
 import { OrderModule } from './order/order.module';
 import { PermissionModule } from './permission/permission.module';
+<<<<<<< HEAD
 import { ProductModule } from './product/product.module';
 import { CategoryModule } from './product/category/category.module';
+=======
+import { ProductModule } from './inventory/product/product.module';
+import { CategoryModule } from './inventory/product/category/category.module';
+import { WewinModule } from './wewin/wewin.module';
+>>>>>>> b41f03de660234e4c8cfaf651d2e25acd138e42d
 
 @Module({
   imports: [
@@ -32,6 +38,7 @@ import { CategoryModule } from './product/category/category.module';
     PermissionModule,
     ProductModule,
     CategoryModule,
+    WewinModule,
   ],
 
   controllers: [AppController],

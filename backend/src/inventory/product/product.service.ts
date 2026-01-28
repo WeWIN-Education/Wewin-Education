@@ -135,6 +135,7 @@ export class ProductService {
 
     const qb = this.productRepo.createQueryBuilder('p');
 
+    // mặc định không lấy cancelled
     const includeCancelled = query.includeCancelled === 'true';
     if (!includeCancelled) {
       qb.andWhere('p.status != :cancelled', {
