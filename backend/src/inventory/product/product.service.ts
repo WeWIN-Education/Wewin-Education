@@ -2,11 +2,11 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import type { Repository } from 'typeorm';
 import { Product } from '../../entities/inventory/product.entity';
-import { UpdateProductDto } from 'src/product/dto/update-product.dto';
 import { BadRequestException } from '@nestjs/common';
 import { PRODUCT_STATUS_ENUM } from '../../util/enum';
 import { Brackets } from 'typeorm';
 import { ProductQueryDto } from './dto/product-query.dto';
+import { UpdateProductDto } from './dto/update-product.dto';
 
 @Injectable()
 export class ProductService {

@@ -1,12 +1,9 @@
-import { IsOptional, IsString, IsBooleanString } from 'class-validator';
-
-export class FindCategoryDto {
+import { IsOptional, IsString } from 'class-validator';
+import { BaseQueryDto } from 'src/common/base-query-dto';
+import { ApiPropertyOptional } from '@nestjs/swagger';
+export class FindCategoryDto extends BaseQueryDto {
+  @IsOptional()
   @IsString()
-  @IsOptional()
-  q?: string;
-
-  // query ?active=true|false
-  @IsBooleanString()
-  @IsOptional()
-  active?: string;
+  @ApiPropertyOptional({ description: 'Category name' })
+  name?: string;
 }

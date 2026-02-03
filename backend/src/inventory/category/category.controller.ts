@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Param,
   Patch,
@@ -41,14 +42,8 @@ export class CategoryController {
   update(@Param('id') id: string, @Body() dto: UpdateCategoryDto) {
     return this.categoryService.update(id, dto);
   }
-
-  @Patch(':id/disable')
-  disable(@Param('id') id: string) {
-    return this.categoryService.disable(id);
-  }
-
-  @Patch(':id/active')
-  active(@Param('id') id: string) {
-    return this.categoryService.active(id);
+  @Delete(':id/delete')
+  delete(@Param('id') id: string) {
+    return this.categoryService.delete(id);
   }
 }
