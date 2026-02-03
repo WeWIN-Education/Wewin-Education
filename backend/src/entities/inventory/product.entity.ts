@@ -1,8 +1,16 @@
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { InventoryDocumentItems } from './inventory-document-items.entity';
 import { PurchaseOrdersItems } from '../order/purchase-orders-items.entity';
 import { PRODUCT_STATUS_ENUM } from '../../util/enum';
 import { BaseEntity } from '../base.entity';
+import { Category } from './category.entity';
 
 @Entity()
 export class Product extends BaseEntity {
@@ -29,6 +37,12 @@ export class Product extends BaseEntity {
 
   @Column({ name: 'category_id', type: 'uuid', nullable: false })
   categoryId: string;
+
+  @ManyToOne(() => Category, (category) => category.products, {
+    onDelete: 'RESTRICT', // hoặc CASCADE nếu bạn muốn
+  })
+  @JoinColumn({ name: 'category_id' })
+  category: Category;
 
   @Column({ name: 'inventory_document_id', type: 'uuid', nullable: false })
   inventoryDocumentId: string;

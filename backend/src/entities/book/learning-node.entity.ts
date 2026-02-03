@@ -5,6 +5,7 @@ import {
   OneToMany,
   JoinColumn,
   Index,
+  PrimaryGeneratedColumn,
 } from 'typeorm';
 import { BaseEntity } from '../base.entity';
 import { Project } from './project.entity';
@@ -13,6 +14,9 @@ import { LessonBlock } from './lesson-block.entity';
 
 @Entity('learning_nodes')
 export class LearningNode extends BaseEntity {
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
+
   @ManyToOne(() => Project, (project) => project.learningNodes, {
     onDelete: 'CASCADE',
   })
