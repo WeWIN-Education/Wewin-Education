@@ -5,7 +5,6 @@ import type { Role } from "@/types/role";
 declare module "next-auth" {
   interface Session {
     access_token?: string;
-    refresh_token?: string;
     user: {
       id: string;
       name: string;
@@ -13,6 +12,7 @@ declare module "next-auth" {
       image?: string | null;
       roles: Role[];
     };
+    error?: "RefreshAccessTokenError";
   }
 
   interface User {
@@ -23,6 +23,7 @@ declare module "next-auth" {
     roles: Role[];
     access_token: string;
     refresh_token: string;
+    expires_in: number;
   }
 }
 

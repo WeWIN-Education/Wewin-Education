@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import {
-  searchProducts,
   StorageSearchParams,
+  storageService,
 } from "@/services/storage.service";
 import { Product } from "@/types/product";
 import { mapProductApiToDomain } from "@/app/mappers/product.mapper";
@@ -57,7 +57,7 @@ export const useStorageStore = create<StorageState>((set, get) => ({
     };
 
     try {
-      const data = await searchProducts(finalQuery);
+      const data = await storageService.searchProducts(finalQuery);
 
       set({
         products: data.items.map(mapProductApiToDomain),

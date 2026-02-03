@@ -1,43 +1,59 @@
-import { Controller, Get, Post, Body, Req, UseGuards } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Req,
+  UseGuards,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { Request } from 'express';
 import { AuthService } from './auth.service';
 import { LoginDto } from './dto/login.dto';
 import { RegisterDto } from './dto/register.dto';
 import { JwtAuthGuard } from './jwt-auth.guard';
-import { JwtRefreshGuard } from './jwt-refresh.guard';
 
-/* ===== JWT PAYLOAD (PHẢI TRÙNG VỚI GUARD) ===== */
-export interface JwtPayload {
-  sub: string;
-  email: string;
-  roles?: string[];
-  iat?: number;
-  exp?: number;
-}
-
-/* ===== REQUEST CÓ USER ===== */
+/* ===== REQUEST CÓ USER TỪ ACCESS TOKEN ===== */
 interface AuthenticatedRequest extends Request {
-  user: JwtPayload;
+  user: {
+    sub: string;
+    email: string;
+    roleIds?: string[];
+  };
 }
 
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
+  /* ---------------------------------------------------------
+     REGISTER
+  --------------------------------------------------------- */
   @Post('register')
   register(@Body() data: RegisterDto) {
     return this.authService.register(data);
   }
 
+  /* ---------------------------------------------------------
+     LOGIN (Credentials)
+     → trả access_token + refresh_token + expires_in
+  --------------------------------------------------------- */
   @Post('login')
-  login(@Body() data: LoginDto) {
+  async login(@Body() data: LoginDto) {
     return this.authService.login(data.email, data.password);
   }
 
-  @UseGuards(JwtRefreshGuard)
+  /* ---------------------------------------------------------
+     REFRESH TOKEN
+     ❗ KHÔNG DÙNG JwtAuthGuard / JwtRefreshGuard
+     → verify refresh token thủ công trong service
+  --------------------------------------------------------- */
   @Post('refresh')
-  refresh(@Req() req: AuthenticatedRequest) {
-    return this.authService.refresh(req.user);
+  async refresh(@Body('refreshToken') refreshToken: string) {
+    if (!refreshToken) {
+      throw new UnauthorizedException('Missing refresh token');
+    }
+    return this.authService.refresh(refreshToken);
   }
 
   @UseGuards(JwtAuthGuard)

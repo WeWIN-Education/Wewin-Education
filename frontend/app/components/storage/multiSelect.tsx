@@ -52,7 +52,7 @@ export function MultiSelectDropdown({
         type="button"
         onClick={() => setOpen((o) => !o)}
         className="
-          h-11 w-full min-w-[220px]
+          h-11 w-full min-w-55
           rounded-xl bg-white px-4
           flex items-center justify-between
           text-sm border border-gray-200 shadow-sm

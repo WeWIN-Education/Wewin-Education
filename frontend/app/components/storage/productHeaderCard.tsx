@@ -9,8 +9,8 @@ interface ProductInfoCardProps {
   category?: string;
   quantity: number;
   unit: string;
-  statusLabel: string;
-  statusColor: string;
+  statusLabel?: string;
+  statusColor?: string;
 }
 
 export function ProductInfoCard({

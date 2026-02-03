@@ -14,7 +14,7 @@ import { Routes } from "@/lib/constants/routes";
 import { getStockStatus } from "@/app/utils/stockStatus";
 import { Pagination, RowsPerPage } from "@/app/components/pagination";
 import { Product } from "@/types/product";
-import { searchProducts } from "@/services/storage.service";
+import { storageService } from "@/services/storage.service";
 
 type TableRow = Product & { categoryName: string; minQuantity: number };
 
@@ -47,7 +47,7 @@ export default function StoragePage() {
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState<RowsPerPage>(10);
-  const [loading, setLoading] = useState(false);
+  const [, setLoading] = useState(false);
   const [rows, setRows] = useState<TableRow[]>([]);
   const [total, setTotal] = useState(0);
 
@@ -72,7 +72,7 @@ export default function StoragePage() {
       setLoading(true);
 
       try {
-        const res = await searchProducts({
+        const res = await storageService.searchProducts({
           page,
           limit: limit === "all" ? undefined : Number(limit),
           q: search || undefined,
@@ -110,7 +110,6 @@ export default function StoragePage() {
     return () => {
       ignore = true;
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page, limit, search]);
 
   return (
@@ -297,19 +296,12 @@ export default function StoragePage() {
         title="Vô hiệu hoá mặt hàng"
         description={
           disableTarget
-            ? `Bạn có chắc chắn muốn vô hiệu hoá mặt hàng "${disableTarget.name}" không?`
+            ? `Bạn có muốn vô hiệu hoá mặt hàng "${disableTarget.name}" không?`
             : ""
         }
         onCancel={() => setDisableTarget(null)}
         onConfirm={() => {
           if (!disableTarget) return;
-
-          // 🔥 LOGIC DISABLE THEO ID
-          console.log("DISABLE PRODUCT BY ID:", disableTarget.id);
-
-          // TODO: gọi API disable ở đây
-          // await disableProduct(disableTarget.id);
-
           setDisableTarget(null);
         }}
       />

@@ -102,7 +102,7 @@ export default function StoryWordsGamePage() {
 
   if (playerId === null) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-pink-50 to-rose-100 text-pink-600 font-semibold">
+      <div className="min-h-screen flex items-center justify-center bg-linear-to-br from-pink-50 to-rose-100 text-pink-600 font-semibold">
         Đang tải dữ liệu...
       </div>
     );

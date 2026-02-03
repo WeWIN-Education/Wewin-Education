@@ -39,6 +39,7 @@ export const authOptions: NextAuthOptions = {
           roles: result.user.roles ?? [],
           access_token: result.access_token,
           refresh_token: result.refresh_token,
+          expires_in: result.expires_in,
         };
       },
     }),
@@ -49,22 +50,22 @@ export const authOptions: NextAuthOptions = {
       if (user) {
         token.access_token = user.access_token;
         token.refresh_token = user.refresh_token;
-        token.accessTokenExpires = Date.now() + 15 * 60 * 1000;
+        token.accessTokenExpires = Date.now() + user.expires_in * 1000;
         token.roles = user.roles;
         token.sub = user.id;
         return token;
       }
 
-      if (token.accessTokenExpires && Date.now() < token.accessTokenExpires) {
+      if (Date.now() < (token.accessTokenExpires ?? 0)) {
         return token;
       }
 
-      return refreshAccessToken(token);
+      return await refreshAccessToken(token);
     },
 
     async session({ session, token }) {
       session.access_token = token.access_token;
-      session.refresh_token = token.refresh_token;
+      session.error = token.error;
 
       session.user = {
         id: token.sub!,
@@ -86,19 +87,20 @@ async function refreshAccessToken(token: JWT): Promise<JWT> {
   try {
     const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/refresh`, {
       method: "POST",
-      headers: {
-        Authorization: `Bearer ${token.refresh_token}`,
-      },
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        refreshToken: token.refresh_token,
+      }),
     });
 
     if (!res.ok) throw new Error("Refresh failed");
 
-    const data: { access_token: string } = await res.json();
+    const data = await res.json();
 
     return {
       ...token,
       access_token: data.access_token,
-      accessTokenExpires: Date.now() + 15 * 60 * 1000,
+      accessTokenExpires: Date.now() + data.expires_in * 1000,
     };
   } catch {
     return {
