@@ -1,8 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { InjectRepository } from '@nestjs/typeorm';
-import { DataSource, In, Repository } from 'typeorm';
-import { PurchaseOrders } from 'src/entities/order/purchase-orders.entity';
+import { In, Repository } from 'typeorm';
 import {
   PURCHASE_ORDERS_ACTION_ENUM,
   PURCHASE_ORDERS_STATUS_ENUM,
@@ -11,6 +10,7 @@ import { UserService } from 'src/user/user.service';
 import { Product } from 'src/entities/inventory/product.entity';
 import { UpdateOrderDto } from './dto/update-order.dto';
 import { UpdateStatusDto } from 'src/user/dto/update-status.dto';
+import { InventoryRequest } from 'src/entities/order/inventory-request.entity';
 
 type WhereCondition<T> = Partial<Record<keyof T, any>>;
 
@@ -29,12 +29,11 @@ export class OrderService {
   ];
 
   constructor(
-    @InjectRepository(PurchaseOrders)
-    private readonly repoPurchaseOrders: Repository<PurchaseOrders>,
+    @InjectRepository(InventoryRequest)
+    private readonly repoPurchaseOrders: Repository<InventoryRequest>,
     @InjectRepository(Product)
     private readonly repoProduct: Repository<Product>,
     private readonly userService: UserService,
-    private readonly dataSource: DataSource,
   ) {}
 
   async create(createOrderDto: CreateOrderDto, userId: string) {
@@ -111,7 +110,7 @@ export class OrderService {
     });
   }
 
-  async findByCondition(condition: WhereCondition<PurchaseOrders>) {
+  async findByCondition(condition: WhereCondition<InventoryRequest>) {
     const purchaseOrders = await this.repoPurchaseOrders.find({
       where: {
         ...condition,
@@ -272,7 +271,7 @@ export class OrderService {
     };
   }
 
-  private convertDBToResponse(purchaseOrders: PurchaseOrders[]) {
+  private convertDBToResponse(purchaseOrders: InventoryRequest[]) {
     return purchaseOrders.map((order) => ({
       ...order,
       createBy: {
