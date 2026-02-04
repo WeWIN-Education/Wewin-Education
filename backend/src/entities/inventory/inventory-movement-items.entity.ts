@@ -1,10 +1,20 @@
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryColumn,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { BaseEntity } from '../base.entity';
 import { Product } from './product.entity';
 import { InventoryMovement } from './inventory-movement.entity';
 
 @Entity('inventory_movement_item')
 export class InventoryMovementItem extends BaseEntity {
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
+
   @PrimaryColumn({ name: 'inventory_id' })
   inventoryId: string;
 
