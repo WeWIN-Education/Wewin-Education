@@ -1,18 +1,21 @@
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryColumn } from 'typeorm';
-import { PurchaseOrders } from './purchase-orders.entity';
+import { InventoryRequest } from './inventory-request.entity';
 import { Product } from '../inventory/product.entity';
 
-@Entity()
-export class PurchaseOrdersItems {
-  @PrimaryColumn({ name: 'purchase_order_id' })
-  purchaseOrderId: string;
+@Entity('inventory_request_item')
+export class InventoryRequestItem {
+  @PrimaryColumn({ name: 'inventory_request_id' })
+  inventoryRequestId: string;
 
   @PrimaryColumn({ name: 'product_id' })
   productId: string;
 
-  @ManyToOne(() => PurchaseOrders, (purchaseOrder) => purchaseOrder.items)
-  @JoinColumn({ name: 'purchase_order_id' })
-  purchaseOrder: PurchaseOrders;
+  @ManyToOne(
+    () => InventoryRequest,
+    (inventoryRequestItem) => inventoryRequestItem.items,
+  )
+  @JoinColumn({ name: 'inventory_request_id' })
+  inventoryRequest: InventoryRequest;
 
   @ManyToOne(() => Product, (product) => product.items)
   @JoinColumn({ name: 'product_id' })

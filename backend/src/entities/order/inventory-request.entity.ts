@@ -6,7 +6,7 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { PurchaseOrdersItems } from './purchase-orders-items.entity';
+import { InventoryRequestItem } from './inventory-request-items.entity';
 import {
   PURCHASE_ORDERS_STATUS_ENUM,
   PURCHASE_ORDERS_TYPE_ENUM,
@@ -14,8 +14,8 @@ import {
 import { BaseEntity } from '../base.entity';
 import { User } from '../user/user.entity';
 
-@Entity()
-export class PurchaseOrders extends BaseEntity {
+@Entity('inventory_request')
+export class InventoryRequest extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
@@ -42,9 +42,9 @@ export class PurchaseOrders extends BaseEntity {
   createBy: User;
 
   @OneToMany(
-    () => PurchaseOrdersItems,
-    (purchaseOrderItem) => purchaseOrderItem.purchaseOrder,
+    () => InventoryRequestItem,
+    (inventoryRequestItem) => inventoryRequestItem.inventoryRequest,
     { cascade: true, orphanedRowAction: 'delete' },
   )
-  items: PurchaseOrdersItems[];
+  items: InventoryRequestItem[];
 }
