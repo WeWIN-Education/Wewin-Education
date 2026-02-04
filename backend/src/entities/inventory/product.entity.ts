@@ -6,11 +6,11 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { InventoryDocumentItems } from './inventory-document-items.entity';
-import { PurchaseOrdersItems } from '../order/purchase-orders-items.entity';
+import { InventoryRequestItem } from '../order/inventory-request-items.entity';
 import { PRODUCT_STATUS_ENUM } from '../../util/enum';
 import { BaseEntity } from '../base.entity';
-import { Category } from './category.entity';
+import { ProductCategory } from './category.entity';
+import { InventoryMovementItem } from './inventory-movement-items.entity';
 
 @Entity()
 export class Product extends BaseEntity {
@@ -38,31 +38,28 @@ export class Product extends BaseEntity {
   @Column({ name: 'category_id', type: 'uuid', nullable: false })
   categoryId: string;
 
-  @ManyToOne(() => Category, (category) => category.products, {
-    onDelete: 'RESTRICT', // hoặc CASCADE nếu bạn muốn
+  @ManyToOne(() => ProductCategory, (category) => category.products, {
+    onDelete: 'RESTRICT',
   })
   @JoinColumn({ name: 'category_id' })
-  category: Category;
-
-  @Column({ name: 'inventory_document_id', type: 'uuid', nullable: false })
-  inventoryDocumentId: string;
+  category: ProductCategory;
 
   @OneToMany(
-    () => InventoryDocumentItems,
-    (inventoryDocumentItems) => inventoryDocumentItems.productId,
+    () => InventoryMovementItem,
+    (inventoryMovementItem) => inventoryMovementItem.product,
     {
       cascade: true,
       onDelete: 'CASCADE',
     },
   )
-  inventoryDocumentItems: InventoryDocumentItems[];
+  inventoryMovementItem: InventoryMovementItem[];
 
   @OneToMany(
-    () => PurchaseOrdersItems,
-    (purchaseOrderItems) => purchaseOrderItems.product,
+    () => InventoryRequestItem,
+    (inventoryRequestItem) => inventoryRequestItem.product,
     {
       cascade: true,
     },
   )
-  items: PurchaseOrdersItems[];
+  items: InventoryRequestItem[];
 }
