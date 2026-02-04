@@ -1,4 +1,4 @@
-export type ClassId = "KIDS" | "STARTERS_FOUNDATION" | "STARTERS" | "MOVERS" | "FLYERS"  | "AUDIO" | "VIDEOS";
+export type ClassId = "KIDS" | "SYLLABUS_IELTS" | "STARTERS" | "MOVERS" | "FLYERS"  | "AUDIO" | "VIDEOS";
 
 /* Overview (giới thiệu book) */
 export interface OverviewSection {

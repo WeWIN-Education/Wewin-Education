@@ -4,8 +4,8 @@ import React, { useState } from "react";
 import type { ClassId } from "@/app/constants/types";
 import DetailPage from "@/app/components/learningPlan/detailPage";
 
-export default function StartersFoundationPage() {
-  const [selectedClass] = useState<ClassId>("STARTERS_FOUNDATION");
+export default function SyllabusIeltsPage() {
+  const [selectedClass] = useState<ClassId>("SYLLABUS_IELTS");
   const handleGoBack = () => {
     window.history.back();
   };

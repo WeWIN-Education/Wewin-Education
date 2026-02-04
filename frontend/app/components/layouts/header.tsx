@@ -32,7 +32,7 @@ import { useRouter } from "next/navigation";
 export default function Navbar() {
   const { data: session } = useSession();
   const roles = session?.user?.roles ?? [];
-  const isAdmin = roles.includes("ADMIN");
+  const isAdmin = roles.includes("Admin");
   const [menuOpen, setMenuOpen] = useState(false);
   const [showNavbar, setShowNavbar] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
