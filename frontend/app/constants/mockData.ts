@@ -623,6 +623,191 @@ export const mockLearningNodes: LearningNode[] = [
   order: 54,
 },
 
+///////////////GIAI ĐOẠN 4: INTENSIVE - EXPERT IELTS 6 + WRITING WORKSHOP (Buổi 55-78)/////////////////////
+{
+  id: "wsi_55",
+  projectId: "proj_4",
+  title: "Buổi 55",
+  type: "week",
+  order: 55,
+},
+{
+  id: "wsi_56",
+  projectId: "proj_4",
+  title: "Buổi 56",
+  type: "week",
+  order: 56,
+},
+{
+  id: "wsi_57",
+  projectId: "proj_4",
+  title: "Buổi 57",
+  type: "week",
+  order: 57,
+},
+{
+  id: "wsi_58",
+  projectId: "proj_4",
+  title: "Buổi 58",
+  type: "week",
+  order: 58,
+},
+{
+  id: "wsi_59",
+  projectId: "proj_4",
+  title: "Buổi 59",
+  type: "week",
+  order: 59,
+},
+{
+  id: "wsi_60",
+  projectId: "proj_4",
+  title: "Buổi 60",
+  type: "week",
+  order: 60,
+},
+{
+  id: "wsi_61",
+  projectId: "proj_4",
+  title: "Buổi 61",
+  type: "week",
+  order: 61,
+},
+{
+  id: "wsi_62",
+  projectId: "proj_4",
+  title: "Buổi 62",
+  type: "week",
+  order: 62,
+},
+{
+  id: "wsi_63",
+  projectId: "proj_4",
+  title: "Buổi 63",
+  type: "week",
+  order: 63,
+},
+{
+  id: "wsi_64",
+  projectId: "proj_4",
+  title: "Buổi 64",
+  type: "week",
+  order: 64,
+},
+{
+  id: "wsi_65",
+  projectId: "proj_4",
+  title: "Buổi 65",
+  type: "week",
+  order: 65,
+},
+{
+  id: "wsi_66",
+  projectId: "proj_4",
+  title: "Buổi 66",
+  type: "week",
+  order: 66,
+},
+{
+  id: "wsi_67",
+  projectId: "proj_4",
+  title: "Buổi 67",
+  type: "week",
+  order: 67,
+},
+{
+  id: "wsi_68",
+  projectId: "proj_4",
+  title: "Buổi 68",
+  type: "week",
+  order: 68,
+},
+{
+  id: "wsi_69",
+  projectId: "proj_4",
+  title: "Buổi 69",
+  type: "week",
+  order: 69,
+},
+{
+  id: "wsi_70",
+  projectId: "proj_4",
+  title: "Buổi 70",
+  type: "week",
+  order: 70,
+},
+{
+  id: "wsi_71",
+  projectId: "proj_4",
+  title: "Buổi 71",
+  type: "week",
+  order: 71,
+},
+{
+  id: "wsi_72",
+  projectId: "proj_4",
+  title: "Buổi 72",
+  type: "week",
+  order: 72,
+},
+{
+  id: "wsi_73",
+  projectId: "proj_4",
+  title: "Buổi 73",
+  type: "week",
+  order: 73,
+},
+{
+  id: "wsi_74",
+  projectId: "proj_4",
+  title: "Buổi 74",
+  type: "week",
+  order: 74,
+},
+{
+  id: "wsi_75",
+  projectId: "proj_4",
+  title: "Buổi 75",
+  type: "week",
+  order: 75,
+},
+{
+  id: "wsi_76",
+  projectId: "proj_4",
+  title: "Buổi 76",
+  type: "week",
+  order: 76,
+},
+{
+  id: "wsi_77",
+  projectId: "proj_4",
+  title: "Buổi 77",
+  type: "week",
+  order: 77,
+},
+{
+  id: "wsi_78",
+  projectId: "proj_4",
+  title: "Buổi 78",
+  type: "week",
+  order: 78,
+},
+//////////////GIAI ĐOẠN 5: CAMBRIDGE 19-20 PRACTICE (Buổi 79-80)/////////////////////
+{
+  id: "wsi_79",
+  projectId: "proj_5",
+  title: "Buổi 79",
+  type: "week",
+  order: 79,
+},
+{
+  id: "wsi_80",
+  projectId: "proj_5",
+  title: "Buổi 80",
+  type: "week",
+  order: 80,
+},
+
 
 /////////////////// KIDS //////////////////////
   {
@@ -4468,6 +4653,3317 @@ Ghi âm lại bài Listening đã làm (shadowing skills)
   `,
 },
 
+{
+  id: "wsi_55_expert_6_core",
+  learningNodeId: "wsi_55",
+  title: "EXPERT 6 CORE (60 PHÚT)",
+  type: "paragraph",
+  order: 1,
+  content: `
+LESSON PLAN – Module 1A: Communication Today (90’)
+(Expert 6 – phù hợp cho lớp 1-1, nhóm, offline và online, theo PPP. Homework: Language Development + Vocabulary)
+
+Warm-up & Lead-in (10’):
+Speaking – học sinh thảo luận về hình ảnh yêu thích trên điện thoại thông minh và độ tin cậy của ảnh chụp so với mô tả.
+Phương pháp: Brainstorming + Guided Discovery.
+Tương tác: thảo luận theo cặp, nhóm nhỏ hoặc breakout room online; lớp 1-1 giáo viên gợi mở bằng câu hỏi dẫn dắt.
+
+Reading (20’):
+Reading – Identify Topic Sentences & Matching Headings –
+học sinh phân tích đoạn văn để xác định câu chủ đề và chủ đề lặp lại trong đoạn B và C.
+Sau đó thực hành chọn tiêu đề đúng cho các đoạn A và D–G từ danh sách (List of Headings).
+Phương pháp: Skimming & Scanning + Exam Skills.
+Tương tác: học sinh thảo luận xem việc xác định câu chủ đề có giúp ích cho bài tập nối tiêu đề hay không,
+cuối cùng thảo luận về sự phát triển của nhiếp ảnh kỹ thuật số và việc mọi người có dễ bị thuyết phục hơn bởi Internet không.
+
+Listening (15’):
+Listening – Locate Information & Notes Completion (Section 1) –
+trước khi nghe, học sinh đọc câu hỏi (2–10) và xác định loại thông tin cần nghe (how much, what, how many)
+cùng từ tín hiệu cần tìm.
+Sau đó thực hành hoàn thành ghi chú về Student mobile plan
+(bao gồm loại điện thoại miễn phí, hợp đồng tối thiểu, chi phí, tên, email, cách thanh toán và địa điểm nhận).
+Phương pháp: Listening for Detail + Prediction Strategy.
+
+Speaking (15’):
+Speaking – Expand Answers (Part 1) –
+học sinh luyện tập mở rộng câu trả lời cho các câu hỏi Part 1, cố gắng nói hơn 20 giây.
+Tiếp theo phân tích cụm từ mở rộng như:
+The benefit of, the downside of, Take schoolwork, for instance
+và nối chúng với mục đích
+(Giving examples, Giving reasons, Stating advantages/disadvantages, Expressing a habit, Stating certainty).
+Cuối cùng thực hành đưa ra ý kiến về Communicating with people,
+ví dụ: What do you use your mobile phone for the most?.
+
+Writing (20’):
+Writing – Write an Overview Task 1 –
+học sinh nối câu giới thiệu (1–3) với biểu đồ (A–C),
+xác định chức năng của câu giới thiệu và cách câu tổng quan khác với câu giới thiệu.
+Sau đó thực hành viết câu giới thiệu và câu tổng quan cho biểu đồ
+về lý do mọi người kết bạn (friend) và hủy kết bạn (unfriend) trên mạng xã hội.
+Phương pháp: Guided Discovery + Process Writing.
+  `,
+},
+{
+  id: "wsi_55_writing_speaking_practice",
+  learningNodeId: "wsi_55",
+  title: "WRITING / SPEAKING PRACTICE (30 PHÚT)",
+  type: "paragraph",
+  order: 2,
+  content: `
+Practice Speaking:
+IELTS Speaking Part 1 – Topic 1.1 Art
+• Do you like art?
+• Do you like visiting art galleries?
+• Do you want to be an artist?
+• Do you like modern art or traditional art?
+
+Practice Writing:
+IELTS Writing Task 1 – Car Sales by Region
+The chart shows the percentage of car manufacturer's total sales
+in North America, South America, Europe and Asia.
+  `,
+},
+{
+  id: "wsi_55_teaching_assistant",
+  learningNodeId: "wsi_55",
+  title: "TRỢ GIẢNG (30 PHÚT)",
+  type: "paragraph",
+  order: 3,
+  content: `
+GIÁO ÁN: Listening C12 (Tr. 235) - T7 Section 3
+và Listening C12 (Tr. 240) - T7 Section 4
+
+I. 10 PHÚT ĐẦU GIỜ: GIỚI THIỆU 10 TỪ VỰNG TRỌNG TÂM
+1. case study (n. phr.): Nghiên cứu tình huống.
+2. interview (v.): Phỏng vấn.
+3. anonymous (adj.): Ẩn danh.
+4. trends (n.): Xu hướng.
+5. mercury (n.): Thủy ngân.
+6. toxic (adj.): Độc hại.
+7. contamination (n.): Sự ô nhiễm.
+8. migration (n.): Sự di cư.
+9. telegraph (n.): Điện báo.
+10. invention (n.): Phát minh.
+
+II. NỘI DUNG CHÍNH (20 PHÚT)
+
+Chữa bài Listening 1:
+C12 - T7 Section 3 (Tr. 235 - 239) – 10 phút
+• Hoạt động: Học viên tự kiểm tra đáp án.
+• Trợ giảng chữa lỗi, tập trung vào từ vựng nghiên cứu
+(case study, interview, anonymous)
+và các bước phân tích dữ liệu (trends, graphs).
+
+Chữa bài Listening 2:
+C12 - T7 Section 4 (Tr. 240 - 243) – 10 phút
+• Hoạt động: Tự kiểm tra đáp án.
+• Trợ giảng chữa lỗi tập trung vào từ vựng khoa học/môi trường
+(mercury, toxic, contamination)
+và sự di chuyển của động vật (migration).
+  `,
+},
+{
+  id: "wsi_55_homework",
+  learningNodeId: "wsi_55",
+  title: "HOMEWORK",
+  type: "homework",
+  order: 4,
+  content: `
+Expert 6: Homework
+
+Grammar:
+• Present Tenses (Simple / Continuous)
+• Stative verbs: want, need, include
+
+Vocabulary:
+• Collocations
+• Phrasal verbs
+• Words with more than one meaning
+• Communication
+
+Writing:
+• Bar chart structure practice
+• Viết 01 bài IELTS Writing Task 1 (150 từ)
+
+Listening:
+• Hoàn thành C12 - T8 Section 2 (Tr. 244 - 247)
+• Ghi âm lại bài Listening đã làm (shadowing skills)
+  `,
+},
+
+
+{
+  id: "wsi_56_expert_6_core",
+  learningNodeId: "wsi_56",
+  title: "EXPERT 6 CORE (60 PHÚT)",
+  type: "paragraph",
+  order: 1,
+  content: `
+LESSON PLAN – Module 1B: Back to the Old Ways (90’)
+(Expert 6 – phù hợp cho lớp 1-1, nhóm, offline và online, theo PPP. Homework: Language Development + Vocabulary)
+
+Warm-up & Lead-in (10’):
+Speaking – học sinh thảo luận về cách mọi người tiếp nhận tin tức ngày nay so với trước đây,
+chia sẻ trải nghiệm cá nhân về việc đọc báo giấy, xem TV hay dùng mạng xã hội.
+Phương pháp: Brainstorming + Guided Discovery.
+Tương tác: thảo luận theo cặp, nhóm nhỏ hoặc breakout room online;
+lớp 1-1 giáo viên gợi mở bằng câu hỏi dẫn dắt.
+
+Listening (15’):
+Listening – Notes, Table & Form Completion (Section 1) –
+học sinh thực hành hoàn thành ghi chú (Student is studying/year),
+bảng (Position/Where: Food assistant, Salesperson, Receptionist),
+và mẫu đơn (STUDENT DETAILS: Name, Address, Room No., Skills, Interview location/time).
+Phương pháp: Listening for Detail + Prediction Strategy.
+Tương tác: học sinh đối chiếu đáp án với bạn học hoặc giáo viên để kiểm tra độ chính xác.
+
+Reading (20’):
+Reading – Matching Headings & Sentence Completion –
+trước khi đọc, học sinh quyết định loại văn bản (lịch sử hay tranh luận).
+Sau đó đọc đoạn văn và chọn tiêu đề đúng cho các đoạn B–G
+từ danh sách (List of Headings i–ix).
+Tiếp tục hoàn thành câu (7–10) bằng cách chọn ONE WORD ONLY từ đoạn văn,
+ví dụ: Around a third of internet surfers stay on a __ page for __.
+Phương pháp: Skimming & Scanning + Exam Skills.
+Tương tác: học sinh thảo luận lý do chọn đáp án.
+
+Speaking (15’):
+Speaking – Part 1: Talk about the News –
+học sinh thảo luận về các loại tin tức như news article, subject,
+current affairs, human interest stories, gossip columns.
+Sau đó thực hành trả lời các câu hỏi như:
+Do you read newspapers?
+How do you prefer to learn about news events?
+và ghi âm câu trả lời để nghe lại.
+Cuối cùng đánh giá các lĩnh vực cần cải thiện về độ trôi chảy
+(fluency: speed, repetition, expanding answers).
+Phương pháp: Communicative Practice + Fluency Drills.
+
+Writing (20’):
+Writing – Task 1: Describe a Chart –
+học sinh luyện tập paraphrasing bằng cách nối từ/cụm từ với nghĩa tương đồng
+và viết lại câu giới thiệu để tránh lặp từ.
+Tiếp theo phân tích biểu đồ về thu nhập từ bán vé rạp chiếu phim và DVD,
+kiểm tra tiêu chí Task Achievement (Task 1)
+và phân tích các đoạn mô tả dữ liệu.
+Cuối cùng viết mô tả biểu đồ (ít nhất 150 từ),
+tập trung vào dữ liệu quan trọng và so sánh.
+Phương pháp: Guided Discovery + Process Writing.
+  `,
+},
+{
+  id: "wsi_56_writing_speaking_practice",
+  learningNodeId: "wsi_56",
+  title: "WRITING / SPEAKING PRACTICE (30 PHÚT)",
+  type: "paragraph",
+  order: 2,
+  content: `
+Practice Speaking:
+IELTS Speaking Part 1 – Topic 1.2 Teenagers
+• Do you care about teenagers’ fashion trends?
+• Do you like spending time with teenagers?
+• What activities do young people like to do in your country?
+• Do you know what the fashion trend among young people is like in your country?
+
+Practice Writing:
+IELTS Writing Task 1 – Fuel Use in Transport
+The chart below shows information about fuel used in the transport sector
+in different countries in Europe,
+compared to the EU average, in 2009 and 2010.
+  `,
+},
+{
+  id: "wsi_56_teaching_assistant",
+  learningNodeId: "wsi_56",
+  title: "TRỢ GIẢNG (30 PHÚT)",
+  type: "paragraph",
+  order: 3,
+  content: `
+GIÁO ÁN: Listening C12 (Tr. 240) - T7 Section 4
+và Listening C12 (Tr. 244) - T8 Section 2
+
+I. 10 PHÚT ĐẦU GIỜ: GIỚI THIỆU 10 TỪ VỰNG TRỌNG TÂM
+1. mercury (n.): Thủy ngân.
+2. toxic (adj.): Độc hại.
+3. contamination (n.): Sự ô nhiễm.
+4. migration (n.): Sự di cư.
+5. underground (adj.): Dưới lòng đất.
+6. garments (n.): Trang phục.
+7. sculpture (n.): Tượng điêu khắc.
+8. footpath (n.): Lối đi bộ.
+9. estate (n.): Bất động sản/Khu vực.
+10. pavilion (n.): Đình/Lầu.
+
+II. NỘI DUNG CHÍNH (20 PHÚT)
+
+Chữa bài Listening 1:
+C12 - T7 Section 4 (Tr. 240 - 243) – 10 phút
+• Hoạt động: Trợ giảng chữa lỗi về từ vựng khoa học
+(mercury, toxin)
+và sự phụ thuộc của động vật biển vào thính giác để định vị.
+
+Chữa bài Listening 2:
+C12 - T8 Section 2 (Tr. 244 - 247) – 10 phút
+• Hoạt động: Trợ giảng chữa lỗi tập trung vào từ vựng
+liên quan đến mua sắm/địa điểm
+(department store, garments, underground car park)
+và hướng dẫn đường đi (footpath).
+  `,
+},
+{
+  id: "wsi_56_homework",
+  learningNodeId: "wsi_56",
+  title: "HOMEWORK",
+  type: "homework",
+  order: 4,
+  content: `
+Expert 6: Homework
+
+Grammar:
+• Past Simple
+
+Vocabulary:
+• The Media (collocations, word practice)
+
+Listening:
+• Hoàn thành C12 - T8 Section 3 (Tr. 248 - 252)
+• Ghi âm lại bài Listening đã làm (shadowing skills)
+  `,
+},
+
+{
+  id: "wsi_57_expert_6_core",
+  learningNodeId: "wsi_57",
+  title: "EXPERT 6 CORE (60 PHÚT)",
+  type: "paragraph",
+  order: 1,
+  content: `
+LESSON PLAN – Module 2A: Feeling Good (90’)
+(Expert 6 – phù hợp cho lớp 1-1, nhóm, offline và online, theo PPP. Homework: Language Development + Vocabulary)
+
+Warm-up & Lead-in (10’):
+Speaking – học sinh thảo luận về khái niệm bucket list,
+đọc định nghĩa và viết ba mục tiêu của riêng mình.
+Phương pháp: Brainstorming + Guided Discovery.
+Tương tác: thảo luận theo cặp, nhóm nhỏ hoặc breakout room online;
+lớp 1-1 giáo viên gợi mở bằng câu hỏi dẫn dắt.
+
+Reading (20’):
+Reading – Identify Key Words & Yes/No/Not Given –
+học sinh gạch chân từ khóa trong các tuyên bố,
+so sánh thông tin trong các cặp câu để xác định chúng nói giống nhau hay mâu thuẫn.
+Sau đó thực hành trả lời YES/NO/NOT GIVEN
+cho các tuyên bố về nghiên cứu
+“The Unforeseen Costs of Extraordinary Experience”.
+Phương pháp: Skimming & Scanning + Exam Skills.
+Tương tác: học sinh thảo luận lý do chọn đáp án.
+
+Listening (15’):
+Listening – Word Stress & Multiple Choice (Section 2) –
+học sinh nghe và trả lời câu hỏi chỉ dựa trên các từ được nhấn trọng âm.
+Sau đó thực hành trắc nghiệm (Questions 1–5)
+về quan điểm của Don Norman,
+lời khuyên giảm stress,
+cách trải nghiệm vẻ đẹp
+và đề xuất của Evelyn Underhill.
+Phương pháp: Listening for Main Idea + Stress Awareness.
+
+Speaking (15’):
+Speaking – Generate Ideas & Vocabulary (Part 2) –
+học sinh mô tả something that makes you happy
+(what, where/when, how often, explain why).
+Tiếp theo hoàn thành ghi chú của thí sinh
+với các từ như creative, daydream, make plans, thinking time.
+Cuối cùng luyện tập cấu trúc câu trả lời
+bằng cách sử dụng các cụm từ giúp mở rộng câu trả lời
+và xác định chức năng của chúng
+(start a new sentence, join two sentences).
+Phương pháp: Communicative Practice + Fluency Drills.
+
+Writing (20’):
+Writing – Opinion Essay (Task 2) –
+học sinh phân tích câu hỏi:
+“Money is one of the most important factors in a person’s happiness.
+To what extent do you agree?”
+Gạch chân từ khóa và định nghĩa factor, To what extent.
+Sau đó áp dụng các kỹ thuật sản sinh ý tưởng:
+Cubing, Your perspective, Other perspectives,
+Identify examples, Flip a problem.
+Cuối cùng lập dàn ý,
+lựa chọn hai lý do tốt nhất để hỗ trợ ý kiến cá nhân
+theo Plan A (chỉ tập trung vào ý kiến cá nhân)
+hoặc Plan B (trình bày hai quan điểm).
+Phương pháp: Guided Discovery + Process Writing.
+  `,
+},
+{
+  id: "wsi_57_writing_speaking_practice",
+  learningNodeId: "wsi_57",
+  title: "WRITING / SPEAKING PRACTICE (30 PHÚT)",
+  type: "paragraph",
+  order: 2,
+  content: `
+Practice Speaking:
+IELTS Speaking Part 1 – Topic 1.3 Party
+• Have you been to a party recently?
+• Do you prefer to go to small parties or big parties?
+• Do you like parties?
+• How often did you have a party when you were a kid?
+• Have you ever organized a party?
+
+Practice Writing:
+IELTS Writing Task 1 – Cars per 1000 People
+The bar chart shows the number of cars per 1000 people
+in five European countries in three years,
+compared with the European average.
+  `,
+},
+{
+  id: "wsi_57_teaching_assistant",
+  learningNodeId: "wsi_57",
+  title: "TRỢ GIẢNG (30 PHÚT)",
+  type: "paragraph",
+  order: 3,
+  content: `
+GIÁO ÁN: Listening C12 (Tr. 244) - T8 Section 2
+và Listening C12 (Tr. 248) - T8 Section 3
+
+I. 10 PHÚT ĐẦU GIỜ: GIỚI THIỆU 10 TỪ VỰNG TRỌNG TÂM
+1. underground (adj.): Dưới lòng đất.
+2. garments (n.): Trang phục.
+3. sculpture (n.): Tượng điêu khắc.
+4. footpath (n.): Lối đi bộ.
+5. estate (n.): Bất động sản.
+6. adaptations (n.): Sự thích nghi/Chuyển thể.
+7. classification (n.): Sự phân loại.
+8. headline (n.): Tiêu đề.
+9. clip (n.): Đoạn phim ngắn.
+10. satire (n.): Châm biếm.
+
+II. NỘI DUNG CHÍNH (20 PHÚT)
+
+Chữa bài Listening 1:
+C12 - T8 Section 2 (Tr. 244 - 247) – 10 phút
+• Hoạt động: Trợ giảng chữa lỗi về từ vựng
+liên quan đến cửa hàng bách hóa (department store)
+và các tác phẩm nghệ thuật (sculpture).
+
+Chữa bài Listening 2:
+C12 - T8 Section 3 (Tr. 248 - 252) – 10 phút
+• Hoạt động: Trợ giảng chữa lỗi tập trung vào từ vựng
+liên quan đến phim ảnh/văn học
+(adaptations, classification, satire)
+và báo chí (headline, clip).
+  `,
+},
+{
+  id: "wsi_57_homework",
+  learningNodeId: "wsi_57",
+  title: "HOMEWORK",
+  type: "homework",
+  order: 4,
+  content: `
+Expert 6: Homework
+
+Grammar:
+• Building Complex Sentences
+• Relative Clauses (that, when, where, which, who)
+
+Vocabulary:
+• Definitions
+• Collocations
+• Research
+• Adjectives describing experiences
+
+Writing:
+• Data description practice
+• Viết 1 bài Task 1 (150 từ)
+
+Listening:
+• Hoàn thành C12 - T8 Section 4 (Tr. 253 - 257)
+• Ghi âm lại bài Listening đã làm (shadowing skills)
+  `,
+},
+
+{
+  id: "wsi_58_expert_6_core",
+  learningNodeId: "wsi_58",
+  title: "EXPERT 6 CORE (60 PHÚT)",
+  type: "paragraph",
+  order: 1,
+  content: `
+LESSON PLAN – Module 2B: Looking Good (90’)
+(Expert 6 – phù hợp cho lớp 1-1, nhóm, offline và online, theo PPP. Homework: Language Development + Vocabulary)
+
+Warm-up & Lead-in (10’):
+Speaking – học sinh thảo luận về tầm quan trọng của ngoại hình
+trong giao tiếp và công việc, chia sẻ trải nghiệm cá nhân.
+Phương pháp: Brainstorming + Guided Discovery.
+Tương tác: thảo luận theo cặp, nhóm nhỏ hoặc breakout room online;
+lớp 1-1 giáo viên gợi mở bằng câu hỏi dẫn dắt.
+
+Listening (15’):
+Listening – Multiple Choice & Sentence Completion (Section 2) –
+học sinh thực hành trắc nghiệm (Questions 1–6)
+về các chủ đề giao tiếp, body language,
+ảnh hưởng của cortisol và lời khuyên buổi sáng.
+Sau đó hoàn thành câu (7–10) với NO MORE THAN THREE WORDS,
+ví dụ:
+“Before the interview, participants created a presentation of their __.”
+Phương pháp: Listening for Detail + Prediction Strategy.
+
+Reading (20’):
+Reading – Matching Information & Yes/No/Not Given –
+học sinh nối các câu (1–4) với đoạn văn (A–F),
+ví dụ:
+“People purchase things so they can feel good
+when other people notice them.”
+Sau đó trả lời YES/NO/NOT GIVEN
+cho các tuyên bố liên quan đến thời trang và mua sắm.
+Phương pháp: Skimming & Scanning + Exam Skills.
+Tương tác: học sinh thảo luận lý do chọn đáp án.
+
+Speaking (15’):
+Speaking – Part 2: Describe an Event –
+học sinh nghe và ghi lại các từ/cụm từ
+cho thấy thí sinh có vốn từ vựng tốt.
+Sau đó thực hành mô tả
+a time you did something important
+(what, when/where, how you felt, why it was important).
+Cuối cùng đánh giá việc sử dụng từ vựng (Lexical resource)
+so với các tiêu chí Band 5 và 6.
+Phương pháp: Communicative Practice + Fluency Drills.
+
+Writing (20’):
+Writing – Task 2: Opinion Essay –
+học sinh viết bài luận với đề bài:
+“Do you think people care more about appearance than in the past?”
+Trước tiên lập kế hoạch bằng cách chọn hai hoặc ba điểm
+để thảo luận chuyên sâu,
+áp dụng các Perspectives
+(của bản thân, của người khác giới, của người lớn tuổi).
+Sau đó viết đoạn văn,
+gạch chân các cụm từ giới thiệu ý kiến,
+lý do và ví dụ trong các câu mẫu.
+Phương pháp: Guided Discovery + Process Writing.
+  `,
+},
+{
+  id: "wsi_58_writing_speaking_practice",
+  learningNodeId: "wsi_58",
+  title: "WRITING / SPEAKING PRACTICE (30 PHÚT)",
+  type: "paragraph",
+  order: 2,
+  content: `
+Practice Speaking:
+IELTS Speaking Part 1 – Topic 1.4 Fishing
+• Is fishing popular in your country?
+• Do you like eating fish?
+• Do you like fishing?
+• Did you ever go fishing when you were a child?
+
+Practice Writing:
+IELTS Writing Task 1 – Car Ownership in the UK
+The chart below gives information
+about car ownership in the UK
+from 1975 to 2005.
+  `,
+},
+{
+  id: "wsi_58_teaching_assistant",
+  learningNodeId: "wsi_58",
+  title: "TRỢ GIẢNG (30 PHÚT)",
+  type: "paragraph",
+  order: 3,
+  content: `
+GIÁO ÁN: Listening C12 (Tr. 248) - T8 Section 3
+và Listening C12 (Tr. 253) - T8 Section 4
+
+I. 10 PHÚT ĐẦU GIỜ: GIỚI THIỆU 10 TỪ VỰNG TRỌNG TÂM
+1. adaptations (n.): Sự thích nghi/Chuyển thể.
+2. classification (n.): Sự phân loại.
+3. headline (n.): Tiêu đề.
+4. clip (n.): Đoạn phim ngắn.
+5. acoustics (n.): Âm học.
+6. decibels (n.): Decibel.
+7. erratic (adj.): Thất thường.
+8. aesthetic (adj.): Thẩm mỹ.
+9. virtual reality (n. phr.): Thực tế ảo.
+10. consistency (n.): Sự nhất quán.
+
+II. NỘI DUNG CHÍNH (20 PHÚT)
+
+Chữa bài Listening 1:
+C12 - T8 Section 3 (Tr. 248 - 252) – 10 phút
+• Hoạt động: Trợ giảng chữa lỗi về từ vựng
+liên quan đến phim ảnh/văn học
+(adaptations, satire).
+
+Chữa bài Listening 2:
+C12 - T8 Section 4 (Tr. 253 - 257) – 10 phút
+• Hoạt động: Trợ giảng chữa lỗi tập trung vào
+từ vựng liên quan đến âm học và công nghệ
+(acoustics, decibels, virtual reality)
+và tính thẩm mỹ (aesthetic).
+  `,
+},
+{
+  id: "wsi_58_homework",
+  learningNodeId: "wsi_58",
+  title: "HOMEWORK",
+  type: "homework",
+  order: 4,
+  content: `
+Expert 6: Homework
+
+Grammar:
+• Parts of Speech
+• Adjectives of Feeling
+• Intensifiers
+
+Vocabulary:
+• The Media & Communication
+  (collocations, phrasal verbs, word forms)
+
+Writing:
+• Supporting arguments
+• Viết 1 bài Task 2 (250 từ)
+
+Listening:
+• Hoàn thành C13 - T1 Section 2 (Tr. 258 - 261)
+• Ghi âm lại bài Listening đã làm (shadowing skills)
+  `,
+},
+
+{
+  id: "wsi_59_expert_6_core",
+  learningNodeId: "wsi_59",
+  title: "EXPERT 6 CORE (60 PHÚT)",
+  type: "paragraph",
+  order: 1,
+  content: `
+LESSON PLAN – Module 3A: Learning for Life (90’)
+(Expert 6 – phù hợp cho lớp 1-1, nhóm, offline và online, theo PPP. Homework: Language Development + Vocabulary)
+
+Warm-up & Lead-in (10’):
+Speaking – học sinh thảo luận về trải nghiệm học tập lâu dài,
+chia sẻ lý do tại sao việc học không chỉ dừng lại ở trường lớp.
+Phương pháp: Brainstorming + Guided Discovery.
+Tương tác: thảo luận theo cặp, nhóm nhỏ hoặc breakout room online;
+lớp 1-1 giáo viên gợi mở bằng câu hỏi dẫn dắt.
+
+Reading (20’):
+Reading – Text Structure & Summary Completion –
+học sinh đọc câu đầu tiên của mỗi đoạn (A–D)
+và nối đoạn văn với chủ đề tương ứng
+như differences in discipline
+hoặc reasons for carrying out the experiment.
+Sau đó hoàn thành bản tóm tắt (3a) bằng Word bank,
+tiếp tục hoàn thành tóm tắt (4)
+bằng cách chọn từ từ danh sách A–I.
+Phương pháp: Skimming & Scanning + Exam Skills.
+Tương tác: học sinh so sánh đáp án
+và giải thích cách xác định thông tin.
+
+Listening (15’):
+Listening – Identify Similarity & Difference (Section 3) –
+học sinh nghe và hoàn thành bảng so sánh
+hai khóa học đại học (Bartlett vs Rugby)
+bằng cách đánh dấu tick/cross.
+Tiếp theo nối phần đầu/cuối câu
+để mô tả sự tương đồng và khác biệt
+(both, unlike, main difference).
+Cuối cùng phân loại các khóa học
+(architecture, medicine, programming, fashion)
+theo mức độ an toàn trong tương lai
+(A = disappear, B = reduced numbers, C = continue to be important).
+Phương pháp: Listening for Detail + Controlled Practice.
+
+Speaking (15’):
+Speaking – Give Reasons for Your Opinions (Part 3) –
+học sinh so sánh câu trả lời đơn giản
+và câu trả lời phát triển để nhận ra sự khác biệt.
+Thực hành trả lời câu hỏi Part 3 về Art in schools,
+sử dụng cụm từ tổ chức ý
+như Firstly, Then also, Another point to consider is.
+Phương pháp: Communicative Practice + Fluency Drills.
+
+Writing (20’):
+Writing – Task 1: Describe a Chart –
+học sinh phân tích biểu đồ cột
+Average cost of an undergraduate degree
+để xác định chi phí cao nhất/thấp nhất,
+phân biệt tuition fees và living costs.
+Sau đó viết đoạn mô tả biểu đồ tròn
+Number of students/schools: Private/Public,
+sử dụng that of / those of để liên kết thông tin.
+Phương pháp: Guided Discovery + Process Writing.
+  `,
+},
+{
+  id: "wsi_59_writing_speaking_practice",
+  learningNodeId: "wsi_59",
+  title: "WRITING / SPEAKING PRACTICE (30 PHÚT)",
+  type: "paragraph",
+  order: 2,
+  content: `
+Practice Speaking:
+IELTS Speaking Part 1 – Topic 1.5 Teachers
+• Do you have a favorite teacher?
+• In what way has your favourite teacher helped you?
+• Are you still in touch with your primary school teachers?
+• Do you have a teacher from your past that you still remember?
+• Do you want to be a teacher in the future?
+
+Practice Writing:
+IELTS Writing Task 1 – Employment Status in the US
+The chart shows the employment status
+of adults in the US
+in 2003 and 2013.
+  `,
+},
+{
+  id: "wsi_59_teaching_assistant",
+  learningNodeId: "wsi_59",
+  title: "TRỢ GIẢNG (30 PHÚT)",
+  type: "paragraph",
+  order: 3,
+  content: `
+GIÁO ÁN:
+Listening C12 (Tr. 253) - T8 Section 4
+và Listening C13 (Tr. 258) - T1 Section 2
+
+I. 10 PHÚT ĐẦU GIỜ: GIỚI THIỆU 10 TỪ VỰNG TRỌNG TÂM
+1. acoustics (n.): Âm học.
+2. decibels (n.): Decibel.
+3. aesthetic (adj.): Thẩm mỹ.
+4. virtual reality (n. phr.): Thực tế ảo.
+5. congestion (n.): Tắc nghẽn.
+6. visibility (n.): Tầm nhìn.
+7. regulated (v.): Được điều chỉnh.
+8. pedestrian (n.): Người đi bộ.
+9. council (n.): Hội đồng.
+10. fumes (n.): Khí thải.
+
+II. NỘI DUNG CHÍNH (20 PHÚT)
+
+Chữa bài Listening 1:
+C12 - T8 Section 4 (Tr. 253 - 257) – 10 phút
+• Hoạt động: Trợ giảng chữa lỗi về từ vựng âm học
+(soundscapes, decibels).
+Nhấn mạnh tiếng ồn là vấn đề xã hội – chính trị
+và cần được quản lý bằng quy định.
+
+Chữa bài Listening 2:
+C13 - T1 Section 2 (Tr. 258 - 261) – 10 phút
+• Hoạt động: Trợ giảng chữa lỗi
+tập trung vào giao thông và an toàn
+(congestion, visibility, pedestrian crossing)
+và chính sách công (council).
+  `,
+},
+{
+  id: "wsi_59_homework",
+  learningNodeId: "wsi_59",
+  title: "HOMEWORK",
+  type: "homework",
+  order: 4,
+  content: `
+Expert 6: Homework
+
+Grammar:
+• Comparative Forms
+  (comparative & superlative adjectives,
+   adverbs, quantifiers)
+
+Vocabulary:
+• Dependent Prepositions
+• Education
+• Adjective Endings
+• Collocations
+
+Listening:
+• Hoàn thành C13 - T1 Section 3 (Tr. 262 - 266)
+• Ghi âm lại bài Listening đã làm (shadowing skills)
+  `,
+},
+
+{
+  id: "wsi_60_expert_6_core",
+  learningNodeId: "wsi_60",
+  title: "EXPERT 6 CORE (60 PHÚT)",
+  type: "paragraph",
+  order: 1,
+  content: `
+LESSON PLAN – Module 3B: The World of Work (90’)
+(Expert 6 – phù hợp cho lớp 1-1, nhóm, offline và online, theo PPP. Homework: Language Development + Vocabulary)
+
+Warm-up & Lead-in (10’):
+Speaking – học sinh thảo luận về môi trường làm việc lý tưởng,
+chia sẻ trải nghiệm cá nhân về văn phòng hoặc nơi học tập.
+Phương pháp: Brainstorming + Guided Discovery.
+Tương tác: thảo luận theo cặp, nhóm nhỏ hoặc breakout room online;
+lớp 1-1 giáo viên gợi mở bằng câu hỏi dẫn dắt.
+
+Listening (15’):
+Listening – Notes Completion & Matching (Section 3) –
+học sinh hoàn thành ghi chú về Project notes
+(ví dụ: Description must be 1 word or less, deadline).
+Sau đó nối các yếu tố môi trường làm việc
+(yellow working environment, pictures, plants, large windows, soft lighting)
+với mục đích hỗ trợ
+(A = sleeping better, B = being more creative, C = feeling happy at work).
+Phương pháp: Listening for Detail + Prediction Strategy.
+
+Reading (20’):
+Reading – Yes/No/Not Given & Summary Completion –
+học sinh trả lời YES/NO/NOT GIVEN
+cho các tuyên bố về Emotional Intelligence.
+Tiếp theo hoàn thành bản tóm tắt
+bằng cách chọn từ từ danh sách (A–L).
+Phương pháp: Skimming & Scanning + Exam Skills.
+Tương tác: học sinh thảo luận lý do chọn đáp án.
+
+Speaking (15’):
+Speaking – Part 3: Discussing Shopping and Retail –
+học sinh luyện trả lời các câu hỏi Part 3
+về Shops and retail
+(ví dụ: How do you think shopping habits have changed in recent years?).
+Sau đó phân tích việc sử dụng connectors
+và câu phức của thí sinh
+để cải thiện Grammatical range and accuracy.
+Phương pháp: Communicative Practice + Fluency Drills.
+
+Writing (20’):
+Writing – Task 1: Write a Summary –
+học sinh phân tích biểu đồ đường
+Women’s weekly earnings as a percentage of men’s wages.
+Tiếp theo nối các cụm từ
+với tiêu chí Band 5 và Band 6
+để hiểu coherence and cohesion
+(ví dụ: connectors are used to show how ideas relate).
+Cuối cùng hoàn thành câu
+với các từ so sánh/tương phản
+although, despite, however, in spite of.
+Phương pháp: Guided Discovery + Process Writing.
+  `,
+},
+{
+  id: "wsi_60_writing_speaking_practice",
+  learningNodeId: "wsi_60",
+  title: "WRITING / SPEAKING PRACTICE (30 PHÚT)",
+  type: "paragraph",
+  order: 2,
+  content: `
+Practice Speaking:
+IELTS Speaking Part 1 – Topic 1.6 Television Programs
+• Where do you usually watch TV programs/shows? Why/Why not?
+• What’s your favorite TV program/show? Why?
+• Are there any programs/shows you don’t like watching? Why/Why not?
+• Do you think you will watch more TV or fewer TV programs/shows in the future? Why/Why not?
+
+Practice Writing:
+IELTS Writing Task 1 – Employment Distribution (3 Countries)
+The bar chart shows the distribution of employment
+among agriculture, services and industries
+in three countries in 1980
+and the projected distribution in 2020.
+  `,
+},
+{
+  id: "wsi_60_teaching_assistant",
+  learningNodeId: "wsi_60",
+  title: "TRỢ GIẢNG (30 PHÚT)",
+  type: "paragraph",
+  order: 3,
+  content: `
+GIÁO ÁN:
+Listening C13 (Tr. 258) - T1 Section 2
+và Listening C13 (Tr. 262) - T1 Section 3
+
+I. 10 PHÚT ĐẦU GIỜ: GIỚI THIỆU 10 TỪ VỰNG TRỌNG TÂM
+1. congestion (n.): Tắc nghẽn.
+2. visibility (n.): Tầm nhìn.
+3. pedestrian (n.): Người đi bộ.
+4. council (n.): Hội đồng.
+5. germination (n.): Sự nảy mầm.
+6. equipment (n.): Thiết bị.
+7. practical (adj.): Thực tế/Thực hành.
+8. procedure (n.): Quy trình.
+9. chemicals (n.): Hóa chất.
+10. variable (n.): Biến số.
+
+II. NỘI DUNG CHÍNH (20 PHÚT)
+
+Chữa bài Listening 1:
+C13 - T1 Section 2 (Tr. 258 - 261) – 10 phút
+• Hoạt động: Trợ giảng chữa lỗi
+liên quan đến các quy định giao thông mới
+và biện pháp tăng cường an toàn
+cho người đi bộ (pedestrian crossings).
+
+Chữa bài Listening 2:
+C13 - T1 Section 3 (Tr. 262 - 266) – 10 phút
+• Hoạt động: Trợ giảng chữa lỗi
+tập trung vào từ vựng thí nghiệm khoa học
+(germination, equipment, procedure)
+và kỹ năng đọc tài liệu học thuật (reading list).
+  `,
+},
+{
+  id: "wsi_60_homework",
+  learningNodeId: "wsi_60",
+  title: "HOMEWORK",
+  type: "homework",
+  order: 4,
+  content: `
+Expert 6: Homework
+
+Grammar:
+• Verb Patterns (-ing and infinitives)
+
+Vocabulary:
+• Business and Finance
+  (collocations, word practice)
+
+Listening:
+• Hoàn thành C13 - T1 Section 4 (Tr. 267 - 270)
+• Ghi âm lại bài Listening đã làm (shadowing skills)
+  `,
+},
+
+{
+  id: "wsi_61_expert_6_core",
+  learningNodeId: "wsi_61",
+  title: "EXPERT 6 CORE (60 PHÚT)",
+  type: "paragraph",
+  order: 1,
+  content: `
+LESSON PLAN – Module 4A: Discoveries and Inventions (90’)
+(Expert 6 – phù hợp cho lớp 1-1, nhóm, offline và online, theo PPP. Homework: Language Development + Vocabulary)
+
+Warm-up & Lead-in (10’):
+Speaking – học sinh thảo luận và phân loại các mục
+thành discoveries và inventions,
+chia sẻ ví dụ quen thuộc trong đời sống.
+Phương pháp: Brainstorming + Guided Discovery.
+Tương tác: thảo luận theo cặp, nhóm nhỏ hoặc breakout room online;
+lớp 1-1 giáo viên gợi mở bằng câu hỏi dẫn dắt.
+
+Reading (20’):
+Reading – Text Referencing & Matching Features –
+học sinh tìm và gạch chân các giải thưởng khoa học trong đoạn văn,
+phân tích các reference words như this, it, they
+và xác định chúng ám chỉ điều gì.
+Sau đó thực hành nối các tuyên bố (1–4)
+với loại nghiên cứu (A–D).
+Phương pháp: Skimming & Scanning + Exam Skills.
+Tương tác: học sinh thảo luận lý do chọn đáp án.
+
+Listening (15’):
+Listening – Context & Connected Speech (Section 2) –
+học sinh nghe phần giới thiệu
+và trả lời các câu hỏi về người nói, địa điểm,
+chủ đề của buổi nói chuyện.
+Tiếp theo hoàn thành ghi chú (Questions 1–6)
+về Teleportation Exhibition
+(Opens, Closes, Gallery themes, Details of super computer).
+Phương pháp: Listening for Context + Notes Completion.
+
+Speaking (15’):
+Speaking – Give Yourself Time to Think (Part 2) –
+học sinh luyện sử dụng các cụm kéo dài thời gian suy nghĩ
+như er, I guess, How can I describe.
+Sau đó nghe và xác định các cụm từ khái quát hóa
+almost always, Generally speaking, The majority.
+Cuối cùng thực hành mô tả
+an invention you cannot live without.
+Phương pháp: Communicative Practice + Fluency Drills.
+
+Writing (20’):
+Writing – Structure a Paragraph (Task 2 Opinion Essay) –
+học sinh phân tích đoạn văn,
+nối các câu với mục đích
+(Introduce the main idea, Explain/Give examples, Reach a conclusion).
+Tiếp theo tìm các từ tham chiếu
+và connectors chỉ nguyên nhân/kết quả.
+Cuối cùng viết một đoạn văn
+trả lời câu hỏi Task 2
+về việc khuyến khích sinh viên học khoa học.
+Phương pháp: Guided Discovery + Process Writing.
+  `,
+},
+{
+  id: "wsi_61_writing_speaking_practice",
+  learningNodeId: "wsi_61",
+  title: "WRITING / SPEAKING PRACTICE (30 PHÚT)",
+  type: "paragraph",
+  order: 2,
+  content: `
+Practice Speaking:
+IELTS Speaking Part 1 – Topic 1.7 Money
+• When you go shopping, do you prefer to pay for things in cash or by card? Why/Why not?
+• Do you ever save money to buy special things? Why/Why not?
+• Would you ever take a job which had low pay? Why/Why not?
+• Would winning a lot of money make a big difference to your life? Why/Why not?
+
+Practice Writing:
+IELTS Writing Task 1 – Teacher Salaries
+The table shows the salaries of secondary and high school teachers in 2009.
+  `,
+},
+{
+  id: "wsi_61_teaching_assistant",
+  learningNodeId: "wsi_61",
+  title: "TRỢ GIẢNG (30 PHÚT)",
+  type: "paragraph",
+  order: 3,
+  content: `
+GIÁO ÁN:
+Listening C13 (Tr. 262) - T1 Section 3
+và Listening C13 (Tr. 267) - T1 Section 4
+
+I. 10 PHÚT ĐẦU GIỜ: GIỚI THIỆU 10 TỪ VỰNG TRỌNG TÂM
+1. germination (n.): Sự nảy mầm.
+2. equipment (n.): Thiết bị.
+3. procedure (n.): Quy trình.
+4. variable (n.): Biến số.
+5. ancient (adj.): Cổ đại.
+6. Babylonians (n.): Người Babylon.
+7. Aristotle (n.): Aristotle – nhà triết học.
+8. barometer (n.): Khí áp kế.
+9. telegraph (n.): Điện báo.
+10. hygrometer (n.): Ẩm kế.
+
+II. NỘI DUNG CHÍNH (20 PHÚT)
+
+Chữa bài Listening 1:
+C13 - T1 Section 3 (Tr. 262 - 266) – 10 phút
+• Hoạt động: Trợ giảng chữa lỗi
+về các bước tiến hành thí nghiệm
+(procedure, equipment)
+và việc đo lường
+(measure its dimensions).
+
+Chữa bài Listening 2:
+C13 - T1 Section 4 (Tr. 267 - 270) – 10 phút
+• Hoạt động: Trợ giảng chữa lỗi
+tập trung vào lịch sử dự báo thời tiết,
+các nhà khoa học cổ đại
+(Aristotle, Babylonians)
+và các phát minh đo lường
+(barometer, hygrometer).
+  `,
+},
+{
+  id: "wsi_61_homework",
+  learningNodeId: "wsi_61",
+  title: "HOMEWORK",
+  type: "homework",
+  order: 4,
+  content: `
+Expert 6: Homework
+
+Grammar:
+• Future & Present Probability
+  (could, might, must, can’t, will definitely)
+
+Vocabulary:
+• Academic Research
+• Collocations
+• Science Terminology
+• Verb Endings
+
+Listening:
+• Hoàn thành C13 - T2 Section 2 (Tr. 271 - 274)
+• Ghi âm lại bài Listening đã làm (shadowing skills)
+  `,
+},
+
+{
+  id: "wsi_62_expert_6_core",
+  learningNodeId: "wsi_62",
+  title: "EXPERT 6 CORE (60 PHÚT)",
+  type: "paragraph",
+  order: 1,
+  content: `
+LESSON PLAN – Module 4B: Inner and Outer Space (90’)
+(Expert 6 – phù hợp cho lớp 1-1, nhóm, offline và online, theo PPP. Homework: Language Development + Vocabulary)
+
+Warm-up & Lead-in (10’):
+Speaking – học sinh thảo luận về công nghệ thực tế ảo (virtual reality)
+và cách nó được sử dụng trong đời sống, học tập hoặc giải trí.
+Phương pháp: Brainstorming + Guided Discovery.
+Tương tác: thảo luận theo cặp, nhóm nhỏ hoặc breakout room online;
+lớp 1-1 giáo viên gợi mở bằng câu hỏi dẫn dắt.
+
+Listening (15’):
+Listening – Multiple Choice & Notes Completion (Section 2) –
+học sinh làm trắc nghiệm (Questions 1–5)
+về các thiết bị thực tế ảo như Far Vu và Iris 3D.
+Sau đó hoàn thành ghi chú (Questions 6–10)
+về Uses of Virtual Reality
+(NO MORE THAN ONE WORD).
+Phương pháp: Listening for Detail + Prediction Strategy.
+
+Reading (20’):
+Reading – Matching Features & Sentence Completion –
+trước khi đọc, học sinh thảo luận
+về tính xác thực của khoa học trong phim ảnh
+và các hoạt động du hành thời gian/vũ trụ.
+Sau đó nối các tuyên bố (1–6)
+với hành động trong phim khoa học viễn tưởng (A–D).
+Tiếp tục hoàn thành câu (7–12)
+(NO MORE THAN TWO WORDS),
+ví dụ: To ensure the science was correct,
+the film-maker asked a famous __ for help.
+Phương pháp: Skimming & Scanning + Exam Skills.
+Tương tác: học sinh giải thích lý do chọn đáp án.
+
+Speaking (15’):
+Speaking – Part 2: Describe a Skill –
+học sinh thảo luận về các kỹ năng thực hành (practical skills),
+sau đó mô tả a practical skill you have
+(what it is, how/when you use it,
+how you learnt it, how it may be useful in the future).
+Phương pháp: Communicative Practice + Fluency Drills.
+
+Writing (20’):
+Writing – Task 2: Opinion Essay –
+Some people believe that space travel is a waste of government money
+while others believe it is important for human development.
+Discuss both views and give your opinion.
+Học sinh vẽ spidergram brainstorm
+(Waste of money / Human development),
+phân tích đoạn văn mẫu về coherence & relevance,
+sau đó hoàn thành câu giới thiệu đoạn tiếp theo
+bằng ngôn ngữ đối chiếu
+(However, On the other hand).
+Phương pháp: Guided Discovery + Process Writing.
+  `,
+},
+{
+  id: "wsi_62_writing_speaking_practice",
+  learningNodeId: "wsi_62",
+  title: "WRITING / SPEAKING PRACTICE (30 PHÚT)",
+  type: "paragraph",
+  order: 2,
+  content: `
+Practice Speaking:
+IELTS Speaking Part 1 – Topic 1.8 Hometown
+• Where is your hometown?
+• What is special about your hometown?
+• Do you like living there?
+• Would you like to move back to your hometown in the future?
+
+Practice Writing:
+IELTS Writing Task 1 – Tourism-related Jobs
+The chart shows the number of jobs
+in tourism-related industries
+in one UK city between 1989 and 2009.
+  `,
+},
+{
+  id: "wsi_62_teaching_assistant",
+  learningNodeId: "wsi_62",
+  title: "TRỢ GIẢNG (30 PHÚT)",
+  type: "paragraph",
+  order: 3,
+  content: `
+GIÁO ÁN:
+Listening C13 (Tr. 267) - T1 Section 4
+và Listening C13 (Tr. 271) - T2 Section 2
+
+I. 10 PHÚT ĐẦU GIỜ: GIỚI THIỆU 10 TỪ VỰNG TRỌNG TÂM
+1. ancient (adj.): Cổ đại.
+2. Aristotle (n.): Aristotle – nhà triết học.
+3. barometer (n.): Khí áp kế.
+4. telegraph (n.): Điện báo.
+5. common (adj.): Phổ biến.
+6. source (n.): Nguồn.
+7. craft (n.): Nghề thủ công.
+8. dog-walking (n. phr.): Dắt chó đi dạo.
+9. dog-friendly (adj.): Thân thiện với chó.
+10. scarecrow (n.): Bù nhìn.
+
+II. NỘI DUNG CHÍNH (20 PHÚT)
+
+Chữa bài Listening 1:
+C13 - T1 Section 4 (Tr. 267 - 270) – 10 phút
+• Hoạt động: Trợ giảng chữa lỗi
+về lịch sử dự báo thời tiết,
+công trình của Aristotle
+và vai trò của các phát minh
+như telegraph trong thu thập dữ liệu thời tiết.
+
+Chữa bài Listening 2:
+C13 - T2 Section 2 (Tr. 271 - 274) – 10 phút
+• Hoạt động: Trợ giảng chữa lỗi
+tập trung vào từ vựng liên quan đến công viên
+(Halland Common),
+các hoạt động (dog-walking)
+và nghề thủ công
+(willows, basket-making).
+  `,
+},
+{
+  id: "wsi_62_homework",
+  learningNodeId: "wsi_62",
+  title: "HOMEWORK",
+  type: "homework",
+  order: 4,
+  content: `
+Expert 6: Homework
+
+Grammar:
+• Future Forms
+  (is coming onto, will take, ’s going to be, etc.)
+
+Vocabulary:
+• Technology (hardware, apps, actions)
+
+Listening:
+• Hoàn thành C13 - T2 Section 3 (Tr. 275 - 279)
+• Ghi âm lại bài Listening đã làm (shadowing skills)
+  `,
+},
+
+{
+  id: "wsi_63_expert_6_core",
+  learningNodeId: "wsi_63",
+  title: "EXPERT 6 CORE – REVIEW TEST 1 (60 PHÚT)",
+  type: "paragraph",
+  order: 1,
+  content: `
+Do and Correct Review Test 1
+
+Mục tiêu:
+• Đánh giá tổng hợp Listening – Reading – Writing – Speaking
+• Củng cố kỹ năng làm bài và sửa lỗi chiến lược
+• Chuẩn bị chuyển tiếp sang nội dung Module 5A
+
+Hoạt động:
+• Học viên làm Review Test 1 dưới điều kiện thời gian
+• Giáo viên hướng dẫn cách tự phát hiện lỗi:
+  – Keyword mismatch
+  – Paraphrase traps
+  – Grammar & coherence issues
+• Thảo luận nhanh các lỗi phổ biến và cách tránh
+  `,
+},
+{
+  id: "wsi_63_writing_speaking_practice",
+  learningNodeId: "wsi_63",
+  title: "WRITING / SPEAKING PRACTICE (30 PHÚT)",
+  type: "paragraph",
+  order: 2,
+  content: `
+Practice Speaking:
+IELTS Speaking Part 1 – Topic 1.9 Food
+• What kind of food do you like?
+• Do you prefer eating at home or in restaurants?
+• What is a traditional dish in your country?
+• Do you think people’s eating habits are changing?
+
+Practice Writing:
+IELTS Writing Task 1 – Dissertation Completion
+The chart shows the number of students
+in a UK university who:
+• completed their dissertation (on time or late),
+• failed to write,
+• rewrote their dissertation
+in 1990, 2000 and 2010.
+  `,
+},
+{
+  id: "wsi_63_teaching_assistant",
+  learningNodeId: "wsi_63",
+  title: "TRỢ GIẢNG (30 PHÚT)",
+  type: "paragraph",
+  order: 3,
+  content: `
+GIÁO ÁN:
+Listening C13 (Tr. 271) - T2 Section 2
+và Listening C13 (Tr. 275) - T2 Section 3
+
+I. 10 PHÚT ĐẦU GIỜ: GIỚI THIỆU 10 TỪ VỰNG TRỌNG TÂM
+1. craft (n.): Nghề thủ công.
+2. farmyard (n.): Sân nông trại.
+3. dog-walking (n. phr.): Dắt chó đi dạo.
+4. scarecrow (n.): Bù nhìn.
+5. cramped (adj.): Chật chội.
+6. timetabling (n.): Lên thời gian biểu.
+7. review (v.): Xem xét/Đánh giá lại.
+8. current (adj.): Hiện tại/Mới nhất.
+9. security (n.): An ninh.
+10. resources (n.): Nguồn lực/Tài nguyên.
+
+II. NỘI DUNG CHÍNH (20 PHÚT)
+
+Chữa bài Listening 1:
+C13 - T2 Section 2 (Tr. 271 - 274) – 10 phút
+• Hoạt động: Trợ giảng chữa lỗi
+tập trung vào từ vựng liên quan đến nông trại/khu bảo tồn
+(farm from over two thousand years ago)
+và các quy tắc tham quan
+(out of bounds).
+
+Chữa bài Listening 2:
+C13 - T2 Section 3 (Tr. 275 - 279) – 10 phút
+• Hoạt động: Trợ giảng chữa lỗi
+tập trung vào từ vựng liên quan đến quản lý cơ sở học tập
+(cramped, timetabling, security)
+và nhu cầu của sinh viên
+(label them more clearly).
+  `,
+},
+{
+  id: "wsi_63_homework",
+  learningNodeId: "wsi_63",
+  title: "HOMEWORK",
+  type: "homework",
+  order: 4,
+  content: `
+Expert 6 – Module 5A
+
+• Hoàn thành Module 5A exercises (p.71–73)
+• Học 25 từ vựng chủ đề Arts
+
+Listening:
+• Hoàn thành C13 - T2 Section 4 (Tr. 280 - 283)
+• Ghi âm lại bài Listening đã làm (shadowing skills)
+  `,
+},
+
+
+{
+  id: "wsi_64_expert_6_core",
+  learningNodeId: "wsi_64",
+  title: "EXPERT 6 CORE – MODULE 5A: THE ARTS (60 PHÚT)",
+  type: "paragraph",
+  order: 1,
+  content: `
+LESSON PLAN – Module 5A: The Arts (90’)
+(Expert 6 – phù hợp cho lớp 1-1, nhóm, offline và online, theo PPP)
+
+Warm-up & Lead-in (10’):
+Speaking – học sinh thảo luận về màu sắc yêu thích và cách màu sắc ảnh hưởng đến cảm xúc.
+Phương pháp: Brainstorming + Guided Discovery.
+Tương tác: thảo luận theo cặp, nhóm nhỏ hoặc breakout room online; lớp 1-1 giáo viên gợi mở bằng câu hỏi dẫn dắt.
+
+Reading (20’):
+Reading – Identify Antonyms & Synonyms; Multiple-choice Questions –
+học sinh xác định từ đồng nghĩa/trái nghĩa hoặc cụm từ diễn giải trong văn bản,
+sau đó làm trắc nghiệm (Questions 1–6) về màu sắc, cảm xúc và ảnh hưởng của chúng.
+Phương pháp: Skimming & Scanning + Exam Skills.
+Tương tác: học sinh giải thích lý do chọn đáp án.
+
+Listening (15’):
+Listening – Follow a Sequence of Ideas; Label a Diagram (Section 3) –
+trước khi nghe, học sinh vẽ các loại đường (vertical, horizontal, diagonal, curved),
+thảo luận vật thể tương ứng, sau đó gán nhãn sơ đồ
+How a 3D Printer Works (ONE WORD ONLY).
+Phương pháp: Listening for Detail + Controlled Practice.
+
+Speaking (15’):
+Speaking – Structure an Argument; Pronunciation (Part 3) –
+học sinh sắp xếp câu để tạo câu trả lời mạch lạc
+(Introduce – Example – Summarise),
+nối người nói với câu tóm tắt ý tưởng.
+Phương pháp: Communicative Practice + Fluency Drills.
+
+Writing (20’):
+Writing – Task 2: Opinion Essay –
+Should we invest in looking after old buildings, or should we replace them
+when they are no longer functional?
+Brainstorm, so sánh/đối chiếu, viết đoạn văn có cấu trúc rõ ràng.
+Phương pháp: Guided Discovery + Process Writing.
+  `,
+},
+{
+  id: "wsi_64_writing_speaking_practice",
+  learningNodeId: "wsi_64",
+  title: "WRITING / SPEAKING PRACTICE (30 PHÚT)",
+  type: "paragraph",
+  order: 2,
+  content: `
+Practice Speaking:
+IELTS Speaking Part 1 – Topic 1.10 Travel
+• Do you like travelling?
+• What kind of places do you prefer to visit?
+• Do you usually travel with family or friends?
+• What was your most memorable trip?
+
+Practice Writing:
+IELTS Writing Task 1 – Youth Expectations
+The bar chart shows expectations of European young people
+to change in the next 20 years in five different areas.
+  `,
+},
+{
+  id: "wsi_64_teaching_assistant",
+  learningNodeId: "wsi_64",
+  title: "TRỢ GIẢNG (30 PHÚT)",
+  type: "paragraph",
+  order: 3,
+  content: `
+GIÁO ÁN:
+Listening C13 (Tr. 275) - T2 Section 3
+và Listening C13 (Tr. 280) - T2 Section 4
+
+I. 10 PHÚT ĐẦU GIỜ: GIỚI THIỆU 10 TỪ VỰNG TRỌNG TÂM
+1. cramped (adj.): Chật chội.
+2. timetabling (n.): Lên thời gian biểu.
+3. security (n.): An ninh.
+4. resources (n.): Nguồn lực.
+5. characteristics (n.): Đặc điểm.
+6. procedures (n.): Thủ tục/Quy trình.
+7. autocratic (adj.): Độc đoán.
+8. monetary (adj.): Thuộc tiền tệ/Tài chính.
+9. delegate (v.): Ủy quyền.
+10. consistency (n.): Sự nhất quán.
+
+II. NỘI DUNG CHÍNH (20 PHÚT)
+
+Chữa bài Listening 1:
+C13 - T2 Section 3 (Tr. 275 - 279) – 10 phút
+• Trợ giảng chữa lỗi về quản lý trung tâm học liệu
+(cost, budget, timetable)
+và các đề xuất cải tiến
+(new models, label more clearly).
+
+Chữa bài Listening 2:
+C13 - T2 Section 4 (Tr. 280 - 283) – 10 phút
+• Trợ giảng chữa lỗi về văn hóa công ty
+(culture, procedures, autocratic)
+và các loại văn hóa kinh doanh
+(Power Culture, Role Culture, Task Culture).
+  `,
+},
+{
+  id: "wsi_64_homework",
+  learningNodeId: "wsi_64",
+  title: "HOMEWORK",
+  type: "homework",
+  order: 4,
+  content: `
+Expert 6 – Module 5A
+
+Grammar:
+• Grammar to Connect Ideas
+(summary phrases, reference words)
+
+Vocabulary:
+• Verbs/Nouns + Prepositions
+• Compound Adjectives
+• Collocations
+• Art Vocabulary
+
+Listening:
+• Hoàn thành C13 - T3 Section 2 (Tr. 284 - 287)
+• Ghi âm lại bài Listening đã làm (shadowing skills)
+  `,
+},
+
+{
+  id: "wsi_65_expert_6_core",
+  learningNodeId: "wsi_65",
+  title: "EXPERT 6 CORE – MODULE 5B: HOBBIES AND INTERESTS (60 PHÚT)",
+  type: "paragraph",
+  order: 1,
+  content: `
+LESSON PLAN – Module 5B: Hobbies and Interests (90’)
+(Expert 6 – phù hợp cho lớp 1-1, nhóm, offline và online, theo PPP)
+
+Warm-up & Lead-in (10’):
+Speaking – học sinh thảo luận về sở thích cá nhân, chia sẻ hoạt động yêu thích khi rảnh rỗi
+và lý do tại sao chúng quan trọng.
+Phương pháp: Brainstorming + Guided Discovery.
+Tương tác: thảo luận theo cặp, nhóm nhỏ hoặc breakout room online;
+lớp 1-1 giáo viên gợi mở bằng câu hỏi dẫn dắt.
+
+Listening (15’):
+Listening – Label a Diagram & Table Completion (Section 3) –
+học sinh gán nhãn sơ đồ The American gumball machine
+(Metal lid, Centre rod, Candy wheel, Coin mechanism).
+Sau đó hoàn thành bảng ghi chú về Early vending machines
+và Types of vending machine.
+Phương pháp: Listening for Detail + Prediction Strategy.
+
+Reading (20’):
+Reading – Multiple-choice Questions & Matching Information –
+học sinh làm trắc nghiệm (Questions 1–4) về musical tastes,
+sau đó nối các tuyên bố (5–10) với các nhà nghiên cứu (A–C).
+Phương pháp: Skimming & Scanning + Exam Skills.
+Tương tác: học sinh giải thích lý do chọn đáp án.
+
+Speaking (15’):
+Speaking – Part 3: Discussing Toys and Games –
+luyện phát âm trọng âm và ngữ điệu,
+sau đó trả lời các câu hỏi Part 3 về toys and games
+(ví dụ: How do toys and games help develop children’s social skills?).
+Phương pháp: Communicative Practice + Fluency Drills.
+
+Writing (20’):
+Writing – Task 2: Compare and Contrast Essay –
+Compare and contrast the benefits of video games with other hobbies.
+In your opinion, which is more useful?
+Học sinh hoàn thành spidergram (collocations: be part of a community,
+develop quick reactions, learn better co-ordination),
+lập bảng so sánh Video games vs Other hobbies,
+luyện dùng connectors (In addition to this, however),
+sau đó viết bài luận ≥250 từ.
+Phương pháp: Guided Discovery + Process Writing.
+  `,
+},
+{
+  id: "wsi_65_writing_speaking_practice",
+  learningNodeId: "wsi_65",
+  title: "WRITING / SPEAKING PRACTICE (30 PHÚT)",
+  type: "paragraph",
+  order: 2,
+  content: `
+Practice Speaking:
+IELTS Speaking Part 1 – Topic 1.11 Hobbies
+• What hobbies do you enjoy?
+• How often do you do your hobbies?
+• Do you prefer hobbies indoors or outdoors?
+• Do you think hobbies are important for people?
+
+Practice Writing:
+IELTS Writing Task 1 – Boys vs Girls Activities
+The charts show the percentage of boys and girls aged 5–14
+taking part in cultural activities and sports in Australia in 2003.
+  `,
+},
+{
+  id: "wsi_65_teaching_assistant",
+  learningNodeId: "wsi_65",
+  title: "TRỢ GIẢNG (30 PHÚT)",
+  type: "paragraph",
+  order: 3,
+  content: `
+GIÁO ÁN:
+Listening C13 (Tr. 280) - T2 Section 4
+và Listening C13 (Tr. 284) - T3 Section 2
+
+I. 10 PHÚT ĐẦU GIỜ: GIỚI THIỆU 10 TỪ VỰNG TRỌNG TÂM
+1. autocratic (adj.): Độc đoán.
+2. delegate (v.): Ủy quyền.
+3. consistency (n.): Sự nhất quán.
+4. operational (adj.): Thuộc vận hành.
+5. railway (n.): Đường sắt/Đoàn tàu.
+6. miniature (adj.): Thu nhỏ.
+7. locomotives (n.): Đầu máy xe lửa.
+8. visitors (n.): Khách tham quan.
+9. geology (n.): Địa chất.
+10. construction (n.): Sự xây dựng.
+
+II. NỘI DUNG CHÍNH (20 PHÚT)
+
+Chữa bài Listening 1:
+C13 - T2 Section 4 (Tr. 280 - 283) – 10 phút
+• Trợ giảng chữa lỗi về các loại văn hóa tổ chức.
+• Nhấn mạnh Role Culture: ổn định, chi phí cố định thấp (low fixed costs).
+• Task Culture: linh hoạt nhưng không tạo ra economies of scale.
+
+Chữa bài Listening 2:
+C13 - T3 Section 2 (Tr. 284 - 287) – 10 phút
+• Trợ giảng chữa lỗi về công viên đường sắt
+(railway park, miniature locomotives),
+mô hình gia đình điều hành (family concern),
+và các khu vực xây dựng (construction area).
+  `,
+},
+{
+  id: "wsi_65_homework",
+  learningNodeId: "wsi_65",
+  title: "HOMEWORK",
+  type: "homework",
+  order: 4,
+  content: `
+Expert 6 – Module 5B
+
+Grammar:
+• Participle Clauses (-ing / -ed forms)
+
+Vocabulary:
+• Culture and Entertainment
+(role, symbol, celebrity, identity, multicultural society)
+
+Listening:
+• Hoàn thành C13 - T3 Section 3 (Tr. 288 - 291)
+• Ghi âm lại bài Listening đã làm (shadowing skills)
+  `,
+},
+
+{
+  id: "wsi_66_expert_6_core",
+  learningNodeId: "wsi_66",
+  title: "EXPERT 6 CORE – MODULE 6A: LIVING WITH OUR ENVIRONMENT (60 PHÚT)",
+  type: "paragraph",
+  order: 1,
+  content: `
+LESSON PLAN – Module 6A: Living with Our Environment (90’)
+(Expert 6 – phù hợp cho lớp 1-1, nhóm, offline và online, theo PPP)
+
+Warm-up & Lead-in (10’):
+Speaking – học sinh thảo luận về trải nghiệm gần đây với thiên nhiên
+(đi dã ngoại, leo núi, tham quan rừng) và cảm nhận về môi trường sống.
+Phương pháp: Brainstorming + Guided Discovery.
+Tương tác: thảo luận theo cặp, nhóm nhỏ hoặc breakout room online;
+lớp 1-1 giáo viên gợi mở bằng câu hỏi dẫn dắt.
+
+Listening (15’):
+Listening – Summary Completion (Section 4) –
+học sinh xác định dạng từ đúng (noun/verb/adjective),
+ví dụ: The purpose of shivering is to create more __.
+Hoàn thành tóm tắt (Questions 1–6) về phản ứng của cơ thể với nhiệt độ thấp
+(NO MORE THAN TWO WORDS).
+Phương pháp: Listening for Detail + Word Form Awareness.
+
+Reading (20’):
+Reading – Identify Cause and Effect & Short-answer Questions –
+học sinh phân tích mối quan hệ nhân quả trong văn bản.
+Trả lời câu hỏi ngắn (NO MORE THAN THREE WORDS) về Earth’s plants
+và biến đổi khí hậu (forest fires, changing climate).
+Phương pháp: Skimming & Scanning + Exam Skills.
+Tương tác: học sinh giải thích lý do chọn đáp án.
+
+Speaking (15’):
+Speaking – Part 2: Describe a Natural Place –
+thay thế các tính từ chung chung (interesting)
+bằng các tính từ đa dạng hơn (beautiful, amazing, fantastic).
+Thực hành mô tả a natural place you have visited
+(What, Where, When, Why you enjoyed it).
+Phương pháp: Communicative Practice + Fluency Drills.
+
+Writing (20’):
+Writing – Task 1: Describe Changes Over Time (Graphs) –
+nối các động từ (decrease, increase, rise, fall, reach a peak)
+với biểu đồ.
+Phân tích tác động của trạng từ (slightly, sharply, steadily, dramatically).
+Viết đoạn so sánh dữ liệu về camping, cycling and horse riding.
+Phương pháp: Guided Discovery + Process Writing.
+  `,
+},
+{
+  id: "wsi_66_writing_speaking_practice",
+  learningNodeId: "wsi_66",
+  title: "WRITING / SPEAKING PRACTICE (30 PHÚT)",
+  type: "paragraph",
+  order: 2,
+  content: `
+Practice Speaking:
+IELTS Speaking Part 1 – Topic 1.12 Daily Routine
+• What is your daily routine like?
+• Do you usually follow the same routine every day?
+• What part of your day do you enjoy most?
+• Do you think having a routine is important?
+
+Practice Writing:
+IELTS Writing Task 1 – Australian Exports
+The graph shows the percentage of Australian exports
+to four countries from 1990 to 2012.
+  `,
+},
+{
+  id: "wsi_66_teaching_assistant",
+  learningNodeId: "wsi_66",
+  title: "TRỢ GIẢNG (30 PHÚT)",
+  type: "paragraph",
+  order: 3,
+  content: `
+GIÁO ÁN:
+Listening C13 (Tr. 284) - T3 Section 2
+và Listening C13 (Tr. 288) - T3 Section 3
+
+I. 10 PHÚT ĐẦU GIỜ: GIỚI THIỆU 10 TỪ VỰNG TRỌNG TÂM
+1. railway (n.): Đường sắt.
+2. locomotives (n.): Đầu máy xe lửa.
+3. geology (n.): Địa chất.
+4. construction (n.): Sự xây dựng.
+5. dissertation (n.): Luận văn.
+6. statistics (n.): Thống kê.
+7. note-taking (n.): Ghi chú.
+8. peer-group (n. phr.): Nhóm bạn đồng trang lứa.
+9. confidence (n.): Sự tự tin.
+10. reference (n.): Tài liệu tham khảo.
+
+II. NỘI DUNG CHÍNH (20 PHÚT)
+
+Chữa bài Listening 1:
+C13 - T3 Section 2 (Tr. 284 - 287) – 10 phút
+• Trợ giảng chữa lỗi về phát triển công viên.
+• Nhấn mạnh khó khăn địa chất (geology) khi đào hầm (digging tunnels).
+• Phân tích khu Go-Kart arena và các quyết định xây dựng.
+
+Chữa bài Listening 2:
+C13 - T3 Section 3 (Tr. 288 - 291) – 10 phút
+• Trợ giảng chữa lỗi về kỹ năng học tập:
+note-taking, statistics, study skills.
+• Chiến lược cải thiện điểm yếu:
+peer-group discussions, Student Support.
+  `,
+},
+{
+  id: "wsi_66_homework",
+  learningNodeId: "wsi_66",
+  title: "HOMEWORK",
+  type: "homework",
+  order: 4,
+  content: `
+Expert 6 – Module 6A
+
+Grammar:
+• Present Perfect Simple
+(already, just, recently, yet)
+
+Vocabulary:
+• The Environment & Collocations
+(global effect, environmental issue, natural process)
+
+Listening:
+• Hoàn thành C13 - T3 Section 4 (Tr. 292 - 295)
+• Ghi âm lại bài Listening đã làm (shadowing skills)
+  `,
+},
+
+{
+  id: "wsi_67_expert_6_core",
+  learningNodeId: "wsi_67",
+  title: "EXPERT 6 CORE – MODULE 6B: LIVING WITH OTHER ANIMALS (60 PHÚT)",
+  type: "paragraph",
+  order: 1,
+  content: `
+LESSON PLAN – Module 6B: Living with Other Animals (90’)
+(Expert 6 – phù hợp cho lớp 1-1, nhóm, offline và online, theo PPP)
+
+Warm-up & Lead-in (10’):
+Speaking – học sinh thảo luận về trải nghiệm với động vật
+(nuôi thú cưng, đi sở thú, xem tài liệu động vật hoang dã)
+và vai trò của động vật trong đời sống con người.
+Phương pháp: Brainstorming + Guided Discovery.
+Tương tác: thảo luận theo cặp, nhóm nhỏ hoặc breakout room online;
+lớp 1-1 giáo viên gợi mở bằng câu hỏi dẫn dắt.
+
+Listening (15’):
+Listening – Short-answer Questions; Multiple Choice; Summary Completion (Section 2)
+– trả lời câu hỏi ngắn (Questions 1–2) về công việc bảo tồn tại Milton Zoo
+(NO MORE THAN THREE WORDS).
+– chọn HAI đáp án (A–G) về các loài động vật trong chương trình nhân giống.
+– hoàn thành tóm tắt (Questions 5–10) về chương trình bảo tồn
+(NO MORE THAN TWO WORDS).
+Phương pháp: Listening for Detail + Prediction Strategy.
+
+Reading (20’):
+Reading – Matching Headings & Short-answer Questions –
+nối List of Headings (i–ix) với các đoạn văn (A–F) về Trophy Hunting.
+Trả lời câu hỏi ngắn (NO MORE THAN THREE WORDS),
+ví dụ: What do trophy hunters provide that helps prevent the unlawful killing of animals?
+Phương pháp: Skimming & Scanning + Exam Skills.
+Tương tác: học sinh giải thích lý do chọn đáp án.
+
+Speaking (15’):
+Speaking – Part 2: Describe an Animal –
+mô tả an animal that you find interesting
+(where / what it looks like / why it is interesting / how people feel about it).
+Nghe và đánh giá bài nói mẫu để phân tích fluency, vocabulary và pronunciation.
+Phương pháp: Communicative Practice + Fluency Drills.
+
+Writing (20’):
+Writing – Task 1: Summarise a Graph –
+phân tích biểu đồ Fox population,
+viết câu giới thiệu và overview.
+Luyện tập mô tả biểu đồ, chú trọng punctuation
+và sử dụng từ vựng thay thế để tránh lặp.
+Phương pháp: Guided Discovery + Process Writing.
+  `,
+},
+{
+  id: "wsi_67_writing_speaking_practice",
+  learningNodeId: "wsi_67",
+  title: "WRITING / SPEAKING PRACTICE (30 PHÚT)",
+  type: "paragraph",
+  order: 2,
+  content: `
+Practice Speaking:
+IELTS Speaking Part 1 – Topic 1.13 Weather
+• What is the weather like in your country?
+• Do you prefer hot or cold weather?
+• How does the weather affect your mood?
+• What season do you like most?
+
+Practice Writing:
+IELTS Writing Task 1 – Spending on Commodities
+The charts show the proportion of people’s total spending
+on different commodities and services in a European country
+in 1998 and 2008.
+  `,
+},
+{
+  id: "wsi_67_teaching_assistant",
+  learningNodeId: "wsi_67",
+  title: "TRỢ GIẢNG (30 PHÚT)",
+  type: "paragraph",
+  order: 3,
+  content: `
+GIÁO ÁN:
+Listening C13 (Tr. 288) - T3 Section 3
+và Listening C13 (Tr. 292) - T3 Section 4
+
+I. 10 PHÚT ĐẦU GIỜ: GIỚI THIỆU 10 TỪ VỰNG TRỌNG TÂM
+1. dissertation (n.): Luận văn.
+2. statistics (n.): Thống kê.
+3. note-taking (n.): Ghi chú.
+4. peer-group (n. phr.): Nhóm đồng lứa.
+5. housing (n.): Nhà ở.
+6. contemporary (adj.): Đương đại/Hiện đại.
+7. insulation (n.): Vật liệu cách nhiệt.
+8. solar panels (n. phr.): Tấm pin mặt trời.
+9. carbon dioxide (n. phr.): Carbon dioxide.
+10. recycle (v.): Tái chế.
+
+II. NỘI DUNG CHÍNH (20 PHÚT)
+
+Chữa bài Listening 1:
+C13 - T3 Section 3 (Tr. 288 - 291) – 10 phút
+• Chữa lỗi về kỹ năng học tập.
+• Nhấn mạnh việc work on weaknesses.
+• Phân tích các chiến lược đơn giản:
+card index, read everything three times.
+
+Chữa bài Listening 2:
+C13 - T3 Section 4 (Tr. 292 - 295) – 10 phút
+• Chữa lỗi từ vựng về kiến trúc và môi trường:
+housing, underground house.
+• Các tính năng tiết kiệm năng lượng:
+energy-efficient, photovoltaic tiles.
+• Các vấn đề môi trường:
+carbon dioxide, waste.
+  `,
+},
+{
+  id: "wsi_67_homework",
+  learningNodeId: "wsi_67",
+  title: "HOMEWORK",
+  type: "homework",
+  order: 4,
+  content: `
+Expert 6 – Module 6B
+
+Grammar:
+• Articles
+• Countable & Uncountable Nouns
+
+Vocabulary:
+• Wildlife
+(mammal, bird, insect, reptile)
+
+Listening:
+• Hoàn thành C13 - T4 Section 2 (Tr. 296 - 299)
+• Ghi âm lại bài Listening đã làm (shadowing skills)
+  `,
+},
+
+
+{
+  id: "wsi_68_expert_6_core",
+  learningNodeId: "wsi_68",
+  title: "EXPERT 6 CORE – MODULE 7A: THE JOY OF TRAVEL (60 PHÚT)",
+  type: "paragraph",
+  order: 1,
+  content: `
+LESSON PLAN – Module 7A: The Joy of Travel (90’)
+(Expert 6 – phù hợp cho lớp 1-1, nhóm, offline và online, theo PPP. Homework: Language Development + Vocabulary)
+
+Warm-up & Lead-in (10’):
+Speaking – học sinh thảo luận về trải nghiệm du lịch gần đây
+hoặc nơi họ muốn đến, chia sẻ lý do và cảm xúc.
+Phương pháp: Brainstorming + Guided Discovery.
+Tương tác: thảo luận theo cặp, nhóm nhỏ hoặc breakout room online;
+lớp 1-1 giáo viên gợi mở bằng câu hỏi dẫn dắt.
+
+Listening (15’):
+Listening – Follow Directions; Label a Map (Section 2) –
+học sinh hoàn thành câu bằng các cụm từ chỉ vị trí
+(centre of, to the northwest of, just behind, past).
+Sau đó gán nhãn bản đồ (Questions 1–7)
+Customs House and Immigration Centre
+(NO MORE THAN TWO WORDS).
+Phương pháp: Listening for Detail + Prediction Strategy.
+
+Reading (20’):
+Reading – Understand Complex Sentences; Matching Sentence Endings –
+học sinh phân tích câu phức (chủ ngữ, động từ chính, mệnh đề quan hệ),
+tóm tắt ý chính và xác định ngôn ngữ nhân quả.
+Hoàn thành câu với phần kết thúc đúng (A–H).
+Phương pháp: Skimming & Scanning + Exam Skills.
+Tương tác: thảo luận lý do chọn đáp án.
+
+Speaking (15’):
+Speaking – Part 1: Expand Answers –
+nối các cụm từ mở rộng
+(There was one time when…, The main difference between then and now is…)
+với chức năng của chúng
+(Describe an anecdote, Compare past and now, Predict future developments).
+Thực hành trả lời câu hỏi Part 1 về du lịch.
+Phương pháp: Communicative Practice + Fluency Drills.
+
+Writing (20’):
+Writing – Task 2: Cause and Effect Essay (Write an Introduction) –
+phân tích đoạn mở bài, xác định chức năng từng câu
+(General background, Restate the question, Thesis statement).
+Viết Introduction và Thesis Statement
+cho bài luận về ảnh hưởng của việc đi lại
+đến sự hiểu biết giữa các quốc gia.
+Phương pháp: Guided Discovery + Process Writing.
+  `,
+},
+{
+  id: "wsi_68_writing_speaking_practice",
+  learningNodeId: "wsi_68",
+  title: "WRITING / SPEAKING PRACTICE (30 PHÚT)",
+  type: "paragraph",
+  order: 2,
+  content: `
+Practice Speaking:
+IELTS Speaking Part 1 – Topic 1.14 Books
+• Do you like reading books?
+• What kind of books do you prefer?
+• Do you usually read for pleasure or study?
+• Who is your favorite author?
+
+Practice Writing:
+IELTS Writing Task 2 – Parenting Courses
+The best way to ensure the growth of children
+is to make parents take parenting courses.
+Do you agree or disagree?
+  `,
+},
+{
+  id: "wsi_68_teaching_assistant",
+  learningNodeId: "wsi_68",
+  title: "TRỢ GIẢNG (30 PHÚT)",
+  type: "paragraph",
+  order: 3,
+  content: `
+GIÁO ÁN:
+Listening C13 (Tr. 292) - T3 Section 4
+và Listening C13 (Tr. 296) - T4 Section 2 (30 PHÚT)
+
+I. 10 PHÚT ĐẦU GIỜ: GIỚI THIỆU 10 TỪ VỰNG TRỌNG TÂM
+1. insulation (n.): Vật liệu cách nhiệt.
+2. photovoltaic (adj.): Quang điện.
+3. carbon dioxide (n. phr.): Carbon dioxide.
+4. recycle (v.): Tái chế.
+5. traffic (n.): Giao thông.
+6. council (n.): Hội đồng.
+7. redevelopment (n.): Tái phát triển.
+8. sculpture (n.): Tượng điêu khắc.
+9. safety (n.): An toàn.
+10. funding (n.): Quỹ.
+
+II. NỘI DUNG CHÍNH (20 PHÚT)
+
+Chữa bài Listening 1:
+C13 - T3 Section 4 (Tr. 292 - 295) – 10 phút
+• Chữa lỗi về các biện pháp environmentally-friendly của ngôi nhà.
+• Nhấn mạnh recycled materials và hệ thống xử lý nước thải qua reed beds.
+
+Chữa bài Listening 2:
+C13 - T4 Section 2 (Tr. 296 - 299) – 10 phút
+• Chữa lỗi về quy hoạch đô thị:
+redevelopment, sculpture.
+• Các cơ sở vật chất mới:
+pool, playground.
+• Nhấn mạnh yếu tố safety.
+  `,
+},
+{
+  id: "wsi_68_homework",
+  learningNodeId: "wsi_68",
+  title: "HOMEWORK",
+  type: "homework",
+  order: 4,
+  content: `
+Expert 6 – Module 7A
+
+Grammar:
+• Zero Conditional
+• First Conditional
+
+Vocabulary:
+• Travel and Tourism
+(collocations, dependent prepositions, cause and effect structures)
+
+Listening:
+• Hoàn thành C13 - T4 Section 3 (Tr. 300 - 304)
+• Ghi âm lại bài Listening đã làm (shadowing skills)
+  `,
+},
+
+
+{
+  id: "wsi_69_expert_6_core",
+  learningNodeId: "wsi_69",
+  title: "EXPERT 6 CORE – MODULE 7B: GLOBAL ISSUES (60 PHÚT)",
+  type: "paragraph",
+  order: 1,
+  content: `
+LESSON PLAN – Module 7B: Global Issues (90’)
+(Expert 6 – phù hợp cho lớp 1-1, nhóm, offline và online, theo PPP. Homework: Language Development + Vocabulary)
+
+Warm-up & Lead-in (10’):
+Speaking – học sinh thảo luận về một vấn đề toàn cầu mà họ quan tâm
+(ví dụ: biến đổi khí hậu, nghèo đói, phân biệt đối xử)
+và chia sẻ lý do tại sao nó quan trọng.
+Phương pháp: Brainstorming + Guided Discovery.
+Tương tác: thảo luận theo cặp, nhóm nhỏ hoặc breakout room online;
+lớp 1-1 giáo viên gợi mở bằng câu hỏi dẫn dắt.
+
+Listening (15’):
+Listening – Label a Map; Matching (Section 2) –
+học sinh thực hành gán nhãn bản đồ của Te Papa Museum (A–I).
+Sau đó nối Purpose (A–F) với Area (7–10) của bảo tàng.
+Phương pháp: Listening for Detail + Prediction Strategy.
+
+Reading (20’):
+Reading – Matching Sentence Endings; Yes/No/Not Given –
+học sinh hoàn thành câu với phần kết thúc đúng (A–H),
+ví dụ: Journalists are in the habit of writing about bad news...
+Sau đó trả lời YES/NO/NOT GIVEN cho các tuyên bố
+về thay đổi hành vi bạo lực (violent behaviour).
+Phương pháp: Skimming & Scanning + Exam Skills.
+Tương tác: học sinh thảo luận lý do chọn đáp án.
+
+Speaking (15’):
+Speaking – Part 1: Describing Learning a Language –
+học sinh mở rộng câu trả lời bằng cách suy nghĩ thêm ba điều có thể nói
+(ví dụ: I learnt to speak English at school).
+Sau đó luyện tập kết nối ý tưởng để tạo câu phức
+(complex sentences).
+Phương pháp: Communicative Practice + Fluency Drills.
+
+Writing (20’):
+Writing – Task 2: Cause and Effect Essay –
+học sinh phân tích các câu mô tả nguyên nhân hoặc kết quả.
+Tiếp theo nối các ý tưởng bằng cụm từ nhân quả
+(result in, as a result of, was caused by)
+và thực hiện thay đổi ngữ pháp cần thiết.
+Cuối cùng viết đoạn văn ngắn áp dụng các connectors này.
+Phương pháp: Guided Discovery + Process Writing.
+  `,
+},
+{
+  id: "wsi_69_writing_speaking_practice",
+  learningNodeId: "wsi_69",
+  title: "WRITING / SPEAKING PRACTICE (30 PHÚT)",
+  type: "paragraph",
+  order: 2,
+  content: `
+Practice Speaking:
+IELTS Speaking part 1 – Topic 1.15 Music
+• Do you like listening to music?
+• What kind of music do you prefer?
+• Do you enjoy live performances?
+• How does music affect your mood?
+
+Practice Writing:
+IELTS Writing task 2 – Famous Brands
+More and more people want to buy clothes, cars
+and other products from well-known brands.
+What are the reasons?
+Do you think it is a positive or negative development?
+  `,
+},
+{
+  id: "wsi_69_teaching_assistant",
+  learningNodeId: "wsi_69",
+  title: "TRỢ GIẢNG (30 PHÚT)",
+  type: "paragraph",
+  order: 3,
+  content: `
+GIÁO ÁN:
+Listening C13 (Tr. 296) - T4 Section 2
+và Listening C13 (Tr. 300) - T4 Section 3 (30 PHÚT)
+
+I. 10 PHÚT ĐẦU GIỜ: GIỚI THIỆU 10 TỪ VỰNG TRỌNG TÂM
+1. redevelopment (n.): Tái phát triển.
+2. sculpture (n.): Tượng điêu khắc.
+3. safety (n.): An toàn.
+4. funding (n.): Quỹ.
+5. explorer (n.): Nhà thám hiểm.
+6. migration (n.): Sự di cư.
+7. voyage (n.): Chuyến đi biển dài.
+8. discredited (adj.): Bị mất uy tín.
+9. carvings (n.): Hình chạm khắc.
+10. coastal (adj.): Thuộc ven biển.
+
+II. NỘI DUNG CHÍNH (20 PHÚT)
+
+Chữa bài Listening 1:
+C13 - T4 Section 2 (Tr. 296 - 299)
+Thời lượng: 10 phút
+• Trợ giảng chữa lỗi về các hạng mục trong công viên mới
+(Brackenside Pool, Central Park Playground)
+và các khu vực theo chủ đề
+(Global Village, Europe: medieval castles).
+
+Chữa bài Listening 2:
+C13 - T4 Section 3 (Tr. 300 - 304)
+Thời lượng: 10 phút
+• Trợ giảng chữa lỗi tập trung vào từ vựng liên quan đến
+thám hiểm/lịch sử (explorer, Polynesian migration, ancient carvings)
+và các lập luận của Thor Heyerdahl
+về khả năng di cư từ phía đông.
+  `,
+},
+{
+  id: "wsi_69_homework",
+  learningNodeId: "wsi_69",
+  title: "HOMEWORK",
+  type: "homework",
+  order: 4,
+  content: `
+Expert 6 – Module 7B
+
+Grammar:
+• Complex Noun Phrases
+(xác định danh từ chính, viết lại câu với cụm danh từ phức tạp)
+
+Vocabulary:
+• Global Issues
+(corrupt, security, discrimination, starving)
+
+Listening:
+• Hoàn thành C13 - T4 Section 4 (Tr. 305 - 308)
+  `,
+},
+
+{
+  id: "wsi_70_expert_6_core",
+  learningNodeId: "wsi_70",
+  title: "EXPERT 6 CORE – MODULE 8A: FROM THE FIELD (60 PHÚT)",
+  type: "paragraph",
+  order: 1,
+  content: `
+LESSON PLAN – Module 8A: From the Field (90’)
+(Expert 6 – phù hợp cho lớp 1-1, nhóm, offline và online, theo PPP. Homework: Language Development + Vocabulary)
+
+Warm-up & Lead-in (10’):
+Speaking – học sinh thảo luận về thực phẩm yêu thích và nguồn gốc của chúng
+(từ nông trại, siêu thị, cửa hàng).
+Phương pháp: Brainstorming + Guided Discovery.
+Tương tác: thảo luận theo cặp, nhóm nhỏ hoặc breakout room online;
+lớp 1-1 giáo viên gợi mở bằng câu hỏi dẫn dắt.
+
+Listening (15’):
+Listening – Table Completion (Section 1) –
+học sinh luyện nghe để kiểm tra chính tả, ghi lại từ chính xác.
+Sau đó thực hành hoàn thành bảng về các cửa hàng bán thực phẩm.
+Phương pháp: Listening for Detail + Dictation Practice.
+
+Reading (20’):
+Reading – Deal with Unknown Vocabulary; Label a Diagram –
+học sinh đoán nghĩa của các từ in đậm
+(nurture, harvest, component, mixtures)
+dựa trên ngữ cảnh và xác định từ loại.
+Tiếp theo thực hành gán nhãn biểu đồ về The Science of Coffee
+(NO MORE THAN TWO WORDS).
+Phương pháp: Skimming & Context Clues + Exam Skills.
+Tương tác: học sinh thảo luận lý do chọn đáp án.
+
+Speaking (15’):
+Speaking – Part 3: Talk about Eating Habits –
+học sinh tìm và sử dụng các cụm từ giới thiệu ý kiến đối lập
+(However, I don’t think that’s always true).
+Sau đó luyện tập phát âm trọng âm và ngữ điệu đúng khi nói.
+Cuối cùng thực hành trả lời các câu hỏi Part 3 về thói quen ăn uống.
+Phương pháp: Communicative Practice + Fluency Drills.
+
+Writing (20’):
+Writing – Task 1: Describe Stages in a Process –
+học sinh sắp xếp các từ/cụm từ chỉ trình tự
+(After that, First, Next, Finally)
+vào các giai đoạn (First stage, Middle stages, Last stage).
+Sau đó viết mô tả về quá trình làm khoai tây chiên
+(Fast food fries), sử dụng các từ chỉ trình tự.
+Phương pháp: Guided Discovery + Process Writing.
+  `,
+},
+{
+  id: "wsi_70_writing_speaking_practice",
+  learningNodeId: "wsi_70",
+  title: "WRITING / SPEAKING PRACTICE (30 PHÚT)",
+  type: "paragraph",
+  order: 2,
+  content: `
+Practice Speaking:
+IELTS Speaking part 1 – Topic 1.16 Technology
+• Do you often use technology?
+• What devices do you use most?
+• How has technology changed your life?
+• Do you think people depend too much on technology?
+
+Practice Writing:
+IELTS Writing task 2 – Communication in Companies
+In most successful companies, some people think that communication
+between employers and workers is the most important factor.
+Other people say that other factors are more important.
+Discuss both views.
+  `,
+},
+{
+  id: "wsi_70_teaching_assistant",
+  learningNodeId: "wsi_70",
+  title: "TRỢ GIẢNG (30 PHÚT)",
+  type: "paragraph",
+  order: 3,
+  content: `
+GIÁO ÁN:
+Listening C13 (Tr. 300) - T4 Section 3
+và Listening C13 (Tr. 305) - T4 Section 4 (30 PHÚT)
+
+I. 10 PHÚT ĐẦU GIỜ: GIỚI THIỆU 10 TỪ VỰNG TRỌNG TÂM
+1. explorer (n.): Nhà thám hiểm.
+2. migration (n.): Sự di cư.
+3. voyage (n.): Chuyến đi biển dài.
+4. discredited (adj.): Bị mất uy tín.
+5. market (n.): Thị trường.
+6. competition (n.): Cạnh tranh.
+7. environment (n.): Môi trường.
+8. management (n.): Quản lý.
+9. consulting (v.): Tham vấn.
+10. intellectual property (n. phr.): Sở hữu trí tuệ.
+
+II. NỘI DUNG CHÍNH (20 PHÚT)
+
+Chữa bài Listening 1:
+C13 - T4 Section 3 (Tr. 300 - 304)
+Thời lượng: 10 phút
+• Trợ giảng chữa lỗi về các chuyến đi của Heyerdahl (voyage),
+nhấn mạnh động lực của ông là thử nghiệm lý thuyết
+(trying out his idea) và việc sử dụng các kỹ thuật/vật liệu cổ đại
+(ancient techniques).
+
+Chữa bài Listening 2:
+C13 - T4 Section 4 (Tr. 305 - 308)
+Thời lượng: 10 phút
+• Trợ giảng chữa lỗi tập trung vào từ vựng liên quan đến
+kinh doanh và quản lý
+(business markets, competition, consulting, intellectual property)
+và các xu hướng thay đổi nơi làm việc
+(remote working, more consultative).
+  `,
+},
+{
+  id: "wsi_70_homework",
+  learningNodeId: "wsi_70",
+  title: "HOMEWORK",
+  type: "homework",
+  order: 4,
+  content: `
+Expert 6 – Module 8A
+
+Grammar:
+• The Passive
+(chuyển đổi câu chủ động ↔ bị động,
+hoàn thành mô tả quá trình đóng hộp đậu xanh)
+
+Vocabulary:
+• Nutrition
+• Synonyms
+• Collocations
+• Prefixes (dis-, in-, ir-, un-)
+
+Listening:
+• Hoàn thành C14 - T1 Section 2 (Tr. 309 - 311)
+  `,
+},
+
+
+{
+  id: "wsi_71_expert_6_core",
+  learningNodeId: "wsi_71",
+  title: "EXPERT 6 CORE – MODULE 8B: THE FOOD ON OUR PLATES (60 PHÚT)",
+  type: "paragraph",
+  order: 1,
+  content: `
+LESSON PLAN – Module 8B: The Food on Our Plates (90’)
+(Expert 6 – phù hợp cho lớp 1-1, nhóm, offline và online, theo PPP. Homework: Language Development + Vocabulary)
+
+Warm-up & Lead-in (10’):
+Speaking – học sinh thảo luận về thói quen ăn uống hằng ngày
+và sự khác biệt giữa ăn ở nhà và ăn ngoài.
+Phương pháp: Brainstorming + Guided Discovery.
+Tương tác: thảo luận theo cặp, nhóm nhỏ hoặc breakout room online;
+lớp 1-1 giáo viên gợi mở bằng câu hỏi dẫn dắt.
+
+Listening (15’):
+Listening – Table Completion (Section 1) –
+học sinh thực hành hoàn thành bảng (Questions 1–10)
+về các công việc tạm thời tại ice cream factory
+(NO MORE THAN TWO WORDS).
+Phương pháp: Listening for Detail + Prediction Strategy.
+
+Reading (20’):
+Reading – Matching Information & Label a Diagram –
+học sinh nối các tuyên bố (1–6) với các đoạn văn (A–F)
+về Grey Poupon.
+Sau đó gán nhãn biểu đồ về
+How Grey Poupon became a number one brand
+(NO MORE THAN ONE WORD).
+Phương pháp: Skimming & Scanning + Exam Skills.
+Tương tác: học sinh thảo luận lý do chọn đáp án.
+
+Speaking (15’):
+Speaking – Part 3: Discussing Food and Culture –
+học sinh thảo luận về tầm quan trọng của việc ăn uống cùng nhau
+và cách thói quen bữa ăn đã thay đổi theo thời gian.
+Phương pháp: Communicative Practice + Fluency Drills.
+
+Writing (20’):
+Writing – Task 1: Describe a Process –
+học sinh phân tích tiêu chí Task achievement
+(Band 5: recounts detail mechanically).
+Sau đó viết mô tả về quá trình đặt hàng thực phẩm trực tuyến
+(online food shopping),
+sử dụng các động từ phù hợp để thể hiện rõ các bước.
+Phương pháp: Guided Discovery + Process Writing.
+  `,
+},
+{
+  id: "wsi_71_writing_speaking_practice",
+  learningNodeId: "wsi_71",
+  title: "WRITING / SPEAKING PRACTICE (30 PHÚT)",
+  type: "paragraph",
+  order: 2,
+  content: `
+Practice Speaking:
+IELTS Speaking part 1 – Topic 1.17 Holidays
+• What holidays are celebrated in your country?
+• Do you prefer family holidays or travelling holidays?
+• What is your favorite holiday?
+• How do people usually celebrate holidays in your country?
+
+Practice Writing:
+IELTS Writing task 2 – Museums and the Internet
+Some people claim that public museums and art galleries
+will be no longer necessary because people can see
+historical objects and works of art by using a computer.
+Do you agree or disagree?
+  `,
+},
+{
+  id: "wsi_71_teaching_assistant",
+  learningNodeId: "wsi_71",
+  title: "TRỢ GIẢNG (30 PHÚT)",
+  type: "paragraph",
+  order: 3,
+  content: `
+GIÁO ÁN:
+Listening C13 (Tr. 305) - T4 Section 4
+và Listening C14 (Tr. 309) - T1 Section 2 (30 PHÚT)
+
+I. 10 PHÚT ĐẦU GIỜ: GIỚI THIỆU 10 TỪ VỰNG TRỌNG TÂM
+1. competition (n.): Cạnh tranh.
+2. consulting (v.): Tham vấn.
+3. product life cycles (n. phr.): Chu kỳ sống sản phẩm.
+4. intellectual property (n. phr.): Sở hữu trí tuệ.
+5. dolphin (n.): Cá heo.
+6. trust (n.): Quỹ/Sự tin cậy.
+7. pollution (n.): Ô nhiễm.
+8. campaigns (n.): Chiến dịch.
+9. volunteers (n.): Tình nguyện viên.
+10. elusive (adj.): Khó nắm bắt.
+
+II. NỘI DUNG CHÍNH (20 PHÚT)
+
+Chữa bài Listening 1:
+C13 - T4 Section 4 (Tr. 305 - 308)
+Thời lượng: 10 phút
+• Trợ giảng chữa lỗi về các xu hướng quản lý trong tương lai,
+bao gồm sự tăng trưởng ở các nền kinh tế đang phát triển
+(rapidly expanding economies)
+và sự thay đổi sang phong cách quản lý hợp tác
+(more consultative and collaborative).
+
+Chữa bài Listening 2:
+C14 - T1 Section 2 (Tr. 309 - 311)
+Thời lượng: 10 phút
+• Trợ giảng chữa lỗi tập trung vào từ vựng liên quan đến bảo tồn
+(dolphin conservation, pollution, campaigns)
+và các hoạt động của quỹ (Adopt a Dolphin).
+  `,
+},
+{
+  id: "wsi_71_homework",
+  learningNodeId: "wsi_71",
+  title: "HOMEWORK",
+  type: "homework",
+  order: 4,
+  content: `
+Expert 6 – Module 8B
+
+Grammar:
+• Review of Formal Structures
+(active/passive verb, relative clause, that clause,
+simple/complex sentence)
+
+Vocabulary:
+• Formal Synonyms
+(prepare → arrange,
+removes → eliminates,
+benefit of → advantage,
+as a result → consequently)
+
+Listening:
+• Hoàn thành C14 - T1 Section 3 (Tr. 312 - 317)
+  `,
+},
+
+{
+  id: "wsi_72_expert_6_core",
+  learningNodeId: "wsi_72",
+  title: "DO AND CORRECT – REVIEW TEST 2 (EXPERT 6 CORE)",
+  type: "paragraph",
+  order: 1,
+  content: `
+Do and Correct Review Test 2
+  `,
+},
+{
+  id: "wsi_72_writing_speaking_practice",
+  learningNodeId: "wsi_72",
+  title: "WRITING / SPEAKING PRACTICE",
+  type: "paragraph",
+  order: 2,
+  content: `
+Practice Speaking:
+IELTS Speaking part 1 – Topic 1.18 School
+• What subjects do you study at school?
+• Do you enjoy your school life?
+• Who is your favorite teacher?
+• What extracurricular activities do you take part in?
+
+Practice Writing:
+IELTS Writing task 2 – Aging Population
+In the future, it is expected that there will be a higher proportion
+of older people in some countries.
+Is this a positive or negative development?
+  `,
+},
+{
+  id: "wsi_72_teaching_assistant",
+  learningNodeId: "wsi_72",
+  title: "TRỢ GIẢNG (30 PHÚT)",
+  type: "paragraph",
+  order: 3,
+  content: `
+GIÁO ÁN:
+Listening C14 (Tr. 309) - T1 Section 2
+và Listening C14 (Tr. 312) - T1 Section 3 (30 PHÚT)
+
+I. 10 PHÚT ĐẦU GIỜ: GIỚI THIỆU 10 TỪ VỰNG TRỌNG TÂM
+1. dolphin (n.): Cá heo.
+2. trust (n.): Quỹ / Sự tin cậy.
+3. campaigns (n.): Chiến dịch.
+4. volunteers (n.): Tình nguyện viên.
+5. performing (v.): Biểu diễn.
+6. acting (n.): Diễn xuất.
+7. director (n.): Đạo diễn.
+8. modules (n.): Học phần.
+9. flexible (adj.): Linh hoạt.
+10. audition (n.): Buổi thử vai.
+
+II. NỘI DUNG CHÍNH (20 PHÚT)
+
+Chữa bài Listening 1:
+C14 - T1 Section 2 (Tr. 309 - 311)
+Thời lượng: 10 phút
+• Trợ giảng chữa lỗi về các hình thức hỗ trợ
+(support) mà quỹ (Trust) nhận được
+(voluntary basis)
+và các hoạt động cụ thể
+(Adopt a Dolphin scheme, monitoring populations).
+
+Chữa bài Listening 2:
+C14 - T1 Section 3 (Tr. 312 - 317)
+Thời lượng: 10 phút
+• Trợ giảng chữa lỗi tập trung vào từ vựng liên quan
+đến nghệ thuật và giáo dục
+(performing, acting, director, modules)
+và các vấn đề khóa học
+(flexible schedule, transfer credit).
+  `,
+},
+{
+  id: "wsi_72_homework",
+  learningNodeId: "wsi_72",
+  title: "HOMEWORK",
+  type: "homework",
+  order: 4,
+  content: `
+Expert 6 – Review Test 2
+
+Grammar:
+• Modals of Obligation
+(should, must, need, can’t have)
+
+Vocabulary:
+• Adverbs / Adverbials
+• Collocations
+• Dependent Prepositions
+• Healthcare terms
+
+Listening:
+• Hoàn thành C14 - T1 Section 4 (Tr. 318 - 321)
+  `,
+},
+
+{
+  id: "wsi_73_expert_6_core",
+  learningNodeId: "wsi_73",
+  title: "MODULE 9A – WORLD HEALTH (EXPERT 6 CORE)",
+  type: "paragraph",
+  order: 1,
+  content: `
+LESSON PLAN – Module 9A: World Health (90’)
+
+Warm-up & Lead-in (10’):
+Speaking – học sinh thảo luận về thói quen sống lành mạnh và tầm quan trọng của sức khỏe toàn cầu.
+Phương pháp: Brainstorming + Guided Discovery.
+Tương tác: thảo luận theo cặp, nhóm nhỏ hoặc breakout room online;
+lớp 1-1 giáo viên gợi mở bằng câu hỏi dẫn dắt.
+
+Listening (15’):
+Listening – Identify Reference Words; Table Completion; Short-answer Questions (Section 3)
+– học sinh xác định các từ tham chiếu
+(I can bring mine, they don’t contain an active drug, This have no medical effects).
+Sau đó hoàn thành bảng (Questions 1–6) về Placebo presentation.
+Cuối cùng trả lời câu hỏi ngắn (Questions 7–9) về placebos.
+Phương pháp: Listening for Detail + Context Awareness.
+
+Reading (20’):
+Reading – Follow a Sequence of Ideas; Flow Chart Completion
+– học sinh phân tích cấu trúc văn bản lịch sử
+(Introduction, Changes in time order, Conclusion).
+Sau đó hoàn thành flow chart (Questions 1–6)
+về New discovery spells the end of antibiotic drugs
+(NO MORE THAN TWO WORDS).
+Phương pháp: Skimming & Scanning + Exam Skills.
+
+Speaking (15’):
+Speaking – Part 2: Use a Range of Structures
+– hoàn thành câu với so that, in case, even though, despite.
+Thực hành mô tả a healthy habit you have.
+Phương pháp: Communicative Practice + Fluency Drills.
+
+Writing (20’):
+Writing – Task 2: Write a Conclusion for Essays
+– nối loại essay (Opinion, Cause and effect, Problem-solution) với câu hỏi.
+Luyện viết kết luận, sử dụng “softening language”.
+Phương pháp: Guided Discovery + Process Writing.
+  `,
+},
+{
+  id: "wsi_73_writing_speaking_practice",
+  learningNodeId: "wsi_73",
+  title: "WRITING / SPEAKING PRACTICE",
+  type: "paragraph",
+  order: 2,
+  content: `
+Practice Speaking:
+IELTS Speaking part 1 – Topic 1.19 Work
+• What kind of work do you do?
+• Do you enjoy your job?
+• What is the most challenging part of your work?
+• Do you prefer working alone or in a team?
+
+Practice Writing:
+IELTS Writing task 2 – Nature Awareness
+Nowadays, people have little awareness of the importance
+of the natural world.
+What are the reasons and how can people learn more
+about the natural world?
+  `,
+},
+{
+  id: "wsi_73_teaching_assistant",
+  learningNodeId: "wsi_73",
+  title: "TRỢ GIẢNG (30 PHÚT)",
+  type: "paragraph",
+  order: 3,
+  content: `
+GIÁO ÁN:
+Listening C14 (Tr. 312) - T1 Section 3
+và Listening C14 (Tr. 318) - T1 Section 4
+
+I. 10 PHÚT ĐẦU GIỜ: GIỚI THIỆU 10 TỪ VỰNG TRỌNG TÂM
+1. performing (v.): Biểu diễn.
+2. acting (n.): Diễn xuất.
+3. director (n.): Đạo diễn.
+4. flexible (adj.): Linh hoạt.
+5. philosopher (n.): Triết gia.
+6. virtue (n.): Đức hạnh.
+7. emotions (n.): Cảm xúc.
+8. resilience (n.): Khả năng phục hồi.
+9. logic (n.): Logic/Lý trí.
+10. irrational beliefs (n. phr.): Niềm tin phi lý.
+
+II. NỘI DUNG CHÍNH (20 PHÚT)
+
+Chữa bài Listening 1:
+C14 - T1 Section 3 (Tr. 312 - 317)
+Thời lượng: 10 phút
+• Chữa lỗi về nội dung khóa học
+(literature for children),
+nhấn mạnh vai trò của illustrations
+và sự khác biệt comics vs books.
+
+Chữa bài Listening 2:
+C14 - T1 Section 4 (Tr. 318 - 321)
+Thời lượng: 10 phút
+• Chữa lỗi về triết học khắc kỷ (Stoicism),
+các nguyên tắc cốt lõi (virtue, emotions)
+và ứng dụng trong Cognitive Behaviour Therapy.
+  `,
+},
+{
+  id: "wsi_73_homework",
+  learningNodeId: "wsi_73",
+  title: "HOMEWORK",
+  type: "homework",
+  order: 4,
+  content: `
+Expert 6 – Homework
+
+Grammar:
+• Passive and Active Voice
+(chọn dạng đúng của động từ trong văn bản)
+
+Vocabulary:
+• Describe People
+(ngoại hình, phẩm chất)
+
+Listening:
+• Hoàn thành C14 - T2 Section 2 (Tr. 322 - 324)
+  `,
+},
+
+{
+  id: "wsi_74_expert_6_core",
+  learningNodeId: "wsi_74",
+  title: "MODULE 9B – LIFE STAGES (EXPERT 6 CORE)",
+  type: "paragraph",
+  order: 1,
+  content: `
+LESSON PLAN – Module 9B: Life Stages (90’)
+
+Warm-up & Lead-in (10’):
+Speaking – học sinh thảo luận về các giai đoạn trong cuộc đời
+(tuổi thơ, tuổi trưởng thành, tuổi già)
+và những thay đổi quan trọng ở mỗi giai đoạn.
+Phương pháp: Brainstorming + Guided Discovery.
+Tương tác: thảo luận theo cặp, nhóm nhỏ hoặc breakout room online;
+lớp 1-1 giáo viên gợi mở bằng câu hỏi dẫn dắt.
+
+Listening (15’):
+Listening – Multiple Choice; Short-answer Questions; Notes Completion (Section 3)
+– trắc nghiệm (Questions 1–2) về điều kiện hình thành tình bạn thời thơ ấu.
+– hoàn thành ghi chú How child friendships develop (3 cấp độ).
+Phương pháp: Listening for Detail + Prediction Strategy.
+
+Reading (20’):
+Reading – Flow Chart Completion; Multiple Choice
+– hoàn thành flow chart (Questions 1–7)
+về Fit for purpose: A history of fitness
+(NO MORE THAN TWO WORDS).
+– trắc nghiệm (Questions 8–10) về các giai đoạn lịch sử
+và quan điểm của tác giả.
+Phương pháp: Skimming & Scanning + Exam Skills.
+Tương tác: thảo luận lý do chọn đáp án.
+
+Speaking (15’):
+Speaking – Part 2: Describe a Person
+– mô tả an old person you admire
+(how you know them, appearance, qualities, why you admire).
+– nghe và đánh giá bài nói mẫu theo Fluency, Lexical resource, Grammar.
+Phương pháp: Communicative Practice + Fluency Drills.
+
+Writing (20’):
+Writing – Task 2: Problem–Solution Essay
+– hoàn thành bảng lập dàn ý (Problem, Solution, Advantages, Disadvantages).
+– viết đoạn văn ngắn theo dàn ý,
+tập trung trình bày rõ vấn đề và giải pháp.
+Phương pháp: Guided Discovery + Process Writing.
+  `,
+},
+{
+  id: "wsi_74_writing_speaking_practice",
+  learningNodeId: "wsi_74",
+  title: "WRITING / SPEAKING PRACTICE",
+  type: "paragraph",
+  order: 2,
+  content: `
+Practice Speaking:
+IELTS Speaking part 1 – Topic 1.20 Health & Fitness
+• Do you often exercise?
+• What kind of exercise do you prefer?
+• Do you think diet is important for health?
+• How do you manage stress?
+
+Practice Writing:
+IELTS Writing task 2 – Imported Food
+In many countries, people like to eat a wider range of food
+that cannot be grown in their local place.
+Do you think the advantages of this development
+outweigh disadvantages?
+  `,
+},
+{
+  id: "wsi_74_teaching_assistant",
+  learningNodeId: "wsi_74",
+  title: "TRỢ GIẢNG (30 PHÚT)",
+  type: "paragraph",
+  order: 3,
+  content: `
+GIÁO ÁN:
+Listening C14 (Tr. 322) - T2 Section 2
+và Listening C14 (Tr. 325) - T2 Section 3
+
+I. 10 PHÚT ĐẦU GIỜ: GIỚI THIỆU 10 TỪ VỰNG TRỌNG TÂM
+1. redevelopment (n.): Tái phát triển.
+2. sculpture (n.): Tượng điêu khắc.
+3. safety (n.): An toàn.
+4. funding (n.): Quỹ/Tài trợ.
+5. explorer (n.): Nhà thám hiểm.
+6. migration (n.): Sự di cư.
+7. voyage (n.): Chuyến đi biển dài.
+8. discredited (adj.): Bị mất uy tín.
+9. carvings (n.): Hình chạm khắc.
+10. coastal (adj.): Thuộc ven biển.
+
+II. NỘI DUNG CHÍNH (20 PHÚT)
+
+Chữa bài Listening 1:
+C14 - T2 Section 2 (Tr. 322 - 324)
+Thời lượng: 10 phút
+• Chữa lỗi về từ vựng quy hoạch đô thị
+(redevelopment),
+công trình công cộng (sculpture, pool, playground)
+và yếu tố an toàn (safety).
+
+Chữa bài Listening 2:
+C14 - T2 Section 3 (Tr. 325 - 329)
+Thời lượng: 10 phút
+• Chữa lỗi về thám hiểm/lịch sử
+(explorer, migration),
+các lý thuyết bị bác bỏ (discredited)
+và chuyến đi của Thor Heyerdahl (voyage).
+  `,
+},
+{
+  id: "wsi_74_homework",
+  learningNodeId: "wsi_74",
+  title: "HOMEWORK",
+  type: "homework",
+  order: 4,
+  content: `
+Expert 6 – Homework
+
+• Module 10B exercises p.158–160
+• Vocabulary: Community issues – 25 words
+
+Writing:
+• Hoàn thành Bài 7 (Tr. 25)
+
+Listening:
+• Hoàn thành C14 - T2 Section 4 (Tr. 330 - 334)
+  `,
+},
+
+{
+  id: "wsi_75_expert_6_core",
+  learningNodeId: "wsi_75",
+  title: "MODULE 10A – LAW AND ORDER (EXPERT 6 CORE)",
+  type: "paragraph",
+  order: 1,
+  content: `
+LESSON PLAN – Module 10A: Law and Order (90’)
+
+Warm-up & Lead-in (10’):
+Speaking – học sinh thảo luận về vai trò của luật pháp và trật tự trong cộng đồng,
+chia sẻ ví dụ về các quy tắc hoặc luật mà họ thấy quan trọng.
+Phương pháp: Brainstorming + Guided Discovery.
+Tương tác: thảo luận theo cặp, nhóm nhỏ hoặc breakout room online;
+lớp 1-1 giáo viên gợi mở bằng câu hỏi dẫn dắt.
+
+Listening (15’):
+Listening – Flow Chart Completion (Section 4)
+– hoàn thành biểu đồ dòng chảy (Questions 1–6)
+về Risk assessment process.
+– xác định từ chỉ trình tự (The first step, Next, Finally).
+Phương pháp: Listening for Detail + Sequencing Practice.
+
+Reading (20’):
+Reading – True/False/Not Given
+– luyện chiến lược xác định từ khóa và từ tham chiếu.
+– trả lời TRUE / FALSE / NOT GIVEN
+về Computer Security.
+Phương pháp: Skimming & Scanning + Exam Skills.
+Tương tác: thảo luận lý do chọn đáp án.
+
+Speaking (15’):
+Speaking – Part 3: Discuss School Rules
+– luyện dùng các cụm hỏi lại:
+Sorry, can you say that again? / What do you mean by...?
+– thảo luận School rules,
+tập trung đưa ra ý kiến và phản hồi.
+Phương pháp: Communicative Practice + Fluency Drills.
+
+Writing (20’):
+Writing – Task 1: Describe Locations on a Map
+– viết overview mô tả thay đổi trên bản đồ (fewer, growth, main, number).
+– sử dụng Past Simple và Passive
+(ví dụ: farmhouses were replaced by a housing estate).
+Phương pháp: Guided Discovery + Process Writing.
+  `,
+},
+{
+  id: "wsi_75_writing_speaking_practice",
+  learningNodeId: "wsi_75",
+  title: "WRITING / SPEAKING PRACTICE",
+  type: "paragraph",
+  order: 2,
+  content: `
+Practice Speaking:
+IELTS Speaking part 1 – Topic 1.21 Movies
+• Do you like watching movies?
+• What kind of movies do you prefer?
+• Do you usually watch movies at home or in the cinema?
+• Who is your favorite actor or actress?
+
+Practice Writing:
+IELTS Writing task 2 – Computer Games vs Sports
+These days, a great number of children prefer spending time
+on computer games rather than on sports.
+Why is it?
+Is it a positive or negative development?
+  `,
+},
+{
+  id: "wsi_75_teaching_assistant",
+  learningNodeId: "wsi_75",
+  title: "TRỢ GIẢNG (30 PHÚT)",
+  type: "paragraph",
+  order: 3,
+  content: `
+GIÁO ÁN:
+Listening C14 (Tr. 330) - T2 Section 4
+và Listening C14 (Tr. 335) - T3 Section 2
+
+I. 10 PHÚT ĐẦU GIỜ: GIỚI THIỆU 10 TỪ VỰNG TRỌNG TÂM
+1. consulting (v.): Tham vấn.
+2. competition (n.): Cạnh tranh.
+3. product life cycles (n. phr.): Chu kỳ sống sản phẩm.
+4. remote working (n. phr.): Làm việc từ xa.
+5. intellectual property (IP) (n. phr.): Sở hữu trí tuệ.
+6. collaborative (adj.): Hợp tác.
+7. operational (adj.): Thuộc vận hành.
+8. role culture (n. phr.): Văn hóa vai trò.
+9. role culture (n. phr.): Văn hóa vai trò.
+10. role culture (n. phr.): Văn hóa vai trò.
+
+II. NỘI DUNG CHÍNH (20 PHÚT)
+
+Chữa bài Listening 1:
+C14 - T2 Section 4 (Tr. 330 - 334)
+Thời lượng: 10 phút
+• Chữa lỗi tập trung vào từ vựng kinh doanh và quản lý tương lai:
+competition, remote working, intellectual property.
+• Nhấn mạnh sự dịch chuyển sang phong cách quản lý hợp tác (collaborative).
+
+Chữa bài Listening 2:
+C14 - T3 Section 2 (Tr. 335 - 339)
+Thời lượng: 10 phút
+• Chữa lỗi về hệ thống quản lý doanh nghiệp
+và các loại văn hóa công ty:
+Power Culture và Role Culture.
+  `,
+},
+{
+  id: "wsi_75_homework",
+  learningNodeId: "wsi_75",
+  title: "HOMEWORK",
+  type: "homework",
+  order: 4,
+  content: `
+Expert 6 – Homework
+
+Grammar:
+• Quantifiers:
+many, much, a few, a lot of, plenty of
+(phân biệt a few / few và a little / little)
+
+Vocabulary:
+• Crime and Punishment
+(Crime – Person – Action;
+collocations: convicted, punished, arrested, witnesses)
+
+Writing:
+• Hoàn thành Bài 1.1:
+Line graph – Internet Users (Tr. 2)
+
+Listening:
+• Hoàn thành C14 - T3 Section 3 (Tr. 340 - 344)
+  `,
+},
+
+
+{
+  id: "wsi_76_expert_6_core",
+  learningNodeId: "wsi_76",
+  title: "MODULE 10B – LIVING TOGETHER (EXPERT 6 CORE)",
+  type: "paragraph",
+  order: 1,
+  content: `
+LESSON PLAN – Module 10B: Living Together (90’)
+
+Warm-up & Lead-in (10’):
+Speaking – học sinh thảo luận về cộng đồng nơi họ đang sống,
+những ưu điểm và thách thức khi sống cùng nhau trong thành phố hoặc thị trấn.
+Phương pháp: Brainstorming + Guided Discovery.
+Tương tác: thảo luận theo cặp, nhóm nhỏ hoặc breakout room online;
+lớp 1-1 giáo viên gợi mở bằng câu hỏi dẫn dắt.
+
+Listening (15’):
+Listening – Multiple Choice; Flow Chart Completion; Summary Completion (Section 4)
+– trắc nghiệm (Questions 1–2) chọn HAI mối quan tâm chính của urban planner.
+– hoàn thành biểu đồ dòng chảy Urban Planning Process.
+Phương pháp: Listening for Detail + Prediction Strategy.
+
+Reading (20’):
+Reading – Matching Headings; True/False/Not Given
+– nối tiêu đề (i–vii) với đoạn văn (A–G) về friendships.
+– trả lời TRUE / FALSE / NOT GIVEN
+về bạn bè và mạng lưới xã hội.
+Phương pháp: Skimming & Scanning + Exam Skills.
+Tương tác: thảo luận lý do chọn đáp án.
+
+Speaking (15’):
+Speaking – Part 3: Discussing Friends, Family and Community
+– thảo luận về cộng đồng, cách gặp gỡ người mới,
+vai trò của bạn bè và gia đình trong xây dựng mạng lưới xã hội.
+Phương pháp: Communicative Practice + Fluency Drills.
+
+Writing (20’):
+Writing – Task 1: Describe a Map
+– viết overview mô tả sự thay đổi của thư viện.
+– sử dụng động từ chỉ thay đổi
+(build, extend, knock down, move, remove, replace)
+và chia ở thể bị động.
+Phương pháp: Guided Discovery + Process Writing.
+  `,
+},
+{
+  id: "wsi_76_writing_speaking_practice",
+  learningNodeId: "wsi_76",
+  title: "WRITING / SPEAKING PRACTICE",
+  type: "paragraph",
+  order: 2,
+  content: `
+Practice Speaking:
+IELTS Speaking part 1 – Topic 1.22 Shopping
+• Do you enjoy shopping?
+• Do you prefer shopping online or in stores?
+• What kind of things do you usually buy?
+• Do you think shopping habits are changing?
+
+Practice Writing:
+IELTS Writing task 2 – Interpersonal Skills
+Many employers find that their new employees lack sufficient
+interpersonal skills such as the ability to work with colleagues as a team.
+What are the causes?
+Can you suggest some possible solutions?
+  `,
+},
+{
+  id: "wsi_76_teaching_assistant",
+  learningNodeId: "wsi_76",
+  title: "TRỢ GIẢNG (30 PHÚT)",
+  type: "paragraph",
+  order: 3,
+  content: `
+GIÁO ÁN:
+Listening C14 (Tr. 340) - T3 Section 3
+và Listening C14 (Tr. 345) - T3 Section 4
+
+I. 10 PHÚT ĐẦU GIỜ: GIỚI THIỆU 10 TỪ VỰNG TRỌNG TÂM
+1. performing (v.): Biểu diễn.
+2. acting (n.): Diễn xuất.
+3. director (n.): Đạo diễn.
+4. modules (n.): Học phần.
+5. flexible (adj.): Linh hoạt.
+6. philosopher (n.): Triết gia.
+7. virtue (n.): Đức hạnh.
+8. emotions (n.): Cảm xúc.
+9. resilience (n.): Khả năng phục hồi.
+10. irrational beliefs (n. phr.): Niềm tin phi lý.
+
+II. NỘI DUNG CHÍNH (20 PHÚT)
+
+Chữa bài Listening 1:
+C14 - T3 Section 3 (Tr. 340 - 344)
+Thời lượng: 10 phút
+• Chữa lỗi tập trung vào từ vựng nghệ thuật và giáo dục:
+modules, acting, performing.
+
+Chữa bài Listening 2:
+C14 - T3 Section 4 (Tr. 345 - 348)
+Thời lượng: 10 phút
+• Chữa lỗi về Triết học Khắc kỷ (Stoicism),
+nhấn mạnh virtue là nền tảng của hạnh phúc
+và khả năng kiểm soát cảm xúc.
+  `,
+},
+{
+  id: "wsi_76_homework",
+  learningNodeId: "wsi_76",
+  title: "HOMEWORK",
+  type: "homework",
+  order: 4,
+  content: `
+Expert 6 – Homework
+
+Grammar:
+• Second Conditional
+(imaginary / unlikely situations)
+
+Vocabulary:
+• Town and City:
+architecture, block, budget, facilities,
+inhabitants, lay out, local, network,
+overcrowded, residents
+
+Writing:
+• Hoàn thành Bài 1.2:
+Chart – International Migration in UK (Tr. 3)
+
+Listening:
+• Hoàn thành C14 - T4 Section 2 (Tr. 349 - 351)
+  `,
+},
+
+
+{
+  id: "wsi_77_expert_6_review_1",
+  learningNodeId: "wsi_77",
+  title: "REVIEW FOR 1ST TEST",
+  type: "paragraph",
+  order: 1,
+  content: `
+REVIEW FOR 1ST TEST:
+CONTACT ACADEMIC MANAGER FOR CONSOLIDATION MATERIALS
+  `,
+},
+{
+  id: "wsi_77_speaking_writing_practice",
+  learningNodeId: "wsi_77",
+  title: "SPEAKING & WRITING PRACTICE",
+  type: "paragraph",
+  order: 2,
+  content: `
+Practice Speaking:
+IELTS Speaking part 1 – Topic 1.23 Cooking
+• Do you enjoy cooking?
+• Who usually cooks in your family?
+• What kind of food do you like to cook?
+• Do you think cooking is a useful skill?
+
+Practice Writing:
+IELTS Writing task 2 – Advertising
+Topic:
+Advertising is becoming more and more common in everyday life.
+Some people say that advertising has a positive impact on our lives.
+To what extent do you agree or disagree?
+  `,
+},
+{
+  id: "wsi_77_teaching_assistant",
+  learningNodeId: "wsi_77",
+  title: "TRỢ GIẢNG (30 PHÚT)",
+  type: "paragraph",
+  order: 3,
+  content: `
+GIÁO ÁN:
+Listening C14 (Tr. 345) - T3 Section 4
+và Listening C14 (Tr. 349) - T4 Section 2
+
+I. 10 PHÚT ĐẦU GIỜ: GIỚI THIỆU 10 TỪ VỰNG TRỌNG TÂM
+1. resilience (n.): Khả năng phục hồi.
+2. logic (n.): Logic/Lý trí.
+3. irrational beliefs (n. phr.): Niềm tin phi lý.
+4. CBT (Cognitive Behaviour Therapy) (n. phr.): Liệu pháp Hành vi Nhận thức.
+5. dolphin (n.): Cá heo.
+6. trust (n.): Quỹ/Sự tin cậy.
+7. pollution (n.): Ô nhiễm.
+8. campaigns (n.): Chiến dịch.
+9. volunteers (n.): Tình nguyện viên.
+10. elusive (adj.): Khó nắm bắt.
+
+II. NỘI DUNG CHÍNH (20 PHÚT)
+
+Chữa bài Listening 1:
+C14 - T3 Section 4 (Tr. 345 - 348)
+Thời lượng: 10 phút
+• Trợ giảng chữa lỗi về ảnh hưởng của Triết học Khắc kỷ
+đến Liệu pháp Hành vi Nhận thức (CBT),
+nhấn mạnh việc sử dụng lý trí
+để thách thức các niềm tin phi lý.
+
+Chữa bài Listening 2:
+C14 - T4 Section 2 (Tr. 349 - 351)
+Thời lượng: 10 phút
+• Trợ giảng chữa lỗi tập trung vào từ vựng
+liên quan đến bảo tồn cá heo,
+nhấn mạnh các mối đe dọa từ ô nhiễm
+và các chiến dịch hỗ trợ của quỹ (trust).
+  `,
+},
+{
+  id: "wsi_77_homework",
+  learningNodeId: "wsi_77",
+  title: "HOMEWORK",
+  type: "homework",
+  order: 4,
+  content: `
+Writing Task:
+• Hoàn thành Bài 1.3:
+Line graph – UK Acid Rain Emission (Tr. 4)
+
+Listening:
+• Hoàn thành C14 - T4 Section 3 (Tr. 352 - 358)
+  `,
+},
+
+
+{
+  id: "wsi_78_expert_6_final_test",
+  learningNodeId: "wsi_78",
+  title: "DO FINAL TEST",
+  type: "paragraph",
+  order: 1,
+  content: `
+DO FINAL TEST
+  `,
+},
+{
+  id: "wsi_78_speaking_writing_practice",
+  learningNodeId: "wsi_78",
+  title: "SPEAKING & WRITING PRACTICE",
+  type: "paragraph",
+  order: 2,
+  content: `
+Practice Speaking:
+IELTS Speaking part 1 – Topic 1.24 Packing
+• Do you enjoy packing before a trip?
+• What do you usually pack when you travel?
+• Have you ever forgotten something important while packing?
+• Do you prefer packing early or at the last minute?
+
+Practice Writing:
+IELTS Writing task 2 – Housing Designs
+Topic:
+In many cities, there is little control on the design and construction of new houses,
+so people can build houses in their own styles rather than building them with the same style
+as the old houses in the local area.
+Do the advantages outweigh the disadvantages?
+  `,
+},
+{
+  id: "wsi_78_teaching_assistant",
+  learningNodeId: "wsi_78",
+  title: "TRỢ GIẢNG (30 PHÚT)",
+  type: "paragraph",
+  order: 3,
+  content: `
+GIÁO ÁN:
+Listening C14 (Tr. 352) - T4 Section 3
+và Listening C14 (Tr. 359) - T4 Section 4
+
+I. 10 PHÚT ĐẦU GIỜ: GIỚI THIỆU 10 TỪ VỰNG TRỌNG TÂM
+1. explorer (n.): Nhà thám hiểm.
+2. migration (n.): Sự di cư.
+3. voyage (n.): Chuyến đi biển dài.
+4. carvings (n.): Hình chạm khắc.
+5. nanotechnology (n.): Công nghệ nano.
+6. solar cells (n. phr.): Tấm pin mặt trời.
+7. famine (n.): Nạn đói.
+8. medicine (n.): Y học/Thuốc.
+9. biosensors (n.): Cảm biến sinh học.
+10. ageing process (n. phr.): Quá trình lão hóa.
+
+II. NỘI DUNG CHÍNH (20 PHÚT)
+
+Chữa bài Listening 1:
+C14 - T4 Section 3 (Tr. 352 - 358)
+Thời lượng: 10 phút
+• Trợ giảng chữa lỗi về các chuyến đi của nhà thám hiểm Heyerdahl,
+tập trung vào các lập luận về sự di cư (migration)
+và việc sử dụng các kỹ thuật cổ đại (ancient techniques).
+
+Chữa bài Listening 2:
+C14 - T4 Section 4 (Tr. 359 - 364)
+Thời lượng: 10 phút
+• Trợ giảng chữa lỗi tập trung vào công nghệ nano (nanotechnology),
+thảo luận về các ứng dụng trong y học
+(như cảm biến sinh học – biosensors)
+và các ứng dụng môi trường
+(như tấm pin mặt trời – solar cells).
+  `,
+},
+{
+  id: "wsi_78_homework",
+  learningNodeId: "wsi_78",
+  title: "HOMEWORK",
+  type: "homework",
+  order: 4,
+  content: `
+Writing Task:
+• Hoàn thành Bài 1.4:
+Graph & Table – Water Consumption (Tr. 5)
+
+Listening:
+• Hoàn thành C15 - T1 Section 2 (Tr. 365 - 368)
+  `,
+},
+
+{
+  id: "wsi_79_teacher",
+  learningNodeId: "wsi_79",
+  title: "GIÁO VIÊN (120 PHÚT)",
+  type: "paragraph",
+  order: 1,
+  content: `
+LESSON PLAN – IELTS Cambridge 20 Test 1 (120’)
+(Phù hợp cho lớp 1-1, nhóm, offline và online, theo PPP)
+
+Warm-up & Lead-in (10’):
+Giáo viên giới thiệu mục tiêu buổi học và gợi mở thảo luận ngắn về chiến lược làm bài Reading và Listening trong IELTS.
+Học viên chia sẻ khó khăn thường gặp, giáo viên định hướng bằng câu hỏi dẫn dắt.
+Phương pháp: Brainstorming + Guided Discovery.
+Tương tác: thảo luận theo cặp, nhóm nhỏ hoặc breakout room online; lớp 1-1 giáo viên gợi mở trực tiếp.
+
+Reading (50’):
+Reading – Cambridge 20 Test 1 Passage 1–3.
+Học viên làm bài theo thời gian quy định, sau đó giáo viên chữa chi tiết từng câu,
+phân tích từ khóa, highlight bẫy thường gặp.
+Phương pháp: Skimming & Scanning + Exam Skills.
+Tương tác: học viên thảo luận lý do chọn đáp án, so sánh chiến lược làm bài.
+Phân bổ thời gian:
+• Passage 1 (15’)
+• Passage 2 (15’)
+• Passage 3 (20’)
+
+Listening (50’):
+Listening – Cambridge 20 Test 1 Section 1–4.
+Học viên nghe từng section và làm bài trực tiếp,
+giáo viên chữa đáp án, phân tích transcript,
+nhấn mạnh từ vựng và collocations.
+Phương pháp: Listening for Detail + Prediction Strategy.
+Tương tác: thảo luận nhóm nhỏ hoặc theo cặp về cách nhận diện keywords trong băng.
+Phân bổ thời gian:
+• Section 1 (10’)
+• Section 2 (10’)
+• Section 3 (15’)
+• Section 4 (15’)
+
+Review & Wrap-up (10’):
+Giáo viên tổng kết lỗi thường gặp trong Reading và Listening,
+nhấn mạnh chiến lược quản lý thời gian trong phòng thi.
+  `,
+},
+{
+  id: "wsi_79_homework",
+  learningNodeId: "wsi_79",
+  title: "HOMEWORK",
+  type: "homework",
+  order: 2,
+  content: `
+Homework:
+• Writing Task 1 – Cambridge 20 Test 1
+• Writing Task 2 – Cambridge 20 Test 1
+• Speaking Part 1 – Cambridge 20
+• Speaking Part 2 – Cambridge 20
+  `,
+},
+
+{
+  id: "wsi_80_teacher",
+  learningNodeId: "wsi_80",
+  title: "GIÁO VIÊN (120 PHÚT)",
+  type: "paragraph",
+  order: 1,
+  content: `
+LESSON PLAN – IELTS Cambridge 20 Test 2 (120’)
+(Phù hợp cho lớp 1-1, nhóm, offline và online, theo PPP)
+
+Warm-up & Lead-in (10’):
+Giáo viên giới thiệu mục tiêu buổi học là tiếp tục luyện tập theo đề thi thật,
+tập trung vào Reading và Listening của Cambridge 20 Test 2.
+Học viên thảo luận ngắn về những khó khăn trong buổi trước và chia sẻ chiến lược đã áp dụng.
+Phương pháp: Brainstorming + Guided Discovery.
+Tương tác: thảo luận theo cặp, nhóm nhỏ hoặc breakout room online;
+lớp 1-1 giáo viên gợi mở bằng câu hỏi dẫn dắt.
+
+Reading (50’):
+Reading – Cambridge 20 Test 2 Passage 1–3.
+Học viên làm bài theo thời gian quy định,
+sau đó giáo viên chữa chi tiết từng câu,
+phân tích từ khóa, highlight bẫy thường gặp.
+Phương pháp: Skimming & Scanning + Exam Skills.
+Tương tác: học viên thảo luận lý do chọn đáp án, so sánh chiến lược làm bài.
+Phân bổ thời gian:
+• Passage 1 (15’)
+• Passage 2 (15’)
+• Passage 3 (20’)
+
+Listening (50’):
+Listening – Cambridge 20 Test 2 Section 1–4.
+Học viên nghe từng section và làm bài trực tiếp,
+giáo viên chữa đáp án, phân tích transcript,
+nhấn mạnh từ vựng và collocations.
+Phương pháp: Listening for Detail + Prediction Strategy.
+Tương tác: thảo luận nhóm nhỏ hoặc theo cặp
+về cách nhận diện keywords trong băng.
+Phân bổ thời gian:
+• Section 1 (10’)
+• Section 2 (10’)
+• Section 3 (15’)
+• Section 4 (15’)
+
+Review & Wrap-up (10’):
+Giáo viên tổng kết lỗi thường gặp trong Reading và Listening,
+nhấn mạnh chiến lược quản lý thời gian
+và cách cải thiện kỹ năng cho kỳ thi.
+  `,
+},
+{
+  id: "wsi_80_homework",
+  learningNodeId: "wsi_80",
+  title: "HOMEWORK",
+  type: "homework",
+  order: 2,
+  content: `
+Homework:
+• Writing Task 1 – Cambridge 20 Test 2
+• Writing Task 2 – Cambridge 20 Test 2
+• Speaking Part 1 – Cambridge 20
+• Speaking Part 2 – Cambridge 20
+  `,
+},
 
 
 
