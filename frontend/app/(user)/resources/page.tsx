@@ -8,7 +8,7 @@ import Link from "next/link";
 
 const bookRoutes: Record<string, string> = {
   book_kids: Routes.RESOURCES_KIDS,
-  book_starters_foundation: Routes.RESOURCES_STARTERS_FOUNDATION,
+  book_syllabus_ielts: Routes.RESOURCES_SYLLABUS_IELTS,
   book_starters: Routes.RESOURCES_STARTERS,
   book_movers: Routes.RESOURCES_MOVERS,
   book_flyers: Routes.RESOURCES_FLYERS,

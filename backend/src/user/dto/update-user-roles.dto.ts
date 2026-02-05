@@ -2,6 +2,6 @@ import { IsArray, IsUUID } from 'class-validator';
 
 export class UpdateUserRolesDto {
   @IsArray()
-  @IsUUID('all', { each: true })
+  @IsUUID('4', { each: true })
   roleIds: string[];
 }
