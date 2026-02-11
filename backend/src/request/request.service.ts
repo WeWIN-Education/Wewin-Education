@@ -10,12 +10,12 @@ import { UserService } from 'src/user/user.service';
 import { Product } from 'src/entities/inventory/product.entity';
 import { UpdateOrderDto } from './dto/update-order.dto';
 import { UpdateStatusDto } from 'src/user/dto/update-status.dto';
-import { InventoryRequest } from 'src/entities/order/inventory-request.entity';
+import { InventoryRequest } from 'src/entities/request/inventory-request.entity';
 
 type WhereCondition<T> = Partial<Record<keyof T, any>>;
 
 @Injectable()
-export class OrderService {
+export class RequestService {
   private readonly allowedStatusesForCreation = [
     PURCHASE_ORDERS_STATUS_ENUM.DRAFT,
     PURCHASE_ORDERS_STATUS_ENUM.REQUESTED,

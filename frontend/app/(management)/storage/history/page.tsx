@@ -1,8 +1,5 @@
 "use client";
 
-import DynamicFilterBar from "@/app/components/filter";
-import { RequestListPage } from "@/app/components/storage/history/requestTable";
-import PageToolbar from "@/app/components/toolBar";
 import { getAllRequests } from "@/lib/constants/storage/request/selectors";
 import { defineFilters } from "@/types/filter";
 import { ApprovalStatus, Type } from "@/types/storage";

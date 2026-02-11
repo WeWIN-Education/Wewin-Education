@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import InventoryStats from "@/app/components/storage/inventoryStat";
 import ReusableTable from "@/app/components/table";
 import InventoryForm, {
@@ -9,14 +9,37 @@ import InventoryForm, {
 import { CirclePlus } from "lucide-react";
 import PageToolbar from "@/app/components/toolBar";
 import ConfirmPopup from "@/app/components/confirmPopup";
+import Notification from "@/app/components/notification";
 import { useRouter } from "next/navigation";
 import { Routes } from "@/lib/constants/routes";
 import { getStockStatus } from "@/app/utils/stockStatus";
 import { Pagination, RowsPerPage } from "@/app/components/pagination";
 import { Product } from "@/types/product";
-import { storageService } from "@/services/storage.service";
+import { storageService } from "@/services/product.service";
+import { categoryService } from "@/services/product-category-service";
 
 type TableRow = Product & { categoryName: string; minQuantity: number };
+
+const TABLE_COLUMNS: string[] = [
+  "Mã",
+  "Tên vật dụng",
+  "Danh mục",
+  "Tồn kho",
+  "Đơn vị",
+  "Trạng thái",
+];
+
+function getMobileStatus(row: TableRow) {
+  if (row.quantity === 0) {
+    return { label: "Hết hàng", color: "text-red-600" };
+  }
+
+  if (row.quantity <= row.minQuantity) {
+    return { label: "Sắp hết", color: "text-yellow-600" };
+  }
+
+  return { label: "Còn hàng", color: "text-green-600" };
+}
 
 export default function StoragePage() {
   const router = useRouter();
@@ -50,49 +73,174 @@ export default function StoragePage() {
   const [, setLoading] = useState(false);
   const [rows, setRows] = useState<TableRow[]>([]);
   const [total, setTotal] = useState(0);
-
-  const tableData = rows;
-
-  const totalItems = tableData.length;
-  const totalQuantity = tableData.reduce((s, i) => s + i.quantity, 0);
-  const lowStock = tableData.filter(
+  const [reloadKey, setReloadKey] = useState(0);
+  const [notification, setNotification] = useState<{
+    message: string;
+    type: "info" | "success" | "error";
+    visible: boolean;
+  }>({
+    message: "",
+    type: "info",
+    visible: false,
+  });
+  const [, setCategoryMap] = useState<Record<string, string>>({});
+  const categoryMapRef = useRef<Record<string, string>>({});
+  const totalItems = rows.length;
+  const totalQuantity = rows.reduce((s, i) => s + i.quantity, 0);
+  const lowStock = rows.filter(
     (i) => i.quantity > 0 && i.quantity <= i.minQuantity,
   ).length;
-  const outOfStock = tableData.filter((i) => i.quantity === 0).length;
+  const outOfStock = rows.filter((i) => i.quantity === 0).length;
 
   const totalPages =
     limit === "all" ? 1 : Math.max(1, Math.ceil(total / limit));
   const startIndex = limit === "all" ? 0 : (page - 1) * limit;
   const endIndex = limit === "all" ? total : startIndex + rows.length;
 
+  const handleHoverEnter = (
+    e: React.MouseEvent<HTMLSpanElement>,
+    row: TableRow,
+  ) => {
+    setHoverPreview({
+      visible: true,
+      x: e.clientX,
+      y: e.clientY,
+      name: row.name,
+      imageUrl: row.imageUrl,
+    });
+  };
+
+  const handleHoverMove = (e: React.MouseEvent<HTMLSpanElement>) => {
+    setHoverPreview((prev) =>
+      prev.visible ? { ...prev, x: e.clientX, y: e.clientY } : prev,
+    );
+  };
+
+  const handleHoverLeave = () => {
+    setHoverPreview((prev) => ({ ...prev, visible: false }));
+  };
+
+  const handleAdd = () => setOpenForm({ mode: "add" });
+
+  const handleRowsChange = (rowsValue: RowsPerPage) => {
+    setLimit(rowsValue);
+    setPage(1);
+  };
+
+  const showNotification = (
+    message: string,
+    type: "info" | "success" | "error" = "info",
+  ) => {
+    setNotification({ message, type, visible: true });
+  };
+
+  const handleSubmit = async (data: InventoryFormData) => {
+    const code = data.code.trim();
+    const name = data.name.trim();
+
+    if (!code || !name || !data.categoryId) {
+      console.error("Missing required fields: code, name, or categoryId");
+      return;
+    }
+
+    try {
+      setLoading(true);
+
+      const payload = {
+        code,
+        name,
+        categoryId: data.categoryId,
+        unit: data.unit,
+        quantity: data.quantity,
+        status: "in_stock",
+      };
+
+      if (openForm?.mode === "edit" && data.id) {
+        await storageService.updateProduct(data.id, payload);
+      } else {
+        await storageService.createProduct(payload);
+        showNotification("Tạo vật dụng thành công", "success");
+      }
+
+      setOpenForm(null);
+      setReloadKey((prev) => prev + 1);
+    } catch (err) {
+      console.error("Save product error:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
-    let ignore = false;
+    let isCancelled = false;
 
     async function load() {
       setLoading(true);
 
       try {
+        const limitValue = limit === "all" ? undefined : Number(limit);
         const res = await storageService.searchProducts({
           page,
-          limit: limit === "all" ? undefined : Number(limit),
+          limit: limitValue,
           q: search || undefined,
         });
 
-        if (ignore) return;
+        if (isCancelled) return;
 
-        const mappedRows: TableRow[] = res.items.map((p: Product) => ({
+        const products: Product[] = res.items;
+
+        /* 1️⃣ LẤY DANH SÁCH CATEGORY ID (UNIQUE) */
+        const categoryIds = Array.from(
+          new Set(
+            products
+              .map((p) => p.categoryId)
+              .filter((id): id is string => !!id),
+          ),
+        );
+
+        /* 2️⃣ FETCH CATEGORY (CÓ CACHE) */
+        const newCategoryMap: Record<string, string> = {};
+
+        await Promise.all(
+          categoryIds.map(async (id) => {
+            if (categoryMapRef.current[id]) {
+              newCategoryMap[id] = categoryMapRef.current[id];
+              return;
+            }
+
+            try {
+              const res = await categoryService.getCategoryById(id);
+              newCategoryMap[id] = res.name;
+            } catch {
+              newCategoryMap[id] = "—";
+            }
+          }),
+        );
+
+        setCategoryMap((prev) => {
+          const next = { ...prev, ...newCategoryMap };
+          categoryMapRef.current = next;
+          return next;
+        });
+
+        /* 3️⃣ MAP ROWS */
+        const mappedRows: TableRow[] = products.map((p) => ({
           ...p,
-          categoryName: p.categoryId, // backend trả string → tạm hiển thị ID
-          minQuantity: 0, // giữ logic cũ, có thể nâng cấp sau
+          categoryName:
+            newCategoryMap[p.categoryId] ??
+            categoryMapRef.current[p.categoryId] ??
+            "—",
+          minQuantity: 0,
         }));
 
         setRows(mappedRows);
+
         setTotal(res.pagination.total);
 
-        if (limit !== "all") {
+        if (limitValue !== undefined) {
           const totalPages = Math.max(
             1,
-            Math.ceil(res.pagination.total / Number(limit)),
+            Math.ceil(res.pagination.total / limitValue),
           );
           if (page > totalPages) setPage(totalPages);
         } else {
@@ -108,20 +256,26 @@ export default function StoragePage() {
     load();
 
     return () => {
-      ignore = true;
+      isCancelled = true;
     };
-  }, [page, limit, search]);
+  }, [page, limit, search, reloadKey]);
 
   return (
     <div className="space-y-6 px-8 py-8">
+      <Notification
+        message={notification.message}
+        type={notification.type}
+        visible={notification.visible}
+        onClose={() =>
+          setNotification((prev) => ({ ...prev, visible: false }))
+        }
+      />
       {/* ================= TOOLBAR ================= */}
       <PageToolbar
         title="Quản lý kho vật dụng"
         addLabel="Nhập kho"
         addIcon={CirclePlus}
-        onAdd={() => {
-          setOpenForm({ mode: "add" });
-        }}
+        onAdd={handleAdd}
         searchValue={search}
         onSearchChange={setSearch}
       />
@@ -136,14 +290,7 @@ export default function StoragePage() {
 
       {/* ================= TABLE ================= */}
       <ReusableTable<Product & { categoryName: string; minQuantity: number }>
-        columns={[
-          "Mã",
-          "Tên vật dụng",
-          "Danh mục",
-          "Tồn kho",
-          "Đơn vị",
-          "Trạng thái",
-        ]}
+        columns={TABLE_COLUMNS}
         data={rows}
         getKey={(row) => row.id}
         renderRow={(row) => {
@@ -154,25 +301,9 @@ export default function StoragePage() {
               <td className="px-6 py-3 font-semibold text-[#0E4BA9]">
                 <span
                   className="cursor-default underline-offset-2 hover:underline"
-                  onMouseEnter={(e) => {
-                    setHoverPreview({
-                      visible: true,
-                      x: e.clientX,
-                      y: e.clientY,
-                      name: row.name,
-                      imageUrl: row.imageUrl, // nếu field bạn đang dùng tên khác, đổi tại đây
-                    });
-                  }}
-                  onMouseMove={(e) => {
-                    setHoverPreview((prev) =>
-                      prev.visible
-                        ? { ...prev, x: e.clientX, y: e.clientY }
-                        : prev,
-                    );
-                  }}
-                  onMouseLeave={() => {
-                    setHoverPreview((prev) => ({ ...prev, visible: false }));
-                  }}
+                  onMouseEnter={(e) => handleHoverEnter(e, row)}
+                  onMouseMove={handleHoverMove}
+                  onMouseLeave={handleHoverLeave}
                 >
                   {row.name}
                 </span>
@@ -191,19 +322,7 @@ export default function StoragePage() {
           );
         }}
         renderMobileCard={(row) => {
-          const status =
-            row.quantity === 0
-              ? "Hết hàng"
-              : row.quantity <= row.minQuantity
-                ? "Sắp hết"
-                : "Còn hàng";
-
-          const statusColor =
-            row.quantity === 0
-              ? "text-red-600"
-              : row.quantity <= row.minQuantity
-                ? "text-yellow-600"
-                : "text-green-600";
+          const status = getMobileStatus(row);
 
           return (
             <>
@@ -217,7 +336,9 @@ export default function StoragePage() {
                     Danh mục: {row.categoryName}
                   </p>
                 </div>
-                <span className={`font-semibold ${statusColor}`}>{status}</span>
+                <span className={`font-semibold ${status.color}`}>
+                  {status.label}
+                </span>
               </div>
 
               <div className="mt-2 grid grid-cols-2 gap-2 text-sm">
@@ -241,7 +362,7 @@ export default function StoragePage() {
                 id: row.id,
                 code: row.code,
                 name: row.name,
-                categoryId: row.categoryId, // ✅ LẤY ID
+                categoryId: row.categoryId,
                 unit: row.unit,
                 quantity: row.quantity,
               },
@@ -267,10 +388,7 @@ export default function StoragePage() {
         text="vật dụng"
         onPrev={() => setPage((p) => Math.max(1, p - 1))}
         onNext={() => setPage((p) => Math.min(totalPages, p + 1))}
-        onRowsChange={(rows) => {
-          setLimit(rows);
-          setPage(1); // ✅ reset page khi đổi limit
-        }}
+        onRowsChange={handleRowsChange}
       />
 
       {/* ================= FORM ================= */}
@@ -279,14 +397,7 @@ export default function StoragePage() {
           mode={openForm.mode}
           initialData={openForm.data}
           onCancel={() => setOpenForm(null)} // ✅ KHÔNG ĐÓNG NGAY
-          onSubmit={(data) => {
-            console.log(
-              openForm.mode === "edit" ? "UPDATE BY ID:" : "CREATE:",
-              data,
-            );
-
-            setOpenForm(null);
-          }}
+          onSubmit={handleSubmit}
         />
       )}
 
@@ -369,3 +480,5 @@ export default function StoragePage() {
     </div>
   );
 }
+
+

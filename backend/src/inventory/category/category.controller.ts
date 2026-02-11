@@ -16,7 +16,7 @@ import { FindCategoryDto } from './dto/find-category.dto';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
-@ApiTags('Categories')
+@ApiTags('Product Categories')
 @ApiBearerAuth('access-token')
 @UseGuards(JwtAuthGuard)
 @Controller('categories')

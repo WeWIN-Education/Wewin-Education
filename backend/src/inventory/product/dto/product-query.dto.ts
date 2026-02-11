@@ -21,14 +21,6 @@ export class ProductQueryDto extends BaseQueryDto {
   categoryId?: string;
 
   @ApiPropertyOptional({
-    format: 'uuid',
-    description: 'Filter by inventory document',
-  })
-  @IsOptional()
-  @IsString()
-  inventoryDocumentId?: string;
-
-  @ApiPropertyOptional({
     enum: ['true', 'false'],
     description: 'Include cancelled products',
   })

@@ -3,10 +3,9 @@
 import { useParams, useRouter, notFound } from "next/navigation";
 import { ChevronRight, Package, Pencil } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
-import { Type } from "@/types/storage";
+import { Category, Type } from "@/types/storage";
 import { User } from "@/types/user";
 import { getStockStatus } from "@/app/utils/stockStatus";
-import { formatDateTimeFull } from "@/app/utils/format";
 import ReusableTable from "@/app/components/table";
 import { Pagination, RowsPerPage } from "@/app/components/pagination";
 import { BackButton } from "@/app/components/backButton";
@@ -20,21 +19,12 @@ import InventoryForm from "@/app/components/storage/inventoryForm";
 import { Routes } from "@/lib/constants/routes";
 import InventoryActions from "@/app/components/storage/InventoryActions";
 import Button from "@/app/components/button";
-import { storageService } from "@/services/storage.service";
+import { storageService } from "@/services/product.service";
 import { Product } from "@/types/product";
 import { ProductInfoCardSkeleton } from "@/app/components/storage/skeletons/productHeaderSkeleton";
 import StatCardSkeleton from "@/app/components/storage/skeletons/statCardSkeleton";
 import { Skeleton } from "@/app/components/skeletons";
-
-type InventoryHistoryApiItem = {
-  quantity: number;
-  createdAt: string;
-  inventoryDocument?: {
-    id?: string;
-    note?: string;
-    createdBy?: User | null;
-  };
-};
+import { categoryService } from "@/services/product-category-service";
 
 /* ================= TYPES ================= */
 export interface InventoryHistoryView {
@@ -58,14 +48,15 @@ const HISTORY_COLUMNS = [
 export default function ProductDetailPage() {
   const router = useRouter();
   const { id } = useParams<{ id: string }>();
-  console.log(id);
 
   const [openEditForm, setOpenEditForm] = useState(false);
   const [product, setProduct] = useState<Product | null>(null);
-  const [history, setHistory] = useState<InventoryHistoryView[]>([]);
+  const [history] = useState<InventoryHistoryView[]>([]);
   const [loading, setLoading] = useState(true);
   const totalIn = history.filter((h) => h.type === "IN").length;
   const totalOut = history.filter((h) => h.type === "OUT").length;
+
+  const [category, setCategory] = useState<Category | null>(null);
 
   /* ================= PAGINATION ================= */
   const [page, setPage] = useState(1);
@@ -89,23 +80,28 @@ export default function ProductDetailPage() {
       try {
         setLoading(true);
 
-        const [productRes, historyRes] = await Promise.all([
-          storageService.getProductById(id),
-          storageService.getInventoryHistory(id),
-        ]);
+        const productRes = await storageService.getProductById(id);
+        const productData = productRes.data.data;
 
-        setProduct(productRes.data.data);
+        setProduct(productData);
 
-        setHistory(
-          historyRes.data.map((item: InventoryHistoryApiItem) => ({
-            id: item.inventoryDocument?.id ?? "—",
-            date: formatDateTimeFull(item.createdAt),
-            type: item.quantity > 0 ? "IN" : "OUT",
-            quantity: Math.abs(item.quantity),
-            note: item.inventoryDocument?.note ?? "—",
-            createdBy: item.inventoryDocument?.createdBy ?? null,
-          })),
-        );
+        // setHistory(
+        //   historyRes.data.map((item: InventoryHistoryApiItem) => ({
+        //     id: item.inventoryDocument?.id ?? "—",
+        //     date: formatDateTimeFull(item.createdAt),
+        //     type: item.quantity > 0 ? "IN" : "OUT",
+        //     quantity: Math.abs(item.quantity),
+        //     note: item.inventoryDocument?.note ?? "—",
+        //     createdBy: item.inventoryDocument?.createdBy ?? null,
+        //   })),
+        // );
+
+        if (productData.categoryId) {
+          const categoryRes = await categoryService.getCategoryById(
+            productData.categoryId,
+          );
+          setCategory(categoryRes);
+        }
       } catch (err: unknown) {
         if (
           typeof err === "object" &&
@@ -223,6 +219,7 @@ export default function ProductDetailPage() {
               <ProductInfoCard
                 name={product!.name}
                 code={product!.code}
+                category={category?.name ?? "—"}
                 quantity={product!.quantity}
                 unit={product!.unit}
                 statusLabel={stock?.label}

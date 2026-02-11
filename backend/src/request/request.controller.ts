@@ -12,16 +12,16 @@ import {
   Patch,
   Delete,
 } from '@nestjs/common';
-import { OrderService } from './order.service';
+import { RequestService } from './request.service';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { PURCHASE_ORDERS_STATUS_ENUM } from 'src/util/enum';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { UpdateOrderDto } from './dto/update-order.dto';
 import { UpdateStatusDto } from 'src/user/dto/update-status.dto';
 
-@Controller('order')
-export class OrderController {
-  constructor(private readonly orderService: OrderService) {}
+@Controller('requests')
+export class RequestController {
+  constructor(private readonly orderService: RequestService) {}
 
   @Get()
   findAll() {

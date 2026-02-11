@@ -8,7 +8,7 @@ import {
 } from 'typeorm';
 import { BaseEntity } from '../base.entity';
 import { InventoryMovementItem } from './inventory-movement-items.entity';
-import { InventoryRequest } from '../order/inventory-request.entity';
+import { InventoryRequest } from '../request/inventory-request.entity';
 import { PURCHASE_ORDERS_TYPE_ENUM } from '../../util/enum';
 
 @Entity('inventory_movement')

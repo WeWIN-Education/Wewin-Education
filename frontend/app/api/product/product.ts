@@ -2,7 +2,7 @@ import { create } from "zustand";
 import {
   StorageSearchParams,
   storageService,
-} from "@/services/storage.service";
+} from "@/services/product.service";
 import { Product } from "@/types/product";
 import { mapProductApiToDomain } from "@/app/mappers/product.mapper";
 

@@ -6,7 +6,7 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { InventoryRequestItem } from '../order/inventory-request-items.entity';
+import { InventoryRequestItem } from '../request/inventory-request-items.entity';
 import { PRODUCT_STATUS_ENUM } from '../../util/enum';
 import { BaseEntity } from '../base.entity';
 import { ProductCategory } from './category.entity';

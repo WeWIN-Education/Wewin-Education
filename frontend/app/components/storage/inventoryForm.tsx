@@ -8,7 +8,8 @@ import SelectInput from "../form/field/selectInput";
 import TextArea from "../form/field/textArea";
 import ImageInput from "../form/field/ImageInput";
 import BaseEntityFormModal from "../form";
-import { MOCK_CATEGORIES } from "@/lib/constants/storage/category";
+import { categoryService } from "@/services/product-category-service";
+import { Category } from "@/types/storage";
 
 export type InventoryFormData = {
   id: string;
@@ -45,6 +46,7 @@ export default function InventoryForm({
     imageFile: null,
     ...initialData,
   });
+  const [categories, setCategories] = useState<Category[]>([]);
 
   /* ===== image preview ===== */
   const previewUrl = formData.imageFile
@@ -56,6 +58,37 @@ export default function InventoryForm({
       if (previewUrl) URL.revokeObjectURL(previewUrl);
     };
   }, [previewUrl]);
+
+  useEffect(() => {
+    let isCancelled = false;
+
+    const loadCategories = async () => {
+      try {
+        const res = await categoryService.searchCategories({
+          page: 1,
+          limit: 1000,
+          sortBy: "createAt",
+          order: "DESC",
+        });
+
+        if (isCancelled) return;
+        const items = Array.isArray(res.items)
+          ? res.items
+          : Array.isArray(res)
+            ? res
+            : [];
+        setCategories(items);
+      } catch (err) {
+        console.error("Fetch categories error:", err);
+      }
+    };
+
+    loadCategories();
+
+    return () => {
+      isCancelled = true;
+    };
+  }, []);
 
   const handleChange = (
     e:
@@ -93,7 +126,17 @@ export default function InventoryForm({
           </div>
         )
       }
-    >
+        >
+      {/* ===== CODE ===== */}
+      <FormField label="Ma vat dung" required>
+        <TextInput
+          name="code"
+          value={formData.code}
+          onChange={handleChange}
+          placeholder="P001"
+        />
+      </FormField>
+
       {/* ===== NAME ===== */}
       <FormField label="Tên vật dụng" required>
         <TextInput
@@ -110,7 +153,7 @@ export default function InventoryForm({
           name="categoryId"
           value={formData.categoryId}
           onChange={handleChange}
-          options={MOCK_CATEGORIES.map((c) => ({
+          options={categories.map((c) => ({
             label: c.name,
             value: c.id,
           }))}
@@ -159,3 +202,5 @@ export default function InventoryForm({
     </BaseEntityFormModal>
   );
 }
+
+

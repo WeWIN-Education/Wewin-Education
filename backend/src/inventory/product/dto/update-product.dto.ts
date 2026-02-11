@@ -34,8 +34,4 @@ export class UpdateProductDto {
   @IsOptional()
   @IsUUID()
   categoryId?: string;
-
-  @IsOptional()
-  @IsUUID()
-  inventoryDocumentId?: string;
 }

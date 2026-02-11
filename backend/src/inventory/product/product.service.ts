@@ -168,13 +168,6 @@ export class ProductService {
       });
     }
 
-    // filter inventoryDocumentId
-    if (query.inventoryDocumentId) {
-      qb.andWhere('p.inventoryDocumentId = :inventoryDocumentId', {
-        inventoryDocumentId: query.inventoryDocumentId,
-      });
-    }
-
     const sortBy = query.sortBy ?? 'createAt';
     const order = query.order ?? 'DESC';
 
@@ -196,7 +189,6 @@ export class ProductService {
           q: query.q ?? null,
           status: query.status ?? null,
           categoryId: query.categoryId ?? null,
-          inventoryDocumentId: query.inventoryDocumentId ?? null,
           includeCancelled,
         },
       },
