@@ -6,7 +6,7 @@ import { ClassId } from "@/lib/constants/types";
 
 const CLASS_TO_BOOK: Record<ClassId, string> = {
   KIDS: "book_kids",
-  STARTERS_FOUNDATION: "book_starters_foundation",
+  SYLLABUS_IELTS: "book_syllabus_ielts",
   STARTERS: "book_starters",
   MOVERS: "book_movers",
   FLYERS: "book_flyers",

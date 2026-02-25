@@ -1,11 +1,10 @@
-// 🧭 Enum định nghĩa các route chính của hệ thống
 export const Routes = {
   HOME: "/",
   LOGIN: "/login",
   TEST_IELTS: "/test/ielts",
   RESOURCES: "/resources",
   RESOURCES_KIDS: "/resources/kids",
-  RESOURCES_STARTERS_FOUNDATION: "/resources/starters-foundation",
+  RESOURCES_SYLLABUS_IELTS: "/resources/syllabus-ielts",
   RESOURCES_STARTERS: "/resources/starters",
   RESOURCES_MOVERS: "/resources/movers",
   RESOURCES_FLYERS: "/resources/flyers",

@@ -41,6 +41,18 @@ export class UserController {
     return this.userService.updateUserRoles(id, body.roleIds);
   }
 
+  @Post(':id/roles/:roleId')
+  addRole(@Param('id') userId: string, @Param('roleId') roleId: string) {
+    return this.userService.addRoleToUser(userId, roleId);
+  }
+
+  @Delete(':id/roles/:roleId')
+  removeRole(@Param('id') userId: string, @Param('roleId') roleId: string) {
+    return this.userService.removeRoleFromUser(userId, roleId);
+  }
+
+  /////////////////////////////////////
+
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.userService.remove(id);

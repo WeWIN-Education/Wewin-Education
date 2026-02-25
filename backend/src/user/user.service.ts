@@ -61,6 +61,31 @@ export class UserService {
     return this.findOne(id);
   }
 
+  async addRoleToUser(userId: string, roleId: string) {
+    const user = await this.repo.findOne({
+      where: { id: userId },
+      relations: ['roles'],
+    });
+    if (!user) throw new NotFoundException('User not found');
+
+    const role = await this.roleRepo.findOne({ where: { id: roleId } });
+    if (!role) throw new NotFoundException('Role not found');
+
+    const hasRole = user.roles.some((r) => r.id === roleId);
+    if (hasRole) {
+      throw new BadRequestException('User already has this role');
+    }
+
+    user.roles.push(role);
+    await this.repo.save(user);
+
+    return {
+      id: user.id,
+      email: user.email,
+      roles: user.roles,
+    };
+  }
+
   async updateUserRoles(userId: string, roleIds: string[]) {
     const user = await this.repo.findOne({
       where: { id: userId },
@@ -86,6 +111,32 @@ export class UserService {
       id: user.id,
       email: user.email,
       roles: roles,
+    };
+  }
+
+  async removeRoleFromUser(userId: string, roleId: string) {
+    const user = await this.repo.findOne({
+      where: { id: userId },
+      relations: ['roles'],
+    });
+    if (!user) throw new NotFoundException('User not found');
+
+    const hasRole = user.roles.some((r) => r.id === roleId);
+    if (!hasRole) {
+      throw new BadRequestException('User does not have this role');
+    }
+
+    if (user.roles.length === 1) {
+      throw new BadRequestException('User must have at least one role');
+    }
+
+    user.roles = user.roles.filter((r) => r.id !== roleId);
+    await this.repo.save(user);
+
+    return {
+      id: user.id,
+      email: user.email,
+      roles: user.roles,
     };
   }
 
