@@ -1,22 +1,15 @@
-import {
-  IsString,
-  IsOptional,
-  IsInt,
-  IsUUID,
-  IsEnum,
-  IsArray,
-} from 'class-validator';
+import { IsString, IsOptional, IsInt, IsUUID, IsEnum } from 'class-validator';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { PRODUCT_STATUS_ENUM } from '../../../util/enum';
 
 export class CreateProductDto {
   @ApiProperty({ example: 'P001' })
   @IsString()
-  code: string;
+  code!: string;
 
   @ApiProperty({ example: 'Bàn học sinh cao cấp' })
   @IsString()
-  name: string;
+  name!: string;
 
   @ApiPropertyOptional({ example: 'cái' })
   @IsOptional()
@@ -33,8 +26,8 @@ export class CreateProductDto {
     type: [String],
   })
   @IsOptional()
-  @IsArray()
-  imageUrl?: string[];
+  @IsString()
+  imageUrl?: string;
 
   @ApiPropertyOptional({
     enum: PRODUCT_STATUS_ENUM,
@@ -46,5 +39,5 @@ export class CreateProductDto {
 
   @ApiProperty({ example: '550e8400-e29b-41d4-a716-446655440000' })
   @IsUUID()
-  categoryId: string;
+  categoryId!: string;
 }

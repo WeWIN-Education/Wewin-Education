@@ -33,7 +33,7 @@ export const categoryService = {
 
   /* ---------- UPDATE ---------- */
   async updateCategory(id: string, data: CategoryFormPayload) {
-    return axiosClient.patch(`/categories/${id}`, data);
+    return axiosClient.put(`/categories/${id}`, data);
   },
 
   /* ---------- DELETE ---------- */

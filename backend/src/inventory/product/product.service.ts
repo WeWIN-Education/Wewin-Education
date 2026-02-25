@@ -148,7 +148,6 @@ export class ProductService {
       const keyword = `%${query.q.trim()}%`;
       qb.andWhere(
         new Brackets((sub) => {
-          // Postgres => ILIKE
           sub
             .where('p.code ILIKE :keyword', { keyword })
             .orWhere('p.name ILIKE :keyword', { keyword });
@@ -168,10 +167,34 @@ export class ProductService {
       });
     }
 
+    // ===== SORTING =====
     const sortBy = query.sortBy ?? 'createAt';
-    const order = query.order ?? 'DESC';
+    const order =
+      (query.order ?? 'DESC').toUpperCase() === 'ASC' ? 'ASC' : 'DESC';
 
-    qb.orderBy(`p.${sortBy}`, order);
+    // ✅ allowlist để tránh SQL injection
+    const ALLOWED_SORT: Record<string, true> = {
+      createAt: true,
+      updateAt: true,
+      name: true,
+      code: true,
+      quantity: true,
+      status: true,
+    };
+
+    const safeSortBy = ALLOWED_SORT[sortBy] ? sortBy : 'createAt';
+
+    // 1) cancelled luôn nằm cuối
+    qb.orderBy('CASE WHEN p.status = :cancelled_sort THEN 1 ELSE 0 END', 'ASC')
+      // 2) sau đó sort theo field yêu cầu (mặc định createAt DESC)
+      .addOrderBy(`p.${safeSortBy}`, order);
+
+    // 3) tie-breaker: luôn ưu tiên mới nhất khi trùng / khi sortBy khác createAt
+    if (safeSortBy !== 'createAt') {
+      qb.addOrderBy('p.createAt', 'DESC');
+    }
+
+    qb.setParameter('cancelled_sort', PRODUCT_STATUS_ENUM.CANCELLED);
 
     const [items, total] = await qb.skip(skip).take(limit).getManyAndCount();
 

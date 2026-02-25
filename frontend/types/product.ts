@@ -6,10 +6,11 @@ export interface Product {
   name: string;
   unit: string;
   quantity: number; // TỒN KHO HIỆN TẠI
-  imageUrl?: string[];
+  description: string;
+  imageUrl?: string | null; 
   status: StockStatus;
-  createdAt: string; // ISO
-  updatedAt: string; // ISO
+  createdAt: string; 
+  updatedAt: string; 
   inventoryDocumentId: string; // MẢNG CÁC PHIẾU NHẬP/XUẤT HÀNG LIÊN QUAN
   categoryId: string; // FK → Category.id
 }
@@ -20,13 +21,12 @@ export interface ProductApi {
   name: string;
   unit: string;
   quantity: number;
-  imageUrl?: string[];
-  status: "in_stock" | "cancelled" | "out_of_stock";
+  description: string;
+  imageUrl?: string | null; 
+  status: "in_stock" | "out_of_stock" | "low_stock" | "cancelled"; // ⚠ backend trả snake_case
   isActive: boolean;
-
-  createAt: string; // ⚠ backend dùng createAt
+  createAt: string;
   updateAt: string;
-
   categoryId: string;
   inventoryDocumentId: string;
 }

@@ -65,4 +65,4 @@ export interface Inventory_Docment_Items {
 
 export type Type = "IN" | "OUT";
 
-export type StockStatus = "IN_STOCK" | "LOW_STOCK" | "OUT_OF_STOCK";
+export type StockStatus = "IN_STOCK" | "LOW_STOCK" | "OUT_OF_STOCK" | "CANCELLED";

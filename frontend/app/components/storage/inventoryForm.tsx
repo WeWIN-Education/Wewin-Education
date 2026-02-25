@@ -19,6 +19,7 @@ export type InventoryFormData = {
   unit: string;
   quantity: number;
   description: string;
+  imageUrl: string | null; // ✅ ảnh từ DB
   imageFile: File | null;
 };
 
@@ -43,6 +44,7 @@ export default function InventoryForm({
     unit: "",
     quantity: 0,
     description: "",
+    imageUrl: null,
     imageFile: null,
     ...initialData,
   });
@@ -51,7 +53,15 @@ export default function InventoryForm({
   /* ===== image preview ===== */
   const previewUrl = formData.imageFile
     ? URL.createObjectURL(formData.imageFile)
-    : undefined;
+    : (formData.imageUrl ?? undefined);
+
+  useEffect(() => {
+    return () => {
+      if (formData.imageFile && previewUrl?.startsWith("blob:")) {
+        URL.revokeObjectURL(previewUrl);
+      }
+    };
+  }, [previewUrl, formData.imageFile]);
 
   useEffect(() => {
     return () => {
@@ -94,7 +104,7 @@ export default function InventoryForm({
     e:
       | React.ChangeEvent<HTMLInputElement>
       | React.ChangeEvent<HTMLTextAreaElement>
-      | React.ChangeEvent<HTMLSelectElement>
+      | React.ChangeEvent<HTMLSelectElement>,
   ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
@@ -126,9 +136,9 @@ export default function InventoryForm({
           </div>
         )
       }
-        >
+    >
       {/* ===== CODE ===== */}
-      <FormField label="Ma vat dung" required>
+      <FormField label="Mã vật dụng" required>
         <TextInput
           name="code"
           value={formData.code}
@@ -195,12 +205,14 @@ export default function InventoryForm({
         <ImageInput
           value={previewUrl}
           onChange={(file) =>
-            setFormData((prev) => ({ ...prev, imageFile: file }))
+            setFormData((prev) => ({
+              ...prev,
+              imageFile: file,
+              imageUrl: file ? null : prev.imageUrl, // ✅ chọn ảnh mới thì bỏ ảnh DB
+            }))
           }
         />
       </FormField>
     </BaseEntityFormModal>
   );
 }
-
-

@@ -9,8 +9,8 @@ import {
   ParseEnumPipe,
   UseGuards,
   Req,
-  Patch,
   Delete,
+  Put,
 } from '@nestjs/common';
 import { RequestService } from './request.service';
 import { CreateOrderDto } from './dto/create-order.dto';
@@ -60,7 +60,7 @@ export class RequestController {
   }
 
   @UseGuards(JwtAuthGuard)
-  @Patch(':id')
+  @Put(':id')
   update(@Param('id') id: string, @Body() updateOrderDto: UpdateOrderDto) {
     return this.orderService.update(id, updateOrderDto);
   }

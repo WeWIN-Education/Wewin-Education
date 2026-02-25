@@ -17,34 +17,33 @@ import { User } from '../user/user.entity';
 @Entity('inventory_request')
 export class InventoryRequest extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
-  id: string;
+  id!: string;
 
   @Column({ type: 'text', nullable: false })
-  code: string;
+  code!: string;
 
   @Column({ type: 'text', nullable: false })
-  name: string;
+  name!: string;
 
   @Column({ type: 'text', nullable: true })
-  note: string;
+  note!: string;
 
   @Column({ name: 'image_url', type: 'simple-array', nullable: true })
-  imageUrl: string[] | null;
+  imageUrl!: string[] | null;
 
   @Column({ type: 'enum', enum: PURCHASE_ORDERS_STATUS_ENUM, nullable: true })
-  status: PURCHASE_ORDERS_STATUS_ENUM;
+  status!: PURCHASE_ORDERS_STATUS_ENUM;
 
   @Column({ type: 'enum', enum: PURCHASE_ORDERS_TYPE_ENUM, nullable: true })
-  type: PURCHASE_ORDERS_TYPE_ENUM;
+  type!: PURCHASE_ORDERS_TYPE_ENUM;
 
   @ManyToOne(() => User)
   @JoinColumn({ name: 'create_by' })
-  createBy: User;
-
+  createBy!: User;
   @OneToMany(
     () => InventoryRequestItem,
     (inventoryRequestItem) => inventoryRequestItem.inventoryRequest,
     { cascade: true, orphanedRowAction: 'delete' },
   )
-  items: InventoryRequestItem[];
+  items!: InventoryRequestItem[];
 }

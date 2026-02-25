@@ -45,11 +45,11 @@ export default function Sidebar() {
   const canViewClass = hasPermission(PERMISSIONS.CLASS_VIEW_LIST);
   const canViewStudent = hasPermission(PERMISSIONS.STUDENT_VIEW);
   const canViewStorageList = hasPermission(PERMISSIONS.STORAGE_VIEW_LIST);
+  const canViewStorageCategoryList = hasPermission(PERMISSIONS.STORAGE_CATEGORY_VIEW_LIST);
   const canViewStorageApprove = hasPermission(PERMISSIONS.STORAGE_APPROVE_VIEW);
   const canViewStorageHistory = hasPermission(PERMISSIONS.STORAGE_HISTORY_VIEW);
   const canViewStorage =
-    canViewStorageList || canViewStorageApprove || canViewStorageHistory;
-
+    canViewStorageList || canViewStorageCategoryList || canViewStorageApprove || canViewStorageHistory;
   // ✅ Logic xác định active
   const isActive = (paths: string[]) =>
     paths.some((p) => pathname === p || pathname.startsWith(`${p}/`));
@@ -206,6 +206,16 @@ export default function Sidebar() {
                       label="Danh sách"
                       icon={<List className="w-4 h-4" />}
                       active={isActive([Routes.MANAGE_STORAGE_LIST])}
+                    />
+                  </li>
+                )}
+                {canViewStorageCategoryList && (
+                  <li>
+                    <SidebarLink
+                      href={Routes.MANAGE_STORAGE_CATEGORY_LIST}
+                      label="Danh mục"
+                      icon={<FolderOpen className="w-4 h-4" />}
+                      active={isActive([Routes.MANAGE_STORAGE_CATEGORY_LIST])}
                     />
                   </li>
                 )}

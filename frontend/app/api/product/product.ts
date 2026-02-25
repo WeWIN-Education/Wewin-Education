@@ -6,7 +6,6 @@ import {
 import { Product } from "@/types/product";
 import { mapProductApiToDomain } from "@/app/mappers/product.mapper";
 
-
 interface StorageState {
   products: Product[];
   pagination: {
@@ -57,7 +56,7 @@ export const useStorageStore = create<StorageState>((set, get) => ({
     };
 
     try {
-      const data = await storageService.searchProducts(finalQuery);
+      const data = await storageService.searchProducts(finalQuery, true);
 
       set({
         products: data.items.map(mapProductApiToDomain),

@@ -22,7 +22,7 @@ export default function SelectInput({
                  focus:ring-2 focus:ring-[#0E4BA9] outline-none"
     >
       <option value="" disabled>
-        Select option
+        Chọn danh mục
       </option>
       {options.map((o) => (
         <option key={o.value} value={o.value}>

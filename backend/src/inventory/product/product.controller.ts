@@ -3,10 +3,10 @@ import {
   Controller,
   Get,
   Post,
-  Patch,
   Param,
   Query,
   UseGuards,
+  Put,
 } from '@nestjs/common';
 import { ProductService } from './product.service';
 import { ProductQueryDto } from './dto/product-query.dto';
@@ -32,17 +32,17 @@ export class ProductController {
     return this.productService.addProduct(body);
   }
 
-  @Patch(':id')
+  @Put(':id')
   updateProduct(@Param('id') id: string, @Body() body: UpdateProductDto) {
     return this.productService.updateProduct(id, body);
   }
 
-  @Patch(':id/cancel')
+  @Put(':id/cancel')
   cancelProduct(@Param('id') id: string) {
     return this.productService.cancelProduct(id);
   }
 
-  @Patch(':id/activate')
+  @Put(':id/activate')
   activateProduct(@Param('id') id: string) {
     return this.productService.activateProduct(id);
   }

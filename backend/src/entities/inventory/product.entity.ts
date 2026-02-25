@@ -15,34 +15,37 @@ import { InventoryMovementItem } from './inventory-movement-items.entity';
 @Entity()
 export class Product extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
-  id: string;
+  id!: string;
 
   @Column({ type: 'text', nullable: false })
-  code: string;
+  code!: string;
 
   @Column({ type: 'text', nullable: false })
-  name: string;
+  name!: string;
 
   @Column({ type: 'text', nullable: true })
-  unit: string;
+  unit!: string;
 
   @Column({ type: 'int', nullable: true })
-  quantity: number;
+  quantity!: number;
 
-  @Column({ type: 'simple-array', nullable: true, name: 'image_url' })
-  imageUrl: string[] | null;
+  @Column({ type: 'text', nullable: true })
+  description!: string;
+
+  @Column({ type: 'text', nullable: true, name: 'image_url' })
+  imageUrl?: string | null;
 
   @Column({ type: 'enum', enum: PRODUCT_STATUS_ENUM, nullable: true })
-  status: PRODUCT_STATUS_ENUM;
+  status!: PRODUCT_STATUS_ENUM;
 
   @Column({ name: 'category_id', type: 'uuid', nullable: false })
-  categoryId: string;
+  categoryId!: string;
 
   @ManyToOne(() => ProductCategory, (category) => category.products, {
     onDelete: 'RESTRICT',
   })
   @JoinColumn({ name: 'category_id' })
-  category: ProductCategory;
+  category!: ProductCategory;
 
   @OneToMany(
     () => InventoryMovementItem,
@@ -52,7 +55,7 @@ export class Product extends BaseEntity {
       onDelete: 'CASCADE',
     },
   )
-  inventoryMovementItem: InventoryMovementItem[];
+  inventoryMovementItem!: InventoryMovementItem[];
 
   @OneToMany(
     () => InventoryRequestItem,
@@ -61,5 +64,5 @@ export class Product extends BaseEntity {
       cascade: true,
     },
   )
-  items: InventoryRequestItem[];
+  items!: InventoryRequestItem[];
 }

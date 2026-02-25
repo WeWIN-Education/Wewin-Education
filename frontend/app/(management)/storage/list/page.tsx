@@ -12,13 +12,16 @@ import ConfirmPopup from "@/app/components/confirmPopup";
 import Notification from "@/app/components/notification";
 import { useRouter } from "next/navigation";
 import { Routes } from "@/lib/constants/routes";
-import { getStockStatus } from "@/app/utils/stockStatus";
+import {
+  getMobileStatus,
+  getStockStatus,
+  TableRow,
+} from "@/app/utils/stockStatus";
 import { Pagination, RowsPerPage } from "@/app/components/pagination";
-import { Product } from "@/types/product";
+import { Product, ProductApi } from "@/types/product";
 import { storageService } from "@/services/product.service";
 import { categoryService } from "@/services/product-category-service";
-
-type TableRow = Product & { categoryName: string; minQuantity: number };
+import { mapProductApiToProduct } from "@/app/utils/product";
 
 const TABLE_COLUMNS: string[] = [
   "Mã",
@@ -28,18 +31,6 @@ const TABLE_COLUMNS: string[] = [
   "Đơn vị",
   "Trạng thái",
 ];
-
-function getMobileStatus(row: TableRow) {
-  if (row.quantity === 0) {
-    return { label: "Hết hàng", color: "text-red-600" };
-  }
-
-  if (row.quantity <= row.minQuantity) {
-    return { label: "Sắp hết", color: "text-yellow-600" };
-  }
-
-  return { label: "Còn hàng", color: "text-green-600" };
-}
 
 export default function StoragePage() {
   const router = useRouter();
@@ -52,6 +43,7 @@ export default function StoragePage() {
   const [disableTarget, setDisableTarget] = useState<{
     id: string;
     name: string;
+    status: TableRow["status"];
   } | null>(null);
 
   const [hoverPreview, setHoverPreview] = useState<{
@@ -59,7 +51,7 @@ export default function StoragePage() {
     x: number;
     y: number;
     name: string;
-    imageUrl?: string[];
+    imageUrl?: string | null;
   }>({
     visible: false,
     x: 0,
@@ -70,7 +62,7 @@ export default function StoragePage() {
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState<RowsPerPage>(10);
-  const [, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [rows, setRows] = useState<TableRow[]>([]);
   const [total, setTotal] = useState(0);
   const [reloadKey, setReloadKey] = useState(0);
@@ -87,10 +79,13 @@ export default function StoragePage() {
   const categoryMapRef = useRef<Record<string, string>>({});
   const totalItems = rows.length;
   const totalQuantity = rows.reduce((s, i) => s + i.quantity, 0);
+
+  const MIN_THRESHOLD = 20;
   const lowStock = rows.filter(
-    (i) => i.quantity > 0 && i.quantity <= i.minQuantity,
+    (i) => (i.minQuantity ?? 0) > 0 && (i.minQuantity ?? 0) < MIN_THRESHOLD,
   ).length;
-  const outOfStock = rows.filter((i) => i.quantity === 0).length;
+
+  const outOfStock = rows.filter((i) => (i.minQuantity ?? 0) === 0).length;
 
   const totalPages =
     limit === "all" ? 1 : Math.max(1, Math.ceil(total / limit));
@@ -146,17 +141,26 @@ export default function StoragePage() {
     try {
       setLoading(true);
 
+      // let imageUrl = data.imageUrl ?? null;
+
+      // if (data.imageFile) {
+      //   const up = await storageService.uploadImage(data.imageFile);
+      //   imageUrl = up.url;
+      // }
+
       const payload = {
         code,
         name,
         categoryId: data.categoryId,
         unit: data.unit,
         quantity: data.quantity,
-        status: "in_stock",
+        description: data.description.trim(),
+        // imageUrl,
       };
 
       if (openForm?.mode === "edit" && data.id) {
         await storageService.updateProduct(data.id, payload);
+        showNotification("Cập nhật vật dụng thành công", "success");
       } else {
         await storageService.createProduct(payload);
         showNotification("Tạo vật dụng thành công", "success");
@@ -179,15 +183,20 @@ export default function StoragePage() {
 
       try {
         const limitValue = limit === "all" ? undefined : Number(limit);
-        const res = await storageService.searchProducts({
-          page,
-          limit: limitValue,
-          q: search || undefined,
-        });
+        const res = await storageService.searchProducts(
+          {
+            page,
+            limit: limitValue,
+            q: search || undefined,
+          },
+          true,
+        );
 
         if (isCancelled) return;
 
-        const products: Product[] = res.items;
+        const products: Product[] = (res.items as ProductApi[]).map(
+          mapProductApiToProduct,
+        );
 
         /* 1️⃣ LẤY DANH SÁCH CATEGORY ID (UNIQUE) */
         const categoryIds = Array.from(
@@ -230,7 +239,7 @@ export default function StoragePage() {
             newCategoryMap[p.categoryId] ??
             categoryMapRef.current[p.categoryId] ??
             "—",
-          minQuantity: 0,
+          minQuantity: (p).quantity ?? 0, // ✅ lấy từ backend/mapProductApiToProduct
         }));
 
         setRows(mappedRows);
@@ -266,9 +275,7 @@ export default function StoragePage() {
         message={notification.message}
         type={notification.type}
         visible={notification.visible}
-        onClose={() =>
-          setNotification((prev) => ({ ...prev, visible: false }))
-        }
+        onClose={() => setNotification((prev) => ({ ...prev, visible: false }))}
       />
       {/* ================= TOOLBAR ================= */}
       <PageToolbar
@@ -294,7 +301,7 @@ export default function StoragePage() {
         data={rows}
         getKey={(row) => row.id}
         renderRow={(row) => {
-          const stock = getStockStatus(row.quantity, row.minQuantity);
+          const stock = getStockStatus(row.status, row.quantity, MIN_THRESHOLD);
           return (
             <>
               <td className="px-6 py-3 text-center font-medium">{row.code}</td>
@@ -344,11 +351,11 @@ export default function StoragePage() {
               <div className="mt-2 grid grid-cols-2 gap-2 text-sm">
                 <div>
                   <span className="text-gray-500">Tồn kho</span>
-                  <p className="font-semibold">{row.quantity}</p>
+                  <p className="font-semibold text-gray-700">{row.quantity}</p>
                 </div>
                 <div>
                   <span className="text-gray-500">Đơn vị</span>
-                  <p className="font-semibold">{row.unit}</p>
+                  <p className="font-semibold text-gray-700">{row.unit}</p>
                 </div>
               </div>
             </>
@@ -365,6 +372,7 @@ export default function StoragePage() {
                 categoryId: row.categoryId,
                 unit: row.unit,
                 quantity: row.quantity,
+                imageUrl: row.imageUrl ?? null,
               },
             });
           },
@@ -375,6 +383,7 @@ export default function StoragePage() {
             setDisableTarget({
               id: row.id,
               name: row.name,
+              status: row.status,
             }),
         }}
       />
@@ -396,7 +405,7 @@ export default function StoragePage() {
         <InventoryForm
           mode={openForm.mode}
           initialData={openForm.data}
-          onCancel={() => setOpenForm(null)} // ✅ KHÔNG ĐÓNG NGAY
+          onCancel={() => setOpenForm(null)}
           onSubmit={handleSubmit}
         />
       )}
@@ -404,16 +413,41 @@ export default function StoragePage() {
       {/* ================= CONFIRM DISABLE ================= */}
       <ConfirmPopup
         visible={!!disableTarget}
-        title="Vô hiệu hoá mặt hàng"
+        title={
+          disableTarget?.status === "CANCELLED"
+            ? "Kích hoạt mặt hàng"
+            : "Vô hiệu hoá mặt hàng"
+        }
         description={
           disableTarget
-            ? `Bạn có muốn vô hiệu hoá mặt hàng "${disableTarget.name}" không?`
+            ? disableTarget.status === "CANCELLED"
+              ? `Bạn có muốn kích hoạt lại mặt hàng "${disableTarget.name}" không?`
+              : `Bạn có muốn vô hiệu hoá mặt hàng "${disableTarget.name}" không?`
             : ""
         }
         onCancel={() => setDisableTarget(null)}
-        onConfirm={() => {
+        onConfirm={async () => {
           if (!disableTarget) return;
-          setDisableTarget(null);
+
+          try {
+            setLoading(true);
+
+            if (disableTarget.status === "CANCELLED") {
+              await storageService.activateProduct(disableTarget.id);
+              showNotification("Kích hoạt mặt hàng thành công", "success");
+            } else {
+              await storageService.disableProduct(disableTarget.id);
+              showNotification("Vô hiệu hoá mặt hàng thành công", "success");
+            }
+
+            setReloadKey((p) => p + 1);
+          } catch (err) {
+            console.error(err);
+            showNotification("Thao tác thất bại", "error");
+          } finally {
+            setLoading(false);
+            setDisableTarget(null);
+          }
         }}
       />
       {/* ================= BEAUTIFUL HOVER PREVIEW ================= */}
@@ -454,7 +488,7 @@ export default function StoragePage() {
               {hoverPreview.imageUrl ? (
                 // eslint-disable-next-line @next/next/no-img-element
                 <img
-                  src={hoverPreview.imageUrl[0]}
+                  src={hoverPreview.imageUrl}
                   alt={hoverPreview.name}
                   className="
                     w-full h-56 object-cover rounded-2xl
@@ -480,5 +514,3 @@ export default function StoragePage() {
     </div>
   );
 }
-
-

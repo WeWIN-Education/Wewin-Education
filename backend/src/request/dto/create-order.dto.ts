@@ -7,7 +7,7 @@ import { CreateOrderItemsDto } from './create-order-items';
 
 export class CreateOrderDto {
   @IsString()
-  name: string;
+  name!: string;
 
   @IsOptional()
   @IsString()
@@ -25,5 +25,5 @@ export class CreateOrderDto {
   type?: PURCHASE_ORDERS_TYPE_ENUM;
 
   @IsOptional()
-  items: CreateOrderItemsDto[];
+  items!: CreateOrderItemsDto[];
 }

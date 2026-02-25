@@ -14,19 +14,19 @@ import { PURCHASE_ORDERS_TYPE_ENUM } from '../../util/enum';
 @Entity('inventory_movement')
 export class InventoryMovement extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
-  id: string;
+  id!: string;
 
   @Column({ type: 'enum', enum: PURCHASE_ORDERS_TYPE_ENUM, nullable: false })
-  type: PURCHASE_ORDERS_TYPE_ENUM;
+  type!: PURCHASE_ORDERS_TYPE_ENUM;
 
   @Column({ type: 'text', nullable: false })
-  note: string;
+  note!: string;
 
   @Column({ name: 'create_by', type: 'uuid', nullable: false })
-  createBy: string;
+  createBy!: string;
 
   @Column({ name: 'inventory_request_id', type: 'uuid', nullable: true })
-  inventoryRequestId: string | null;
+  inventoryRequestId!: string | null;
 
   @ManyToOne(() => InventoryRequest, { nullable: true })
   @JoinColumn({ name: 'inventory_request_id' })
@@ -37,5 +37,5 @@ export class InventoryMovement extends BaseEntity {
     (inventoryMovementItem) => inventoryMovementItem.inventoryMovement,
     { cascade: true },
   )
-  items: InventoryMovementItem[];
+  items!: InventoryMovementItem[];
 }

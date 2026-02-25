@@ -5,11 +5,11 @@ import { BaseEntity } from '../base.entity';
 @Entity()
 export class Permission extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
-  id: string;
+  id!: string;
 
   @Column({ unique: true })
-  name: string;
+  name!: string;
 
   @ManyToMany(() => Role, (role) => role.permissions)
-  roles: Role[];
+  roles!: Role[];
 }

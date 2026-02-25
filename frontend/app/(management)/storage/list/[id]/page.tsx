@@ -129,7 +129,9 @@ export default function ProductDetailPage() {
     notFound();
   }
 
-  const stock = product ? getStockStatus(product.quantity, minQuantity) : null;
+  const stock = product
+    ? getStockStatus(product.status, product.quantity, minQuantity)
+    : null;
 
   return (
     <div className="space-y-6 px-8 py-8">
@@ -342,14 +344,56 @@ export default function ProductDetailPage() {
           initialData={{
             id: product.id,
             name: product.name,
+            code: product.code,
             categoryId: product.categoryId ?? "",
             unit: product.unit,
             quantity: product.quantity,
+            description: product.description ?? "",
           }}
           onCancel={() => setOpenEditForm(false)}
-          onSubmit={(data) => {
-            console.log("UPDATE PRODUCT FROM DETAIL:", data);
-            setOpenEditForm(false);
+          onSubmit={async (data) => {
+            try {
+              // ✅ 1) đóng form trước
+              setOpenEditForm(false);
+
+              // ✅ 2) bật loading để skeleton chạy
+              setLoading(true);
+
+              const payload = {
+                name: data.name.trim(),
+                code: data.code.trim(),
+                categoryId: data.categoryId,
+                unit: data.unit,
+                quantity: data.quantity,
+                description: data.description.trim(),
+              };
+
+              // ✅ 3) update
+              await storageService.updateProduct(product.id, payload);
+
+              // ✅ 4) load lại data trang (refetch)
+              const productRes = await storageService.getProductById(
+                product.id,
+              );
+              const productData = productRes.data.data;
+              setProduct(productData);
+
+              if (productData.categoryId) {
+                const categoryRes = await categoryService.getCategoryById(
+                  productData.categoryId,
+                );
+                setCategory(categoryRes);
+              } else {
+                setCategory(null);
+              }
+            } catch (err) {
+              console.error("Update product error:", err);
+
+              // nếu update fail thì mở lại form cho user chỉnh tiếp (optional)
+              setOpenEditForm(true);
+            } finally {
+              setLoading(false);
+            }
           }}
         />
       )}

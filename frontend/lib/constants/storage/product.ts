@@ -12,9 +12,9 @@ export const MOCK_PRODUCTS: Product[] = [
     name: "Bút lông bảng",
     unit: "Cây",
     quantity: 120,
-    imageUrl: [
+    description: "Bút lông bảng dùng để viết trên bảng trắng, có nhiều màu sắc.",
+    imageUrl:
       "https://images.unsplash.com/photo-1587825140708-dfaf72ae4b04?q=80&w=800&auto=format&fit=crop",
-    ],
     status: "IN_STOCK",
     createdAt: "2025-01-01T08:00:00.000Z",
     updatedAt: "2025-01-05T10:30:00.000Z",

@@ -25,7 +25,11 @@ export class UpdateProductDto {
   quantity?: number;
 
   @IsOptional()
-  imageUrl?: string[];
+  @IsString()
+  description?: string;
+
+  @IsOptional()
+  imageUrl?: string;
 
   @IsOptional()
   @IsEnum(PRODUCT_STATUS_ENUM)
