@@ -14,26 +14,26 @@ import { InventoryMovement } from './inventory-movement.entity';
 @Unique(['inventoryMovementId', 'productId'])
 export class InventoryMovementItem extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
-  id: string;
+  id!: string;
 
   @Column({ name: 'inventory_movement_id', type: 'uuid' })
-  inventoryMovementId: string;
+  inventoryMovementId!: string;
 
   @ManyToOne(() => InventoryMovement, (movement) => movement.items, {
     onDelete: 'CASCADE',
   })
   @JoinColumn({ name: 'inventory_movement_id' })
-  inventoryMovement: InventoryMovement;
+  inventoryMovement!: InventoryMovement;
 
   @Column({ name: 'product_id', type: 'uuid' })
-  productId: string;
+  productId!: string;
 
   @ManyToOne(() => Product, { onDelete: 'RESTRICT' })
   @JoinColumn({ name: 'product_id' })
-  product: Product;
+  product!: Product;
 
   @Column({ type: 'int' })
-  quantity: number;
+  quantity!: number;
 
   @Column({ type: 'text', nullable: true })
   note?: string;

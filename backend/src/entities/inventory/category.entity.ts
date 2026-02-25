@@ -5,11 +5,11 @@ import { Product } from './product.entity';
 @Entity('product_categories')
 export class ProductCategory extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
-  id: string;
+  id!: string;
 
   @Column({ type: 'text', nullable: false })
-  name: string;
+  name!: string;
 
   @OneToMany(() => Product, (product) => product.category)
-  products: Product[];
+  products!: Product[];
 }

@@ -2,9 +2,10 @@ import { ArrowLeft } from "lucide-react";
 
 interface BackButtonProps {
   onClick: () => void;
+  label?: string; // thêm prop này
 }
 
-export function BackButton({ onClick }: BackButtonProps) {
+export function BackButton({ onClick, label }: BackButtonProps) {
   return (
     <button
       onClick={onClick}
@@ -15,8 +16,8 @@ export function BackButton({ onClick }: BackButtonProps) {
       "
     >
       <ArrowLeft className="w-5 h-5" />
-      <span className="font-medium text-sm sm:text-base cursor-pointer">
-        Back to Classes
+      <span className="font-medium text-xs sm:text-lg cursor-pointer">
+        {label}
       </span>
     </button>
   );

@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
 import { BookOpen, PanelLeftClose, PanelLeftOpen, X } from "lucide-react";
-import { getProjectsFromMoverBook } from "@/app/constants/moverBookConfig";
+import { getProjectsFromMoverBook } from "@/lib/constants/moverBookConfig";
 
 type MoverUnitsSidebarProps = {
   isOpen?: boolean;

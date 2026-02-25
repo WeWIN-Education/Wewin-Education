@@ -5,7 +5,7 @@ import { useParams, useRouter } from "next/navigation";
 import { Menu } from "lucide-react";
 import { UnitGameScreen } from "@/app/components/games/UnitGameScreen";
 import { FlyerUnitsSidebar } from "@/app/components/games/FlyerUnitsSidebar";
-import { getFlyerUnitBySlug, getProjectsFromFlyerBook, getFlyerUnitIndex } from "@/app/constants/flyerBookConfig";
+import { getFlyerUnitBySlug, getProjectsFromFlyerBook, getFlyerUnitIndex } from "@/lib/constants/flyerBookConfig";
 
 // Helper: lấy ID từ localStorage (chỉ dùng trong cùng 1 phiên tab)
 function getSavedPlayerId(): string {
@@ -128,7 +128,7 @@ export default function FlyerGamePage() {
   // Không cần check playerId === null nữa vì đã load ngay từ đầu
 
   return (
-    <div className="min-h-screen md:flex md:items-stretch bg-gradient-to-b from-blue-50 via-blue-50 to-blue-100 bg-fixed">
+    <div className="min-h-screen md:flex md:items-stretch bg-linear-to-b from-blue-50 via-blue-50 to-blue-100 bg-fixed">
       {/* Hamburger button cho mobile */}
       <button
         onClick={() => setSidebarOpen(true)}

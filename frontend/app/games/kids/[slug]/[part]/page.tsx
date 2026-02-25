@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { UnitGameScreen } from "@/app/components/games/UnitGameScreen";
 import { KidsUnitsSidebar } from "@/app/components/games/KidsUnitsSidebar";
-import { getUnitBySlug, getProjectsFromBook, getUnitIndex } from "@/app/constants/bookConfig";
+import { getUnitBySlug, getProjectsFromBook, getUnitIndex } from "@/lib/constants/bookConfig";
 import { Menu } from "lucide-react";
 
 function getSavedPlayerId(): string {

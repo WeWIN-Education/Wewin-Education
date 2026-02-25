@@ -1,14 +1,14 @@
 "use client";
 import OverviewBlock from "./OverviewBlock";
 import ProjectBlock from "./projectBlock";
-import { getClassDetail } from "../../constants/classDetails";
+import { getClassDetail } from "../../../lib/constants/classDetails";
 import {
   mockBooks,
   mockProjects,
   mockLearningNodes,
   mockLessonContents,
-} from "../../constants/mockData";
-import { ClassId } from "@/app/constants/types";
+} from "../../../lib/constants/mockData";
+import { ClassId } from "@/lib/constants/types";
 
 const CLASS_TO_BOOK: Record<ClassId, string> = {
   KIDS: "book_kids",

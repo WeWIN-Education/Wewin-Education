@@ -4,8 +4,8 @@ import { useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { Users, GraduationCap, UserCheck } from "lucide-react";
 
-import { initialData } from "@/app/constants/class";
-import { Routes } from "@/app/constants/routes";
+import { initialData } from "@/lib/constants/class";
+import { Routes } from "@/lib/constants/routes";
 import { Pagination } from "@/app/components/pagination";
 import { calculateAge } from "@/app/utils/date";
 import { ClassUI } from "@/app/components/class/classDetail";
@@ -67,7 +67,7 @@ export default function ClassDetailPage() {
     <div className="min-h-screen bg-linear-to-br from-blue-50 to-indigo-50 p-6 font-[Lexend]">
       <div className="max-w-8xl mx-auto">
         {/* 🔹 Back */}
-        <ClassUI.BackButton onClick={() => router.push(Routes.MANAGE_CLASS)} />
+        <ClassUI.BackButton onClick={() => router.push(Routes.MANAGE_CLASS)}  label="Back to Classes"/>
 
         {/* 🔹 Header + Stats */}
         <div className="bg-white rounded-2xl shadow-xl overflow-hidden mb-8">
@@ -179,7 +179,7 @@ export default function ClassDetailPage() {
           </div>
 
           {/* Pagination */}
-          <Pagination
+          {/* <Pagination
             text="Students"
             currentPage={currentPage}
             totalPages={totalPages}
@@ -190,12 +190,12 @@ export default function ClassDetailPage() {
             onPrev={handlePrev}
             onNext={handleNext}
             onRowsChange={handleRowsChange}
-          />
+          /> */}
 
           {/* Resources */}
-          {classData.resources?.length! > 0 && (
+          {/* {classData.resources?.length! > 0 && (
             <ClassUI.LearningResources resources={classData.resources} />
-          )}
+          )} */}
         </div>
       </div>
     </div>

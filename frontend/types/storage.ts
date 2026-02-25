@@ -1,0 +1,68 @@
+import { Product } from "./product";
+import { User } from "./user";
+
+export interface Category {
+  id: string;
+  name: string;
+  isActive: boolean;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface Purchase_Orders {
+  id: string;
+  code: string;
+  name: string;
+  note?: string;
+  imageUrl?: string[];
+  status: ApprovalStatus;
+  type: Type;
+  createdBy: User; // FK → User.id
+  createdAt: string; // ISO
+  updatedAt: string; // ISO
+}
+
+export type ApprovalStatus =
+  | "DRAFT"
+  | "REQUESTED"
+  | "APPROVED"
+  | "ORDER_REQUEST"
+  | "ORDER_APPROVED"
+  | "CANCELLED"
+  | "SUCCESS";
+
+export interface Purchase_Order_Items {
+  productId: string;
+  orderId: string;
+  quantityRequest: number;
+  unitPriceRequest: number;
+  vatPriceRequest: number;
+  totalPriceRequest: number;
+  noteRequest?: string;
+  quantityOrdered?: number;
+  unitPriceOrdered?: number;
+  vatPriceOrdered?: number;
+  totalPriceOrdered?: number;
+  noteOrdered?: string;
+}
+
+export interface Inventory_Docment {
+  id: string;
+  note?: string;
+  createdAt: string; // ISO
+  updatedAt: string; // ISO
+  createdBy: User; // FK → User.id
+}
+
+export interface Inventory_Docment_Items {
+  id: string;
+  quantity: number;
+  createdAt: string;
+  updatedAt: string;
+  productId: Product; // giữ nguyên
+  inventoryDocumentId: string; // ✅ NEW – FK tới Inventory_Docment.id
+}
+
+export type Type = "IN" | "OUT";
+
+export type StockStatus = "IN_STOCK" | "LOW_STOCK" | "OUT_OF_STOCK" | "CANCELLED";

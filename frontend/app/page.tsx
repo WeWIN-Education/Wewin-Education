@@ -7,6 +7,7 @@ import { Pagination, Autoplay } from "swiper/modules";
 import Image from "next/image";
 import { BookOpen, LineChart, Headphones } from "lucide-react";
 
+
 const slides = [
   {
     title: "Lộ trình học thông minh",
@@ -124,7 +125,7 @@ export default function HomePage() {
           >
             {slides.map((slide) => (
               <SwiperSlide key={slide.title}>
-                <div className="relative w-full h-[360px] md:h-[420px]">
+                <div className="relative w-full h-90 md:h-105">
                   <Image
                     src={slide.image}
                     alt={slide.title}

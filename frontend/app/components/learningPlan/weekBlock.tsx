@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import ContentBlock from "./contentBlock";
-import { LearningNode, LessonBlock } from "../../constants/types";
+import { LearningNode, LessonBlock } from "../../../lib/constants/types";
 
 export default function WeekBlock({
   node,

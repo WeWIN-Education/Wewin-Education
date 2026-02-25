@@ -2,39 +2,64 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import {
   ChevronDown,
   GraduationCap,
-  BookOpen,
   FolderOpen,
   Users,
   PanelLeftClose,
   PanelLeftOpen,
+  Warehouse,
+  School,
+  List,
+  ListChecks,
+  History,
 } from "lucide-react";
-import { Routes } from "@/app/constants/routes";
+import { Routes } from "@/lib/constants/routes";
+import { useAuthStore } from "@/stores/auth.store";
+import { PERMISSIONS } from "@/lib/constants/permission";
 
 export default function Sidebar() {
   const pathname = usePathname();
-  const [openMenu, setOpenMenu] = useState(true);
-  const [collapsed, setCollapsed] = useState(false);
+  const hasPermission = useAuthStore((s) => s.hasPermission);
 
+  /* ===== DERIVED STATE (QUAN TRỌNG) ===== */
+  const isClassRoute =
+    pathname === Routes.MANAGE_CLASS ||
+    pathname.startsWith(`${Routes.MANAGE_CLASS}/`);
+
+  /* ===== UI STATE ===== */
+  const [manualOpen, setManualOpen] = useState(true);
+  const [collapsed, setCollapsed] = useState(false);
+  const openMenu = isClassRoute || manualOpen;
+
+  const isStorageRoute =
+    pathname === Routes.MANAGE_STORAGE ||
+    pathname.startsWith(`${Routes.MANAGE_STORAGE}/`);
+
+  const [storageOpen, setStorageOpen] = useState(true);
+
+  const openStorageMenu = isStorageRoute || storageOpen;
+
+  const canViewClass = hasPermission(PERMISSIONS.CLASS_VIEW_LIST);
+  const canViewStudent = hasPermission(PERMISSIONS.STUDENT_VIEW);
+  const canViewStorageList = hasPermission(PERMISSIONS.STORAGE_VIEW_LIST);
+  const canViewStorageCategoryList = hasPermission(PERMISSIONS.STORAGE_CATEGORY_VIEW_LIST);
+  const canViewStorageApprove = hasPermission(PERMISSIONS.STORAGE_APPROVE_VIEW);
+  const canViewStorageHistory = hasPermission(PERMISSIONS.STORAGE_HISTORY_VIEW);
+  const canViewStorage =
+    canViewStorageList || canViewStorageCategoryList || canViewStorageApprove || canViewStorageHistory;
   // ✅ Logic xác định active
-  const isActive = (href: string) => pathname === href;
+  const isActive = (paths: string[]) =>
+    paths.some((p) => pathname === p || pathname.startsWith(`${p}/`));
   const isGroupActive = (base: string) =>
     pathname === base || pathname.startsWith(`${base}/`);
-
-  // ✅ Mở menu tự động nếu đang ở trang con của /management/class
-  useEffect(() => {
-    if (pathname.startsWith(Routes.MANAGE_CLASS)) {
-      setOpenMenu(true);
-    }
-  }, [pathname]);
 
   return (
     <div
       className={`h-full transition-all duration-300 ease-in-out ${
-        collapsed ? "w-20" : "w-72"
+        collapsed ? "w-20" : "w-70"
       } bg-linear-to-br from-[#0B4BA8] via-[#1565C0] to-[#1976D2]
         text-white shadow-2xl flex flex-col overflow-hidden`}
     >
@@ -46,9 +71,9 @@ export default function Sidebar() {
         {!collapsed && (
           <div>
             <h2 className="text-sm font-semibold text-white/90">
-              Admin Panel
+              Bảng điều khiển
             </h2>
-            <p className="text-xs text-white/60">Management System</p>
+            <p className="text-xs text-white/60">Hệ thống quản lý</p>
           </div>
         )}
       </div>
@@ -56,73 +81,168 @@ export default function Sidebar() {
       {/* 🔹 Menu chính */}
       <nav className="p-3 flex-1 space-y-2 overflow-y-auto">
         {/* Group: Class Management */}
-        <div>
-          <button
-            onClick={() => setOpenMenu(!openMenu)}
-            className={`flex items-center justify-between w-full text-left px-3 py-2.5 rounded-xl 
+        {canViewClass && (
+          <div>
+            <button
+              onClick={() => setManualOpen((v) => !v)}
+              className={`flex items-center justify-between w-full text-left px-3 py-2.5 rounded-xl 
                         transition-all duration-200 group 
-                        ${isGroupActive(Routes.MANAGE_CLASS) ? "bg-white/10" : "hover:bg-white/10"}`}
-          >
-            <span className="flex items-center gap-3">
-              <div
-                className={`w-8 h-8 rounded-lg flex items-center justify-center transition-all ${
-                  isGroupActive(Routes.MANAGE_CLASS)
-                    ? "bg-white/20"
-                    : "bg-white/10 group-hover:bg-white/20"
-                }`}
-              >
-                <BookOpen className="w-4 h-4" />
-              </div>
-              {!collapsed && (
-                <span className="font-semibold text-[15px]">
-                  Class Management
-                </span>
-              )}
-            </span>
+                        ${
+                          isGroupActive(Routes.MANAGE_CLASS)
+                            ? "bg-white/10"
+                            : "hover:bg-white/10"
+                        }`}
+            >
+              <span className="flex items-center gap-3">
+                <div
+                  className={`w-8 h-8 rounded-lg flex items-center justify-center transition-all ${
+                    isGroupActive(Routes.MANAGE_CLASS)
+                      ? "bg-white/20"
+                      : "bg-white/10 group-hover:bg-white/20"
+                  }`}
+                >
+                  <School className="w-4 h-4" />
+                </div>
+                {!collapsed && (
+                  <span className="font-semibold text-[15px]">Lớp học</span>
+                )}
+              </span>
 
-            {!collapsed && (
-              <div
-                className={`w-6 h-6 bg-white/10 rounded-md flex items-center justify-center 
+              {!collapsed && (
+                <div
+                  className={`w-6 h-6 bg-white/10 rounded-md flex items-center justify-center 
                 group-hover:bg-white/20 transition-all ${
                   openMenu ? "rotate-0" : "-rotate-90"
                 }`}
-              >
-                <ChevronDown size={14} className="text-white/80" />
-              </div>
+                >
+                  <ChevronDown size={14} className="text-white/80" />
+                </div>
+              )}
+            </button>
+
+            {/* Submenu */}
+            {!collapsed && openMenu && (
+              <ul className="ml-3 mt-2 space-y-1 border-l-2 border-white/20 pl-4 transition-all duration-300">
+                <li>
+                  <SidebarLink
+                    href={Routes.MANAGE_CLASS}
+                    label="Danh sách"
+                    icon={<List className="w-4 h-4" />}
+                    active={isActive([Routes.MANAGE_CLASS])}
+                  />
+                </li>
+                <li>
+                  <SidebarLink
+                    href={Routes.MANAGE_CLASS_CATEGORY}
+                    label="Phân loại"
+                    icon={<FolderOpen className="w-4 h-4" />}
+                    active={isActive([Routes.MANAGE_CLASS_CATEGORY])}
+                  />
+                </li>
+              </ul>
             )}
-          </button>
-
-          {/* Submenu */}
-          {!collapsed && openMenu && (
-            <ul className="ml-3 mt-2 space-y-1 border-l-2 border-white/20 pl-4 transition-all duration-300">
-              <li>
-                <SidebarLink
-                  href={Routes.MANAGE_CLASS}
-                  label="Class"
-                  icon={<BookOpen className="w-4 h-4" />}
-                  active={isActive(Routes.MANAGE_CLASS)}
-                />
-              </li>
-              <li>
-                <SidebarLink
-                  href={Routes.MANAGE_CLASS_CATEGORY}
-                  label="Category"
-                  icon={<FolderOpen className="w-4 h-4" />}
-                  active={isActive(Routes.MANAGE_CLASS_CATEGORY)}
-                />
-              </li>
-            </ul>
-          )}
-        </div>
-
+          </div>
+        )}
         {/* Student Link */}
-        <SidebarLink
-          href={Routes.MANAGE_STUDENT}
-          label="Student"
-          icon={<Users className="w-4 h-4" />}
-          active={isActive(Routes.MANAGE_STUDENT)}
-          collapsed={collapsed}
-        />
+
+        {canViewStudent && (
+          <SidebarLink
+            href={Routes.MANAGE_STUDENT}
+            label="Học sinh"
+            icon={<Users className="w-4 h-4" />}
+            active={isActive([Routes.MANAGE_STUDENT])}
+            collapsed={collapsed}
+          />
+        )}
+
+        {/* Group: Storage Management */}
+        {canViewStorage && (
+          <div>
+            <button
+              onClick={() => setStorageOpen((v) => !v)}
+              className={`flex items-center justify-between w-full text-left px-3 py-2.5 rounded-xl 
+            transition-all duration-200 group 
+            ${
+              isGroupActive(Routes.MANAGE_STORAGE)
+                ? "bg-white/10"
+                : "hover:bg-white/10"
+            }`}
+            >
+              <span className="flex items-center gap-3">
+                <div
+                  className={`w-8 h-8 rounded-lg flex items-center justify-center transition-all ${
+                    isGroupActive(Routes.MANAGE_STORAGE)
+                      ? "bg-white/20"
+                      : "bg-white/10 group-hover:bg-white/20"
+                  }`}
+                >
+                  <Warehouse className="w-4 h-4" />
+                </div>
+
+                {!collapsed && (
+                  <span className="font-semibold text-[15px]">Kho lưu trữ</span>
+                )}
+              </span>
+
+              {!collapsed && (
+                <div
+                  className={`w-6 h-6 bg-white/10 rounded-md flex items-center justify-center 
+          group-hover:bg-white/20 transition-all ${
+            openStorageMenu ? "rotate-0" : "-rotate-90"
+          }`}
+                >
+                  <ChevronDown size={14} className="text-white/80" />
+                </div>
+              )}
+            </button>
+
+            {/* Submenu Storage */}
+            {!collapsed && openStorageMenu && (
+              <ul className="ml-3 mt-2 space-y-1 border-l-2 border-white/20 pl-4">
+                {canViewStorageList && (
+                  <li>
+                    <SidebarLink
+                      href={Routes.MANAGE_STORAGE_LIST}
+                      label="Danh sách"
+                      icon={<List className="w-4 h-4" />}
+                      active={isActive([Routes.MANAGE_STORAGE_LIST])}
+                    />
+                  </li>
+                )}
+                {canViewStorageCategoryList && (
+                  <li>
+                    <SidebarLink
+                      href={Routes.MANAGE_STORAGE_CATEGORY_LIST}
+                      label="Danh mục"
+                      icon={<FolderOpen className="w-4 h-4" />}
+                      active={isActive([Routes.MANAGE_STORAGE_CATEGORY_LIST])}
+                    />
+                  </li>
+                )}
+                {canViewStorageApprove && (
+                  <li>
+                    <SidebarLink
+                      href={Routes.MANAGE_STORAGE_REQUEST}
+                      label="Chờ duyệt"
+                      icon={<ListChecks className="w-4 h-4" />}
+                      active={isActive([Routes.MANAGE_STORAGE_REQUEST])}
+                    />
+                  </li>
+                )}
+                {canViewStorageHistory && (
+                  <li>
+                    <SidebarLink
+                      href={Routes.MANAGE_STORAGE_HISTORY}
+                      label="Lịch sử"
+                      icon={<History className="w-4 h-4" />}
+                      active={isActive([Routes.MANAGE_STORAGE_HISTORY])}
+                    />
+                  </li>
+                )}
+              </ul>
+            )}
+          </div>
+        )}
       </nav>
 
       {/* 🔹 Nút toggle thu gọn ở cuối sidebar */}

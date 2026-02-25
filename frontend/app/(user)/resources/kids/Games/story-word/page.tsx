@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { UnitGameScreen } from "@/app/components/games/UnitGameScreen";
-import { getUnitBySlug } from "@/app/constants/bookConfig";
+import { getUnitBySlug } from "@/lib/constants/bookConfig";
 
 // Helper function để load playerId từ localStorage (chỉ trong cùng 1 phiên tab)
 function getSavedPlayerId(): string {
@@ -102,7 +102,7 @@ export default function StoryWordsGamePage() {
 
   if (playerId === null) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-pink-50 to-rose-100 text-pink-600 font-semibold">
+      <div className="min-h-screen flex items-center justify-center bg-linear-to-br from-pink-50 to-rose-100 text-pink-600 font-semibold">
         Đang tải dữ liệu...
       </div>
     );

@@ -8,7 +8,7 @@ import {
   getStarterUnitBySlug,
   getProjectsFromStarterBook,
   getStarterUnitIndex,
-} from "@/app/constants/starterBookConfig";
+} from "@/lib/constants/starterBookConfig";
 import { Menu } from "lucide-react";
 
 function getSavedPlayerId(): string {

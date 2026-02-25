@@ -30,7 +30,7 @@ export default function Footer() {
           >
             <motion.div
               whileHover={{ scale: 1.03 }}
-              className="relative w-[200px] h-[70px] rounded-xl overflow-hidden mb-4
+              className="relative w-50 h-17.5 rounded-xl overflow-hidden mb-4
                          shadow-lg backdrop-blur-sm"
             >
               <div className="absolute inset-0 bg-linear-to-br from-[#0185b9] to-[#0E4BA9]" />
@@ -47,7 +47,7 @@ export default function Footer() {
               WeWIN Education
             </h2>
             <p className="text-xs text-blue-100/80 text-center lg:text-left mb-4">
-              Nâng tầm tiếng Anh – Mở rộng tương lai 🌏
+              WEWIN BỨT PHÁ TIẾNG ANH – VƯƠN TẦM THẾ GIỚI 🌏
             </p>
 
             {/* Social Icons */}

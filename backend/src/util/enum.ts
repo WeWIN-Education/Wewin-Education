@@ -20,8 +20,17 @@ enum PURCHASE_ORDERS_TYPE_ENUM {
   OUT = 'out',
 }
 
+enum PURCHASE_ORDERS_ACTION_ENUM {
+  REQUEST = 'request',
+  APPROVE = 'approve',
+  ORDER = 'order',
+  ORDER_APPROVE = 'order-approve',
+  CANCEL = 'cancel',
+}
+
 export {
   PRODUCT_STATUS_ENUM,
   PURCHASE_ORDERS_STATUS_ENUM,
   PURCHASE_ORDERS_TYPE_ENUM,
+  PURCHASE_ORDERS_ACTION_ENUM,
 };

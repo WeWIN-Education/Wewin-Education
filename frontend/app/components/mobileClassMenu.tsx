@@ -3,7 +3,7 @@
 import { useEffect, useRef } from "react";
 import { Eye, Edit, Trash2, MoreVertical, AlertTriangle, Ban } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Class } from "@/app/constants/class";
+import { Class } from "@/lib/constants/class";
 
 interface MobileMenuProps {
   cls: Class;

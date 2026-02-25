@@ -1,5 +1,6 @@
 "use client";
 import { motion } from "framer-motion";
+import { AlertTriangle } from "lucide-react";
 
 interface ConfirmPopupProps {
   visible: boolean;
@@ -13,32 +14,110 @@ export default function ConfirmPopup({
   visible,
   onConfirm,
   onCancel,
-  title = "Bạn có chắc?",
+  title = "Xác nhận hành động",
   description = "Hành động này không thể hoàn tác.",
 }: ConfirmPopupProps) {
   if (!visible) return null;
 
   return (
-    <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-[9999]">
+    <div
+      className="
+        fixed inset-0 z-9999
+        flex items-center justify-center
+        bg-black/50 backdrop-blur-sm
+        px-4
+      "
+      onClick={onCancel}
+    >
       <motion.div
-        initial={{ scale: 0.8, opacity: 0 }}
+        initial={{ scale: 0.92, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
-        className="bg-white rounded-2xl p-7 w-[90%] max-w-sm text-center shadow-xl"
+        transition={{ duration: 0.25, ease: "easeOut" }}
+        onClick={(e) => e.stopPropagation()}
+        className="
+          relative w-full
+          max-w-[92%]
+          sm:max-w-md
+          lg:max-w-lg
+          rounded-3xl
+          bg-white
+          shadow-[0_20px_60px_rgba(0,0,0,0.25)]
+          p-6 sm:p-8 lg:p-9
+          text-center
+        "
       >
-        <h3 className="text-xl font-bold text-[#0E4BA9] mb-2">{title}</h3>
-        <p className="text-gray-600 mb-6">{description}</p>
+        {/* ===== ICON ===== */}
+        <div className="flex justify-center mb-4">
+          <div
+            className="
+              w-14 h-14
+              rounded-full
+              bg-red-100
+              flex items-center justify-center
+            "
+          >
+            <AlertTriangle className="w-7 h-7 text-red-600" />
+          </div>
+        </div>
 
-        <div className="flex items-center justify-center gap-3">
+        {/* ===== TITLE ===== */}
+        <h3
+          className="
+            text-xl sm:text-2xl
+            font-bold
+            text-gray-900
+            mb-2
+          "
+        >
+          {title}
+        </h3>
+
+        {/* ===== DESCRIPTION ===== */}
+        <p
+          className="
+            text-sm sm:text-base
+            text-gray-600
+            mb-6
+          "
+        >
+          {description}
+        </p>
+
+        {/* ===== DIVIDER ===== */}
+        <div className="h-px bg-gray-200 mb-6" />
+
+        {/* ===== ACTIONS ===== */}
+        <div className="flex justify-center gap-3 sm:gap-4">
           <button
+            type="button"
             onClick={onCancel}
-            className="px-5 py-2.5 rounded-xl border border-gray-300 text-gray-600 hover:bg-gray-100 transition"
+            className="
+              px-6 py-3
+              rounded-xl
+              border border-gray-300
+              text-gray-700
+              font-medium
+              hover:bg-gray-100
+              transition
+            "
           >
             Hủy
           </button>
 
           <button
+            type="button"
             onClick={onConfirm}
-            className="px-5 py-2.5 rounded-xl bg-linear-to-r from-red-500 to-red-600 text-white font-semibold shadow hover:opacity-90 transition"
+            className="
+              px-6 py-3
+              rounded-xl
+              bg-linear-to-r from-red-500 to-red-600
+              text-white
+              font-semibold
+              shadow-lg
+              hover:from-red-600 hover:to-red-700
+              hover:shadow-xl
+              transition
+            "
           >
             Xác nhận
           </button>

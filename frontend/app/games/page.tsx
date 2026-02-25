@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import GameCard from "../components/books/GameCard";
-import { Book } from "../constants/types";
+import { Book } from "../../lib/constants/types";
 
 // Danh sách các sách có game - sử dụng routes PUBLIC
 const gameBooks: Book[] = [

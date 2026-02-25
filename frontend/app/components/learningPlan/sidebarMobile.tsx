@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { mockProjects, mockBooks } from "@/app/constants/mockData";
+import { mockProjects, mockBooks } from "@/lib/constants/mockData";
 
 interface SidebarMobileProps {
   classId: string; // gán kiểu string hoặc kiểu union nếu bạn có nhiều classId cụ thể

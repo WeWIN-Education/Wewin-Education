@@ -8,15 +8,7 @@ export default async function ManagementLayout({
   children: React.ReactNode;
 }) {
   const session = await getServerSession(authOptions);
-
-  if (!session) redirect("/login");
-
-  const roles = session.user?.roles ?? [];
-
-  const isAdmin = roles.includes("ADMIN");
-  const isTeacher = roles.includes("TEACHER");
-  if (!isAdmin && !isTeacher) redirect("/");
+  if (!session) redirect("/login  ");
 
   return <>{children}</>;
 }
-

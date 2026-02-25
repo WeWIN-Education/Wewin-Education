@@ -12,20 +12,20 @@ import { BaseEntity } from '../base.entity';
 @Entity()
 export class Role extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
-  id: string;
+  id!: string;
 
   @Column({ unique: true })
-  name: string;
+  name!: string;
 
   @Column({ default: false })
-  isDisabled: boolean;
+  isDisabled!: boolean;
 
   @ManyToMany(() => User, (user) => user.roles)
-  users: User[];
+  users!: User[];
 
   @ManyToMany(() => Permission, (permission) => permission.roles, {
     cascade: true,
   })
   @JoinTable()
-  permissions: Permission[];
+  permissions!: Permission[];
 }

@@ -1,5 +1,5 @@
 "use client";
-import { LessonBlock } from "@/app/constants/types";
+import { LessonBlock } from "@/lib/constants/types";
 
 export default function ContentBlock({ block }: { block: LessonBlock }) {
   const lines = block.content

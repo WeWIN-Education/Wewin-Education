@@ -3,6 +3,7 @@ import { Lexend } from "next/font/google";
 import "./globals.css";
 import Providers from "./components/providers";
 import ProvidersLayout from "./components/ProvidersLayout";
+import AuthHydrator from "./components/auth/authHydrator";
 
 const lexend = Lexend({
   subsets: ["latin"],
@@ -28,10 +29,11 @@ export default function RootLayout({
   return (
     <html lang="en" className="h-full">
       <body
-        className={`${lexend.className} antialiased bg-pink-50 flex flex-col min-h-screen`}
+        className={`${lexend.className} antialiased bg-pink-50 text-gray-900 flex flex-col min-h-screen`}
       >
         {/* ✅ Wrap toàn app trong SessionProvider */}
         <Providers>
+          <AuthHydrator />
           <ProvidersLayout>{children}</ProvidersLayout>
         </Providers>
       </body>

@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
 import { BookOpen, PanelLeftClose, PanelLeftOpen, X } from "lucide-react";
-import { getProjectsFromStarterBook } from "@/app/constants/starterBookConfig";
+import { getProjectsFromStarterBook } from "@/lib/constants/starterBookConfig";
 
 type StarterUnitsSidebarProps = {
   isOpen?: boolean;

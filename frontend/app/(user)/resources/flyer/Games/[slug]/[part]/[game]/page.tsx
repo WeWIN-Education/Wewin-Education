@@ -8,7 +8,7 @@ import {
   getFlyerUnitBySlug,
   getProjectsFromFlyerBook,
   getFlyerUnitIndex,
-} from "@/app/constants/flyerBookConfig";
+} from "@/lib/constants/flyerBookConfig";
 import { Menu } from "lucide-react";
 
 function getSavedPlayerId(): string {

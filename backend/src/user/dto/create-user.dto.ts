@@ -1,4 +1,11 @@
-import { IsEmail, IsOptional, IsString, IsBoolean, IsArray, IsUUID } from "class-validator";
+import {
+  IsEmail,
+  IsOptional,
+  IsString,
+  IsBoolean,
+  IsArray,
+  IsUUID,
+} from 'class-validator';
 
 export class CreateUserDto {
   @IsString()
@@ -9,7 +16,7 @@ export class CreateUserDto {
 
   @IsOptional()
   @IsString()
-  password?: string | null;   // FIX password nullable
+  password?: string | null; // FIX password nullable
 
   @IsOptional()
   @IsString()
@@ -26,10 +33,10 @@ export class CreateUserDto {
 
   @IsOptional()
   @IsBoolean()
-  isActive?: boolean;   // FIX lỗi "isActive does not exist"
+  isActive?: boolean; // FIX lỗi "isActive does not exist"
 
   @IsOptional()
   @IsArray()
-  @IsUUID("all", { each: true })
+  @IsUUID('all', { each: true })
   roleIds?: string[];
 }

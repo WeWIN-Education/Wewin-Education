@@ -1,56 +1,41 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import { useState, useEffect, useRef } from "react";
-import { useSession, signIn } from "next-auth/react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
-import { Routes } from "@/app/constants/routes";
-import Dropdown from "../dropdown";
-import Section from "../section";
 import {
   BookOpen,
   FolderOpen,
   X,
   Sparkles,
   ChevronDown,
-  Palette,
-  Sprout,
-  Star,
-  Rocket,
-  Plane,
-  Music,
-  Video,
   Gamepad2,
   LockKeyhole,
   LibraryBig,
+  Warehouse,
+  School,
+  Users,
+  History,
+  ListChecks,
+  List,
 } from "lucide-react";
-import { handleLogout } from "@/app/api/auth/[...nextauth]/route";
 import { useRouter } from "next/navigation";
+import { Routes } from "@/lib/constants/routes";
+import type { Dispatch, SetStateAction } from "react";
+import { handleLogout } from "@/lib/auth/logout";
+import { useAuthStore } from "@/stores/auth.store";
+import { PERMISSIONS } from "@/lib/constants/permission";
 
 export default function Navbar() {
-  const { data: session } = useSession();
-  const roles = session?.user?.roles ?? [];
-  const isAdmin = roles.includes("Admin");
+  const hasPermission = useAuthStore((s) => s.hasPermission);
+  const user = useAuthStore((s) => s.user);
+
   const [menuOpen, setMenuOpen] = useState(false);
   const [showNavbar, setShowNavbar] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
   const [dropdownOpen, setDropdownOpen] = useState(false);
-
-  const navRef = useRef<HTMLDivElement>(null);
-  const [navHeight, setNavHeight] = useState(72);
-  // Detect Navbar height (dynamically) & update on resize
-  useEffect(() => {
-    const updateHeight = () => {
-      if (navRef.current) {
-        setNavHeight(navRef.current.offsetHeight);
-      }
-    };
-    updateHeight();
-    window.addEventListener("resize", updateHeight);
-    return () => window.removeEventListener("resize", updateHeight);
-  }, [showNavbar]);
+  const NAVBAR_HEIGHT = 80;
 
   // 🔹 Hiệu ứng ẩn/hiện khi cuộn
   useEffect(() => {
@@ -89,154 +74,149 @@ export default function Navbar() {
     },
   ];
 
-  // Menu items cho mobile (chỉ Games)
-  const mobileMenuItems = [
-    {
-      href: Routes.RESOURCES_GAMES,
-      label: "Games",
-      icon: <Gamepad2 className="w-5 h-5 text-amber-300" />,
-    },
-  ];
-
   return (
     <>
-      <AnimatePresence>
-        {showNavbar && (
-          <motion.nav
-            ref={navRef}
-            initial={{ opacity: 0, y: -40 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -40 }}
-            transition={{ duration: 0.4, ease: "easeOut" }}
-            className="fixed top-0 left-0 right-0 z-50 bg-linear-to-r 
-                       from-[#1057C1]/95 via-[#0E4BA9]/95 to-[#1057C1]/95 
-                       backdrop-blur-md shadow-lg border-b border-white/10"
-          >
-            <div
-              className="max-w-8xl mx-auto flex items-center justify-between 
+      <motion.nav
+        initial={false}
+        animate={{
+          y: showNavbar ? 0 : -NAVBAR_HEIGHT,
+          opacity: showNavbar ? 1 : 0,
+          backdropFilter: showNavbar ? "blur(12px)" : "blur(6px)",
+          boxShadow: showNavbar
+            ? "0 10px 30px rgba(0,0,0,0.18)"
+            : "0 4px 10px rgba(0,0,0,0.08)",
+        }}
+        transition={{
+          type: "spring",
+          stiffness: 260,
+          damping: 32,
+          mass: 0.9,
+        }}
+        className="fixed top-0 left-0 right-0 z-50
+                 h-20
+                 bg-linear-to-r 
+                 from-[#1057C1]/95 via-[#0E4BA9]/95 to-[#1057C1]/95
+                 border-b border-white/10"
+      >
+        <div
+          className="max-w-8xl mx-auto flex items-center justify-between 
                             px-4 sm:px-6 md:px-8 lg:px-10 py-3 gap-3"
-            >
-              {/* 🔹 Logo */}
-              <div className="flex items-center gap-2 sm:gap-3 shrink-0">
-                <Logo />
-              </div>
+        >
+          {/* 🔹 Logo */}
+          <div className="flex items-center gap-2 sm:gap-3 shrink-0">
+            <Logo />
+          </div>
 
-              {/* 🔹 Menu chính desktop */}
-              <div className="hidden lg:flex items-center justify-center gap-6 mx-auto">
-                {/* Nút Games cho người chưa đăng nhập */}
-                {!session && !isAdmin && (
-                  <Link href={Routes.RESOURCES_GAMES}>
-                    <motion.button
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
-                      className="flex items-center gap-2 px-6 py-2.5 rounded-xl
+          {/* 🔹 Menu chính desktop */}
+          <div className="hidden lg:flex items-center justify-center gap-6 mx-auto">
+            {/* Nút Games cho người chưa đăng nhập */}
+            {(!user || user === null) && (
+              <Link href={Routes.RESOURCES_GAMES}>
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="flex items-center gap-2 px-6 py-2.5 rounded-xl
                         bg-linear-to-r from-amber-400 via-yellow-400 to-amber-400
                         text-blue-900 font-bold shadow-lg hover:shadow-xl
                         hover:from-amber-300 hover:via-yellow-300 hover:to-amber-300
                         transition-all duration-300 border border-amber-300/50"
-                    >
-                      <Gamepad2 className="w-5 h-5" />
-                      <span>Games</span>
-                    </motion.button>
-                  </Link>
-                )}
+                >
+                  <Gamepad2 className="w-5 h-5" />
+                  <span>Games</span>
+                </motion.button>
+              </Link>
+            )}
 
-                {/* Dropdown Resources cho người đã đăng nhập (không phải admin) */}
-                {session && !isAdmin && (
-                  <div
-                    className="relative"
-                    onMouseEnter={() => setDropdownOpen(true)}
-                    onMouseLeave={() => setDropdownOpen(false)}
-                  >
-                    <motion.button
-                      whileHover={{ scale: 1.02 }}
-                      whileTap={{ scale: 0.98 }}
-                      className="flex items-center gap-2 px-5 py-2.5 rounded-xl
+            {/* Dropdown Resources cho người đã đăng nhập (không phải admin) */}
+            {!!user && (
+              <div
+                className="relative"
+                onMouseEnter={() => setDropdownOpen(true)}
+                onMouseLeave={() => setDropdownOpen(false)}
+              >
+                <motion.button
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  className="flex items-center gap-2 px-5 py-2.5 rounded-xl
                    bg-white/10 hover:bg-white/20 backdrop-blur-md
                    border border-white/20 text-white font-semibold
                    transition-all shadow-lg hover:shadow-xl"
-                    >
-                      <Sparkles className="w-4 h-4" />
-                      <span>Resources</span>
+                >
+                  <Sparkles className="w-4 h-4" />
+                  <span>Tài nguyên</span>
 
-                      <motion.div
-                        animate={{ rotate: dropdownOpen ? 180 : 0 }}
-                        transition={{ duration: 0.2 }}
-                      >
-                        <ChevronDown className="w-4 h-4" />
-                      </motion.div>
-                    </motion.button>
+                  <motion.div
+                    animate={{ rotate: dropdownOpen ? 180 : 0 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    <ChevronDown className="w-4 h-4" />
+                  </motion.div>
+                </motion.button>
 
-                    {/* ⭐ DROPDOWN MENU */}
-                    <AnimatePresence>
-                      {dropdownOpen && (
-                        <motion.div
-                          initial={{ opacity: 0, y: -10, scale: 0.95 }}
-                          animate={{ opacity: 1, y: 0, scale: 1 }}
-                          exit={{ opacity: 0, y: -10, scale: 0.95 }}
-                          transition={{ duration: 0.2 }}
-                          className="absolute top-full left-0 mt-2 w-72 z-20
+                {/* ⭐ DROPDOWN MENU */}
+                <AnimatePresence>
+                  {dropdownOpen && (
+                    <motion.div
+                      initial={{ opacity: 0, y: -10, scale: 0.95 }}
+                      animate={{ opacity: 1, y: 0, scale: 1 }}
+                      exit={{ opacity: 0, y: -10, scale: 0.95 }}
+                      transition={{ duration: 0.2 }}
+                      className="absolute top-full left-0 mt-2 w-72 z-20
                        bg-linear-to-br from-[#1a5fb4] via-[#1c71d8] to-[#3584e4]
                        rounded-2xl shadow-2xl border border-white/20
                        backdrop-blur-xl overflow-hidden"
-                        >
-                          <div className="p-3 space-y-1">
-                            {menuItems.map((item, index) => (
-                              <motion.div
-                                key={item.href}
-                                initial={{ opacity: 0, x: -20 }}
-                                animate={{ opacity: 1, x: 0 }}
-                                transition={{ delay: 0.03 * index }}
-                              >
-                                <Link
-                                  href={item.href}
-                                  onClick={() => setDropdownOpen(false)}
-                                  className="group flex items-center gap-3 px-4 py-3 rounded-xl
+                    >
+                      <div className="p-3 space-y-1">
+                        {menuItems.map((item, index) => (
+                          <motion.div
+                            key={item.href}
+                            initial={{ opacity: 0, x: -20 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            transition={{ delay: 0.03 * index }}
+                          >
+                            <Link
+                              href={item.href}
+                              onClick={() => setDropdownOpen(false)}
+                              className="group flex items-center gap-3 px-4 py-3 rounded-xl
                                bg-white/5 hover:bg-white/15 border border-white/10
                                transition-all duration-200 hover:scale-[1.02]
                                hover:shadow-lg"
-                                >
-                                  <span className="text-xl group-hover:scale-110 transition-transform">
-                                    {item.icon}
-                                  </span>
-                                  <span className="text-white font-medium text-sm flex-1">
-                                    {item.label}
-                                  </span>
-                                </Link>
-                              </motion.div>
-                            ))}
-                          </div>
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
-                  </div>
-                )}
+                            >
+                              <span className="text-xl group-hover:scale-110 transition-transform">
+                                {item.icon}
+                              </span>
+                              <span className="text-white font-medium text-sm flex-1">
+                                {item.label}
+                              </span>
+                            </Link>
+                          </motion.div>
+                        ))}
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </div>
-              {/* 🔹 User / Login */}
-              <div className="flex items-center gap-3 shrink-0">
-                <UserSection
-                  session={session}
-                  isAdmin={isAdmin}
-                  setMenuOpen={setMenuOpen}
-                />
-                <BurgerButton menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
-              </div>
-            </div>
-          </motion.nav>
-        )}
-      </AnimatePresence>
+            )}
+          </div>
+          {/* 🔹 User / Login */}
+          <div className="flex items-center gap-3 shrink-0">
+            <UserSection user={user} />
+            <BurgerButton menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
+          </div>
+        </div>
+      </motion.nav>
+
+      <div className="h-20" aria-hidden />
 
       {/* 🔹 Mobile Menu - Fixed fullscreen overlay */}
       <MobileMenu
         menuOpen={menuOpen}
         setMenuOpen={setMenuOpen}
-        session={session}
-        isAdmin={isAdmin}
-        menuItems={session ? menuItems : mobileMenuItems}
+        hasPermission={hasPermission}
+        user={user}
       />
 
       {/* spacer tránh bị che */}
-      <div style={{ height: `${navHeight}px` }} />
     </>
   );
 }
@@ -265,15 +245,22 @@ function Logo() {
   );
 }
 
-function UserSection({ session, setMenuOpen }: any) {
+type UserSectionProps = {
+  user: {
+    name?: string;
+    email?: string;
+  } | null;
+};
+
+function UserSection({ user }: UserSectionProps) {
   const router = useRouter();
 
-  if (!session)
+  if (!user)
     return (
       <motion.button
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
-        onClick={() => router.push("/login")}
+        onClick={() => router.push(Routes.LOGIN)}
         className="hidden lg:flex items-center gap-2 
                    px-6 py-2.5 rounded-xl font-bold
                    bg-linear-to-r from-amber-400 via-yellow-400 to-amber-400
@@ -299,15 +286,11 @@ function UserSection({ session, setMenuOpen }: any) {
                       flex items-center justify-center text-white font-bold text-sm shadow-lg
                       ring-2 ring-white/30"
         >
-          {session.user?.name?.charAt(0).toUpperCase()}
+          {user?.name?.charAt(0).toUpperCase()}
         </div>
         <div className="flex flex-col">
-          <span className="font-bold text-sm leading-tight">
-            {session.user?.name}
-          </span>
-          <span className="text-xs text-blue-100/70">
-            {session.user?.email}
-          </span>
+          <span className="font-bold text-sm leading-tight">{user?.name}</span>
+          <span className="text-xs text-blue-100/70">{user?.email}</span>
         </div>
       </motion.div>
 
@@ -326,7 +309,12 @@ function UserSection({ session, setMenuOpen }: any) {
   );
 }
 
-function BurgerButton({ menuOpen, setMenuOpen }: any) {
+type BurgerButtonProps = {
+  menuOpen: boolean;
+  setMenuOpen: Dispatch<SetStateAction<boolean>>;
+};
+
+function BurgerButton({ menuOpen, setMenuOpen }: BurgerButtonProps) {
   return (
     <motion.button
       whileTap={{ scale: 0.92 }}
@@ -342,30 +330,49 @@ function BurgerButton({ menuOpen, setMenuOpen }: any) {
       <motion.span
         animate={menuOpen ? { rotate: 45, y: 0 } : { rotate: 0, y: -6 }}
         transition={{ duration: 0.25 }}
-        className="absolute w-6 h-[3px] rounded-full bg-white"
+        className="absolute w-6 h-0.75 rounded-full bg-white"
       />
       <motion.span
         animate={menuOpen ? { opacity: 0 } : { opacity: 1 }}
         transition={{ duration: 0.15 }}
-        className="absolute w-6 h-[3px] rounded-full bg-white"
+        className="absolute w-6 h-0.75 rounded-full bg-white"
       />
       <motion.span
         animate={menuOpen ? { rotate: -45, y: 0 } : { rotate: 0, y: 6 }}
         transition={{ duration: 0.25 }}
-        className="absolute w-6 h-[3px] rounded-full bg-white"
+        className="absolute w-6 h-0.75 rounded-full bg-white"
       />
     </motion.button>
   );
 }
 
+type MobileMenuProps = {
+  menuOpen: boolean;
+  setMenuOpen: Dispatch<SetStateAction<boolean>>;
+  hasPermission: (permission: string) => boolean;
+  user: {
+    name?: string;
+    email?: string;
+  } | null;
+};
+
 function MobileMenu({
   menuOpen,
   setMenuOpen,
-  session,
-  isAdmin,
-  menuItems,
-}: any) {
+  hasPermission,
+  user,
+}: MobileMenuProps) {
   if (!menuOpen) return null;
+
+  const canViewClassList = hasPermission(PERMISSIONS.CLASS_VIEW_LIST);
+  const canViewClassCategory = hasPermission(PERMISSIONS.CLASS_CATEGORY_VIEW);
+  const canViewStudent = hasPermission(PERMISSIONS.STUDENT_VIEW);
+  const canViewStorageList = hasPermission(PERMISSIONS.STORAGE_VIEW_LIST);
+  const canViewStorageApprove = hasPermission(PERMISSIONS.STORAGE_APPROVE_VIEW);
+  const canViewStorageHistory = hasPermission(PERMISSIONS.STORAGE_HISTORY_VIEW);
+  const canViewClass = canViewClassList || canViewClassCategory;
+  const canViewStorage =
+    canViewStorageList || canViewStorageApprove || canViewStorageHistory;
 
   return (
     <AnimatePresence>
@@ -384,9 +391,17 @@ function MobileMenu({
           exit={{ x: "100%" }}
           transition={{ type: "spring", damping: 25, stiffness: 200 }}
           onClick={(e) => e.stopPropagation()}
-          className="absolute right-0 top-0 bottom-0 w-[320px]
-                     bg-linear-to-br from-[#1a5fb4] via-[#1c71d8] to-[#3584e4]
-                     shadow-2xl overflow-y-auto"
+          className="
+            absolute right-0 top-0
+            w-[320px]
+            h-dvh
+            max-h-screen
+            bg-linear-to-br from-[#1a5fb4] via-[#1c71d8] to-[#3584e4]
+            shadow-2xl
+            overflow-y-auto
+            overscroll-contain
+            touch-pan-y
+          "
         >
           {/* Header với Close Button */}
           <div
@@ -421,7 +436,7 @@ function MobileMenu({
 
           <div className="px-4 py-6 space-y-4 pb-20">
             {/* User Card */}
-            {session && (
+            {user && (
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -440,14 +455,14 @@ function MobileMenu({
                                   flex items-center justify-center text-white font-black text-xl 
                                   shadow-lg ring-2 ring-white/30"
                   >
-                    {session.user?.name?.charAt(0).toUpperCase()}
+                    {user?.name?.charAt(0).toUpperCase()}
                   </div>
                   <div className="flex-1 min-w-0">
                     <p className="text-white font-bold text-base truncate">
-                      {session.user?.name}
+                      {user?.name}
                     </p>
                     <p className="text-blue-100/60 text-xs truncate mt-0.5">
-                      {session.user?.email}
+                      {user?.email}
                     </p>
                     <motion.button
                       whileTap={{ scale: 0.97 }}
@@ -468,14 +483,14 @@ function MobileMenu({
             )}
 
             {/* Login Button */}
-            {!session && (
+            {!user && (
               <motion.button
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.1 }}
                 whileTap={{ scale: 0.97 }}
                 onClick={() => {
-                  window.location.href = "/login";
+                  window.location.href = Routes.LOGIN;
                   setMenuOpen(false);
                 }}
                 className="w-full px-5 py-4 rounded-2xl font-bold text-base
@@ -492,123 +507,179 @@ function MobileMenu({
             {/* Resources/Games Section */}
             <div className="space-y-2">
               <div className="flex items-center gap-2 px-3 py-2">
-                {session ? (
+                {user ? (
                   <BookOpen className="w-4 h-4 text-amber-300" />
                 ) : (
                   <Gamepad2 className="w-4 h-4 text-amber-300" />
                 )}
                 <h3 className="text-xs font-bold text-amber-200 uppercase tracking-wider">
-                  {session ? "Resources" : "Games"}
+                  {user ? "Tài nguyên" : "Games"}
                 </h3>
               </div>
 
               <div className="space-y-1.5">
-                {menuItems.map((item: any, index: number) => (
-                  <motion.div
-                    key={item.href}
-                    initial={{ opacity: 0, x: 20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 0.05 * index }}
-                  >
-                    <Link
-                      href={item.href}
-                      onClick={() => setMenuOpen(false)}
-                      className="group flex items-center gap-3 px-4 py-3 rounded-xl
-                               bg-white/5 hover:bg-white/15 border border-white/10
-                               transition-all duration-200 hover:scale-[1.02]
-                               hover:shadow-lg"
-                    >
-                      <span className="text-2xl group-hover:scale-110 transition-transform">
-                        {item.icon}
-                      </span>
-                      <span className="text-white font-medium text-sm flex-1">
-                        {item.label}
-                      </span>
-                      <svg
-                        className="w-4 h-4 text-blue-200/50 group-hover:text-amber-300 
-                                   group-hover:translate-x-1 transition-all"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M9 5l7 7-7 7"
-                        />
-                      </svg>
-                    </Link>
-                  </motion.div>
-                ))}
-              </div>
-            </div>
-            {/* ADMIN MENU */}
-            {session && isAdmin && (
-              <>
-                <div className="space-y-2 mt-6">
-                  <div className="flex items-center gap-2 px-3 py-2">
-                    <FolderOpen className="w-4 h-4 text-amber-300" />
-                    <h3 className="text-xs font-bold text-amber-200 uppercase tracking-wider">
-                      Class Management
-                    </h3>
-                  </div>
-                  <div className="space-y-1.5">
-                    {[
-                      {
-                        href: Routes.MANAGE_CLASS,
-                        label: "Class",
-                        icon: <LibraryBig className="w-5 h-5 text-amber-300" />,
-                      },
-                      {
-                        href: Routes.MANAGE_CLASS_CATEGORY,
-                        label: "Category",
-                        icon: <FolderOpen className="w-5 h-5 text-amber-300" />,
-                      },
-                    ].map((item, index) => (
-                      <motion.div
-                        key={item.href}
-                        initial={{ opacity: 0, x: 20 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ delay: 0.05 * index }}
-                      >
-                        <Link
-                          href={item.href}
-                          onClick={() => setMenuOpen(false)}
-                          className="group flex items-center gap-3 px-4 py-3 rounded-xl
-                                   bg-amber-500/10 hover:bg-amber-500/20 border border-amber-400/30
-                                   transition-all duration-200 hover:scale-[1.02]"
-                        >
-                          <span className="text-2xl">{item.icon}</span>
-                          <span className="text-white font-medium text-sm flex-1">
-                            {item.label}
-                          </span>
-                        </Link>
-                      </motion.div>
-                    ))}
-                  </div>
-                </div>
-
-                <div className="space-y-2 mt-6">
-                  <div className="flex items-center gap-2 px-3 py-2">
-                    <BookOpen className="w-4 h-4 text-amber-300" />
-                    <h3 className="text-xs font-bold text-amber-200 uppercase tracking-wider">
-                      Student Management
-                    </h3>
-                  </div>
+                {/* GAMES – luôn cho khách */}
+                {!user && (
                   <Link
-                    href={Routes.MANAGE_STUDENT}
+                    href={Routes.RESOURCES_GAMES}
                     onClick={() => setMenuOpen(false)}
                     className="group flex items-center gap-3 px-4 py-3 rounded-xl
-                             bg-amber-500/10 hover:bg-amber-500/20 border border-amber-400/30
-                             transition-all duration-200 hover:scale-[1.02]"
+                 bg-white/5 hover:bg-white/15 border border-white/10"
                   >
-                    <span className="text-2xl">👨‍🎓</span>
-                    <span className="text-white font-medium text-sm flex-1">
-                      Student
+                    <Gamepad2 className="w-5 h-5 text-amber-300" />
+                    <span className="text-white font-medium text-sm">
+                      Games
                     </span>
                   </Link>
-                </div>
+                )}
+
+                {/* BOOKS – chỉ user đã login */}
+                {user && (
+                  <Link
+                    href={Routes.RESOURCES}
+                    onClick={() => setMenuOpen(false)}
+                    className="group flex items-center gap-3 px-4 py-3 rounded-xl
+                 bg-white/5 hover:bg-white/15 border border-white/10"
+                  >
+                    <BookOpen className="w-5 h-5 text-amber-300" />
+                    <span className="text-white font-medium text-sm">
+                      Sách
+                    </span>
+                  </Link>
+                )}
+              </div>
+            </div>
+
+            {/* ADMIN MENU */}
+            {user && (
+              <>
+                {canViewClass && (
+                  <div className="space-y-2 mt-6">
+                    {canViewClassList && (
+                      <div className="flex items-center gap-2 px-3 py-2">
+                        <FolderOpen className="w-4 h-4 text-amber-300" />
+                        <h3 className="text-xs font-bold text-amber-200 uppercase tracking-wider">
+                          Lớp học
+                        </h3>
+                      </div>
+                    )}
+                    {canViewClassCategory && (
+                      <div className="space-y-1.5">
+                        {[
+                          {
+                            href: Routes.MANAGE_CLASS,
+                            label: "Danh sách",
+                            icon: (
+                              <LibraryBig className="w-5 h-5 text-amber-300" />
+                            ),
+                          },
+                          {
+                            href: Routes.MANAGE_CLASS_CATEGORY,
+                            label: "Phân loại",
+                            icon: (
+                              <FolderOpen className="w-5 h-5 text-amber-300" />
+                            ),
+                          },
+                        ].map((item, index) => (
+                          <motion.div
+                            key={item.href}
+                            initial={{ opacity: 0, x: 20 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            transition={{ delay: 0.05 * index }}
+                          >
+                            <Link
+                              href={item.href}
+                              onClick={() => setMenuOpen(false)}
+                              className="group flex items-center gap-3 px-4 py-3 rounded-xl
+                                   bg-amber-500/10 hover:bg-amber-500/20 border border-amber-400/30
+                                   transition-all duration-200 hover:scale-[1.02]"
+                            >
+                              <span className="text-2xl">{item.icon}</span>
+                              <span className="text-white font-medium text-sm flex-1">
+                                {item.label}
+                              </span>
+                            </Link>
+                          </motion.div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                )}
+                {canViewStudent && (
+                  <div className="space-y-2 mt-6">
+                    <div className="flex items-center gap-2 px-3 py-2">
+                      <School className="w-4 h-4 text-amber-300" />
+                      <h3 className="text-xs font-bold text-amber-200 uppercase tracking-wider">
+                        Học viên
+                      </h3>
+                    </div>
+                    <Link
+                      href={Routes.MANAGE_STUDENT}
+                      onClick={() => setMenuOpen(false)}
+                      className="group flex items-center gap-3 px-4 py-3 rounded-xl
+                             bg-amber-500/10 hover:bg-amber-500/20 border border-amber-400/30
+                             transition-all duration-200 hover:scale-[1.02]"
+                    >
+                      <Users className="w-5 h-5 text-amber-300" />
+                      <span className="text-white font-medium text-sm flex-1">
+                        Danh sách
+                      </span>
+                    </Link>
+                  </div>
+                )}
+
+                {canViewStorage && (
+                  <div className="space-y-2 mt-6">
+                    <div className="flex items-center gap-2 px-3 py-2">
+                      <Warehouse className="w-4 h-4 text-amber-300" />
+                      <h3 className="text-xs font-bold text-amber-200 uppercase tracking-wider">
+                        Kho lưu trữ
+                      </h3>
+                    </div>
+                    {canViewStorageList && (
+                      <Link
+                        href={Routes.MANAGE_STORAGE_LIST}
+                        onClick={() => setMenuOpen(false)}
+                        className="group flex items-center gap-3 px-4 py-3 rounded-xl
+                             bg-amber-500/10 hover:bg-amber-500/20 border border-amber-400/30
+                             transition-all duration-200 hover:scale-[1.02]"
+                      >
+                        <List className="w-4 h-4 text-amber-300" />
+                        <span className="text-white font-medium text-sm flex-1">
+                          Danh sách
+                        </span>
+                      </Link>
+                    )}
+                    {canViewStorageApprove && (
+                      <Link
+                        href={Routes.MANAGE_STORAGE_REQUEST}
+                        onClick={() => setMenuOpen(false)}
+                        className="group flex items-center gap-3 px-4 py-3 rounded-xl
+                             bg-amber-500/10 hover:bg-amber-500/20 border border-amber-400/30
+                             transition-all duration-200 hover:scale-[1.02]"
+                      >
+                        <ListChecks className="w-4 h-4 text-amber-300" />
+                        <span className="text-white font-medium text-sm flex-1">
+                          Chờ duyệt
+                        </span>
+                      </Link>
+                    )}
+                    {canViewStorageHistory && (
+                      <Link
+                        href={Routes.MANAGE_STORAGE_HISTORY}
+                        onClick={() => setMenuOpen(false)}
+                        className="group flex items-center gap-3 px-4 py-3 rounded-xl
+                             bg-amber-500/10 hover:bg-amber-500/20 border border-amber-400/30
+                             transition-all duration-200 hover:scale-[1.02]"
+                      >
+                        <History className="w-4 h-4 text-amber-300" />
+                        <span className="text-white font-medium text-sm flex-1">
+                          Lịch sử
+                        </span>
+                      </Link>
+                    )}
+                  </div>
+                )}
               </>
             )}
           </div>

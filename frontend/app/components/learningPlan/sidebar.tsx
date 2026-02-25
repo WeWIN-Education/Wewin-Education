@@ -1,8 +1,8 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { mockProjects} from "@/app/constants/mockData";
-import { ClassId } from "@/app/constants/types";
+import { mockProjects} from "@/lib/constants/mockData";
+import { ClassId } from "@/lib/constants/types";
 
 const CLASS_TO_BOOK: Record<ClassId, string> = {
   KIDS: "book_kids",

@@ -2,7 +2,7 @@
 import React from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { Book } from "../../constants/types";
+import { Book } from "../../../lib/constants/types";
 import { Gamepad2, Sparkles } from "lucide-react";
 
 interface BookCardProps {

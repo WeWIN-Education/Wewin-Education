@@ -1,14 +1,18 @@
-import NextAuth from "next-auth";
+import "next-auth";
+import "next-auth/jwt";
+import type { Role } from "@/types/role";
 
 declare module "next-auth" {
   interface Session {
+    access_token?: string;
     user: {
       id: string;
       name: string;
       email: string;
-      roles: Role[];
       image?: string | null;
-    } & DefaultSession["user"];
+      roles: Role[];
+    };
+    error?: "RefreshAccessTokenError";
   }
 
   interface User {
@@ -17,15 +21,18 @@ declare module "next-auth" {
     email: string;
     image?: string | null;
     roles: Role[];
+    access_token: string;
+    refresh_token: string;
+    expires_in: number;
   }
 }
 
 declare module "next-auth/jwt" {
   interface JWT {
-    userId: string;
-    name: string;
-    email: string;
-    roles: Role[];
-    image?: string | null;
+    access_token?: string;
+    refresh_token?: string;
+    accessTokenExpires?: number;
+    roles?: Role[];
+    error?: "RefreshAccessTokenError";
   }
 }

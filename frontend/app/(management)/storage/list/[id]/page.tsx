@@ -1,0 +1,402 @@
+"use client";
+
+import { useParams, useRouter, notFound } from "next/navigation";
+import { ChevronRight, Package, Pencil } from "lucide-react";
+import { useEffect, useMemo, useState } from "react";
+import { Category, Type } from "@/types/storage";
+import { User } from "@/types/user";
+import { getStockStatus } from "@/app/utils/stockStatus";
+import ReusableTable from "@/app/components/table";
+import { Pagination, RowsPerPage } from "@/app/components/pagination";
+import { BackButton } from "@/app/components/backButton";
+import {
+  ProductInfoCard,
+  StatCard,
+} from "@/app/components/storage/productHeaderCard";
+import { ProductImageCard } from "@/app/components/storage/imageCard";
+import { HistorySection } from "@/app/components/storage/historySection";
+import InventoryForm from "@/app/components/storage/inventoryForm";
+import { Routes } from "@/lib/constants/routes";
+import InventoryActions from "@/app/components/storage/InventoryActions";
+import Button from "@/app/components/button";
+import { storageService } from "@/services/product.service";
+import { Product } from "@/types/product";
+import { ProductInfoCardSkeleton } from "@/app/components/storage/skeletons/productHeaderSkeleton";
+import StatCardSkeleton from "@/app/components/storage/skeletons/statCardSkeleton";
+import { Skeleton } from "@/app/components/skeletons";
+import { categoryService } from "@/services/product-category-service";
+
+/* ================= TYPES ================= */
+export interface InventoryHistoryView {
+  id: string;
+  date: string;
+  type: Type;
+  quantity: number;
+  note: string;
+  createdBy: User | null;
+}
+
+const HISTORY_COLUMNS = [
+  "ID",
+  "Ngày thực hiện",
+  "Loại",
+  "Số lượng",
+  "Người thực hiện",
+  "Ghi chú",
+];
+
+export default function ProductDetailPage() {
+  const router = useRouter();
+  const { id } = useParams<{ id: string }>();
+
+  const [openEditForm, setOpenEditForm] = useState(false);
+  const [product, setProduct] = useState<Product | null>(null);
+  const [history] = useState<InventoryHistoryView[]>([]);
+  const [loading, setLoading] = useState(true);
+  const totalIn = history.filter((h) => h.type === "IN").length;
+  const totalOut = history.filter((h) => h.type === "OUT").length;
+
+  const [category, setCategory] = useState<Category | null>(null);
+
+  /* ================= PAGINATION ================= */
+  const [page, setPage] = useState(1);
+  const [rowsPerPage, setRowsPerPage] = useState<RowsPerPage>(5);
+
+  const total = history.length;
+  const pageSize = rowsPerPage === "all" ? total : Number(rowsPerPage);
+  const totalPages = rowsPerPage === "all" ? 1 : Math.ceil(total / pageSize);
+  const startIndex = rowsPerPage === "all" ? 0 : (page - 1) * pageSize;
+  const endIndex = rowsPerPage === "all" ? total : startIndex + pageSize;
+
+  const pagedHistory = useMemo(
+    () => history.slice(startIndex, endIndex),
+    [history, startIndex, endIndex],
+  );
+
+  useEffect(() => {
+    if (!id) return;
+
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+
+        const productRes = await storageService.getProductById(id);
+        const productData = productRes.data.data;
+
+        setProduct(productData);
+
+        // setHistory(
+        //   historyRes.data.map((item: InventoryHistoryApiItem) => ({
+        //     id: item.inventoryDocument?.id ?? "—",
+        //     date: formatDateTimeFull(item.createdAt),
+        //     type: item.quantity > 0 ? "IN" : "OUT",
+        //     quantity: Math.abs(item.quantity),
+        //     note: item.inventoryDocument?.note ?? "—",
+        //     createdBy: item.inventoryDocument?.createdBy ?? null,
+        //   })),
+        // );
+
+        if (productData.categoryId) {
+          const categoryRes = await categoryService.getCategoryById(
+            productData.categoryId,
+          );
+          setCategory(categoryRes);
+        }
+      } catch (err: unknown) {
+        if (
+          typeof err === "object" &&
+          err !== null &&
+          "response" in err &&
+          (err as { response?: { status?: number } }).response?.status === 401
+        ) {
+          router.push(Routes.HOME);
+          return;
+        }
+
+        notFound();
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [id, router]); // ✅ product removed
+
+  /* ================= STOCK STATUS ================= */
+  const minQuantity = 20;
+
+  if (!loading && !product) {
+    notFound();
+  }
+
+  const stock = product
+    ? getStockStatus(product.status, product.quantity, minQuantity)
+    : null;
+
+  return (
+    <div className="space-y-6 px-8 py-8">
+      {/* ================= BREADCRUMB ================= */}
+      <div className="flex items-center gap-2 text-sm text-gray-600">
+        <Package size={16} />
+
+        {loading ? (
+          <>
+            <Skeleton className="h-4 w-36" />
+            <ChevronRight size={16} />
+            <Skeleton className="h-4 w-40" />
+          </>
+        ) : (
+          <>
+            <button
+              onClick={() => router.push(Routes.MANAGE_STORAGE)}
+              className="hover:text-blue-600 cursor-pointer font-medium"
+            >
+              Quản lý kho vật dụng
+            </button>
+
+            <ChevronRight size={16} />
+
+            <span className="font-medium text-blue-600">
+              {product?.name} ({product?.code})
+            </span>
+          </>
+        )}
+      </div>
+
+      {/* ================= ACTION BAR ================= */}
+      <div className="flex flex-wrap items-center justify-between gap-4">
+        {loading ? (
+          <>
+            {/* Left: back button skeleton */}
+            <Skeleton className="h-10 w-48 rounded-xl" />
+
+            {/* Right: actions skeleton */}
+            <div className="flex gap-3">
+              <Skeleton className="h-10 w-36 rounded-xl" />
+              <Skeleton className="h-10 w-44 rounded-xl" />
+            </div>
+          </>
+        ) : (
+          <>
+            <BackButton
+              label="Quay lại kho vật dụng"
+              onClick={() => router.push(Routes.MANAGE_STORAGE_LIST)}
+            />
+
+            <div className="flex flex-wrap items-center gap-3">
+              {product && <InventoryActions productId={product.id} />}
+
+              <Button
+                onClick={() => setOpenEditForm(true)}
+                leftIcon={<Pencil size={18} />}
+                variant="primary"
+                className="
+            bg-[#FF9933]! hover:bg-[#E88A2E]!
+            text-white!
+          "
+              >
+                Chỉnh sửa thông tin
+              </Button>
+            </div>
+          </>
+        )}
+      </div>
+
+      {/* ================= HEADER ================= */}
+      <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
+        {/* LEFT: INFO CARD */}
+        <div className="lg:col-span-3">
+          {loading ? (
+            <>
+              <ProductInfoCardSkeleton />
+
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-6">
+                <StatCardSkeleton />
+                <StatCardSkeleton />
+                <StatCardSkeleton />
+              </div>
+            </>
+          ) : (
+            <>
+              <ProductInfoCard
+                name={product!.name}
+                code={product!.code}
+                category={category?.name ?? "—"}
+                quantity={product!.quantity}
+                unit={product!.unit}
+                statusLabel={stock?.label}
+                statusColor={stock?.badgeColor}
+              />
+
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-6">
+                <StatCard
+                  value={totalIn}
+                  label="Tổng số lần nhập"
+                  color="green"
+                />
+                <StatCard
+                  value={totalOut}
+                  label="Tổng số lần xuất"
+                  color="blue"
+                />
+                <StatCard
+                  value={history.length}
+                  label="Tổng giao dịch"
+                  color="orange"
+                />
+              </div>
+            </>
+          )}
+        </div>
+
+        {/* RIGHT: IMAGE */}
+        <div className="lg:col-span-2">
+          {loading ? (
+            <Skeleton className="h-64 w-full rounded-2xl" />
+          ) : (
+            <ProductImageCard
+              imageUrl={
+                Array.isArray(product!.imageUrl)
+                  ? product!.imageUrl[0]
+                  : product!.imageUrl
+              }
+              productName={product!.name}
+            />
+          )}
+        </div>
+      </div>
+
+      {/* ================= HISTORY ================= */}
+      <HistorySection hasData={history.length > 0}>
+        <>
+          <ReusableTable<InventoryHistoryView>
+            data={pagedHistory}
+            columns={HISTORY_COLUMNS}
+            getKey={(row) => `${row.date}-${row.type}-${row.quantity}`}
+            renderRow={(row) => (
+              <>
+                <td className="px-6 py-4 text-center">{row.id}</td>
+                <td className="px-6 py-4 text-center">{row.date}</td>
+                <td className="px-6 py-4 text-center">
+                  <span
+                    className={`px-3 py-1 rounded-lg text-xs font-bold ${
+                      row.type === "IN"
+                        ? "bg-green-100 text-green-600"
+                        : "bg-blue-100 text-blue-600"
+                    }`}
+                  >
+                    {row.type === "IN" ? "NHẬP KHO" : "XUẤT KHO"}
+                  </span>
+                </td>
+                <td className="px-6 py-4 text-center font-bold">
+                  {row.quantity}
+                </td>
+                <td className="px-6 py-4 text-center">{row.createdBy?.name}</td>
+                <td className="px-6 py-4 text-center text-gray-600">
+                  {row.note}
+                </td>
+              </>
+            )}
+            renderMobileCard={(row) => (
+              <div className="space-y-2">
+                <div className="flex justify-between">
+                  <span
+                    className={`px-3 py-1 rounded-lg text-xs font-bold ${
+                      row.type === "IN"
+                        ? "bg-green-100 text-green-600"
+                        : "bg-blue-100 text-blue-600"
+                    }`}
+                  >
+                    {row.type === "IN" ? "Nhập kho" : "Xuất kho"}
+                  </span>
+                  <span className="text-xs text-gray-500">{row.date}</span>
+                </div>
+                <div>Số lượng: {row.quantity}</div>
+                <div className="text-sm">
+                  Người thực hiện: <b>{row.createdBy?.name}</b>
+                </div>
+                <div className="text-xs italic text-gray-500">{row.note}</div>
+              </div>
+            )}
+          />
+
+          <Pagination
+            currentPage={page}
+            totalPages={totalPages}
+            startIndex={startIndex}
+            endIndex={endIndex}
+            total={total}
+            selectedRows={rowsPerPage}
+            text="giao dịch"
+            onPrev={() => setPage((p) => Math.max(1, p - 1))}
+            onNext={() => setPage((p) => Math.min(totalPages, p + 1))}
+            onRowsChange={(rows) => {
+              setRowsPerPage(rows);
+              setPage(1);
+            }}
+          />
+        </>
+      </HistorySection>
+
+      {product && openEditForm && (
+        <InventoryForm
+          mode="edit"
+          initialData={{
+            id: product.id,
+            name: product.name,
+            code: product.code,
+            categoryId: product.categoryId ?? "",
+            unit: product.unit,
+            quantity: product.quantity,
+            description: product.description ?? "",
+          }}
+          onCancel={() => setOpenEditForm(false)}
+          onSubmit={async (data) => {
+            try {
+              // ✅ 1) đóng form trước
+              setOpenEditForm(false);
+
+              // ✅ 2) bật loading để skeleton chạy
+              setLoading(true);
+
+              const payload = {
+                name: data.name.trim(),
+                code: data.code.trim(),
+                categoryId: data.categoryId,
+                unit: data.unit,
+                quantity: data.quantity,
+                description: data.description.trim(),
+              };
+
+              // ✅ 3) update
+              await storageService.updateProduct(product.id, payload);
+
+              // ✅ 4) load lại data trang (refetch)
+              const productRes = await storageService.getProductById(
+                product.id,
+              );
+              const productData = productRes.data.data;
+              setProduct(productData);
+
+              if (productData.categoryId) {
+                const categoryRes = await categoryService.getCategoryById(
+                  productData.categoryId,
+                );
+                setCategory(categoryRes);
+              } else {
+                setCategory(null);
+              }
+            } catch (err) {
+              console.error("Update product error:", err);
+
+              // nếu update fail thì mở lại form cho user chỉnh tiếp (optional)
+              setOpenEditForm(true);
+            } finally {
+              setLoading(false);
+            }
+          }}
+        />
+      )}
+    </div>
+  );
+}

@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
-/* eslint-disable @typescript-eslint/require-await */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/no-unused-vars */
@@ -11,7 +10,10 @@ import {
 import { JwtService } from '@nestjs/jwt';
 import { UserService } from 'src/user/user.service';
 import bcrypt from 'bcrypt';
-import { Roles } from './roles.decorator';
+import { JwtPayload } from './types/jwt-payload.type';
+
+const ACCESS_TOKEN_EXPIRES_IN = 15 * 60; // seconds
+const REFRESH_TOKEN_EXPIRES_IN = 30 * 24 * 60 * 60; // seconds
 
 @Injectable()
 export class AuthService {
@@ -33,6 +35,7 @@ export class AuthService {
 
     return this.userService.create({
       ...data,
+      message: 'Register success',
       password: hashed,
       isActive: true,
     });
@@ -43,34 +46,53 @@ export class AuthService {
   --------------------------------------------------------- */
   async login(email: string, password: string) {
     const user = await this.userService.findByEmail(email);
-    // const user = await this.userService.findByEmailWithRoles(email);
-
-    if (!user) throw new UnauthorizedException('User not found');
-    if (!user.password) throw new UnauthorizedException('No password stored');
+    if (!user || !user.password) {
+      throw new UnauthorizedException('Wrong email or password');
+    }
 
     const match = await bcrypt.compare(password, user.password);
-    if (!match) throw new UnauthorizedException('Wrong password');
-    // JWT 15 mins
-    const accessToken = this.jwt.sign(
-      { id: user.id, email: user.email, roles: user.roles },
-      { expiresIn: '15m' },
+    if (!match) throw new UnauthorizedException('Wrong email or password');
+
+    const roles =
+      user.roles?.map((r) => ({
+        id: r.id,
+        name: r.name,
+        permissions:
+          r.permissions?.map((p) => ({
+            id: p.id,
+            name: p.name,
+          })) ?? [],
+      })) ?? [];
+
+    const payload = {
+      sub: user.id,
+      email: user.email,
+      roleIds: roles.map((r) => r.id),
+    };
+
+    const access_token = this.jwt.sign(payload, {
+      expiresIn: ACCESS_TOKEN_EXPIRES_IN,
+    });
+
+    const refresh_token = this.jwt.sign(
+      { sub: user.id },
+      { expiresIn: REFRESH_TOKEN_EXPIRES_IN },
     );
 
-    const refreshToken = this.jwt.sign(
-      { id: user.id, email: user.email, roles: user.roles },
-      { expiresIn: '30d' },
-    );
-
-    const hashed = await bcrypt.hash(refreshToken, 10);
+    // ✅ HASH refresh token
+    const hashed = await bcrypt.hash(refresh_token, 10);
     await this.userService.updateRefreshToken(user.id, hashed);
 
     const { password: _pw, refreshToken: _rt, ...safeUser } = user;
 
     return {
       message: 'Login success',
-      access_token: accessToken,
+      access_token,
+      refresh_token,
+      expires_in: ACCESS_TOKEN_EXPIRES_IN, // ⭐ BẮT BUỘC
       user: {
         ...safeUser,
+        roles,
       },
     };
   }
@@ -109,70 +131,63 @@ export class AuthService {
   }
 
   /* ---------------------------------------------------------
-     GENERATE TOKENS
-  --------------------------------------------------------- */
-  async generateAccessToken(userId: string, email: string) {
-    return this.jwt.sign({ id: userId, email }, { expiresIn: '15m' });
-  }
-
-  async generateRefreshToken(userId: string, email: string) {
-    return this.jwt.sign({ id: userId, email }, { expiresIn: '30d' });
-  }
-
-  /* ---------------------------------------------------------
      REFRESH TOKEN
   --------------------------------------------------------- */
   async refresh(refreshToken: string) {
+    let payload: JwtPayload;
+
     try {
-      const decoded = this.jwt.verify(refreshToken);
-      const user = await this.userService.findByEmail(decoded.email);
-
-      if (!user || !user.refreshToken)
-        throw new UnauthorizedException('Invalid token');
-
-      const match = await bcrypt.compare(refreshToken, user.refreshToken);
-      if (!match) throw new UnauthorizedException('Invalid refresh token');
-
-      const newAccess = this.jwt.sign(
-        { id: user.id, email: user.email },
-        { expiresIn: '15m' },
-      );
-
-      return { access_token: newAccess };
-    } catch (e) {
-      throw new UnauthorizedException('Expired or invalid token');
+      payload = this.jwt.verify(refreshToken);
+    } catch {
+      throw new UnauthorizedException('Invalid refresh token');
     }
+
+    const user = await this.userService.findById(payload.sub);
+    if (!user || !user.refreshToken) {
+      throw new UnauthorizedException();
+    }
+
+    // ✅ SO SÁNH HASH
+    const isValid = await bcrypt.compare(refreshToken, user.refreshToken);
+    if (!isValid) throw new UnauthorizedException();
+
+    const roleIds = user.roles?.map((r) => r.id) ?? [];
+
+    const access_token = this.jwt.sign(
+      {
+        sub: user.id,
+        email: user.email,
+        roleIds,
+      },
+      { expiresIn: ACCESS_TOKEN_EXPIRES_IN },
+    );
+
+    return {
+      message: 'Token refreshed',
+      access_token,
+      expires_in: ACCESS_TOKEN_EXPIRES_IN, // ⭐ BẮT BUỘC
+    };
   }
 
-  /* ---------------------------------------------------------
-     LOGOUT
-  --------------------------------------------------------- */
   async logout(userId: string) {
     await this.userService.updateRefreshToken(userId, null);
     return { message: 'Logged out' };
   }
 
-  /* ---------------------------------------------------------
-     GET ME FROM ACCESS TOKEN
-     Works with: backend token & Google token
-  --------------------------------------------------------- */
   async getMe(accessToken: string) {
     try {
       const decoded = this.jwt.verify(accessToken);
 
-      const user = await this.userService.findById(decoded.id);
-      if (!user) throw new UnauthorizedException('User not found');
+      const user = await this.userService.findById(decoded.sub);
+      if (!user) throw new UnauthorizedException();
 
       const { password, refreshToken, ...safeUser } = user;
       return safeUser;
-    } catch (err) {
+    } catch {
       throw new UnauthorizedException('Invalid or expired token');
     }
   }
 
-  /* ---------------------------------------------------------
-     GET USER BY ID
-  --------------------------------------------------------- */
   async getMeById(userId: string) {
     const user = await this.userService.findById(userId);
     if (!user) throw new UnauthorizedException('User not found');

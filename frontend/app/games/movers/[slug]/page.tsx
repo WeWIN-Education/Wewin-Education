@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { UnitGameScreen } from "@/app/components/games/UnitGameScreen";
 import { MoverUnitsSidebar } from "@/app/components/games/MoverUnitsSidebar";
-import { getMoverUnitBySlug, getProjectsFromMoverBook, getMoverUnitIndex } from "@/app/constants/moverBookConfig";
+import { getMoverUnitBySlug, getProjectsFromMoverBook, getMoverUnitIndex } from "@/lib/constants/moverBookConfig";
 import { useParams, useRouter } from "next/navigation";
 import { Menu } from "lucide-react";
 

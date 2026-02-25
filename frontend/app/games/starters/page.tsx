@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
-import { getProjectsFromStarterBook } from "@/app/constants/starterBookConfig";
+import { getProjectsFromStarterBook } from "@/lib/constants/starterBookConfig";
 
 export default function StartersGamesPage() {
   const router = useRouter();

@@ -1,11 +1,26 @@
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-argument */
-/* eslint-disable prettier/prettier */
-import { Controller, Get, Post, Body, Req, UseGuards } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Req,
+  UseGuards,
+  UnauthorizedException,
+} from '@nestjs/common';
+import { Request } from 'express';
 import { AuthService } from './auth.service';
 import { LoginDto } from './dto/login.dto';
 import { RegisterDto } from './dto/register.dto';
 import { JwtAuthGuard } from './jwt-auth.guard';
+
+/* ===== REQUEST CÓ USER TỪ ACCESS TOKEN ===== */
+interface AuthenticatedRequest extends Request {
+  user: {
+    sub: string;
+    email: string;
+    roleIds?: string[];
+  };
+}
 
 @Controller('auth')
 export class AuthController {
@@ -17,23 +32,27 @@ export class AuthController {
   }
 
   @Post('login')
-  login(@Body() data: LoginDto) {
+  async login(@Body() data: LoginDto) {
     return this.authService.login(data.email, data.password);
   }
 
   @Post('refresh')
-  refreshToken(@Body('refresh_token') token: string) {
-    return this.authService.refresh(token);
+  async refresh(@Body('refreshToken') refreshToken: string) {
+    if (!refreshToken) {
+      throw new UnauthorizedException('Missing refresh token');
+    }
+    return this.authService.refresh(refreshToken);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Post('logout')
-  logout(@Body('userId') userId: string) {
-    return this.authService.logout(userId);
+  logout(@Req() req: AuthenticatedRequest) {
+    return this.authService.logout(req.user.sub);
   }
 
   @UseGuards(JwtAuthGuard)
   @Get('me')
-  getMe(@Req() req) {
-    return this.authService.getMeById(req.user.id);
+  getMe(@Req() req: AuthenticatedRequest) {
+    return this.authService.getMeById(req.user.sub);
   }
 }
