@@ -11,6 +11,7 @@ import { PermissionModule } from './permission/permission.module';
 import { ProductModule } from './inventory/product/product.module';
 import { CategoryModule } from './inventory/category/category.module';
 import { InventoryMovementModule } from './inventory-movement/inventory-movement.module';
+import { CloudinaryModule } from './cloudinary/cloudinary.module';
 
 @Module({
   imports: [
@@ -34,6 +35,7 @@ import { InventoryMovementModule } from './inventory-movement/inventory-movement
     ProductModule,
     CategoryModule,
     InventoryMovementModule,
+    CloudinaryModule,
   ],
 
   controllers: [AppController],

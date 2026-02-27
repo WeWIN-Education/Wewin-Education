@@ -62,7 +62,7 @@ export default function StoragePage() {
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState<RowsPerPage>(10);
-  const [loading, setLoading] = useState(false);
+  const [, setLoading] = useState(false);
   const [rows, setRows] = useState<TableRow[]>([]);
   const [total, setTotal] = useState(0);
   const [reloadKey, setReloadKey] = useState(0);
@@ -81,11 +81,8 @@ export default function StoragePage() {
   const totalQuantity = rows.reduce((s, i) => s + i.quantity, 0);
 
   const MIN_THRESHOLD = 20;
-  const lowStock = rows.filter(
-    (i) => (i.minQuantity ?? 0) > 0 && (i.minQuantity ?? 0) < MIN_THRESHOLD,
-  ).length;
-
-  const outOfStock = rows.filter((i) => (i.minQuantity ?? 0) === 0).length;
+  const lowStock = rows.filter((r) => r.status === "LOW_STOCK").length;
+  const outOfStock = rows.filter((r) => r.status === "OUT_OF_STOCK").length;
 
   const totalPages =
     limit === "all" ? 1 : Math.max(1, Math.ceil(total / limit));
@@ -134,7 +131,6 @@ export default function StoragePage() {
     const name = data.name.trim();
 
     if (!code || !name || !data.categoryId) {
-      console.error("Missing required fields: code, name, or categoryId");
       return;
     }
 
@@ -152,10 +148,10 @@ export default function StoragePage() {
         code,
         name,
         categoryId: data.categoryId,
-        unit: data.unit,
-        quantity: data.quantity,
+        unit: data.unit ?? "",
+        quantity: data.quantity ?? 0,
         description: data.description.trim(),
-        // imageUrl,
+        imageUrl: null,
       };
 
       if (openForm?.mode === "edit" && data.id) {
@@ -239,7 +235,7 @@ export default function StoragePage() {
             newCategoryMap[p.categoryId] ??
             categoryMapRef.current[p.categoryId] ??
             "—",
-          minQuantity: (p).quantity ?? 0, // ✅ lấy từ backend/mapProductApiToProduct
+          minQuantity: MIN_THRESHOLD,
         }));
 
         setRows(mappedRows);
@@ -301,10 +297,12 @@ export default function StoragePage() {
         data={rows}
         getKey={(row) => row.id}
         renderRow={(row) => {
-          const stock = getStockStatus(row.status, row.quantity, MIN_THRESHOLD);
+          const stock = getStockStatus(row.status);
           return (
             <>
-              <td className="px-6 py-3 text-center font-medium">{row.code}</td>
+              <td className="px-6 py-3 text-center font-medium">
+                {row.code || "-"}
+              </td>
               <td className="px-6 py-3 font-semibold text-[#0E4BA9]">
                 <span
                   className="cursor-default underline-offset-2 hover:underline"
@@ -312,18 +310,20 @@ export default function StoragePage() {
                   onMouseMove={handleHoverMove}
                   onMouseLeave={handleHoverLeave}
                 >
-                  {row.name}
+                  {row.name || "-"}
                 </span>
               </td>
-              <td className="px-6 py-3 text-center">{row.categoryName}</td>
-              <td className="px-6 py-3 text-center font-bold">
-                {row.quantity}
+              <td className="px-6 py-3 text-center">
+                {row.categoryName || "-"}
               </td>
-              <td className="px-6 py-3 text-center">{row.unit}</td>
+              <td className="px-6 py-3 text-center font-bold">
+                {row.quantity || "-"}
+              </td>
+              <td className="px-6 py-3 text-center">{row.unit || "-"}</td>
               <td
                 className={`px-6 py-3 text-center font-semibold ${stock.textColor}`}
               >
-                {stock.label}
+                {stock.label || "-"}
               </td>
             </>
           );
@@ -338,24 +338,28 @@ export default function StoragePage() {
                   <h3 className="text-lg font-bold text-[#0E4BA9]">
                     {row.name}
                   </h3>
-                  <p className="text-sm text-gray-600">Mã: {row.code}</p>
+                  <p className="text-sm text-gray-600">Mã: {row.code || "-"}</p>
                   <p className="text-sm text-gray-600">
-                    Danh mục: {row.categoryName}
+                    Danh mục: {row.categoryName || "-"}
                   </p>
                 </div>
                 <span className={`font-semibold ${status.color}`}>
-                  {status.label}
+                  {status.label || "-"}
                 </span>
               </div>
 
               <div className="mt-2 grid grid-cols-2 gap-2 text-sm">
                 <div>
                   <span className="text-gray-500">Tồn kho</span>
-                  <p className="font-semibold text-gray-700">{row.quantity}</p>
+                  <p className="font-semibold text-gray-700">
+                    {row.quantity || "-"}
+                  </p>
                 </div>
                 <div>
                   <span className="text-gray-500">Đơn vị</span>
-                  <p className="font-semibold text-gray-700">{row.unit}</p>
+                  <p className="font-semibold text-gray-700">
+                    {row.unit || "-"}
+                  </p>
                 </div>
               </div>
             </>

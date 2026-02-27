@@ -21,19 +21,53 @@ export class ProductService {
       order: { createAt: 'DESC' },
     });
   }
+
   async addProduct(data: Partial<Product>) {
-    if (!data.code) {
+    if (!data.code?.trim()) {
       throw new BadRequestException('Product code is required');
     }
 
     const existed = await this.productRepo.findOne({
-      where: { code: data.code },
+      where: { code: data.code.trim() },
     });
 
     if (existed) {
       throw new BadRequestException(
         `Product code "${data.code}" already exists`,
       );
+    }
+
+    // ✅ normalize
+    data.code = data.code.trim();
+    data.name = data.name?.trim();
+
+    // ✅ default quantity nếu rỗng
+    if (data.quantity === undefined || data.quantity === null) {
+      data.quantity = 0;
+    }
+
+    // ✅ validate quantity
+    if (typeof data.quantity !== 'number' || Number.isNaN(data.quantity)) {
+      throw new BadRequestException('Quantity must be a valid number');
+    }
+    if (data.quantity < 0) {
+      throw new BadRequestException('Quantity cannot be negative');
+    }
+
+    // ❌ không cho create CANCELLED (nếu bạn muốn)
+    if (data.status === PRODUCT_STATUS_ENUM.CANCELLED) {
+      throw new BadRequestException(
+        'Cannot create product with CANCELLED status',
+      );
+    }
+
+    // ✅ auto compute status theo quantity (rule giống update)
+    if (data.quantity === 0) {
+      data.status = PRODUCT_STATUS_ENUM.OUT_OF_STOCK;
+    } else if (data.quantity <= 20) {
+      data.status = PRODUCT_STATUS_ENUM.LOW_STOCK;
+    } else {
+      data.status = PRODUCT_STATUS_ENUM.IN_STOCK;
     }
 
     const product = this.productRepo.create(data);
@@ -47,9 +81,7 @@ export class ProductService {
 
   async updateProduct(id: string, data: UpdateProductDto) {
     const product = await this.productRepo.findOne({ where: { id } });
-    if (!product) {
-      throw new NotFoundException('Product not found');
-    }
+    if (!product) throw new NotFoundException('Product not found');
 
     if (product.status === PRODUCT_STATUS_ENUM.CANCELLED) {
       throw new BadRequestException(
@@ -57,11 +89,35 @@ export class ProductService {
       );
     }
 
+    // ❌ chặn set cancelled bằng update (dùng cancelProduct endpoint)
+    if (data.status === PRODUCT_STATUS_ENUM.CANCELLED) {
+      throw new BadRequestException(
+        'Cannot set CANCELLED in update. Use cancelProduct instead.',
+      );
+    }
+
+    if (data.quantity !== undefined && data.quantity !== null) {
+      if (typeof data.quantity !== 'number' || Number.isNaN(data.quantity)) {
+        throw new BadRequestException('Quantity must be a valid number');
+      }
+
+      if (data.quantity < 0) {
+        throw new BadRequestException('Quantity cannot be negative');
+      }
+
+      // auto compute status theo rule bạn yêu cầu
+      if (data.quantity === 0) {
+        data.status = PRODUCT_STATUS_ENUM.OUT_OF_STOCK;
+      } else if (data.quantity <= 20) {
+        data.status = PRODUCT_STATUS_ENUM.LOW_STOCK;
+      } else {
+        data.status = PRODUCT_STATUS_ENUM.IN_STOCK;
+      }
+    }
+
     await this.productRepo.update(id, data);
 
-    return {
-      message: 'Product updated successfully',
-    };
+    return { message: 'Product updated successfully' };
   }
 
   async cancelProduct(id: string) {
