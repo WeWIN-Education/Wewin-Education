@@ -187,7 +187,6 @@ export class ProductService {
   async searchProducts(query: ProductQueryDto) {
     const page = query.page ?? 1;
     const limit = query.limit ?? 10;
-    const skip = (page - 1) * limit;
 
     const qb = this.productRepo.createQueryBuilder('p');
 
@@ -228,7 +227,6 @@ export class ProductService {
     const order =
       (query.order ?? 'DESC').toUpperCase() === 'ASC' ? 'ASC' : 'DESC';
 
-    // ✅ allowlist để tránh SQL injection
     const ALLOWED_SORT: Record<string, true> = {
       createAt: true,
       updateAt: true,
@@ -240,29 +238,36 @@ export class ProductService {
 
     const safeSortBy = ALLOWED_SORT[sortBy] ? sortBy : 'createAt';
 
-    // 1) cancelled luôn nằm cuối
-    qb.orderBy('CASE WHEN p.status = :cancelled_sort THEN 1 ELSE 0 END', 'ASC')
-      // 2) sau đó sort theo field yêu cầu (mặc định createAt DESC)
-      .addOrderBy(`p.${safeSortBy}`, order);
+    qb.orderBy(
+      'CASE WHEN p.status = :cancelled_sort THEN 1 ELSE 0 END',
+      'ASC',
+    ).addOrderBy(`p.${safeSortBy}`, order);
 
-    // 3) tie-breaker: luôn ưu tiên mới nhất khi trùng / khi sortBy khác createAt
     if (safeSortBy !== 'createAt') {
       qb.addOrderBy('p.createAt', 'DESC');
     }
 
     qb.setParameter('cancelled_sort', PRODUCT_STATUS_ENUM.CANCELLED);
 
-    const [items, total] = await qb.skip(skip).take(limit).getManyAndCount();
+    // ✅ ALL MODE: limit=0 => không skip/take
+    const isAll = Number(limit) === 0;
+
+    if (!isAll) {
+      const skip = (page - 1) * limit;
+      qb.skip(skip).take(limit);
+    }
+
+    const [items, total] = await qb.getManyAndCount();
 
     return {
       message: 'Search products successfully',
       data: {
         items,
         pagination: {
-          page,
-          limit,
+          page: isAll ? 1 : page,
+          limit: isAll ? total : limit, // hoặc giữ 0 nếu bạn muốn FE nhận biết "All"
           total,
-          totalPages: Math.ceil(total / limit),
+          totalPages: isAll ? 1 : Math.ceil(total / limit),
         },
         filters: {
           q: query.q ?? null,

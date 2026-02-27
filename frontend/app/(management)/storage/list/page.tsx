@@ -84,10 +84,12 @@ export default function StoragePage() {
   const lowStock = rows.filter((r) => r.status === "LOW_STOCK").length;
   const outOfStock = rows.filter((r) => r.status === "OUT_OF_STOCK").length;
 
-  const totalPages =
-    limit === "all" ? 1 : Math.max(1, Math.ceil(total / limit));
-  const startIndex = limit === "all" ? 0 : (page - 1) * limit;
-  const endIndex = limit === "all" ? total : startIndex + rows.length;
+  const isAll = limit === "all";
+  const numericLimit = isAll ? 0 : Number(limit);
+
+  const totalPages = isAll ? 1 : Math.max(1, Math.ceil(total / numericLimit));
+  const startIndex = isAll ? 0 : (page - 1) * numericLimit;
+  const endIndex = isAll ? total : Math.min(total, startIndex + rows.length);
 
   const handleHoverEnter = (
     e: React.MouseEvent<HTMLSpanElement>,
@@ -178,16 +180,17 @@ export default function StoragePage() {
       setLoading(true);
 
       try {
-        const limitValue = limit === "all" ? undefined : Number(limit);
+        const isAll = limit === "all";
+        const limitValue = isAll ? 0 : Number(limit);
+
         const res = await storageService.searchProducts(
           {
-            page,
+            page: isAll ? 1 : page,
             limit: limitValue,
             q: search || undefined,
           },
           true,
         );
-
         if (isCancelled) return;
 
         const products: Product[] = (res.items as ProductApi[]).map(
@@ -240,16 +243,18 @@ export default function StoragePage() {
 
         setRows(mappedRows);
 
-        setTotal(res.pagination.total);
+        const totalFromApi =
+          res?.pagination?.total ??
+          res?.total ??
+          (Array.isArray(res?.items) ? res.items.length : 0);
 
-        if (limitValue !== undefined) {
-          const totalPages = Math.max(
-            1,
-            Math.ceil(res.pagination.total / limitValue),
-          );
-          if (page > totalPages) setPage(totalPages);
+        setTotal(totalFromApi);
+
+        if (limitValue === 0) {
+          if (page !== 1) setPage(1);
         } else {
-          setPage(1);
+          const totalPages = Math.max(1, Math.ceil(totalFromApi / limitValue));
+          if (page > totalPages) setPage(totalPages);
         }
       } catch (err) {
         console.error("Fetch storage error:", err);
