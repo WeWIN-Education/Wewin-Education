@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-call */
 import { ApiPropertyOptional } from '@nestjs/swagger';
 import { IsOptional, IsInt, Min, IsString, IsEnum } from 'class-validator';
 import { Type } from 'class-transformer';
@@ -11,24 +10,22 @@ export class BaseQueryDto {
   @Min(1)
   page?: number = 1;
 
-  @ApiPropertyOptional({ example: 10, description: 'Items per page' })
+  @ApiPropertyOptional({
+    example: 10,
+    description: 'Items per page (0 = all)',
+  })
   @IsOptional()
   @Type(() => Number)
   @IsInt()
-  @Min(1)
+  @Min(0) // ✅ cho phép 0
   limit?: number = 10;
 
-  @ApiPropertyOptional({
-    description: 'Search by code or name',
-  })
+  @ApiPropertyOptional({ description: 'Search by code or name' })
   @IsOptional()
   @IsString()
   q?: string;
 
-  @ApiPropertyOptional({
-    example: 'createAt',
-    description: 'Sort field',
-  })
+  @ApiPropertyOptional({ example: 'createAt', description: 'Sort field' })
   @IsOptional()
   @IsString()
   sortBy?: string = 'createAt';
