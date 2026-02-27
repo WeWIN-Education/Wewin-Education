@@ -20,11 +20,12 @@ import { Routes } from "@/lib/constants/routes";
 import InventoryActions from "@/app/components/storage/InventoryActions";
 import Button from "@/app/components/button";
 import { storageService } from "@/services/product.service";
-import { Product } from "@/types/product";
+import { Product, ProductApi } from "@/types/product";
 import { ProductInfoCardSkeleton } from "@/app/components/storage/skeletons/productHeaderSkeleton";
 import StatCardSkeleton from "@/app/components/storage/skeletons/statCardSkeleton";
 import { Skeleton } from "@/app/components/skeletons";
 import { categoryService } from "@/services/product-category-service";
+import { mapProductApiToProduct } from "@/app/utils/product";
 
 /* ================= TYPES ================= */
 export interface InventoryHistoryView {
@@ -44,6 +45,21 @@ const HISTORY_COLUMNS = [
   "Người thực hiện",
   "Ghi chú",
 ];
+
+type HttpErrorLike = {
+  response?: {
+    status?: number;
+    data?: unknown;
+  };
+};
+
+function getHttpStatus(err: unknown): number | undefined {
+  if (typeof err !== "object" || err === null) return undefined;
+  if (!("response" in err)) return undefined;
+
+  const e = err as HttpErrorLike;
+  return e.response?.status;
+}
 
 export default function ProductDetailPage() {
   const router = useRouter();
@@ -77,61 +93,63 @@ export default function ProductDetailPage() {
     if (!id) return;
 
     const fetchData = async () => {
-      try {
-        setLoading(true);
+      setLoading(true);
 
+      // 1) Fetch PRODUCT (chỉ đoạn này mới quyết định notFound)
+      let productData: Product | null = null;
+
+      try {
         const productRes = await storageService.getProductById(id);
-        const productData = productRes.data.data;
+        const apiData = productRes.data.data as ProductApi;
+        productData = mapProductApiToProduct(apiData);
 
         setProduct(productData);
-
-        // setHistory(
-        //   historyRes.data.map((item: InventoryHistoryApiItem) => ({
-        //     id: item.inventoryDocument?.id ?? "—",
-        //     date: formatDateTimeFull(item.createdAt),
-        //     type: item.quantity > 0 ? "IN" : "OUT",
-        //     quantity: Math.abs(item.quantity),
-        //     note: item.inventoryDocument?.note ?? "—",
-        //     createdBy: item.inventoryDocument?.createdBy ?? null,
-        //   })),
-        // );
-
-        if (productData.categoryId) {
-          const categoryRes = await categoryService.getCategoryById(
-            productData.categoryId,
-          );
-          setCategory(categoryRes);
-        }
       } catch (err: unknown) {
-        if (
-          typeof err === "object" &&
-          err !== null &&
-          "response" in err &&
-          (err as { response?: { status?: number } }).response?.status === 401
-        ) {
+        const status = getHttpStatus(err);
+
+        if (status === 401) {
           router.push(Routes.HOME);
           return;
         }
 
-        notFound();
-      } finally {
-        setLoading(false);
+        if (status === 404) {
+          notFound();
+          return;
+        }
+
+        console.error("Fetch product error:", err);
+        setProduct(null);
+        return;
       }
+
+      // 2) Fetch CATEGORY (fail cũng KHÔNG được 404)
+      try {
+        if (productData?.categoryId) {
+          const categoryRes = await categoryService.getCategoryById(
+            productData.categoryId,
+          );
+          setCategory(categoryRes);
+        } else {
+          setCategory(null);
+        }
+      } catch (err) {
+        console.warn("Fetch category error (ignored):", err);
+        setCategory(null); // ✅ fallback
+      }
+
+      setLoading(false);
     };
 
     fetchData();
-  }, [id, router]); // ✅ product removed
+  }, [id, router]);
 
   /* ================= STOCK STATUS ================= */
-  const minQuantity = 20;
 
   if (!loading && !product) {
     notFound();
   }
 
-  const stock = product
-    ? getStockStatus(product.status, product.quantity, minQuantity)
-    : null;
+  const stock = product ? getStockStatus(product.status) : null;
 
   return (
     <div className="space-y-6 px-8 py-8">
@@ -272,7 +290,7 @@ export default function ProductDetailPage() {
           <ReusableTable<InventoryHistoryView>
             data={pagedHistory}
             columns={HISTORY_COLUMNS}
-            getKey={(row) => `${row.date}-${row.type}-${row.quantity}`}
+            getKey={(row) => row.id}
             renderRow={(row) => (
               <>
                 <td className="px-6 py-4 text-center">{row.id}</td>
@@ -375,12 +393,14 @@ export default function ProductDetailPage() {
               const productRes = await storageService.getProductById(
                 product.id,
               );
-              const productData = productRes.data.data;
-              setProduct(productData);
+              const apiData = productRes.data.data as ProductApi;
 
-              if (productData.categoryId) {
+              const mapped = mapProductApiToProduct(apiData);
+              setProduct(mapped);
+
+              if (mapped.categoryId) {
                 const categoryRes = await categoryService.getCategoryById(
-                  productData.categoryId,
+                  mapped.categoryId,
                 );
                 setCategory(categoryRes);
               } else {

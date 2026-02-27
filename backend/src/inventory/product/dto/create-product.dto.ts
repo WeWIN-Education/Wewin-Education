@@ -22,9 +22,13 @@ export class CreateProductDto {
   quantity?: number;
 
   @ApiPropertyOptional({
-    example: ['https://drive.google.com/product1.jpg'],
-    type: [String],
+    example: 'Bàn học sinh cao cấp, có thể điều chỉnh độ cao',
   })
+  @IsOptional()
+  @IsString()
+  description?: string;
+
+  @ApiPropertyOptional({ example: 'https://drive.google.com/product1.jpg' })
   @IsOptional()
   @IsString()
   imageUrl?: string;

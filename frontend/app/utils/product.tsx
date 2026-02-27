@@ -1,12 +1,7 @@
 import { Product, ProductApi } from "@/types/product";
 import { StockStatus } from "@/types/storage";
 
-const mapStatus = (
-  s: ProductApi["status"],
-  isActive?: boolean,
-): StockStatus => {
-  if (isActive === false) return "CANCELLED";
-
+const mapStatus = (s: ProductApi["status"]): StockStatus => {
   switch (s) {
     case "out_of_stock":
       return "OUT_OF_STOCK";
@@ -27,9 +22,9 @@ export const mapProductApiToProduct = (p: ProductApi): Product => ({
   name: p.name,
   unit: p.unit,
   quantity: p.quantity,
-  imageUrl: p.imageUrl,
-  description: p.description,
-  status: mapStatus(p.status, p.isActive),
+  imageUrl: p.imageUrl ?? null,
+  description: p.description ?? "",
+  status: mapStatus(p.status),
   createdAt: p.createAt,
   updatedAt: p.updateAt,
   inventoryDocumentId: p.inventoryDocumentId,
