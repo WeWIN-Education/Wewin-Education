@@ -3,9 +3,11 @@ from zipfile import ZipFile, ZIP_DEFLATED
 
 root = Path(__file__).resolve().parents[1]
 output = root.parent / 'wewin-luyen-thi-demo.zip'
-files = [root / name for name in ['index.html', 'styles.css', 'app.mjs', 'exam.mjs', '.htaccess', 'README.md', 'IMAGE_ASSETS.md']]
+files = [root / name for name in ['index.html', 'styles.css', 'app.mjs', 'exam.mjs', 'exams.mjs', '.htaccess', 'README.md', 'IMAGE_ASSETS.md']]
 files.append(root / 'tools' / 'test-scoring.mjs')
-files += [p for p in (root / 'assets').iterdir() if p.is_file() and not p.name.startswith(('page-', 'inspection-', 'mascots.'))]
+files.append(root / 'tools' / 'test-ten-tests.mjs')
+files += [p for p in (root / 'assets').rglob('*') if p.is_file() and not p.name.startswith(('page-', 'inspection-', 'mascots.'))]
+files += list((root / 'downloads').glob('*.pdf'))
 with ZipFile(output, 'w', ZIP_DEFLATED) as archive:
     for file in files:
         archive.write(file, file.relative_to(root).as_posix())

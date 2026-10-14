@@ -1,15 +1,23 @@
-import {exam, characters, balls, colours, answered, correct, score, answerLabel} from './exam.mjs';
+import {exam, exams, artwork, selectExam, characters, balls, colours, answered, correct, score, answerLabel} from './exam.mjs';
 
 const $ = selector => document.querySelector(selector);
 const root = $('#app');
 const modal = $('#modal');
 const audio = $('#audio');
-const KEY = 'wewin-starters-01-v1';
+const keyFor = id => `wewin-${id}-v1`;
 const fresh = () => ({answers:{},started:null,ended:null,skill:'reading',part:0,screen:'catalog'});
-let state = fresh();
 let storageOK = true;
-try { const saved=JSON.parse(sessionStorage.getItem(KEY)); if(saved?.answers && ['reading','listening'].includes(saved.skill)) state={...state,...saved,part:Math.min(3,Math.max(0,Number(saved.part)||0))}; } catch { storageOK=false; }
 const initial = new URLSearchParams(location.search);
+selectExam(initial.get('test') || 'starters-01');
+let KEY = keyFor(exam.id);
+function readAttempt(id) {
+  try {
+    const saved=JSON.parse(sessionStorage.getItem(keyFor(id)));
+    if(saved?.answers && ['reading','listening'].includes(saved.skill)) return {...fresh(),...saved,part:Math.min(3,Math.max(0,Number(saved.part)||0))};
+  } catch { storageOK=false; }
+  return fresh();
+}
+let state = readAttempt(exam.id);
 if(['catalog','intro','exam','result'].includes(initial.get('screen'))) state.screen=initial.get('screen');
 if(['reading','listening'].includes(initial.get('skill'))) state.skill=initial.get('skill');
 if(initial.has('part')) state.part=Math.min(3,Math.max(0,Number(initial.get('part'))||0));
@@ -43,21 +51,24 @@ const paths = {
 const icon = name => `<svg class="icon" viewBox="0 0 24 24" aria-hidden="true">${paths[name]||paths.info}</svg>`;
 const escape = value => String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const image = (file, alt, cls='') => `<img class="${cls}" src="assets/${file}" alt="${escape(alt)}" loading="lazy">`;
-// Each SVG viewport presents a complete object from the generated raster atlas.
-// Unequal object shapes are fitted independently inside the same square answer frame.
-const objectRegions = [
-  [30,20,250,280], [350,22,242,276], [640,25,280,270], [943,32,302,260],
-  [20,312,278,297], [343,315,235,293], [614,345,309,241], [941,381,307,191],
-  [14,670,313,214], [350,622,222,298], [628,647,299,256], [972,642,248,253],
-  [20,932,289,274], [331,917,257,293], [613,958,334,225], [968,920,270,290],
-];
-const optionObjects = [[0,1,2],[3,4,5],[6,7,8],[9,10,11],[12,13,14]];
-function optionArtwork(questionIndex, letter) {
-  const [x,y,w,h] = objectRegions[optionObjects[questionIndex]['ABC'.indexOf(letter)]];
-  const clipId = `object-${questionIndex}-${letter}`;
-  return `<span class="option-art" aria-hidden="true"><svg viewBox="${x-4} ${y-4} ${w+8} ${h+8}" preserveAspectRatio="xMidYMid meet" focusable="false"><defs><clipPath id="${clipId}"><rect x="${x-4}" y="${y-4}" width="${w+8}" height="${h+8}"/></clipPath></defs><image href="assets/listening-objects-v2.png" x="0" y="0" width="1254" height="1254" clip-path="url(#${clipId})"/></svg></span>`;
+let artSerial = 0;
+function rasterArt(spec, alt='Hình minh họa') {
+  const [x,y,right,bottom]=spec.clip;
+  const w=right-x,h=bottom-y,clipId=`art-${++artSerial}`;
+  return `<svg class="raster-art" viewBox="${x} ${y} ${w} ${h}" preserveAspectRatio="xMidYMid meet" role="img" aria-label="${escape(alt)}" focusable="false"><defs><clipPath id="${clipId}"><rect x="${x}" y="${y}" width="${w}" height="${h}"/></clipPath></defs><image href="assets/${spec.file}" x="0" y="0" width="${spec.width}" height="${spec.height}" clip-path="url(#${clipId})"/></svg>`;
 }
+const questionArtwork = q => rasterArt(artwork[q.art], 'Hình cho câu: '+q.prompt);
+function optionArtwork(questionIndex, letter, part=exam.listening[2]) {
+  const word=part.questions[questionIndex].choiceArts['ABC'.indexOf(letter)];
+  return `<span class="option-art" aria-hidden="true">${rasterArt(artwork[word],`Hình ${letter}`)}</span>`;
+}
+const pdfLink = (selected=exam, cls='') => `<a class="btn ghost ${cls}" href="${selected.pdf}" download>Tải PDF đầy đủ</a>`;
 const button = (label, action, cls='', extra='', symbol='') => `<button class="btn ${cls}" data-action="${action}" ${extra}>${symbol?icon(symbol):''}${label}</button>`;
+function examAction(selected) {
+  const attempt=readAttempt(selected.id);
+  const label=attempt.ended?'Xem kết quả':attempt.started?'Tiếp tục':'Bắt đầu';
+  return button(label,'open-test','primary full',`data-test="${selected.id}"`,'arrow');
+}
 const timeLabel = seconds => `${Math.floor(seconds/60).toString().padStart(2,'0')}:${Math.floor(seconds%60).toString().padStart(2,'0')}`;
 const elapsed = () => state.started ? Math.max(0,Math.floor(((state.ended||Date.now())-state.started)/1000)) : 0;
 const currentPart = () => exam[state.skill][state.part];
@@ -66,7 +77,7 @@ function persist() {
   try { sessionStorage.setItem(KEY,JSON.stringify(state)); storageOK=true; } catch { storageOK=false; }
 }
 function syncUrl() {
-  const params=new URLSearchParams({screen:state.screen});
+  const params=new URLSearchParams({screen:state.screen,test:exam.id});
   if(state.screen==='exam') { params.set('skill',state.skill); params.set('part',state.part); }
   history.replaceState(null,'',`${location.pathname}?${params}`);
 }
@@ -96,20 +107,20 @@ function render() {
 }
 function renderCatalog() {
   const cards=[
-    {level:'starters',tag:'Pre A1 Starters',number:'Test 01',title:'A day in the park',cover:'listening-scene.png',live:true},
+    ...exams.map(e=>({...e,level:'starters',tag:e.level,number:'Test '+e.number,live:true})),
     {level:'movers',tag:'A1 Movers',number:'Mock 06–15',title:'Bộ đề luyện A1 Movers',cover:'birthday.png'},
     {level:'flyers',tag:'A2 Flyers',number:'Mock 06–15',title:'Bộ đề luyện A2 Flyers',cover:'birthday.png'},
   ].filter(c=>category==='all'||category===c.level);
   const stats=score(state.answers);
   return `${header()}<main class="shell"><div class="breadcrumb"><span>WeWIN Education</span>${icon('chevron')}<span>Luyện thi</span></div>
-    <section class="hero"><div class="hero-copy"><div class="eyebrow">WeWIN English Practice</div><h1>Luyện thi tiếng Anh<br>cùng WeWIN</h1><p>Chọn một đề, luyện Reading & Listening<br>và xem kết quả ngay sau khi hoàn thành.</p><div class="hero-meta"><span>${icon('book')}Đề luyện theo cấp độ</span><span>${icon('check')}Chấm kết quả tự động</span><span>${icon('headphones')}Audio theo từng phần</span></div></div><div class="hero-art">${image('win.png','Win — linh vật WeWIN')}<span class="art-note">Cùng Win luyện mỗi ngày</span></div></section>
-    ${state.started?`<section class="resume-banner"><div><strong>${state.ended?'Bạn đã hoàn thành Test 01':'Bạn có một bài đang làm'}</strong><span class="muted small">${exam.title} · ${state.ended?`${stats.total}/40 câu đúng`:`${stats.answered}/40 câu đã trả lời`}</span></div>${button(state.ended?'Xem kết quả':'Tiếp tục làm bài',state.ended?'result':'resume','','','arrow')}</section>`:''}
-    <section aria-label="Danh sách đề"><div class="catalog-heading"><div><h2>Chọn bộ đề của bạn</h2><p>Bắt đầu từ cấp độ phù hợp với mình.</p></div><div class="tabbar" role="group" aria-label="Lọc cấp độ">${[['all','Tất cả'],['starters','Starters'],['movers','Movers'],['flyers','Flyers']].map(([id,title])=>`<button class="${category===id?'active':''}" data-action="category" data-value="${id}" aria-pressed="${category===id}">${title}</button>`).join('')}</div></div>
-    <div class="exam-grid">${cards.map(c=>`<article class="exam-card"><div class="cover ${c.live?'park':''}">${image(c.cover,`${c.tag} — hình minh họa từ bộ đề`)}<span class="cover-badge">${c.number}</span></div><div class="card-body"><div class="card-meta"><span class="level">${c.tag}</span>${c.live?'<span class="available">Có thể làm ngay</span>':'<span class="muted small">Sắp có</span>'}</div><h3>${c.title}</h3><p>${c.live?'Một ngày ở công viên · Đề luyện đầu tiên':'Tài liệu đã có. Bài luyện trực tuyến đang được chuẩn bị.'}</p>${c.live?`<div class="skills"><span>${icon('book')}Reading · 20 câu</span><span>${icon('headphones')}Listening · 20 câu</span></div>${button('Bắt đầu','intro','primary full','','arrow')}`:'<div class="coming-label">Bài luyện sắp được mở</div>'}</div></article>`).join('')}</div></section>
+    <section class="hero"><div class="hero-copy"><div class="eyebrow">WeWIN English Practice</div><h1>Luyện thi tiếng Anh<br>cùng WeWIN</h1><p>Chọn một trong 10 đề Starters, luyện Reading & Listening<br>và xem kết quả ngay sau khi hoàn thành.</p><div class="hero-meta"><span>${icon('book')}Đề luyện theo cấp độ</span><span>${icon('check')}Chấm kết quả tự động</span><span>${icon('headphones')}Audio cho từng đề</span></div></div><div class="hero-art">${image('win.png','Win — linh vật WeWIN')}<span class="art-note">Cùng Win luyện mỗi ngày</span></div></section>
+    ${state.started?`<section class="resume-banner"><div><strong>${state.ended?'Bạn đã hoàn thành Test '+exam.number:'Bạn có một bài đang làm'}</strong><span class="muted small">${exam.title} · ${state.ended?`${stats.total}/40 câu đúng`:`${stats.answered}/40 câu đã trả lời`}</span></div>${button(state.ended?'Xem kết quả':'Tiếp tục làm bài',state.ended?'result':'resume','','','arrow')}</section>`:''}
+    <section aria-label="Danh sách đề"><div class="catalog-heading"><div><h2>Chọn bộ đề của bạn</h2><p>10 đề Starters · Có PDF đầy đủ để luyện Writing và Speaking.</p></div><div class="tabbar" role="group" aria-label="Lọc cấp độ">${[['all','Tất cả'],['starters','Starters'],['movers','Movers'],['flyers','Flyers']].map(([id,title])=>`<button class="${category===id?'active':''}" data-action="category" data-value="${id}" aria-pressed="${category===id}">${title}</button>`).join('')}</div></div>
+    <div class="exam-grid">${cards.map(c=>`<article class="exam-card"><div class="cover ${c.live?'park':''}">${image(c.cover,`${c.tag} — hình minh họa từ bộ đề`)}<span class="cover-badge">${c.number}</span></div><div class="card-body"><div class="card-meta"><span class="level">${c.tag}</span>${c.live?'<span class="available">Có thể làm ngay</span>':'<span class="muted small">Sắp có</span>'}</div><h3>${c.title}</h3><p>${c.live?'40 câu Reading & Listening · Tranh minh họa mới':'Tài liệu đã có. Bài luyện trực tuyến đang được chuẩn bị.'}</p>${c.live?`<div class="skills"><span>${icon('book')}Reading · 20 câu</span><span>${icon('headphones')}Listening · 20 câu</span></div><div class="card-actions">${examAction(c)}${pdfLink(c,'full')}</div>`:'<div class="coming-label">Bài luyện sắp được mở</div>'}</div></article>`).join('')}</div></section>
     <div class="howto"><div class="howto-item"><span class="step-no">1</span><div><h3>Chọn một đề</h3><p>Xem nội dung và hướng dẫn trước khi làm.</p></div></div><div class="howto-item"><span class="step-no">2</span><div><h3>Đọc, nghe và trả lời</h3><p>Làm từng phần, có thể quay lại để sửa.</p></div></div><div class="howto-item"><span class="step-no">3</span><div><h3>Xem kết quả</h3><p>Nhận điểm và xem lại đáp án từng câu.</p></div></div></div></main>${footer()}`;
 }
 function renderIntro() {
-  return `${header()}<main class="shell">${crumb('Starters · Test 01')}<div class="intro-grid"><div class="intro-picture">${image('listening-scene.png','Các bạn nhỏ ở công viên trong Test 01')}<div class="intro-caption"><span class="level">Pre A1 Starters</span><span class="muted small">Test 01</span></div></div><div class="intro-copy"><div class="eyebrow">Starters · Test 01</div><h1>A day in the park</h1><p>Luyện đọc hiểu và nghe tiếng Anh qua những hình ảnh quen thuộc. Làm từng phần và xem kết quả khi hoàn thành.</p><div class="intro-stats"><div class="intro-stat">${icon('book')}<strong>Reading</strong><small>4 phần · 20 câu</small></div><div class="intro-stat">${icon('headphones')}<strong>Listening</strong><small>4 phần · 20 câu</small></div></div><div class="instructions"><p>${icon('check')}Có thể sửa đáp án và quay lại các phần.</p><p>${icon('check')}Được nghe lại audio trong lúc luyện tập.</p><p>${icon('check')}Không giới hạn thời gian làm bài.</p></div><div class="soundcheck"><div><strong>Kiểm tra âm thanh</strong><div class="soundcheck-status" id="soundcheck-status">Bật loa hoặc đeo tai nghe trước khi bắt đầu.</div></div>${button('Nghe thử','soundcheck','','','play')}</div>${button(state.started&&!state.ended?'Tiếp tục bài đang làm':'Vào làm bài','start','primary full','','arrow')}<p class="small muted" style="margin-top:12px">Bản luyện tập gồm Reading & Listening. Điểm hiển thị theo số câu đúng.</p></div></div></main>${footer()}`;
+  return `${header()}<main class="shell">${crumb('Starters · Test '+exam.number)}<div class="intro-grid"><div class="intro-picture">${image(exam.cover,'Tranh minh họa Test '+exam.number)}<div class="intro-caption"><span class="level">Pre A1 Starters</span><span class="muted small">Test ${exam.number}</span></div></div><div class="intro-copy"><div class="eyebrow">Starters · Test ${exam.number}</div><h1>${exam.title}</h1><p>Luyện đọc hiểu và nghe tiếng Anh qua những hình ảnh quen thuộc. Làm từng phần và xem kết quả khi hoàn thành.</p><div class="intro-stats"><div class="intro-stat">${icon('book')}<strong>Reading</strong><small>4 phần · 20 câu</small></div><div class="intro-stat">${icon('headphones')}<strong>Listening</strong><small>4 phần · 20 câu</small></div></div><div class="instructions"><p>${icon('check')}Có thể sửa đáp án và quay lại các phần.</p><p>${icon('check')}Được nghe lại audio trong lúc luyện tập.</p><p>${icon('check')}Không giới hạn thời gian làm bài.</p></div><div class="soundcheck"><div><strong>Kiểm tra âm thanh</strong><div class="soundcheck-status" id="soundcheck-status">Bật loa hoặc đeo tai nghe trước khi bắt đầu.</div></div>${button('Nghe thử','soundcheck','','','play')}</div>${button(state.started&&!state.ended?'Tiếp tục bài đang làm':'Vào làm bài','start','primary full','','arrow')}${pdfLink(exam,'full intro-download')}<p class="small muted" style="margin-top:12px">Online: Reading & Listening, chấm theo số câu đúng. PDF có đầy đủ Reading & Writing và Speaking.${exam.audioMode==='full'?' Audio Listening là bản nghe toàn đề, tiếp tục khi chuyển Part.':''}</p></div></div></main>${footer()}`;
 }
 function partTabs() {
   return `<div class="part-tabs" role="group" aria-label="Các phần ${state.skill}">${exam[state.skill].map((p,i)=>{
@@ -119,8 +130,8 @@ function partTabs() {
 }
 function renderExam() {
   const part=currentPart(); const s=score(state.answers);
-  if(state.skill==='listening') setAudio(`listening-${state.part+1}.mp3`);
-  return `${header(true)}<main class="shell exam-shell"><div class="exam-top"><div><div class="eyebrow">Pre A1 Starters · Test 01</div><h1>A day in the park</h1></div><div class="attempt-meta"><div class="timer">${icon('clock')}<span id="timer">${timeLabel(elapsed())}</span></div><div class="progress-count"><span id="progress-label">${s.answered}/40 câu đã trả lời</span><div class="progress-track"><span id="progress-fill" style="width:${s.answered/40*100}%"></span></div></div></div></div>
+  if(state.skill==='listening') setAudio(exam.audio[state.part]);
+  return `${header(true)}<main class="shell exam-shell"><div class="exam-top"><div><div class="eyebrow">Pre A1 Starters · Test ${exam.number}</div><h1>${exam.title}</h1></div><div class="attempt-meta"><div class="timer">${icon('clock')}<span id="timer">${timeLabel(elapsed())}</span></div><div class="progress-count"><span id="progress-label">${s.answered}/40 câu đã trả lời</span><div class="progress-track"><span id="progress-fill" style="width:${s.answered/40*100}%"></span></div></div></div></div>
     <div class="skill-tabs" role="group" aria-label="Kỹ năng">${['reading','listening'].map(skill=>`<button class="skill-tab ${state.skill===skill?'active':''}" data-action="skill" data-value="${skill}" aria-pressed="${state.skill===skill}">${icon(skill==='reading'?'book':'headphones')}${skill==='reading'?'Reading':'Listening'}<span class="badge" data-skill-count="${skill}">${s[skill].answered}/20</span></button>`).join('')}</div>
     <div class="part-toolbar">${partTabs()}${button('Nộp bài','submit','primary','','check')}</div>
     <div class="part-title"><div><h2>Part ${state.part+1} · ${part.title}</h2><p>${part.instruction}</p></div><span class="part-count">5 câu hỏi</span></div>
@@ -130,7 +141,7 @@ function renderExam() {
     </main>${footer()}`;
 }
 function audioPanel() {
-  return `<div class="audio-panel"><button class="audio-button" data-action="audio-play" aria-label="Phát audio" id="audio-play">${icon(audio.paused?'play':'pause')}</button><div class="audio-label"><strong>Listening · Part ${state.part+1}</strong><span>Nghe và trả lời 5 câu hỏi</span></div><div class="audio-track"><input type="range" id="audio-seek" min="0" max="${Number.isFinite(audio.duration)?audio.duration:1}" step=".1" value="${audio.currentTime||0}" aria-label="Tua audio"><span class="audio-time" id="audio-time">00:00 / --:--</span></div>${button('Nghe từ đầu','audio-reset','ghost','','refresh')}<span class="audio-error" id="audio-error" hidden></span></div>`;
+  return `<div class="audio-panel"><button class="audio-button" data-action="audio-play" aria-label="Phát audio" id="audio-play">${icon(audio.paused?'play':'pause')}</button><div class="audio-label"><strong>${exam.audioMode==='full'?'Listening · Toàn đề':'Listening · Part '+(state.part+1)}</strong><span>${exam.audioMode==='full'?'Audio chung cho 4 Part · Tiếp tục khi chuyển phần':'Nghe và trả lời 5 câu hỏi'}</span></div><div class="audio-track"><input type="range" id="audio-seek" min="0" max="${Number.isFinite(audio.duration)?audio.duration:1}" step=".1" value="${audio.currentTime||0}" aria-label="Tua audio"><span class="audio-time" id="audio-time">00:00 / --:--</span></div>${button('Nghe từ đầu','audio-reset','ghost','','refresh')}<span class="audio-error" id="audio-error" hidden></span></div>`;
 }
 function figureHeader(title, file) {
   return `<div class="figure-header"><strong>${title}</strong>${file?button('Phóng to','zoom','',`data-file="${file}"`,'zoom'):''}</div>`;
@@ -139,11 +150,11 @@ function figureNote(text) { return `<div class="figure-note">${icon('info')}<spa
 function renderFigure(part) {
   if(part.type==='match') {
     const selected=part.questions[activeIndex];
-    return `${figureHeader('Chọn nhân vật','listening-scene-clean.png')}<div class="match-caption match-selected">Đang chọn: <strong>${selected.prompt}</strong><span class="small">· Bấm vào nhân vật trong tranh</span></div><div class="visual match-visual">${image('listening-scene-clean.png','Tranh có bảy nhân vật trong công viên')}${characters.map((c,i)=>{
+    return `${figureHeader('Chọn nhân vật',part.image)}<div class="match-caption match-selected">Đang chọn: <strong>${selected.prompt}</strong><span class="small">· Bấm vào nhân vật trong tranh</span></div><div class="visual match-visual">${image(part.image,'Tranh có bảy nhân vật trong công viên')}${characters.map((c,i)=>{
       const linked=part.questions.find(q=>state.answers[q.id]===c.id);
       const active=linked?.id===selected.id;
-      return `<button class="pin ${linked?'matched':''} ${active?'active':''}" style="left:${c.x}%;top:${c.y}%" data-action="match" data-value="${c.id}" aria-label="Nối ${selected.prompt} với nhân vật ${i+1}" aria-pressed="${active}"><small>${linked?linked.prompt:c.id==='p1'?'Lucy':i+1}</small></button>`;
-    }).join('')}</div>${figureNote('Lucy là ví dụ: bạn gái ở góc trên trái, cầm bóng. Chọn một tên, rồi bấm đúng nhân vật. Có thể đổi bất kỳ lúc nào.')}`;
+      return `<button class="pin ${linked?'matched':''} ${active?'active':''}" style="left:${c.x}%;top:${c.y}%" data-action="match" data-value="${c.id}" aria-label="Nối ${selected.prompt} với nhân vật ${i+1}" aria-pressed="${active}"><small>${linked?linked.prompt:c.id==='p1'?part.exampleName:i+1}</small></button>`;
+    }).join('')}</div>${figureNote(part.exampleName+' là ví dụ ở góc trên trái. Chọn tên, rồi bấm đúng nhân vật. Có thể đổi bất kỳ lúc nào.')}`;
   }
   if(part.type==='colour') {
     const selected=part.questions[activeIndex]; const value=state.answers[selected.id];
@@ -153,11 +164,11 @@ function renderFigure(part) {
     }).join('');
     return `${figureHeader('Listen & colour',part.image)}<div class="match-caption">Đang làm: <strong>Câu ${activeIndex+1}</strong><span class="small">· Chọn bóng, rồi chọn màu</span></div><div class="visual">${image(part.image,'Tranh quả bóng ở các vị trí quanh bàn, cây, ghế và hộp')}<svg class="scene-lines" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">${paint}</svg>${balls.map((b,i)=>`<button class="ball-hit ${activeBall===b.id?'active':''}" style="left:${b.x}%;top:${b.y}%" data-action="ball" data-value="${b.id}" aria-label="Chọn ${b.label.toLowerCase()}" title="Quả bóng ${i+1}"></button>`).join('')}</div><div class="colour-palette" role="group" aria-label="Chọn màu">${colours.map(c=>`<button class="colour-choice" data-action="colour" data-value="${c.id}" aria-pressed="${value?.colour===c.id}"><span class="swatch" style="--swatch:${c.hex}"></span>${c.label}</button>`).join('')}</div>${figureNote(part.hint)}`;
   }
-  if(part.id==='r1') return `${figureHeader('Look at each picture')}<div class="object-gallery">${part.questions.map((q,i)=>`<div class="object-row"><span class="question-number">${i+1}</span>${image(q.image,`Hình câu ${i+1}`)}</div>`).join('')}</div>${figureNote('Đọc từng câu bên phải và đối chiếu với hình cùng số.')}`;
-  if(part.type==='words') return `${figureHeader('Read the text')}<article class="reading-passage"><h3>Cats</h3><p>A cat is an animal. It has four legs.</p>${part.questions.map((q,i)=>`<p>${q.prompt.replace('___',`<span class="gap-label">(${i+1}) ${escape(state.answers[q.id]||'_____')}</span>`)}</p>`).join('')}</article><div class="word-bank" role="group" aria-label="Ngân hàng từ">${part.bank.map(word=>`<button class="${selectedWord===word?'selected':''} ${Object.values(state.answers).includes(word)?'used':''}" data-action="word" data-value="${word}" aria-pressed="${selectedWord===word}">${word}</button>`).join('')}</div>${figureNote(selectedWord?`Đã chọn “${selectedWord}”. Bấm vào chỗ trống ở bên phải để điền.`:part.hint)}`;
-  if(part.story) return `${figureHeader('Look at the pictures','story-1.png')}<div class="story-list">${[1,2,3].map(i=>`<div class="story-item">${image(`story-${i}.png`,`Tranh ${i} trong câu chuyện`)}<span class="story-number">Tranh ${i}</span></div>`).join('')}</div>${figureNote(part.hint)}`;
+  if(part.id==='r1') return `${figureHeader('Look at each picture')}<div class="object-gallery">${part.questions.map((q,i)=>`<div class="object-row"><span class="question-number">${i+1}</span>${questionArtwork(q)}</div>`).join('')}</div>${figureNote('Đọc từng câu bên phải và đối chiếu với hình cùng số.')}`;
+  if(part.type==='words') return `${figureHeader('Read the text')}<article class="reading-passage"><h3>${part.passageTitle}</h3><p>${part.example}</p>${part.questions.map((q,i)=>`<p>${q.prompt.replace('___',`<span class="gap-label">(${i+1}) ${escape(state.answers[q.id]||'_____')}</span>`)}</p>`).join('')}</article><div class="word-bank" role="group" aria-label="Ngân hàng từ">${part.bank.map(word=>`<button class="${selectedWord===word?'selected':''} ${Object.values(state.answers).includes(word)?'used':''}" data-action="word" data-value="${word}" aria-pressed="${selectedWord===word}">${word}</button>`).join('')}</div>${figureNote(selectedWord?`Đã chọn “${selectedWord}”. Bấm vào chỗ trống ở bên phải để điền.`:part.hint)}`;
+  if(part.story) return `${figureHeader('Look at the pictures',part.storyArts[0].file)}<div class="story-list">${part.storyArts.map((art,i)=>`<div class="story-item">${rasterArt(art,`Tranh ${i+1} trong câu chuyện`)}<span class="story-number">Tranh ${i+1}</span></div>`).join('')}</div>${figureNote(part.hint)}`;
   if(part.image) return `${figureHeader('Look at the picture',part.image)}<div class="visual">${image(part.image,'Tranh dùng cho các câu hỏi trong Part này')}</div><div class="example"><p>Ví dụ</p><strong>There is a tree. → Yes</strong><strong>There are two girls. → No</strong></div>${figureNote(part.hint)}`;
-  return `${figureHeader('Listen carefully')}<div class="listening-guide">${icon('headphones')}<div><h3>${part.type==='pictures'?'Listen and choose':'A new friend'}</h3><p>${part.hint}</p></div></div>${image('win.png','Win đang đồng hành cùng bạn','mini-art')}<div class="example"><p>Ví dụ trong audio</p><strong>${part.type==='pictures'?'What is on the table? → B':'What is the girl’s name? → Lucy'}</strong></div>${figureNote('Audio đã có ví dụ và hai lượt nghe. Bạn có thể dừng hoặc nghe lại trong chế độ luyện tập.')}`;
+  return `${figureHeader('Listen carefully')}<div class="listening-guide">${icon('headphones')}<div><h3>${part.type==='pictures'?'Listen and choose':'A new friend'}</h3><p>${part.hint}</p></div></div>${image('win.png','Win đang đồng hành cùng bạn','mini-art')}<div class="example"><p>Ví dụ trong audio</p><strong>${part.type==='pictures'?'What is on the table? → B':'What is the girl’s name? → '+part.exampleName}</strong></div>${figureNote('Audio đã có ví dụ và hai lượt nghe. Bạn có thể dừng hoặc nghe lại trong chế độ luyện tập.')}`;
 }
 function renderQuestions(part) {
   const count=part.questions.filter(q=>answered(q,state.answers[q.id])).length;
@@ -179,7 +190,7 @@ function renderQuestions(part) {
 }
 function renderResult() {
   const s=score(state.answers);
-  return `${header()}<main class="shell result-shell">${crumb('Kết quả · Test 01')}<div class="result-heading">${image('win.png','Win chúc mừng bạn đã hoàn thành bài')}<div class="eyebrow">Đã hoàn thành bài luyện</div><h1>${s.total===40?'Bạn đã làm đúng tất cả!':'Bạn đã hoàn thành Test 01!'}</h1><p>A day in the park · Pre A1 Starters</p></div><div class="score-grid"><section class="score-card total"><div class="score-label">${icon('shield')}Tổng kết quả</div><div class="score-number">${s.total}<span> / 40</span></div><p>${Math.round(s.total/40*100)}% câu đúng · ${40-s.answered} câu bỏ trống</p></section><section class="score-card"><div class="score-label">${icon('book')}Reading</div><div class="score-number">${s.reading.correct}<span> / 20</span></div><p>${Math.round(s.reading.correct/20*100)}% câu đúng</p></section><section class="score-card"><div class="score-label">${icon('headphones')}Listening</div><div class="score-number">${s.listening.correct}<span> / 20</span></div><p>${Math.round(s.listening.correct/20*100)}% câu đúng</p></section></div><div class="result-actions"><span class="timer">${icon('clock')}Thời gian làm: ${timeLabel(elapsed())}</span><div class="buttons">${button('Về chọn đề','catalog','','','back')}${button('Làm lại','restart','primary','','refresh')}</div></div><div class="review-toolbar"><h2>Xem lại bài làm</h2><div class="tabbar" role="group" aria-label="Xem lại kỹ năng">${['reading','listening'].map(skill=>`<button class="${reviewSkill===skill?'active':''}" data-action="review-skill" data-value="${skill}" aria-pressed="${reviewSkill===skill}">${skill==='reading'?'Reading':'Listening'}</button>`).join('')}</div></div>
+  return `${header()}<main class="shell result-shell">${crumb('Kết quả · Test '+exam.number)}<div class="result-heading">${image('win.png','Win chúc mừng bạn đã hoàn thành bài')}<div class="eyebrow">Đã hoàn thành bài luyện</div><h1>${s.total===40?'Bạn đã làm đúng tất cả!':'Bạn đã hoàn thành Test '+exam.number+'!'}</h1><p>${exam.title} · Pre A1 Starters</p></div><div class="score-grid"><section class="score-card total"><div class="score-label">${icon('shield')}Tổng kết quả</div><div class="score-number">${s.total}<span> / 40</span></div><p>${Math.round(s.total/40*100)}% câu đúng · ${40-s.answered} câu bỏ trống</p></section><section class="score-card"><div class="score-label">${icon('book')}Reading</div><div class="score-number">${s.reading.correct}<span> / 20</span></div><p>${Math.round(s.reading.correct/20*100)}% câu đúng</p></section><section class="score-card"><div class="score-label">${icon('headphones')}Listening</div><div class="score-number">${s.listening.correct}<span> / 20</span></div><p>${Math.round(s.listening.correct/20*100)}% câu đúng</p></section></div><div class="result-actions"><span class="timer">${icon('clock')}Thời gian làm: ${timeLabel(elapsed())}</span><div class="buttons">${button('Về chọn đề','catalog','','','back')}${button('Làm lại','restart','primary','','refresh')}</div></div><div class="review-toolbar"><h2>Xem lại bài làm</h2><div class="tabbar" role="group" aria-label="Xem lại kỹ năng">${['reading','listening'].map(skill=>`<button class="${reviewSkill===skill?'active':''}" data-action="review-skill" data-value="${skill}" aria-pressed="${reviewSkill===skill}">${skill==='reading'?'Reading':'Listening'}</button>`).join('')}</div></div>
     ${exam[reviewSkill].map((part,idx)=>`<section class="review-group"><div class="part-title"><h3>Part ${idx+1} · ${part.title}</h3>${button('Xem phần này','review-part','ghost',`data-skill="${reviewSkill}" data-value="${idx}"`,'zoom')}</div><div class="review-table"><div class="review-row review-head"><span>Câu</span><span>Câu hỏi</span><span>Đáp án</span><span>Kết quả</span></div>${part.questions.map((q,i)=>{
       const good=correct(q,state.answers[q.id]); const done=answered(q,state.answers[q.id]);
       return `<div class="review-row"><span class="question-number">${i+1}</span><span class="review-question">${q.prompt}</span><div class="review-answer"><small>Bạn trả lời</small>${escape(answerLabel(q,state.answers[q.id]))}<small style="margin-top:8px">Đáp án đúng</small><span style="color:var(--success)">${escape(answerLabel(q,q.answer))}</span></div><span class="review-status ${good?'good':'bad'}">${icon(good?'check':'close')}${good?'Đúng':done?'Sai':'Bỏ trống'}</span></div>`;
@@ -190,7 +201,7 @@ function navigate(screen) {
 }
 function choosePart(skill,part) {
   const changed=state.skill!==skill||state.part!==part;
-  if(changed) {audio.pause(); if(skill==='listening')audio.currentTime=0;}
+  if(changed && (skill!=='listening'||state.skill!=='listening'||exam.audioMode!=='full')) {audio.pause(); if(skill==='listening')audio.currentTime=0;}
   state.skill=skill; state.part=part; selectedWord=''; activeIndex=0; activeBall=''; render();
   window.scrollTo({top:0,behavior:'instant'});
 }
@@ -226,7 +237,7 @@ function submit() {
   });
 }
 function restart() {
-  openDialog('Làm lại Test 01?', '<p>Bắt đầu một lượt luyện mới với câu trả lời trống. Kết quả của lượt hiện tại sẽ được thay thế trong phiên demo này.</p>',button('Giữ kết quả','close-dialog')+button('Bắt đầu lượt mới','confirm','primary'),()=>{modal.close();state=fresh();state.started=Date.now();activeIndex=0;activeBall='';navigate('exam');});
+  openDialog('Làm lại Test '+exam.number+'?', '<p>Bắt đầu một lượt luyện mới với câu trả lời trống. Kết quả của lượt hiện tại sẽ được thay thế trong phiên demo này.</p>',button('Giữ kết quả','close-dialog')+button('Bắt đầu lượt mới','confirm','primary'),()=>{modal.close();state=fresh();state.started=Date.now();activeIndex=0;activeBall='';navigate('exam');});
 }
 function setAudio(file) {
   if(audioSource===file)return;
@@ -260,12 +271,20 @@ document.addEventListener('input',event=>{
 });
 document.addEventListener('click',event=>{
   const target=event.target.closest('[data-action]');if(!target || target.disabled)return;
-  const {action,value,id,file,skill}=target.dataset;
+  const {action,value,id,file,skill,test}=target.dataset;
   event.preventDefault();
   if(action==='close-dialog'){modal.close();return;}
   if(action==='confirm'){modalAction?.();return;}
   if(action==='catalog'){audio.pause();navigate('catalog');}
   if(action==='category'){category=value;render();}
+  if(action==='open-test'){
+    persist();
+    if(!selectExam(test))return;
+    KEY=keyFor(exam.id);state=readAttempt(exam.id);
+    audio.pause();audioSource='';soundTesting=false;
+    selectedWord='';activeIndex=0;activeBall='';reviewSkill='reading';
+    navigate(state.ended?'result':state.started?'exam':'intro');
+  }
   if(action==='intro')navigate('intro');
   if(action==='resume')navigate('exam');
   if(action==='result'&&state.ended)navigate('result');
@@ -315,7 +334,7 @@ document.addEventListener('click',event=>{
   if(action==='audio-retry'){audio.load();playAudio();}
   if(action==='soundcheck'){
     if(soundTesting){audio.pause();soundTesting=false;return;}
-    setAudio('listening-1.mp3');audio.currentTime=0;soundTesting=true;
+    setAudio(exam.audio[0]);audio.currentTime=0;soundTesting=true;
     $('#soundcheck-status').textContent='Đang phát 12 giây đầu của audio Listening…';playAudio();
   }
   if(action==='zoom')openDialog('Xem tranh',image(file,'Tranh phóng to','zoom-image'),' ',null,'zoom-dialog');
@@ -324,10 +343,10 @@ document.addEventListener('click',event=>{
   if(action==='review-skill'){reviewSkill=value;render();}
   if(action==='review-part'){
     const p=exam[skill][Number(value)];
-    let media=p.image?image(p.image,'Tranh của phần bài luyện','zoom-image'):p.story?[1,2,3].map(i=>image(`story-${i}.png`,`Tranh ${i}`)).join(''):p.id==='r1'?p.questions.map(q=>image(q.image,'Hình câu hỏi')).join(''):p.type==='pictures'?p.questions.map((q,i)=>`<p>${q.prompt}</p><div class="picture-options">${['A','B','C'].map(l=>`<div class="picture-choice">${optionArtwork(i,l)}<span class="option-label">${l}</span></div>`).join('')}</div>`).join(''):`<p>${p.instruction}</p>${p.questions.map(q=>`<p>${q.prompt}</p>`).join('')}`;
+    let media=p.image?image(p.image,'Tranh của phần bài luyện','zoom-image'):p.story?p.storyArts.map((art,i)=>rasterArt(art,`Tranh ${i+1}`)).join(''):p.id==='r1'?p.questions.map(q=>questionArtwork(q)).join(''):p.type==='pictures'?p.questions.map((q,i)=>`<p>${q.prompt}</p><div class="picture-options">${['A','B','C'].map(l=>`<div class="picture-choice">${optionArtwork(i,l,p)}<span class="option-label">${l}</span></div>`).join('')}</div>`).join(''):`<p>${p.instruction}</p>${p.questions.map(q=>`<p>${q.prompt}</p>`).join('')}`;
     openDialog(`${skill==='reading'?'Reading':'Listening'} · Part ${Number(value)+1}`,media,' ',null,'zoom-dialog');
   }
-  if(action==='help')openDialog('Cách luyện tập cùng WeWIN', '<p>Chọn Test 01 và bấm “Vào làm bài”. Mỗi kỹ năng có 4 Part, mỗi Part gồm 5 câu. Bạn có thể quay lại để sửa, nghe lại audio và phóng to tranh.</p><p>Làm xong, bấm “Nộp bài” để nhận điểm Reading, Listening và xem đáp án từng câu. Câu trả lời được lưu trong phiên trình duyệt này.</p>',button('Đã hiểu','close-dialog','primary'));
+  if(action==='help')openDialog('Cách luyện tập cùng WeWIN', '<p>Chọn một trong 10 Test và bấm “Vào làm bài”. Mỗi kỹ năng có 4 Part, mỗi Part gồm 5 câu. Bạn có thể quay lại để sửa, nghe lại audio và phóng to tranh.</p><p>Làm xong, bấm “Nộp bài” để nhận điểm Reading, Listening và xem đáp án từng câu. Câu trả lời được lưu riêng cho mỗi test trong phiên trình duyệt này.</p>',button('Đã hiểu','close-dialog','primary'));
 });
 setInterval(()=>{const el=$('#timer');if(el)el.textContent=timeLabel(elapsed());},1000);
 render();
