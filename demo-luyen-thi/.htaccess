@@ -1,0 +1,2 @@
+# Scoped to this demo directory. Ensure ES modules work on Apache/cPanel.
+AddType text/javascript .mjs

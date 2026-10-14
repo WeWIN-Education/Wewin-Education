@@ -1,0 +1,17 @@
+import assert from 'node:assert/strict';
+import {exam,score,correct,answered} from '../exam.mjs';
+const all=Object.fromEntries(['reading','listening'].flatMap(skill=>exam[skill].flatMap(part=>part.questions.map(q=>[q.id,q.answer]))));
+assert.equal(Object.keys(all).length,40);
+assert.equal(new Set(Object.keys(all)).size,40);
+assert.deepEqual(score(all),{reading:{total:20,correct:20,answered:20},listening:{total:20,correct:20,answered:20},total:40,answered:40});
+assert.equal(score({}).total,0);
+assert.equal(score({}).answered,0);
+assert.equal(score(Object.fromEntries(Object.keys(all).map(id=>[id,'wrong']))).total,0);
+assert.equal(score({'r1-1':'tick','l2-1':' Six ','l2-2':' bEN ','r4-5':'1'}).total,4);
+assert.equal(correct(exam.reading[3].questions[4],'ONE'),true);
+assert.equal(correct(exam.listening[1].questions[4],' ten '),true);
+assert.equal(correct(exam.listening[3].questions[0],{target:'under-table',colour:'blue'}),false);
+assert.equal(answered(exam.listening[3].questions[0],{target:'under-table'}),false);
+assert.equal(correct(exam.reading[3].questions[0],'balloon'),false);
+assert.equal(score({...all,'r1-1':'cross','l4-5':null}).total,38);
+console.log('PASS: 40 questions; all-correct, all-wrong, blanks, mixed scores, case/space normalization, numeric variants and colour targets.');

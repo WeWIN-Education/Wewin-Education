@@ -1,0 +1,9 @@
+.vercel/
+.env
+.env.*
+qa/
+previews/
+assets/page-*.png
+assets/inspection-*.jpg
+assets/mascots.png
+__pycache__/

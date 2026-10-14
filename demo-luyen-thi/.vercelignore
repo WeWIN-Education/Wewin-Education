@@ -1,0 +1,11 @@
+.git
+.vercel
+qa
+previews
+tools
+README.md
+QA.md
+.htaccess
+assets/page-*.png
+assets/inspection-*.jpg
+assets/mascots.png
