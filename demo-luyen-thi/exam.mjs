@@ -8,12 +8,12 @@ export const characters = [
   {id:'p7', x:85, y:74, label:'Nhân vật 7'},
 ];
 export const balls = [
-  {id:'under-table', x:27.4, y:41.6, label:'Bóng dưới bàn'},
-  {id:'on-chair', x:68.5, y:57.9, label:'Bóng trên ghế'},
-  {id:'under-tree', x:84.2, y:43.3, label:'Bóng dưới cây'},
-  {id:'next-box', x:10.0, y:79.4, label:'Bóng cạnh hộp'},
-  {id:'in-box', x:25.4, y:77.8, label:'Bóng trong hộp'},
-  {id:'other', x:89.5, y:78.6, label:'Bóng ở góc phải'},
+  {id:'under-table', x:27.36, y:43.32, label:'Bóng dưới bàn'},
+  {id:'on-chair', x:67.83, y:58.34, label:'Bóng trên ghế'},
+  {id:'under-tree', x:83.41, y:44.02, label:'Bóng dưới cây'},
+  {id:'next-box', x:9.46, y:79.74, label:'Bóng cạnh hộp'},
+  {id:'in-box', x:25.84, y:78.17, label:'Bóng trong hộp'},
+  {id:'other', x:89.88, y:79.83, label:'Bóng ở góc phải'},
 ];
 export const colours = [
   {id:'red', label:'Đỏ', hex:'#e65055'},
@@ -74,7 +74,7 @@ export const exam = {
       q('l3-4','What is in the box?','A'),
       q('l3-5','What is in the picture?','C'),
     ]},
-    {id:'l4', title:'Listen & colour', instruction:'Listen and colour the balls in the picture.', hint:'Chọn câu, bấm vào quả bóng được nhắc đến, rồi chọn màu. Bóng đỏ trên bàn là ví dụ.', type:'colour', image:'colour-scene.png', questions:[
+    {id:'l4', title:'Listen & colour', instruction:'Listen and colour the balls in the picture.', hint:'Chọn câu, bấm vào quả bóng được nhắc đến, rồi chọn màu. Bóng đỏ trên bàn là ví dụ.', type:'colour', image:'colour-scene-v2.png', questions:[
       q('l4-1','Câu 1',{target:'under-table',colour:'orange'}),
       q('l4-2','Câu 2',{target:'on-chair',colour:'yellow'}),
       q('l4-3','Câu 3',{target:'under-tree',colour:'green'}),

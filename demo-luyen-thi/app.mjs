@@ -43,6 +43,20 @@ const paths = {
 const icon = name => `<svg class="icon" viewBox="0 0 24 24" aria-hidden="true">${paths[name]||paths.info}</svg>`;
 const escape = value => String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const image = (file, alt, cls='') => `<img class="${cls}" src="assets/${file}" alt="${escape(alt)}" loading="lazy">`;
+// Each SVG viewport presents a complete object from the generated raster atlas.
+// Unequal object shapes are fitted independently inside the same square answer frame.
+const objectRegions = [
+  [30,20,250,280], [350,22,242,276], [640,25,280,270], [943,32,302,260],
+  [20,312,278,297], [343,315,235,293], [614,345,309,241], [941,381,307,191],
+  [14,670,313,214], [350,622,222,298], [628,647,299,256], [972,642,248,253],
+  [20,932,289,274], [331,917,257,293], [613,958,334,225], [968,920,270,290],
+];
+const optionObjects = [[0,1,2],[3,4,5],[6,7,8],[9,10,11],[12,13,14]];
+function optionArtwork(questionIndex, letter) {
+  const [x,y,w,h] = objectRegions[optionObjects[questionIndex]['ABC'.indexOf(letter)]];
+  const clipId = `object-${questionIndex}-${letter}`;
+  return `<span class="option-art" aria-hidden="true"><svg viewBox="${x-4} ${y-4} ${w+8} ${h+8}" preserveAspectRatio="xMidYMid meet" focusable="false"><defs><clipPath id="${clipId}"><rect x="${x-4}" y="${y-4}" width="${w+8}" height="${h+8}"/></clipPath></defs><image href="assets/listening-objects-v2.png" x="0" y="0" width="1254" height="1254" clip-path="url(#${clipId})"/></svg></span>`;
+}
 const button = (label, action, cls='', extra='', symbol='') => `<button class="btn ${cls}" data-action="${action}" ${extra}>${symbol?icon(symbol):''}${label}</button>`;
 const timeLabel = seconds => `${Math.floor(seconds/60).toString().padStart(2,'0')}:${Math.floor(seconds%60).toString().padStart(2,'0')}`;
 const elapsed = () => state.started ? Math.max(0,Math.floor(((state.ended||Date.now())-state.started)/1000)) : 0;
@@ -135,9 +149,9 @@ function renderFigure(part) {
     const selected=part.questions[activeIndex]; const value=state.answers[selected.id];
     const paint=balls.map(b=>{
       const a=part.questions.map(q=>state.answers[q.id]).find(a=>a?.target===b.id&&a.colour);
-      return a?`<ellipse cx="${b.x}" cy="${b.y}" rx="3.0" ry="3.59" fill="${colours.find(c=>c.id===a.colour)?.hex}" fill-opacity=".65"/>`:'';
+      return a?`<ellipse cx="${b.x}" cy="${b.y}" rx="3.0" ry="3.6" fill="${colours.find(c=>c.id===a.colour)?.hex}" fill-opacity=".78" style="mix-blend-mode:multiply"/>`:'';
     }).join('');
-    return `${figureHeader('Listen & colour','colour-scene.png')}<div class="match-caption">Đang làm: <strong>Câu ${activeIndex+1}</strong><span class="small">· Chọn bóng, rồi chọn màu</span></div><div class="visual">${image(part.image,'Tranh quả bóng ở các vị trí quanh bàn, cây, ghế và hộp')}<svg class="scene-lines" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">${paint}</svg>${balls.map((b,i)=>`<button class="ball-hit ${activeBall===b.id?'active':''}" style="left:${b.x}%;top:${b.y}%" data-action="ball" data-value="${b.id}" aria-label="Chọn ${b.label.toLowerCase()}" title="Quả bóng ${i+1}"></button>`).join('')}</div><div class="colour-palette" role="group" aria-label="Chọn màu">${colours.map(c=>`<button class="colour-choice" data-action="colour" data-value="${c.id}" aria-pressed="${value?.colour===c.id}"><span class="swatch" style="--swatch:${c.hex}"></span>${c.label}</button>`).join('')}</div>${figureNote(part.hint)}`;
+    return `${figureHeader('Listen & colour',part.image)}<div class="match-caption">Đang làm: <strong>Câu ${activeIndex+1}</strong><span class="small">· Chọn bóng, rồi chọn màu</span></div><div class="visual">${image(part.image,'Tranh quả bóng ở các vị trí quanh bàn, cây, ghế và hộp')}<svg class="scene-lines" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">${paint}</svg>${balls.map((b,i)=>`<button class="ball-hit ${activeBall===b.id?'active':''}" style="left:${b.x}%;top:${b.y}%" data-action="ball" data-value="${b.id}" aria-label="Chọn ${b.label.toLowerCase()}" title="Quả bóng ${i+1}"></button>`).join('')}</div><div class="colour-palette" role="group" aria-label="Chọn màu">${colours.map(c=>`<button class="colour-choice" data-action="colour" data-value="${c.id}" aria-pressed="${value?.colour===c.id}"><span class="swatch" style="--swatch:${c.hex}"></span>${c.label}</button>`).join('')}</div>${figureNote(part.hint)}`;
   }
   if(part.id==='r1') return `${figureHeader('Look at each picture')}<div class="object-gallery">${part.questions.map((q,i)=>`<div class="object-row"><span class="question-number">${i+1}</span>${image(q.image,`Hình câu ${i+1}`)}</div>`).join('')}</div>${figureNote('Đọc từng câu bên phải và đối chiếu với hình cùng số.')}`;
   if(part.type==='words') return `${figureHeader('Read the text')}<article class="reading-passage"><h3>Cats</h3><p>A cat is an animal. It has four legs.</p>${part.questions.map((q,i)=>`<p>${q.prompt.replace('___',`<span class="gap-label">(${i+1}) ${escape(state.answers[q.id]||'_____')}</span>`)}</p>`).join('')}</article><div class="word-bank" role="group" aria-label="Ngân hàng từ">${part.bank.map(word=>`<button class="${selectedWord===word?'selected':''} ${Object.values(state.answers).includes(word)?'used':''}" data-action="word" data-value="${word}" aria-pressed="${selectedWord===word}">${word}</button>`).join('')}</div>${figureNote(selectedWord?`Đã chọn “${selectedWord}”. Bấm vào chỗ trống ở bên phải để điền.`:part.hint)}`;
@@ -159,7 +173,7 @@ function renderQuestions(part) {
     if(part.type==='binary') content=`<div class="choice-group" role="group" aria-label="Câu ${i+1}">${part.options.map(([key,label,sub])=>`<button class="choice" data-action="answer" data-id="${q.id}" data-value="${key}" aria-pressed="${val===key}"><span class="${sub?'choice-symbol':''}">${label}</span>${sub?`<span>${sub}</span>`:''}</button>`).join('')}</div>`;
     if(part.type==='text') content=`<input class="answer-input" id="${q.id}" data-question="${q.id}" type="text" maxlength="40" autocomplete="off" autocapitalize="off" spellcheck="false" value="${escape(val||'')}" placeholder="${q.numeric?'Nhập số hoặc từ':'Nhập một từ'}" aria-label="Câu ${i+1}: ${escape(q.prompt)}">${q.picture?`<div class="input-note">Dựa vào tranh ${q.picture}</div>`:''}`;
     if(part.type==='words') content=`<button class="gap-button ${val?'filled':''}" data-action="fill-word" data-id="${q.id}"><span>${escape(val||'Bấm để điền từ đã chọn')}</span>${icon('chevron')}</button>`;
-    if(part.type==='pictures') content=`<div class="picture-options" role="group" aria-label="Câu ${i+1}">${['A','B','C'].map(letter=>`<button class="picture-choice" data-action="answer" data-id="${q.id}" data-value="${letter}" aria-pressed="${val===letter}" aria-label="Câu ${i+1}, hình ${letter}">${image(`listen-q${i+1}-${letter}.png`,`Lựa chọn ${letter}`)}<span>${letter}${val===letter?icon('check'):''}</span></button>`).join('')}</div>`;
+    if(part.type==='pictures') content=`<div class="picture-options" role="group" aria-label="Câu ${i+1}">${['A','B','C'].map(letter=>`<button class="picture-choice" data-action="answer" data-id="${q.id}" data-value="${letter}" aria-pressed="${val===letter}" aria-label="Câu ${i+1}, hình ${letter}">${optionArtwork(i,letter)}<span class="option-label">${letter}${val===letter?icon('check'):''}</span></button>`).join('')}</div>`;
     return `<div class="question-row"><div class="question-header"><span class="question-number">${i+1}</span><label class="question-prompt" ${part.type==='text'?`for="${q.id}"`:''}>${q.prompt}</label></div>${content}</div>`;
   }).join('');
 }
@@ -310,7 +324,7 @@ document.addEventListener('click',event=>{
   if(action==='review-skill'){reviewSkill=value;render();}
   if(action==='review-part'){
     const p=exam[skill][Number(value)];
-    let media=p.image?image(p.image,'Tranh của phần bài luyện','zoom-image'):p.story?[1,2,3].map(i=>image(`story-${i}.png`,`Tranh ${i}`)).join(''):p.id==='r1'?p.questions.map(q=>image(q.image,'Hình câu hỏi')).join(''):p.type==='pictures'?p.questions.map((q,i)=>`<p>${q.prompt}</p><div class="picture-options">${['A','B','C'].map(l=>image(`listen-q${i+1}-${l}.png`,l)).join('')}</div>`).join(''):`<p>${p.instruction}</p>${p.questions.map(q=>`<p>${q.prompt}</p>`).join('')}`;
+    let media=p.image?image(p.image,'Tranh của phần bài luyện','zoom-image'):p.story?[1,2,3].map(i=>image(`story-${i}.png`,`Tranh ${i}`)).join(''):p.id==='r1'?p.questions.map(q=>image(q.image,'Hình câu hỏi')).join(''):p.type==='pictures'?p.questions.map((q,i)=>`<p>${q.prompt}</p><div class="picture-options">${['A','B','C'].map(l=>`<div class="picture-choice">${optionArtwork(i,l)}<span class="option-label">${l}</span></div>`).join('')}</div>`).join(''):`<p>${p.instruction}</p>${p.questions.map(q=>`<p>${q.prompt}</p>`).join('')}`;
     openDialog(`${skill==='reading'?'Reading':'Listening'} · Part ${Number(value)+1}`,media,' ',null,'zoom-dialog');
   }
   if(action==='help')openDialog('Cách luyện tập cùng WeWIN', '<p>Chọn Test 01 và bấm “Vào làm bài”. Mỗi kỹ năng có 4 Part, mỗi Part gồm 5 câu. Bạn có thể quay lại để sửa, nghe lại audio và phóng to tranh.</p><p>Làm xong, bấm “Nộp bài” để nhận điểm Reading, Listening và xem đáp án từng câu. Câu trả lời được lưu trong phiên trình duyệt này.</p>',button('Đã hiểu','close-dialog','primary'));
