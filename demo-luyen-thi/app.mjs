@@ -125,12 +125,10 @@ function figureNote(text) { return `<div class="figure-note">${icon('info')}<spa
 function renderFigure(part) {
   if(part.type==='match') {
     const selected=part.questions[activeIndex];
-    const links=part.questions.map((q,i)=>{
-      const c=characters.find(c=>c.id===state.answers[q.id]); return c?`<line x1="${12+i*19}" y1="3" x2="${c.x}" y2="${c.y}"/>`:'';
-    }).join('');
-    return `${figureHeader('Look at the picture','listening-scene.png')}<div class="match-caption">${icon('link')}Đang nối tên: <strong>${selected.prompt}</strong></div><div class="visual">${image(part.image,'Tranh có bảy nhân vật trong công viên')}<svg class="scene-lines" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">${links}</svg>${characters.map((c,i)=>{
+    return `${figureHeader('Chọn nhân vật','listening-scene-clean.png')}<div class="match-caption match-selected">Đang chọn: <strong>${selected.prompt}</strong><span class="small">· Bấm vào nhân vật trong tranh</span></div><div class="visual match-visual">${image('listening-scene-clean.png','Tranh có bảy nhân vật trong công viên')}${characters.map((c,i)=>{
       const linked=part.questions.find(q=>state.answers[q.id]===c.id);
-      return `<button class="pin ${linked?'matched':''}" style="left:${c.x}%;top:${c.y}%" data-action="match" data-value="${c.id}" aria-label="Nối ${selected.prompt} với nhân vật ${i+1}"><small>${linked?linked.prompt:i+1}</small></button>`;
+      const active=linked?.id===selected.id;
+      return `<button class="pin ${linked?'matched':''} ${active?'active':''}" style="left:${c.x}%;top:${c.y}%" data-action="match" data-value="${c.id}" aria-label="Nối ${selected.prompt} với nhân vật ${i+1}" aria-pressed="${active}"><small>${linked?linked.prompt:c.id==='p1'?'Lucy':i+1}</small></button>`;
     }).join('')}</div>${figureNote('Lucy là ví dụ: bạn gái ở góc trên trái, cầm bóng. Chọn một tên, rồi bấm đúng nhân vật. Có thể đổi bất kỳ lúc nào.')}`;
   }
   if(part.type==='colour') {
@@ -150,11 +148,11 @@ function renderFigure(part) {
 function renderQuestions(part) {
   const count=part.questions.filter(q=>answered(q,state.answers[q.id])).length;
   const heading=`<div class="answer-heading"><strong>Câu trả lời của bạn</strong><span id="answer-count">${count}/5 câu</span></div>`;
-  if(part.type==='match'||part.type==='colour') return heading+part.questions.map((q,i)=>{
+  if(part.type==='match'||part.type==='colour') return heading+`<div class="${part.type==='match'?'match-answers':''}">`+part.questions.map((q,i)=>{
     const val=state.answers[q.id];
     const label=part.type==='match'?(val?answerLabel(q,val):'Chưa nối'):val?.target?(val.colour?answerLabel(q,val):`${balls.find(b=>b.id===val.target)?.label} · Chọn màu`):'Chưa tô màu';
-    return `<button class="name-row ${i===activeIndex?'active':''}" data-action="active-question" data-value="${i}" aria-pressed="${i===activeIndex}"><span class="name"><span class="question-number">${i+1}</span>${q.prompt}</span><span class="status">${escape(label)}${icon(part.type==='match'?'link':'chevron')}</span></button>`;
-  }).join('')+figureNote(part.hint);
+    return `<button class="name-row ${i===activeIndex?'active':''}" data-action="active-question" data-value="${i}" aria-pressed="${i===activeIndex}"><span class="name"><span class="question-number">${i+1}</span>${q.prompt}</span><span class="status">${escape(label)}${icon(part.type==='match'&&val?'check':'chevron')}</span></button>`;
+  }).join('')+'</div>'+(part.type==='match'?'':figureNote(part.hint));
   return heading+part.questions.map((q,i)=>{
     const val=state.answers[q.id];
     let content='';
