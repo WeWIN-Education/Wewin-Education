@@ -12,7 +12,7 @@ SITE = ROOT/'demo-luyen-thi'
 PACKAGE = ROOT/'WeWIN_Starters_Cartoon_Full_10TestsPackage/pdf'
 BATCH = ROOT/'output/pdf/WeWIN_Starters_Tests_02-10_Illustrated'
 FIRST = ROOT/'output/pdf/WeWIN_Starters_Test_01_Images'
-MP3 = Path(r'C:\Users\wewin2026\Downloads\WEWIN_10_PRACTICE_TESTS_AUDIO-20261013T100702Z-1-001\WEWIN_10_PRACTICE_TESTS_AUDIO')
+MP3 = Path(r'C:\Users\wewin2026\Downloads\STARTERS_10_Practice_Tests_AUDIO-20261015T094657Z-1-001\STARTERS_10_Practice_Tests_AUDIO')
 SCRIPTS = ROOT/'WeWIN_Starters_Listening_Scripts_TTS_10 TestsPackage'
 SHARED = SITE/'assets/shared'
 SHARED.mkdir(parents=True,exist_ok=True)
@@ -78,14 +78,16 @@ for n in range(1,11):
     clean[1].get_pixmap(matrix=fitz.Matrix(2,2),clip=fitz.Rect(40,239.89,555,639.89),alpha=False).save(test_dir/'matching.png')
     clean.close()
     audio=[]
-    audio_mode='parts' if n<=2 else 'full'
-    if audio_mode=='parts':
-        for part in range(1,5):
-            name=f'listening-{part}.mp3';shutil.copy2(MP3/'Individual_Parts'/f'Test_{n:02}_Part_{part}.mp3',test_dir/name)
-            audio.append(f'tests/{n:02}/{name}')
-    else:
-        shutil.copy2(MP3/'Full_Tests'/f'Test_{n:02}_Full.mp3',test_dir/'listening-full.mp3')
-        audio=[f'tests/{n:02}/listening-full.mp3']*4
+    audio_mode='parts'
+    for part in range(1,5):
+        name=f'listening-{part}.mp3'
+        shutil.copy2(MP3/'Individual_Parts'/f'WeWIN_Starters_Test_{n:02}_Part_{part}.mp3',test_dir/name)
+        audio.append(f'tests/{n:02}/{name}')
+        if n==1:
+            shutil.copy2(test_dir/name,SITE/'assets'/name)
+    obsolete_full=test_dir/'listening-full.mp3'
+    if obsolete_full.exists():
+        obsolete_full.unlink()
     title=key.split('Answer key - Test')[1].splitlines()[1]
     example_name=re.search(r'Example: (\w+)',source[1].get_text()).group(1)
     r1=questions('r1',re.findall(r'This is [^\n]+',source[6].get_text())[2:],answers(key,1))
@@ -120,7 +122,7 @@ for n in range(1,11):
     l4=questions('l4',[f'Câu {i}' for i in range(1,6)],
                   [{'target':target,'colour':colour} for target,colour in zip(['under-table','on-chair','under-tree','next-box','in-box'],colours)])
     colour_file='shared/colour-scene-v2.png' if cfg['example']=='red' else f'shared/colour-{cfg["example"]}.png'
-    exam={'id':f'starters-{n:02}','number':f'{n:02}','title':title,'level':'Pre A1 Starters','audioVersion':'20261014-tests10',
+    exam={'id':f'starters-{n:02}','number':f'{n:02}','title':title,'level':'Pre A1 Starters','audioVersion':'20261015-parts',
           'audioMode':audio_mode,'audio':audio,'cover':scene,
           'reading':[
             {'id':'r1','title':'Look & read','instruction':'Look and read. Choose a tick (✓) or a cross (✗).','hint':'Nhìn hình và đọc câu. Chọn đúng hoặc sai.','type':'binary','options':[['tick','✓','Đúng'],['cross','✗','Sai']],'questions':r1},

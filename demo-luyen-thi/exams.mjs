@@ -4,7 +4,7 @@ export const exams = [
     "number": "01",
     "title": "A day in the park",
     "level": "Pre A1 Starters",
-    "audioVersion": "20261014-tests10",
+    "audioVersion": "20261015-parts",
     "audioMode": "parts",
     "audio": [
       "tests/01/listening-1.mp3",
@@ -437,7 +437,7 @@ export const exams = [
     "number": "02",
     "title": "Our classroom",
     "level": "Pre A1 Starters",
-    "audioVersion": "20261014-tests10",
+    "audioVersion": "20261015-parts",
     "audioMode": "parts",
     "audio": [
       "tests/02/listening-1.mp3",
@@ -870,13 +870,13 @@ export const exams = [
     "number": "03",
     "title": "A birthday afternoon",
     "level": "Pre A1 Starters",
-    "audioVersion": "20261014-tests10",
-    "audioMode": "full",
+    "audioVersion": "20261015-parts",
+    "audioMode": "parts",
     "audio": [
-      "tests/03/listening-full.mp3",
-      "tests/03/listening-full.mp3",
-      "tests/03/listening-full.mp3",
-      "tests/03/listening-full.mp3"
+      "tests/03/listening-1.mp3",
+      "tests/03/listening-2.mp3",
+      "tests/03/listening-3.mp3",
+      "tests/03/listening-4.mp3"
     ],
     "cover": "shared/scene-03.png",
     "reading": [
@@ -1303,13 +1303,13 @@ export const exams = [
     "number": "04",
     "title": "At the toy shop",
     "level": "Pre A1 Starters",
-    "audioVersion": "20261014-tests10",
-    "audioMode": "full",
+    "audioVersion": "20261015-parts",
+    "audioMode": "parts",
     "audio": [
-      "tests/04/listening-full.mp3",
-      "tests/04/listening-full.mp3",
-      "tests/04/listening-full.mp3",
-      "tests/04/listening-full.mp3"
+      "tests/04/listening-1.mp3",
+      "tests/04/listening-2.mp3",
+      "tests/04/listening-3.mp3",
+      "tests/04/listening-4.mp3"
     ],
     "cover": "shared/scene-04.png",
     "reading": [
@@ -1736,13 +1736,13 @@ export const exams = [
     "number": "05",
     "title": "A family picnic",
     "level": "Pre A1 Starters",
-    "audioVersion": "20261014-tests10",
-    "audioMode": "full",
+    "audioVersion": "20261015-parts",
+    "audioMode": "parts",
     "audio": [
-      "tests/05/listening-full.mp3",
-      "tests/05/listening-full.mp3",
-      "tests/05/listening-full.mp3",
-      "tests/05/listening-full.mp3"
+      "tests/05/listening-1.mp3",
+      "tests/05/listening-2.mp3",
+      "tests/05/listening-3.mp3",
+      "tests/05/listening-4.mp3"
     ],
     "cover": "shared/scene-05.png",
     "reading": [
@@ -2169,13 +2169,13 @@ export const exams = [
     "number": "06",
     "title": "At the beach",
     "level": "Pre A1 Starters",
-    "audioVersion": "20261014-tests10",
-    "audioMode": "full",
+    "audioVersion": "20261015-parts",
+    "audioMode": "parts",
     "audio": [
-      "tests/06/listening-full.mp3",
-      "tests/06/listening-full.mp3",
-      "tests/06/listening-full.mp3",
-      "tests/06/listening-full.mp3"
+      "tests/06/listening-1.mp3",
+      "tests/06/listening-2.mp3",
+      "tests/06/listening-3.mp3",
+      "tests/06/listening-4.mp3"
     ],
     "cover": "shared/scene-06.png",
     "reading": [
@@ -2602,13 +2602,13 @@ export const exams = [
     "number": "07",
     "title": "In the garden",
     "level": "Pre A1 Starters",
-    "audioVersion": "20261014-tests10",
-    "audioMode": "full",
+    "audioVersion": "20261015-parts",
+    "audioMode": "parts",
     "audio": [
-      "tests/07/listening-full.mp3",
-      "tests/07/listening-full.mp3",
-      "tests/07/listening-full.mp3",
-      "tests/07/listening-full.mp3"
+      "tests/07/listening-1.mp3",
+      "tests/07/listening-2.mp3",
+      "tests/07/listening-3.mp3",
+      "tests/07/listening-4.mp3"
     ],
     "cover": "shared/scene-07.png",
     "reading": [
@@ -3035,13 +3035,13 @@ export const exams = [
     "number": "08",
     "title": "After school",
     "level": "Pre A1 Starters",
-    "audioVersion": "20261014-tests10",
-    "audioMode": "full",
+    "audioVersion": "20261015-parts",
+    "audioMode": "parts",
     "audio": [
-      "tests/08/listening-full.mp3",
-      "tests/08/listening-full.mp3",
-      "tests/08/listening-full.mp3",
-      "tests/08/listening-full.mp3"
+      "tests/08/listening-1.mp3",
+      "tests/08/listening-2.mp3",
+      "tests/08/listening-3.mp3",
+      "tests/08/listening-4.mp3"
     ],
     "cover": "shared/scene-08.png",
     "reading": [
@@ -3468,13 +3468,13 @@ export const exams = [
     "number": "09",
     "title": "A visit to the farm",
     "level": "Pre A1 Starters",
-    "audioVersion": "20261014-tests10",
-    "audioMode": "full",
+    "audioVersion": "20261015-parts",
+    "audioMode": "parts",
     "audio": [
-      "tests/09/listening-full.mp3",
-      "tests/09/listening-full.mp3",
-      "tests/09/listening-full.mp3",
-      "tests/09/listening-full.mp3"
+      "tests/09/listening-1.mp3",
+      "tests/09/listening-2.mp3",
+      "tests/09/listening-3.mp3",
+      "tests/09/listening-4.mp3"
     ],
     "cover": "shared/scene-09.png",
     "reading": [
@@ -3901,13 +3901,13 @@ export const exams = [
     "number": "10",
     "title": "A happy holiday",
     "level": "Pre A1 Starters",
-    "audioVersion": "20261014-tests10",
-    "audioMode": "full",
+    "audioVersion": "20261015-parts",
+    "audioMode": "parts",
     "audio": [
-      "tests/10/listening-full.mp3",
-      "tests/10/listening-full.mp3",
-      "tests/10/listening-full.mp3",
-      "tests/10/listening-full.mp3"
+      "tests/10/listening-1.mp3",
+      "tests/10/listening-2.mp3",
+      "tests/10/listening-3.mp3",
+      "tests/10/listening-4.mp3"
     ],
     "cover": "shared/scene-07.png",
     "reading": [

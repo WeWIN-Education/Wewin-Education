@@ -24,7 +24,7 @@ URL từng đề: `?screen=intro&test=starters-02`; màn làm bài: `?screen=exa
 
 Reading giữ các Part 1, 2, 4, 5 của đề gốc, đánh lại thành Part 1–4; bỏ phần sắp chữ viết từ. Mỗi câu đúng 1 điểm. Điểm tổng /40, không quy đổi thành khiên Cambridge.
 
-Audio dùng đúng bộ MP3 `WEWIN_10_PRACTICE_TESTS_AUDIO` do người dùng cung cấp. Thư mục có file Individual_Parts cho Test 01-02 và Full_Tests cho cả 10 đề. Test 01-02 dùng file theo Part; Test 03-10 dùng file toàn đề, ghi rõ trên bộ phát và giữ nguyên vị trí/phát khi chuyển giữa các Part Listening. Audio dừng khi rời kỹ năng Listening hoặc đổi đề. Các bài Movers/Flyers chỉ hiển thị trạng thái sắp có.
+Audio được cập nhật ngày 15/10/2026 từ thư mục `STARTERS_10_Practice_Tests_AUDIO/Individual_Parts` do người dùng cung cấp. Cả 10 đề đều có 4 file MP3 riêng, tổng 40 file, gắn đúng Test và Part. Chuyển Part sẽ dừng bản đang nghe và mở audio của Part mới từ đầu. Mã phiên bản audio mới giúp trình duyệt tải đúng bộ file đã thay. Các bài Movers/Flyers chỉ hiển thị trạng thái sắp có.
 
 Khi chạy lại công cụ chuẩn bị ảnh, các MP3 đang dùng được giữ nguyên. Để chủ động thay bộ audio, chạy `python tools/prepare_assets.py --audio-dir "<thư mục Individual_Parts>"`. Bản upload cPanel tự chứa các MP3 trong `assets/`, không phụ thuộc đường dẫn thư mục nguồn trên máy tính.
 

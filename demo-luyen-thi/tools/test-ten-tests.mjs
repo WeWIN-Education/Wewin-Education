@@ -7,6 +7,9 @@ assert.equal(exams.length,10);
 assert.equal(new Set(exams.map(e=>e.id)).size,10);
 let count=0;
 for(const e of exams) {
+  assert.equal(e.audioMode,'parts');
+  assert.equal(new Set(e.audio).size,4);
+  assert.deepEqual(e.audio,[1,2,3,4].map(part=>`tests/${e.number}/listening-${part}.mp3`));
   assert.equal(selectExam(e.id),true);
   assert.equal(exam.id,e.id);
   const qs=['reading','listening'].flatMap(skill=>e[skill].flatMap(p=>p.questions));
