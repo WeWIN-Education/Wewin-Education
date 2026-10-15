@@ -1,6 +1,6 @@
 # Demo luyện thi WeWIN
 
-Web độc lập dùng HTML/CSS/JavaScript, chạy trên máy tính, điện thoại và hosting tĩnh cPanel. Nội dung online: Starters Test 01-10, mỗi đề Reading 20 câu và Listening 20 câu. Mỗi đề có PDF minh họa mới gồm đủ Reading & Writing và Speaking để tải về.
+Web độc lập dùng HTML/CSS/JavaScript, chạy trên máy tính, điện thoại và hosting tĩnh cPanel. Nội dung online: Starters Test 01-10, mỗi đề Reading 20 câu và Listening 20 câu.
 
 ## Mở demo
 
@@ -9,15 +9,14 @@ Chạy một HTTP server từ thư mục này. Ví dụ: `python -m http.server 
 ## Cấu trúc
 
 - `index.html`, `styles.css`, `app.mjs`: giao diện và thao tác.
-- `exam.mjs`: chọn đề và bộ chấm độc lập; `exams.mjs`: 10 đề và 400 câu, đáp án, đường dẫn ảnh/audio/PDF.
+- `exam.mjs`: chọn đề và bộ chấm độc lập; `exams.mjs`: 10 đề và 400 câu, đáp án, đường dẫn ảnh/audio.
 - `assets/shared/`: ảnh imagegen đã duyệt từ bộ PDF mới; các vùng atlas được hiển thị đúng tỷ lệ bằng SVG.
 - `assets/tests/01` đến `10`: tranh nối tên đã bỏ đường nối ví dụ trên giấy và MP3 người dùng cung cấp.
-- `downloads/`: 10 PDF minh họa mới, trùng khớp các bản đã giao.
 - `tools/`: công cụ chuẩn bị ảnh và kiểm tra bộ chấm. Không cần đưa thư mục này lên hosting.
 
 ## Đưa lên cPanel sau khi duyệt
 
-Tạo một thư mục riêng, ví dụ `public_html/luyen-thi-demo/`. Upload `index.html`, `styles.css`, `app.mjs`, `exam.mjs`, `exams.mjs` và hai thư mục `assets/`, `downloads/`. Mở `/luyen-thi-demo/` để kiểm tra. Thêm một mục menu “Luyện thi” trong WordPress trỏ tới URL này nếu muốn hiển thị demo trên website. Không chép đè file của WordPress.
+Tạo một thư mục riêng, ví dụ `public_html/luyen-thi-demo/`. Upload `index.html`, `styles.css`, `app.mjs`, `exam.mjs`, `exams.mjs` và thư mục `assets/`. Mở `/luyen-thi-demo/` để kiểm tra. Thêm một mục menu “Luyện thi” trong WordPress trỏ tới URL này nếu muốn hiển thị demo trên website. Không chép đè file của WordPress.
 
 URL từng đề: `?screen=intro&test=starters-02`; màn làm bài: `?screen=exam&test=starters-10&skill=listening&part=0`. Mỗi đề lưu bài trong một khóa sessionStorage riêng; mở lại đề có bài dở sẽ tiếp tục, đề đã nộp sẽ hiện kết quả. Làm lại chỉ thay bài của đề đang chọn.
 
@@ -35,4 +34,7 @@ Màu xanh, navy, vàng và font được khai trong khối `:root` ở đầu `s
 
 ## Kiểm tra
 
-`node tools/test-scoring.mjs` kiểm tra hồi quy Test 01. `node tools/test-ten-tests.mjs` kiểm tra cả 10 đề/400 câu, đáp án riêng, trường hợp đúng/sai/bỏ trống, biến thể tên/số và ảnh/PDF/audio. `tools/prepare_ten_tests.py` nhập câu hỏi và đáp án từ PDF gốc, lấy ảnh mới đã duyệt và sao chép MP3/PDF. Bộ này cần các thư mục nguồn bên ngoài web; hosting chỉ cần các file chạy và tài nguyên đã xuất.
+`node tools/test-scoring.mjs` kiểm tra hồi quy Test 01. `node tools/test-ten-tests.mjs` kiểm tra cả 10 đề/400 câu, đáp án riêng, trường hợp đúng/sai/bỏ trống, biến thể tên/số và ảnh/audio. `tools/prepare_ten_tests.py` nhập câu hỏi và đáp án từ PDF gốc, lấy ảnh mới đã duyệt và sao chép MP3. Bộ này cần các thư mục nguồn bên ngoài web; hosting chỉ cần các file chạy và tài nguyên đã xuất.
+
+
+Chức năng tải PDF đã được gỡ. PDF không nằm trong dữ liệu đề, thư mục xuất bản hoặc gói upload; công cụ chuẩn bị đề không sao chép PDF lên web. Các PDF nguồn để biên soạn đề được giữ ngoài thư mục web.

@@ -12,7 +12,6 @@ export const exams = [
       "tests/01/listening-3.mp3",
       "tests/01/listening-4.mp3"
     ],
-    "pdf": "downloads/WeWIN_Starters_Test_01.pdf",
     "cover": "shared/reading-speaking-scene-v2.png",
     "reading": [
       {
@@ -446,7 +445,6 @@ export const exams = [
       "tests/02/listening-3.mp3",
       "tests/02/listening-4.mp3"
     ],
-    "pdf": "downloads/WeWIN_Starters_Test_02.pdf",
     "cover": "shared/scene-02.png",
     "reading": [
       {
@@ -880,7 +878,6 @@ export const exams = [
       "tests/03/listening-full.mp3",
       "tests/03/listening-full.mp3"
     ],
-    "pdf": "downloads/WeWIN_Starters_Test_03.pdf",
     "cover": "shared/scene-03.png",
     "reading": [
       {
@@ -1314,7 +1311,6 @@ export const exams = [
       "tests/04/listening-full.mp3",
       "tests/04/listening-full.mp3"
     ],
-    "pdf": "downloads/WeWIN_Starters_Test_04.pdf",
     "cover": "shared/scene-04.png",
     "reading": [
       {
@@ -1748,7 +1744,6 @@ export const exams = [
       "tests/05/listening-full.mp3",
       "tests/05/listening-full.mp3"
     ],
-    "pdf": "downloads/WeWIN_Starters_Test_05.pdf",
     "cover": "shared/scene-05.png",
     "reading": [
       {
@@ -2182,7 +2177,6 @@ export const exams = [
       "tests/06/listening-full.mp3",
       "tests/06/listening-full.mp3"
     ],
-    "pdf": "downloads/WeWIN_Starters_Test_06.pdf",
     "cover": "shared/scene-06.png",
     "reading": [
       {
@@ -2616,7 +2610,6 @@ export const exams = [
       "tests/07/listening-full.mp3",
       "tests/07/listening-full.mp3"
     ],
-    "pdf": "downloads/WeWIN_Starters_Test_07.pdf",
     "cover": "shared/scene-07.png",
     "reading": [
       {
@@ -3050,7 +3043,6 @@ export const exams = [
       "tests/08/listening-full.mp3",
       "tests/08/listening-full.mp3"
     ],
-    "pdf": "downloads/WeWIN_Starters_Test_08.pdf",
     "cover": "shared/scene-08.png",
     "reading": [
       {
@@ -3484,7 +3476,6 @@ export const exams = [
       "tests/09/listening-full.mp3",
       "tests/09/listening-full.mp3"
     ],
-    "pdf": "downloads/WeWIN_Starters_Test_09.pdf",
     "cover": "shared/scene-09.png",
     "reading": [
       {
@@ -3918,7 +3909,6 @@ export const exams = [
       "tests/10/listening-full.mp3",
       "tests/10/listening-full.mp3"
     ],
-    "pdf": "downloads/WeWIN_Starters_Test_10.pdf",
     "cover": "shared/scene-07.png",
     "reading": [
       {

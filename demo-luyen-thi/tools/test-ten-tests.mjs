@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import {existsSync,statSync} from 'node:fs';
+import {existsSync} from 'node:fs';
 import {fileURLToPath} from 'node:url';
 import {exams,artwork,exam,selectExam,score,correct} from '../exam.mjs';
 
@@ -23,7 +23,7 @@ for(const e of exams) {
   for(const q of e.listening[2].questions) assert.equal(q.choiceArts.length,3);
   const relative=[e.cover,...e.audio,...e.reading.filter(p=>p.image).map(p=>p.image),...e.listening.filter(p=>p.image).map(p=>p.image),...e.reading[3].storyArts.map(a=>a.file)];
   for(const path of relative) assert.equal(existsSync(fileURLToPath(new URL('../assets/'+path,import.meta.url))),true,path);
-  const pdf=fileURLToPath(new URL('../'+e.pdf,import.meta.url));assert.ok(statSync(pdf).size>1000000,pdf);
+  assert.equal(Object.hasOwn(e,'pdf'),false);
   const arts=qs.flatMap(q=>q.choiceArts||q.art?[...(q.choiceArts||[q.art])]:[]);
   for(const word of [...arts,...e.reading[2].bank]) assert.ok(artwork[word],word);
   count+=qs.length;
@@ -39,4 +39,4 @@ assert.equal(score({'l3-1':'A'}).total,1);
 selectExam('starters-02');
 assert.equal(score({'l3-1':'A'}).total,0);
 assert.equal(score({'l3-1':'B'}).total,1);
-console.log(`PASS: ${exams.length} tests / ${count} questions; independent answer keys, all-correct/wrong/blank/mixed scoring, numeric variants, colour targets, artwork and PDF/audio references.`);
+console.log(`PASS: ${exams.length} tests / ${count} questions; independent scoring and artwork/audio references; no PDF download data.`);

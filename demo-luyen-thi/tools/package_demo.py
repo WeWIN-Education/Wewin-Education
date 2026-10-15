@@ -7,7 +7,6 @@ files = [root / name for name in ['index.html', 'styles.css', 'app.mjs', 'exam.m
 files.append(root / 'tools' / 'test-scoring.mjs')
 files.append(root / 'tools' / 'test-ten-tests.mjs')
 files += [p for p in (root / 'assets').rglob('*') if p.is_file() and not p.name.startswith(('page-', 'inspection-', 'mascots.'))]
-files += list((root / 'downloads').glob('*.pdf'))
 with ZipFile(output, 'w', ZIP_DEFLATED) as archive:
     for file in files:
         archive.write(file, file.relative_to(root).as_posix())

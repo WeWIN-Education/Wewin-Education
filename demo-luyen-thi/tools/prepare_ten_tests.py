@@ -77,9 +77,6 @@ for n in range(1,11):
     assert removed==1,(n,removed)
     clean[1].get_pixmap(matrix=fitz.Matrix(2,2),clip=fitz.Rect(40,239.89,555,639.89),alpha=False).save(test_dir/'matching.png')
     clean.close()
-    pdf=ROOT/'output/pdf/WeWIN_Starters_Test_01_Illustrated.pdf' if n==1 else BATCH/'pdf'/f'WeWIN_Starters_Test_{n:02}_Illustrated.pdf'
-    (SITE/'downloads').mkdir(exist_ok=True)
-    shutil.copy2(pdf,SITE/'downloads'/f'WeWIN_Starters_Test_{n:02}.pdf')
     audio=[]
     audio_mode='parts' if n<=2 else 'full'
     if audio_mode=='parts':
@@ -124,7 +121,7 @@ for n in range(1,11):
                   [{'target':target,'colour':colour} for target,colour in zip(['under-table','on-chair','under-tree','next-box','in-box'],colours)])
     colour_file='shared/colour-scene-v2.png' if cfg['example']=='red' else f'shared/colour-{cfg["example"]}.png'
     exam={'id':f'starters-{n:02}','number':f'{n:02}','title':title,'level':'Pre A1 Starters','audioVersion':'20261014-tests10',
-          'audioMode':audio_mode,'audio':audio,'pdf':f'downloads/WeWIN_Starters_Test_{n:02}.pdf','cover':scene,
+          'audioMode':audio_mode,'audio':audio,'cover':scene,
           'reading':[
             {'id':'r1','title':'Look & read','instruction':'Look and read. Choose a tick (✓) or a cross (✗).','hint':'Nhìn hình và đọc câu. Chọn đúng hoặc sai.','type':'binary','options':[['tick','✓','Đúng'],['cross','✗','Sai']],'questions':r1},
             {'id':'r2','title':'Read the picture','instruction':'Look at the picture. Read and choose yes or no.','hint':'Đọc từng câu và chọn Yes hoặc No dựa vào tranh.','type':'binary','image':scene,'options':[['yes','Yes',''],['no','No','']],'questions':r2},
@@ -139,4 +136,4 @@ for n in range(1,11):
     exams.append(exam)
     print(f'Imported Test {n:02}: {title} / audio {audio_mode}',flush=True)
 (SITE/'exams.mjs').write_text('export const exams = '+json.dumps(exams,ensure_ascii=False,indent=2)+';\nexport const artwork = '+json.dumps(artwork,ensure_ascii=False,indent=2)+';\n',encoding='utf-8')
-print('Prepared ten exams, approved artwork, ten PDFs and original supplied MP3s.',flush=True)
+print('Prepared ten exams, approved artwork and original supplied MP3s.',flush=True)
