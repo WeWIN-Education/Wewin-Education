@@ -23,6 +23,7 @@ let audioSource='';
 const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const norm=v=>String(v??'').trim().toLowerCase().replace(/[.!?]+$/,'').replace(/\s+/g,' ');
 const words=['zero','one','two','three','four','five','six','seven','eight','nine','ten','eleven','twelve','thirteen','fourteen','fifteen','sixteen','seventeen','eighteen','nineteen','twenty','twenty-one','twenty-two','twenty-three','twenty-four','twenty-five'];
+for(let n=26;n<100;n++)words[n]=['','','twenty','thirty','forty','fifty','sixty','seventy','eighty','ninety'][Math.floor(n/10)]+(n%10?'-'+words[n%10]:'');
 const correct=(q,v)=>(q.accepted||[q.answer]).some(a=>norm(a)===norm(v))||(/^\d+$/.test(q.answer)&&norm(v).replace(/ /g,'-')===words[Number(q.answer)]);
 function scores(){return Object.fromEntries(['reading','listening'].map(skill=>{
  const qs=exam[skill].filter(p=>!p.manual).flatMap(p=>p.questions);
