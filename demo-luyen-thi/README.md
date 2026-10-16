@@ -4,9 +4,9 @@
 
 Đã thêm 10 đề A1 Movers từ `WeWIN_Movers_10_New_Tests_06_15_Full_Pack`. Trang chọn đề có bộ lọc Movers. Mỗi đề có 5 phần Listening /25 và 5 phần Reading có đáp án xác định /29. Reading & Writing Part 6 gồm 6 câu cần giáo viên xem, được lưu riêng và không chấm bằng cách so khớp câu mẫu. Sau khi nộp, phần này hiển thị câu đã viết cùng ví dụ tham khảo. Điểm tự động tổng /54, không phải /60 của bài giấy có giáo viên chấm.
 
-Audio Movers chưa được cung cấp: mỗi phần Listening hiển thị “Đang chờ audio”, không có bộ phát lỗi và không dùng audio của Starters. Cấu trúc `audio` đã chuẩn bị 5 mục riêng cho mỗi đề. Các bài nghe hiện chỉ để xem trước cho đến khi bổ sung MP3. Bản này không có chấm Speaking và không tải PDF.
+Audio Movers được cập nhật ngày 16/10/2026: 50 MP3 cho Mock 06–15, mỗi đề 5 Part riêng. Có phát/dừng, tua và nghe từ đầu; chuyển Part sẽ dừng bản cũ và mở phần mới. Các MP3 được kiểm tra thời lượng và SHA-256 với nguồn do người dùng cung cấp. Bản này không có chấm Speaking và không tải PDF.
 
-`bootstrap.mjs` chọn giao diện Starters hoặc Movers theo `test` trong URL. `movers.mjs` chứa dữ liệu 10 đề; `movers-app.mjs` hiển thị trang đề gốc, ô trả lời và kết quả. `assets/movers/06` đến `15` chứa hình trang đề, không chứa PDF hay Teacher Guide. `tools/prepare_movers.py` nhập dữ liệu từ bộ đề và đáp án gốc; `node tools/test-movers.mjs` kiểm tra 540 câu có đáp án, 60 câu viết giáo viên, ảnh và trạng thái audio chờ.
+`bootstrap.mjs` chọn giao diện Starters hoặc Movers theo `test` trong URL. `movers.mjs` chứa dữ liệu 10 đề; `movers-app.mjs` hiển thị trang đề gốc, ô trả lời và kết quả. `assets/movers/06` đến `15` chứa hình trang đề, không chứa PDF hay Teacher Guide. `tools/prepare_movers.py` nhập dữ liệu từ bộ đề và đáp án gốc; `node tools/test-movers.mjs` kiểm tra 540 câu có đáp án, 60 câu viết giáo viên, ảnh và 50 file audio theo Part.
 
 Web độc lập dùng HTML/CSS/JavaScript, chạy trên máy tính, điện thoại và hosting tĩnh cPanel. Nội dung online: Starters Test 01-10, mỗi đề Reading 20 câu và Listening 20 câu.
 
@@ -32,7 +32,7 @@ URL từng đề: `?screen=intro&test=starters-02`; màn làm bài: `?screen=exa
 
 Reading giữ các Part 1, 2, 4, 5 của đề gốc, đánh lại thành Part 1–4; bỏ phần sắp chữ viết từ. Mỗi câu đúng 1 điểm. Điểm tổng /40, không quy đổi thành khiên Cambridge.
 
-Audio được cập nhật ngày 15/10/2026 từ thư mục `STARTERS_10_Practice_Tests_AUDIO/Individual_Parts` do người dùng cung cấp. Cả 10 đề đều có 4 file MP3 riêng, tổng 40 file, gắn đúng Test và Part. Chuyển Part sẽ dừng bản đang nghe và mở audio của Part mới từ đầu. Mã phiên bản audio mới giúp trình duyệt tải đúng bộ file đã thay. Các bài Movers/Flyers chỉ hiển thị trạng thái sắp có.
+Audio được cập nhật ngày 15/10/2026 từ thư mục `STARTERS_10_Practice_Tests_AUDIO/Individual_Parts` do người dùng cung cấp. Cả 10 đề đều có 4 file MP3 riêng, tổng 40 file, gắn đúng Test và Part. Chuyển Part sẽ dừng bản đang nghe và mở audio của Part mới từ đầu. Mã phiên bản audio mới giúp trình duyệt tải đúng bộ file đã thay. Movers có bộ 50 audio riêng; Flyers đang sắp có.
 
 Khi chạy lại công cụ chuẩn bị ảnh, các MP3 đang dùng được giữ nguyên. Để chủ động thay bộ audio, chạy `python tools/prepare_assets.py --audio-dir "<thư mục Individual_Parts>"`. Bản upload cPanel tự chứa các MP3 trong `assets/`, không phụ thuộc đường dẫn thư mục nguồn trên máy tính.
 

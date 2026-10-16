@@ -66,6 +66,6 @@ for n in range(6,16):
     r.append({'title':'Write about the picture','images':[images[15]],'manual':True,'questions':[{'id':f'r6-{i+1}','prompt':f'Câu {i+1}','sample':v} for i,v in enumerate(samples)]})
     assert sum(len(p['questions']) for p in l)==25
     assert sum(len(p['questions']) for p in r if not p.get('manual'))==29
-    e={'id':f'movers-{n:02}','number':f'{n:02}','title':k[0].splitlines()[1],'level':'A1 Movers','cover':f'movers/{n:02}/cover.jpg','audio':[None]*5,'reading':r,'listening':l}
+    e={'id':f'movers-{n:02}','number':f'{n:02}','title':k[0].splitlines()[1],'level':'A1 Movers','cover':f'movers/{n:02}/cover.jpg','audio':[f'movers/{n:02}/listening-{p}.mp3' if (SITE/'assets'/f'movers/{n:02}/listening-{p}.mp3').exists() else None for p in range(1,6)],'audioVersion':'20261016-movers-parts','reading':r,'listening':l}
     out.append(e);print('Prepared',e['id'],e['title'],flush=True)
 (SITE/'movers.mjs').write_text('export const movers = '+json.dumps(out,ensure_ascii=False,indent=2)+';\n',encoding='utf-8')

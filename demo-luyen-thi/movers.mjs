@@ -6,11 +6,11 @@ export const movers = [
     "level": "A1 Movers",
     "cover": "movers/06/cover.jpg",
     "audio": [
-      null,
-      null,
-      null,
-      null,
-      null
+      "movers/06/listening-1.mp3",
+      "movers/06/listening-2.mp3",
+      "movers/06/listening-3.mp3",
+      "movers/06/listening-4.mp3",
+      "movers/06/listening-5.mp3"
     ],
     "reading": [
       {
@@ -683,7 +683,8 @@ export const movers = [
           }
         ]
       }
-    ]
+    ],
+    "audioVersion": "20261016-movers-parts"
   },
   {
     "id": "movers-07",
@@ -692,11 +693,11 @@ export const movers = [
     "level": "A1 Movers",
     "cover": "movers/07/cover.jpg",
     "audio": [
-      null,
-      null,
-      null,
-      null,
-      null
+      "movers/07/listening-1.mp3",
+      "movers/07/listening-2.mp3",
+      "movers/07/listening-3.mp3",
+      "movers/07/listening-4.mp3",
+      "movers/07/listening-5.mp3"
     ],
     "reading": [
       {
@@ -1369,7 +1370,8 @@ export const movers = [
           }
         ]
       }
-    ]
+    ],
+    "audioVersion": "20261016-movers-parts"
   },
   {
     "id": "movers-08",
@@ -1378,11 +1380,11 @@ export const movers = [
     "level": "A1 Movers",
     "cover": "movers/08/cover.jpg",
     "audio": [
-      null,
-      null,
-      null,
-      null,
-      null
+      "movers/08/listening-1.mp3",
+      "movers/08/listening-2.mp3",
+      "movers/08/listening-3.mp3",
+      "movers/08/listening-4.mp3",
+      "movers/08/listening-5.mp3"
     ],
     "reading": [
       {
@@ -2055,7 +2057,8 @@ export const movers = [
           }
         ]
       }
-    ]
+    ],
+    "audioVersion": "20261016-movers-parts"
   },
   {
     "id": "movers-09",
@@ -2064,11 +2067,11 @@ export const movers = [
     "level": "A1 Movers",
     "cover": "movers/09/cover.jpg",
     "audio": [
-      null,
-      null,
-      null,
-      null,
-      null
+      "movers/09/listening-1.mp3",
+      "movers/09/listening-2.mp3",
+      "movers/09/listening-3.mp3",
+      "movers/09/listening-4.mp3",
+      "movers/09/listening-5.mp3"
     ],
     "reading": [
       {
@@ -2741,7 +2744,8 @@ export const movers = [
           }
         ]
       }
-    ]
+    ],
+    "audioVersion": "20261016-movers-parts"
   },
   {
     "id": "movers-10",
@@ -2750,11 +2754,11 @@ export const movers = [
     "level": "A1 Movers",
     "cover": "movers/10/cover.jpg",
     "audio": [
-      null,
-      null,
-      null,
-      null,
-      null
+      "movers/10/listening-1.mp3",
+      "movers/10/listening-2.mp3",
+      "movers/10/listening-3.mp3",
+      "movers/10/listening-4.mp3",
+      "movers/10/listening-5.mp3"
     ],
     "reading": [
       {
@@ -3427,7 +3431,8 @@ export const movers = [
           }
         ]
       }
-    ]
+    ],
+    "audioVersion": "20261016-movers-parts"
   },
   {
     "id": "movers-11",
@@ -3436,11 +3441,11 @@ export const movers = [
     "level": "A1 Movers",
     "cover": "movers/11/cover.jpg",
     "audio": [
-      null,
-      null,
-      null,
-      null,
-      null
+      "movers/11/listening-1.mp3",
+      "movers/11/listening-2.mp3",
+      "movers/11/listening-3.mp3",
+      "movers/11/listening-4.mp3",
+      "movers/11/listening-5.mp3"
     ],
     "reading": [
       {
@@ -4113,7 +4118,8 @@ export const movers = [
           }
         ]
       }
-    ]
+    ],
+    "audioVersion": "20261016-movers-parts"
   },
   {
     "id": "movers-12",
@@ -4122,11 +4128,11 @@ export const movers = [
     "level": "A1 Movers",
     "cover": "movers/12/cover.jpg",
     "audio": [
-      null,
-      null,
-      null,
-      null,
-      null
+      "movers/12/listening-1.mp3",
+      "movers/12/listening-2.mp3",
+      "movers/12/listening-3.mp3",
+      "movers/12/listening-4.mp3",
+      "movers/12/listening-5.mp3"
     ],
     "reading": [
       {
@@ -4799,7 +4805,8 @@ export const movers = [
           }
         ]
       }
-    ]
+    ],
+    "audioVersion": "20261016-movers-parts"
   },
   {
     "id": "movers-13",
@@ -4808,11 +4815,11 @@ export const movers = [
     "level": "A1 Movers",
     "cover": "movers/13/cover.jpg",
     "audio": [
-      null,
-      null,
-      null,
-      null,
-      null
+      "movers/13/listening-1.mp3",
+      "movers/13/listening-2.mp3",
+      "movers/13/listening-3.mp3",
+      "movers/13/listening-4.mp3",
+      "movers/13/listening-5.mp3"
     ],
     "reading": [
       {
@@ -5485,7 +5492,8 @@ export const movers = [
           }
         ]
       }
-    ]
+    ],
+    "audioVersion": "20261016-movers-parts"
   },
   {
     "id": "movers-14",
@@ -5494,11 +5502,11 @@ export const movers = [
     "level": "A1 Movers",
     "cover": "movers/14/cover.jpg",
     "audio": [
-      null,
-      null,
-      null,
-      null,
-      null
+      "movers/14/listening-1.mp3",
+      "movers/14/listening-2.mp3",
+      "movers/14/listening-3.mp3",
+      "movers/14/listening-4.mp3",
+      "movers/14/listening-5.mp3"
     ],
     "reading": [
       {
@@ -6171,7 +6179,8 @@ export const movers = [
           }
         ]
       }
-    ]
+    ],
+    "audioVersion": "20261016-movers-parts"
   },
   {
     "id": "movers-15",
@@ -6180,11 +6189,11 @@ export const movers = [
     "level": "A1 Movers",
     "cover": "movers/15/cover.jpg",
     "audio": [
-      null,
-      null,
-      null,
-      null,
-      null
+      "movers/15/listening-1.mp3",
+      "movers/15/listening-2.mp3",
+      "movers/15/listening-3.mp3",
+      "movers/15/listening-4.mp3",
+      "movers/15/listening-5.mp3"
     ],
     "reading": [
       {
@@ -6857,6 +6866,7 @@ export const movers = [
           }
         ]
       }
-    ]
+    ],
+    "audioVersion": "20261016-movers-parts"
   }
 ];
