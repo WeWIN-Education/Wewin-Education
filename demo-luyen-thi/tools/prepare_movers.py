@@ -26,7 +26,7 @@ for n in range(6,16):
         file=f'movers/{n:02}/page-{i+1:02}.jpg'
         pix.save(SITE/'assets'/file,jpg_quality=88)
         images[i+1]=file
-    d[0].get_pixmap(matrix=fitz.Matrix(1.2,1.2),clip=fitz.Rect(38,218,555,600),alpha=False).save(dest/'cover.jpg',jpg_quality=88)
+    d[0].get_pixmap(matrix=fitz.Matrix(1.2,1.2),clip=fitz.Rect(40,234.14,555,577.64),alpha=False).save(dest/'cover.jpg',jpg_quality=88)
     def qlist(prefix,answers,choice=None):
         return [{'id':f'{prefix}-{i+1}','prompt':f'Câu {i+1}', 'answer':v,'choices':choice or []} for i,v in enumerate(answers)]
     l=[]
