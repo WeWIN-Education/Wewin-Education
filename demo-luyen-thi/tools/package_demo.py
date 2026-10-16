@@ -3,7 +3,7 @@ from zipfile import ZipFile, ZIP_DEFLATED
 
 root = Path(__file__).resolve().parents[1]
 output = root.parent / 'wewin-luyen-thi-demo.zip'
-files = [root / name for name in ['index.html', 'styles.css', 'app.mjs', 'exam.mjs', 'exams.mjs', '.htaccess', 'README.md', 'IMAGE_ASSETS.md']]
+files = [root / name for name in ['index.html', 'styles.css', 'bootstrap.mjs', 'app.mjs', 'exam.mjs', 'exams.mjs', 'movers.mjs', 'movers-app.mjs', '.htaccess', 'README.md', 'IMAGE_ASSETS.md']]
 files.append(root / 'tools' / 'test-scoring.mjs')
 files.append(root / 'tools' / 'test-ten-tests.mjs')
 files += [p for p in (root / 'assets').rglob('*') if p.is_file() and not p.name.startswith(('page-', 'inspection-', 'mascots.'))]

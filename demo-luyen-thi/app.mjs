@@ -1,4 +1,5 @@
 import {exam, exams, artwork, selectExam, characters, balls, colours, answered, correct, score, answerLabel} from './exam.mjs';
+import {movers} from './movers.mjs';
 
 const $ = selector => document.querySelector(selector);
 const root = $('#app');
@@ -107,15 +108,15 @@ function render() {
 function renderCatalog() {
   const cards=[
     ...exams.map(e=>({...e,level:'starters',tag:e.level,number:'Test '+e.number,live:true})),
-    {level:'movers',tag:'A1 Movers',number:'Mock 06–15',title:'Bộ đề luyện A1 Movers',cover:'birthday.png'},
+    ...movers.map(e=>({...e,level:'movers',tag:e.level,number:'Mock '+e.number,live:true})),
     {level:'flyers',tag:'A2 Flyers',number:'Mock 06–15',title:'Bộ đề luyện A2 Flyers',cover:'birthday.png'},
   ].filter(c=>category==='all'||category===c.level);
   const stats=score(state.answers);
   return `${header()}<main class="shell"><div class="breadcrumb"><span>WeWIN Education</span>${icon('chevron')}<span>Luyện thi</span></div>
-    <section class="hero"><div class="hero-copy"><div class="eyebrow">WeWIN English Practice</div><h1>Luyện thi tiếng Anh<br>cùng WeWIN</h1><p>Chọn một trong 10 đề Starters, luyện Reading & Listening<br>và xem kết quả ngay sau khi hoàn thành.</p><div class="hero-meta"><span>${icon('book')}Đề luyện theo cấp độ</span><span>${icon('check')}Chấm kết quả tự động</span><span>${icon('headphones')}Audio cho từng đề</span></div></div><div class="hero-art">${image('win.png','Win — linh vật WeWIN')}<span class="art-note">Cùng Win luyện mỗi ngày</span></div></section>
+    <section class="hero"><div class="hero-copy"><div class="eyebrow">WeWIN English Practice</div><h1>Luyện thi tiếng Anh<br>cùng WeWIN</h1><p>Chọn đề Starters hoặc Movers, luyện Reading & Listening<br>và xem kết quả ngay sau khi hoàn thành.</p><div class="hero-meta"><span>${icon('book')}Đề luyện theo cấp độ</span><span>${icon('check')}Chấm kết quả tự động</span><span>${icon('headphones')}Audio cho từng đề</span></div></div><div class="hero-art">${image('win.png','Win — linh vật WeWIN')}<span class="art-note">Cùng Win luyện mỗi ngày</span></div></section>
     ${state.started?`<section class="resume-banner"><div><strong>${state.ended?'Bạn đã hoàn thành Test '+exam.number:'Bạn có một bài đang làm'}</strong><span class="muted small">${exam.title} · ${state.ended?`${stats.total}/40 câu đúng`:`${stats.answered}/40 câu đã trả lời`}</span></div>${button(state.ended?'Xem kết quả':'Tiếp tục làm bài',state.ended?'result':'resume','','','arrow')}</section>`:''}
-    <section aria-label="Danh sách đề"><div class="catalog-heading"><div><h2>Chọn bộ đề của bạn</h2><p>10 đề Starters · Luyện Reading và Listening trực tuyến.</p></div><div class="tabbar" role="group" aria-label="Lọc cấp độ">${[['all','Tất cả'],['starters','Starters'],['movers','Movers'],['flyers','Flyers']].map(([id,title])=>`<button class="${category===id?'active':''}" data-action="category" data-value="${id}" aria-pressed="${category===id}">${title}</button>`).join('')}</div></div>
-    <div class="exam-grid">${cards.map(c=>`<article class="exam-card"><div class="cover ${c.live?'park':''}">${image(c.cover,`${c.tag} — hình minh họa từ bộ đề`)}<span class="cover-badge">${c.number}</span></div><div class="card-body"><div class="card-meta"><span class="level">${c.tag}</span>${c.live?'<span class="available">Có thể làm ngay</span>':'<span class="muted small">Sắp có</span>'}</div><h3>${c.title}</h3><p>${c.live?'40 câu Reading & Listening · Tranh minh họa mới':'Tài liệu đã có. Bài luyện trực tuyến đang được chuẩn bị.'}</p>${c.live?`<div class="skills"><span>${icon('book')}Reading · 20 câu</span><span>${icon('headphones')}Listening · 20 câu</span></div><div class="card-actions">${examAction(c)}</div>`:'<div class="coming-label">Bài luyện sắp được mở</div>'}</div></article>`).join('')}</div></section>
+    <section aria-label="Danh sách đề"><div class="catalog-heading"><div><h2>Chọn bộ đề của bạn</h2><p>10 đề Starters · 10 đề Movers · Luyện Reading và Listening trực tuyến.</p></div><div class="tabbar" role="group" aria-label="Lọc cấp độ">${[['all','Tất cả'],['starters','Starters'],['movers','Movers'],['flyers','Flyers']].map(([id,title])=>`<button class="${category===id?'active':''}" data-action="category" data-value="${id}" aria-pressed="${category===id}">${title}</button>`).join('')}</div></div>
+    <div class="exam-grid">${cards.map(c=>`<article class="exam-card"><div class="cover ${c.live?'park':''}">${image(c.cover,`${c.tag} — hình minh họa từ bộ đề`)}<span class="cover-badge">${c.number}</span></div><div class="card-body"><div class="card-meta"><span class="level">${c.tag}</span>${c.live?'<span class="available">Có thể làm ngay</span>':'<span class="muted small">Sắp có</span>'}</div><h3>${c.title}</h3><p>${c.live?(c.level==='movers'?'Reading đã mở · Listening đang chờ audio':'40 câu Reading & Listening · Tranh minh họa mới'):'Tài liệu đã có. Bài luyện trực tuyến đang được chuẩn bị.'}</p>${c.live?`<div class="skills"><span>${icon('book')}Reading · ${c.level==='movers'?29:20} câu</span><span>${icon('headphones')}Listening · ${c.level==='movers'?25:20} câu</span></div><div class="card-actions">${examAction(c)}</div>`:'<div class="coming-label">Bài luyện sắp được mở</div>'}</div></article>`).join('')}</div></section>
     <div class="howto"><div class="howto-item"><span class="step-no">1</span><div><h3>Chọn một đề</h3><p>Xem nội dung và hướng dẫn trước khi làm.</p></div></div><div class="howto-item"><span class="step-no">2</span><div><h3>Đọc, nghe và trả lời</h3><p>Làm từng phần, có thể quay lại để sửa.</p></div></div><div class="howto-item"><span class="step-no">3</span><div><h3>Xem kết quả</h3><p>Nhận điểm và xem lại đáp án từng câu.</p></div></div></div></main>${footer()}`;
 }
 function renderIntro() {
@@ -277,6 +278,7 @@ document.addEventListener('click',event=>{
   if(action==='catalog'){audio.pause();navigate('catalog');}
   if(action==='category'){category=value;render();}
   if(action==='open-test'){
+    if(test.startsWith('movers-')){location.href=`?screen=intro&test=${test}`;return;}
     persist();
     if(!selectExam(test))return;
     KEY=keyFor(exam.id);state=readAttempt(exam.id);

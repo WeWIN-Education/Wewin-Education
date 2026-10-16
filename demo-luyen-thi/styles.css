@@ -101,6 +101,15 @@ a:hover { text-decoration: underline; }
 .skills .icon { width: 16px; height: 16px; }
 .card-body .btn { margin-top: auto; }
 .card-actions { display:grid; gap:8px; margin-top:auto; }
+.mover-notice { background:var(--gold-light); padding:16px 20px; border-radius:12px; margin:16px 0; }
+.mover-notice p { margin:4px 0; }
+.mover-page { display:block; padding:0; border:1px solid var(--border-strong); background:var(--surface); width:100%; margin-top:16px; border-radius:8px; overflow:hidden; }
+.mover-page img { display:block; width:100%; height:auto; }
+.mover-choices { padding-left:0; flex-wrap:wrap; }
+.mover-choices .choice { text-align:left; min-width:44px; }
+.mover-colour { display:grid; gap:8px; margin-top:12px; }
+.mover-colour select { width:100%; min-height:44px; padding:8px; border:1px solid var(--border-strong); border-radius:8px; background:var(--surface); color:var(--foreground); }
+textarea.answer-input { resize:vertical; min-height:90px; }
 .card-actions .btn { margin-top:0; }
 .raster-art { display:block; max-width:100%; width:100%; height:auto; }
 .object-row .raster-art { height:86px; width:86px; margin:auto; }

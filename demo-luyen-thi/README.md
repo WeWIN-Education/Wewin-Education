@@ -1,5 +1,13 @@
 # Demo luyện thi WeWIN
 
+## Movers Mock 06-15
+
+Đã thêm 10 đề A1 Movers từ `WeWIN_Movers_10_New_Tests_06_15_Full_Pack`. Trang chọn đề có bộ lọc Movers. Mỗi đề có 5 phần Listening /25 và 5 phần Reading có đáp án xác định /29. Reading & Writing Part 6 gồm 6 câu cần giáo viên xem, được lưu riêng và không chấm bằng cách so khớp câu mẫu. Sau khi nộp, phần này hiển thị câu đã viết cùng ví dụ tham khảo. Điểm tự động tổng /54, không phải /60 của bài giấy có giáo viên chấm.
+
+Audio Movers chưa được cung cấp: mỗi phần Listening hiển thị “Đang chờ audio”, không có bộ phát lỗi và không dùng audio của Starters. Cấu trúc `audio` đã chuẩn bị 5 mục riêng cho mỗi đề. Các bài nghe hiện chỉ để xem trước cho đến khi bổ sung MP3. Bản này không có chấm Speaking và không tải PDF.
+
+`bootstrap.mjs` chọn giao diện Starters hoặc Movers theo `test` trong URL. `movers.mjs` chứa dữ liệu 10 đề; `movers-app.mjs` hiển thị trang đề gốc, ô trả lời và kết quả. `assets/movers/06` đến `15` chứa hình trang đề, không chứa PDF hay Teacher Guide. `tools/prepare_movers.py` nhập dữ liệu từ bộ đề và đáp án gốc; `node tools/test-movers.mjs` kiểm tra 540 câu có đáp án, 60 câu viết giáo viên, ảnh và trạng thái audio chờ.
+
 Web độc lập dùng HTML/CSS/JavaScript, chạy trên máy tính, điện thoại và hosting tĩnh cPanel. Nội dung online: Starters Test 01-10, mỗi đề Reading 20 câu và Listening 20 câu.
 
 ## Mở demo
