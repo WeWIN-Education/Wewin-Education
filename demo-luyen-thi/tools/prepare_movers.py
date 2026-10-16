@@ -22,7 +22,7 @@ for n in range(6,16):
     images={}
     for i in range(1,15):
         # Keep the full question content and original art, excluding only page furniture.
-        pix=d[i].get_pixmap(matrix=fitz.Matrix(1.8,1.8),clip=fitz.Rect(30,90,565,790),alpha=False)
+        pix=d[i].get_pixmap(matrix=fitz.Matrix(1.8,1.8),clip=fitz.Rect(30,90,565,805),alpha=False)
         file=f'movers/{n:02}/page-{i+1:02}.jpg'
         pix.save(SITE/'assets'/file,jpg_quality=88)
         images[i+1]=file
@@ -55,7 +55,11 @@ for n in range(6,16):
         av=vals(rp[p]);assert len(av)==count,(n,p,av)
         if p==3:av[-1]=av[-1].split('—')[0].strip()
         qs=qlist(f'r{p}',av,list('ABC') if p==2 else None)
-        if p==3:qs[-1]['choices']=list('ABC');qs[-1]['prompt']='Câu 6 · Tên câu chuyện'
+        if p==3:
+            titles=re.findall(r'^([ABC])\s+(.+)$',d[9].get_text(),re.M)
+            assert len(titles)==3,(n,titles)
+            qs[-1]['choices']=[{'value':letter,'label':letter+' · '+title.strip()} for letter,title in titles]
+            qs[-1]['prompt']='Câu 6 · Tên câu chuyện'
         r.append({'title':['Choose the words','Read the conversation','Complete the story','Choose the right words'][p-1],'images':[images[p+7]],'questions':qs})
     story=second.split('Part 5 · Complete the story sentences ')[1].split('Part 6 ·')[0]
     av=re.findall(r'\d+\. (.*?) — ',story);assert len(av)==7,(n,av)

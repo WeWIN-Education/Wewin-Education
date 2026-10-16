@@ -19,6 +19,8 @@ for(const [index,e] of movers.entries()){
  assert.equal(e.reading[5].manual,true);assert.equal(e.reading[5].questions.length,6);
  assert.ok(e.reading[5].questions.every(q=>q.sample&&!q.answer));
  for(const p of [...e.reading,...e.listening])for(const image of p.images)assert.ok(existsSync(fileURLToPath(new URL('../assets/'+image,import.meta.url))),image);
+ assert.deepEqual(e.reading[2].questions[5].choices.map(c=>c.value),['A','B','C']);
+ assert.ok(e.reading[2].questions[5].choices.every(c=>c.label.length>5));
  assert.ok(!e.pdf);
 }
 console.log('PASS: 10 Movers tests, 540 objective questions, 60 teacher-reviewed writing answers, source images present, 50 Part MP3 files present, no PDF downloads.');

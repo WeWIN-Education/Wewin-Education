@@ -12,6 +12,7 @@ export const movers = [
       "movers/06/listening-4.mp3",
       "movers/06/listening-5.mp3"
     ],
+    "audioVersion": "20261016-movers-parts",
     "reading": [
       {
         "title": "Choose the words",
@@ -160,9 +161,18 @@ export const movers = [
             "prompt": "Câu 6 · Tên câu chuyện",
             "answer": "C",
             "choices": [
-              "A",
-              "B",
-              "C"
+              {
+                "value": "A",
+                "label": "A · A new coat"
+              },
+              {
+                "value": "B",
+                "label": "B · A day on the river"
+              },
+              {
+                "value": "C",
+                "label": "C · A party at home"
+              }
             ]
           }
         ]
@@ -683,8 +693,7 @@ export const movers = [
           }
         ]
       }
-    ],
-    "audioVersion": "20261016-movers-parts"
+    ]
   },
   {
     "id": "movers-07",
@@ -699,6 +708,7 @@ export const movers = [
       "movers/07/listening-4.mp3",
       "movers/07/listening-5.mp3"
     ],
+    "audioVersion": "20261016-movers-parts",
     "reading": [
       {
         "title": "Choose the words",
@@ -847,9 +857,18 @@ export const movers = [
             "prompt": "Câu 6 · Tên câu chuyện",
             "answer": "B",
             "choices": [
-              "A",
-              "B",
-              "C"
+              {
+                "value": "A",
+                "label": "A · A cold day on a boat"
+              },
+              {
+                "value": "B",
+                "label": "B · Fun at sports day"
+              },
+              {
+                "value": "C",
+                "label": "C · A new school bag"
+              }
             ]
           }
         ]
@@ -1370,8 +1389,7 @@ export const movers = [
           }
         ]
       }
-    ],
-    "audioVersion": "20261016-movers-parts"
+    ]
   },
   {
     "id": "movers-08",
@@ -1386,6 +1404,7 @@ export const movers = [
       "movers/08/listening-4.mp3",
       "movers/08/listening-5.mp3"
     ],
+    "audioVersion": "20261016-movers-parts",
     "reading": [
       {
         "title": "Choose the words",
@@ -1534,9 +1553,18 @@ export const movers = [
             "prompt": "Câu 6 · Tên câu chuyện",
             "answer": "B",
             "choices": [
-              "A",
-              "B",
-              "C"
+              {
+                "value": "A",
+                "label": "A · A boat trip"
+              },
+              {
+                "value": "B",
+                "label": "B · A bird that could talk"
+              },
+              {
+                "value": "C",
+                "label": "C · A lost coat"
+              }
             ]
           }
         ]
@@ -2057,8 +2085,7 @@ export const movers = [
           }
         ]
       }
-    ],
-    "audioVersion": "20261016-movers-parts"
+    ]
   },
   {
     "id": "movers-09",
@@ -2073,6 +2100,7 @@ export const movers = [
       "movers/09/listening-4.mp3",
       "movers/09/listening-5.mp3"
     ],
+    "audioVersion": "20261016-movers-parts",
     "reading": [
       {
         "title": "Choose the words",
@@ -2221,9 +2249,18 @@ export const movers = [
             "prompt": "Câu 6 · Tên câu chuyện",
             "answer": "B",
             "choices": [
-              "A",
-              "B",
-              "C"
+              {
+                "value": "A",
+                "label": "A · Swimming in the rain"
+              },
+              {
+                "value": "B",
+                "label": "B · A rainy afternoon indoors"
+              },
+              {
+                "value": "C",
+                "label": "C · A cake for Win"
+              }
             ]
           }
         ]
@@ -2744,8 +2781,7 @@ export const movers = [
           }
         ]
       }
-    ],
-    "audioVersion": "20261016-movers-parts"
+    ]
   },
   {
     "id": "movers-10",
@@ -2760,6 +2796,7 @@ export const movers = [
       "movers/10/listening-4.mp3",
       "movers/10/listening-5.mp3"
     ],
+    "audioVersion": "20261016-movers-parts",
     "reading": [
       {
         "title": "Choose the words",
@@ -2908,9 +2945,18 @@ export const movers = [
             "prompt": "Câu 6 · Tên câu chuyện",
             "answer": "A",
             "choices": [
-              "A",
-              "B",
-              "C"
+              {
+                "value": "A",
+                "label": "A · Shopping with Grandma"
+              },
+              {
+                "value": "B",
+                "label": "B · A swimming lesson"
+              },
+              {
+                "value": "C",
+                "label": "C · A dog in a shop"
+              }
             ]
           }
         ]
@@ -3431,8 +3477,7 @@ export const movers = [
           }
         ]
       }
-    ],
-    "audioVersion": "20261016-movers-parts"
+    ]
   },
   {
     "id": "movers-11",
@@ -3447,6 +3492,7 @@ export const movers = [
       "movers/11/listening-4.mp3",
       "movers/11/listening-5.mp3"
     ],
+    "audioVersion": "20261016-movers-parts",
     "reading": [
       {
         "title": "Choose the words",
@@ -3595,9 +3641,18 @@ export const movers = [
             "prompt": "Câu 6 · Tên câu chuyện",
             "answer": "A",
             "choices": [
-              "A",
-              "B",
-              "C"
+              {
+                "value": "A",
+                "label": "A · Lunch at cooking club"
+              },
+              {
+                "value": "B",
+                "label": "B · A bike ride after school"
+              },
+              {
+                "value": "C",
+                "label": "C · A cold river"
+              }
             ]
           }
         ]
@@ -4118,8 +4173,7 @@ export const movers = [
           }
         ]
       }
-    ],
-    "audioVersion": "20261016-movers-parts"
+    ]
   },
   {
     "id": "movers-12",
@@ -4134,6 +4188,7 @@ export const movers = [
       "movers/12/listening-4.mp3",
       "movers/12/listening-5.mp3"
     ],
+    "audioVersion": "20261016-movers-parts",
     "reading": [
       {
         "title": "Choose the words",
@@ -4282,9 +4337,18 @@ export const movers = [
             "prompt": "Câu 6 · Tên câu chuyện",
             "answer": "B",
             "choices": [
-              "A",
-              "B",
-              "C"
+              {
+                "value": "A",
+                "label": "A · A guitar lesson"
+              },
+              {
+                "value": "B",
+                "label": "B · A trip to see Grandma"
+              },
+              {
+                "value": "C",
+                "label": "C · Swimming with a cow"
+              }
             ]
           }
         ]
@@ -4805,8 +4869,7 @@ export const movers = [
           }
         ]
       }
-    ],
-    "audioVersion": "20261016-movers-parts"
+    ]
   },
   {
     "id": "movers-13",
@@ -4821,6 +4884,7 @@ export const movers = [
       "movers/13/listening-4.mp3",
       "movers/13/listening-5.mp3"
     ],
+    "audioVersion": "20261016-movers-parts",
     "reading": [
       {
         "title": "Choose the words",
@@ -4969,9 +5033,18 @@ export const movers = [
             "prompt": "Câu 6 · Tên câu chuyện",
             "answer": "A",
             "choices": [
-              "A",
-              "B",
-              "C"
+              {
+                "value": "A",
+                "label": "A · A fun swimming lesson"
+              },
+              {
+                "value": "B",
+                "label": "B · A coat for Win"
+              },
+              {
+                "value": "C",
+                "label": "C · A train to the sea"
+              }
             ]
           }
         ]
@@ -5492,8 +5565,7 @@ export const movers = [
           }
         ]
       }
-    ],
-    "audioVersion": "20261016-movers-parts"
+    ]
   },
   {
     "id": "movers-14",
@@ -5508,6 +5580,7 @@ export const movers = [
       "movers/14/listening-4.mp3",
       "movers/14/listening-5.mp3"
     ],
+    "audioVersion": "20261016-movers-parts",
     "reading": [
       {
         "title": "Choose the words",
@@ -5656,9 +5729,18 @@ export const movers = [
             "prompt": "Câu 6 · Tên câu chuyện",
             "answer": "A",
             "choices": [
-              "A",
-              "B",
-              "C"
+              {
+                "value": "A",
+                "label": "A · A quiet morning outside"
+              },
+              {
+                "value": "B",
+                "label": "B · Swimming before breakfast"
+              },
+              {
+                "value": "C",
+                "label": "C · A new guitar shop"
+              }
             ]
           }
         ]
@@ -6179,8 +6261,7 @@ export const movers = [
           }
         ]
       }
-    ],
-    "audioVersion": "20261016-movers-parts"
+    ]
   },
   {
     "id": "movers-15",
@@ -6195,6 +6276,7 @@ export const movers = [
       "movers/15/listening-4.mp3",
       "movers/15/listening-5.mp3"
     ],
+    "audioVersion": "20261016-movers-parts",
     "reading": [
       {
         "title": "Choose the words",
@@ -6343,9 +6425,18 @@ export const movers = [
             "prompt": "Câu 6 · Tên câu chuyện",
             "answer": "C",
             "choices": [
-              "A",
-              "B",
-              "C"
+              {
+                "value": "A",
+                "label": "A · A rabbit learns to swim"
+              },
+              {
+                "value": "B",
+                "label": "B · A boat for the school"
+              },
+              {
+                "value": "C",
+                "label": "C · Getting ready to perform"
+              }
             ]
           }
         ]
@@ -6866,7 +6957,6 @@ export const movers = [
           }
         ]
       }
-    ],
-    "audioVersion": "20261016-movers-parts"
+    ]
   }
 ];
