@@ -32,7 +32,7 @@ URL từng đề: `?screen=intro&test=starters-02`; màn làm bài: `?screen=exa
 
 Reading giữ các Part 1, 2, 4, 5 của đề gốc, đánh lại thành Part 1–4; bỏ phần sắp chữ viết từ. Mỗi câu đúng 1 điểm. Điểm tổng /40, không quy đổi thành khiên Cambridge.
 
-Audio được cập nhật ngày 15/10/2026 từ thư mục `STARTERS_10_Practice_Tests_AUDIO/Individual_Parts` do người dùng cung cấp. Cả 10 đề đều có 4 file MP3 riêng, tổng 40 file, gắn đúng Test và Part. Chuyển Part sẽ dừng bản đang nghe và mở audio của Part mới từ đầu. Mã phiên bản audio mới giúp trình duyệt tải đúng bộ file đã thay. Movers có bộ 50 audio riêng; Flyers đang sắp có.
+Audio được cập nhật ngày 15/10/2026 từ thư mục `STARTERS_10_Practice_Tests_AUDIO/Individual_Parts` do người dùng cung cấp. Cả 10 đề đều có 4 file MP3 riêng, tổng 40 file, gắn đúng Test và Part. Chuyển Part sẽ dừng bản đang nghe và mở audio của Part mới từ đầu. Mã phiên bản audio mới giúp trình duyệt tải đúng bộ file đã thay. Movers có bộ 50 audio riêng; Flyers có bộ 50 audio riêng.
 
 Khi chạy lại công cụ chuẩn bị ảnh, các MP3 đang dùng được giữ nguyên. Để chủ động thay bộ audio, chạy `python tools/prepare_assets.py --audio-dir "<thư mục Individual_Parts>"`. Bản upload cPanel tự chứa các MP3 trong `assets/`, không phụ thuộc đường dẫn thư mục nguồn trên máy tính.
 
@@ -46,3 +46,10 @@ Màu xanh, navy, vàng và font được khai trong khối `:root` ở đầu `s
 
 
 Chức năng tải PDF đã được gỡ. PDF không nằm trong dữ liệu đề, thư mục xuất bản hoặc gói upload; công cụ chuẩn bị đề không sao chép PDF lên web. Các PDF nguồn để biên soạn đề được giữ ngoài thư mục web.
+
+
+## Flyers Mock 06–15
+
+Đã nhập 10 đề từ WeWIN_Flyers_10_Tests_06_15.pdf và đáp án từ WeWIN_Flyers_10_Tests_Keys.pdf. Mỗi đề có 43 câu Reading chấm tự động, 25 câu Listening, 1 bài viết truyện Part 7 lưu riêng cho giáo viên nhận xét. Tổng điểm tự động /68, không cộng bài viết và không quy đổi khiên Cambridge. Biến thể đáp án có dấu / trong keys được chấp nhận. Các câu mở vẫn có thể có cách diễn đạt đúng khác ngoài đáp án gợi ý; giáo viên có thể đối chiếu. Không có chấm Speaking hoặc tải PDF.
+
+50 MP3 riêng cho Mock 06–15 / Part 1–5 được kiểm tra thời lượng và SHA-256 với thư mục nguồn ngày 16/10/2026. tools/prepare_flyers.py nhập đề, ảnh trang đầy đủ và audio; node tools/test-flyers.mjs kiểm tra 680 câu có đáp án, 10 bài viết, ảnh và MP3. bootstrap.mjs chọn giao diện theo test; movers-app.mjs dùng chung cho Movers và Flyers, điểm số lấy theo dữ liệu đề. flyers.mjs chứa bộ Flyers, assets/flyers chứa ảnh và audio. PDF đề và Teacher Keys không đưa lên hosting.
