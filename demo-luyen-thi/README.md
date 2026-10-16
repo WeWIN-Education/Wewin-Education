@@ -53,3 +53,14 @@ Chức năng tải PDF đã được gỡ. PDF không nằm trong dữ liệu đ
 Đã nhập 10 đề từ WeWIN_Flyers_10_Tests_06_15.pdf và đáp án từ WeWIN_Flyers_10_Tests_Keys.pdf. Mỗi đề có 43 câu Reading chấm tự động, 25 câu Listening, 1 bài viết truyện Part 7 lưu riêng cho giáo viên nhận xét. Tổng điểm tự động /68, không cộng bài viết và không quy đổi khiên Cambridge. Biến thể đáp án có dấu / trong keys được chấp nhận. Các câu mở vẫn có thể có cách diễn đạt đúng khác ngoài đáp án gợi ý; giáo viên có thể đối chiếu. Không có chấm Speaking hoặc tải PDF.
 
 50 MP3 riêng cho Mock 06–15 / Part 1–5 được kiểm tra thời lượng và SHA-256 với thư mục nguồn ngày 16/10/2026. tools/prepare_flyers.py nhập đề, ảnh trang đầy đủ và audio; node tools/test-flyers.mjs kiểm tra 680 câu có đáp án, 10 bài viết, ảnh và MP3. bootstrap.mjs chọn giao diện theo test; movers-app.mjs dùng chung cho Movers và Flyers, điểm số lấy theo dữ liệu đề. flyers.mjs chứa bộ Flyers, assets/flyers chứa ảnh và audio. PDF đề và Teacher Keys không đưa lên hosting.
+
+
+## Đăng ký trước khi luyện thi
+
+Google Form đích: https://docs.google.com/forms/d/e/1FAIpQLSc5bUxbhReVstusCwfhTlXFX5mV-L_35JWzI7EO8LtzFIZkBg/viewform
+
+Form WeWIN xuất hiện ngay khi mở web, hai bước, nền bài luyện làm mờ và không thể thao tác. Giữ nguyên 8 trường và 3 trường bắt buộc (điện thoại, cấp học, mục tiêu). Chỉ mở giao diện sau khi máy chủ đọc được xác nhận Google đã nhận câu trả lời và kiểm tra lại cookie. Khi lỗi giữ nội dung trong bộ nhớ màn hình; không ghi số điện thoại hay câu trả lời vào localStorage, URL hoặc log.
+
+api/lead.mjs dùng Vercel Node.js Function, phụ thuộc lead-server.mjs và lead-fields.mjs. LEAD_GATE_SECRET cần đặt dưới dạng secret trong môi trường Production. Không đưa giá trị secret vào mã nguồn. Xác nhận đăng ký dùng cookie ký HMAC, HttpOnly, SameSite=Lax, Secure trên HTTPS; hiệu lực 30 ngày trên cùng trình duyệt để tránh phụ huynh phải gửi lại khi đổi đề. Đây là cổng thu lead của giao diện web luyện tập hiện tại, không phải hệ thống xác thực tài khoản hay bảo vệ bản quyền các tài nguyên tĩnh.
+
+node tools/test-lead.mjs kiểm thử dữ liệu bắt buộc, ánh xạ entry Google Form, lỗi mạng, trang CAPTCHA không được coi là thành công, chữ ký và hết hạn cookie. Kiểm thử không gửi lead giả lên Google. Chạy bản xem trước có phản hồi mô phỏng bằng node tools/dev-server.mjs --mock-leads tại cổng 8766. Không dùng phản hồi mô phỏng trên hosting. Khi chuyển bản tĩnh sang cPanel cần có endpoint máy chủ tương đương; không tải cookie secret về phía trình duyệt.
