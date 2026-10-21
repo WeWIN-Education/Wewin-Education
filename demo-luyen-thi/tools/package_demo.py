@@ -3,7 +3,7 @@ from zipfile import ZipFile, ZIP_DEFLATED
 
 root = Path(__file__).resolve().parents[1]
 output = root.parent / 'wewin-luyen-thi-demo.zip'
-files = [root / name for name in ['index.html', 'styles.css', 'bootstrap.mjs', 'lead-gate.mjs', 'lead-gate.css', 'lead-fields.mjs', 'lead-server.mjs', 'app.mjs', 'exam.mjs', 'exams.mjs', 'movers.mjs', 'flyers.mjs', 'movers-app.mjs', '.htaccess', 'README.md', 'IMAGE_ASSETS.md']]
+files = [root / name for name in ['index.html', 'styles.css', 'bootstrap.mjs', 'catalog.mjs', 'theme.mjs', 'refresh.css', 'lead-gate.mjs', 'lead-gate.css', 'lead-fields.mjs', 'lead-server.mjs', 'app.mjs', 'exam.mjs', 'exams.mjs', 'movers.mjs', 'flyers.mjs', 'movers-app.mjs', '.htaccess', 'README.md', 'IMAGE_ASSETS.md']]
 files.append(root / 'api' / 'lead.mjs')
 files.append(root / 'tools' / 'test-scoring.mjs')
 files.append(root / 'tools' / 'test-ten-tests.mjs')

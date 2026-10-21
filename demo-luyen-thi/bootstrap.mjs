@@ -1,3 +1,4 @@
+import './theme.mjs';
 import {requireLeadAccess} from './lead-gate.mjs';
 const access=requireLeadAccess();
 const test=new URLSearchParams(location.search).get('test')||'';

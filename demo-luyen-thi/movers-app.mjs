@@ -1,5 +1,6 @@
 import {movers} from './movers.mjs';
 import {flyers} from './flyers.mjs';
+import {themeButton} from './theme.mjs';
 
 const params=new URLSearchParams(location.search);
 const collection=(params.get('test')||'').startsWith('flyers-')?flyers:movers;
@@ -30,7 +31,7 @@ function scores(){return Object.fromEntries(['reading','listening'].map(skill=>{
  return [skill,{total:qs.length,done:qs.filter(q=>norm(state.answers[q.id])).length,correct:qs.filter(q=>correct(q,state.answers[q.id])).length}];
 }));}
 const save=()=>{try{sessionStorage.setItem(key,JSON.stringify(state));}catch{}};
-const header=()=>`<header class="site-header"><div class="header-inner"><a class="brand" href="?screen=catalog"><img src="assets/logo.png" alt="WeWIN Education"></a><span>Luyện thi · ${exam.level}</span><a class="btn ghost" href="?screen=catalog">Về chọn đề</a></div></header>`;
+const header=()=>`<header class="site-header"><div class="header-inner"><a class="brand" href="?screen=catalog"><img src="assets/logo.png" alt="WeWIN Education"></a><span class="exam-header-label">Luyện thi · ${exam.level}</span><div class="header-actions">${themeButton()}<a class="btn ghost" href="?screen=catalog">Về chọn đề</a></div></div></header>`;
 const note=`<p class="small muted">${readingCount} câu Reading có đáp án xác định được chấm tự động. Reading & Writing Part ${writingPart} cần giáo viên nhận xét, không cộng vào điểm tự động. Listening có 25 câu và audio riêng cho từng Part. Điểm luyện tập không quy đổi thành khiên Cambridge.</p>`;
 function choice(q,value,label){return `<button class="choice" data-action="answer" data-id="${q.id}" data-value="${esc(value)}" aria-pressed="${state.answers[q.id]===value}">${esc(label)}</button>`;}
 function question(q,i,manual){
@@ -64,7 +65,7 @@ function syncAudio(){
 for(const event of ['loadedmetadata','durationchange','timeupdate','play','pause','ended'])audio.addEventListener(event,updateAudioUI);
 audio.addEventListener('error',()=>audioError('Không tải được audio. Kiểm tra kết nối và bấm phát để thử lại.'));
 
-function render(){save();history.replaceState(null,'',`?screen=${state.screen}&test=${exam.id}&skill=${state.skill}&part=${state.part}`);root.innerHTML=`${header()}<main class="shell"><div class="exam-top"><div><div class="eyebrow">${exam.level} · Mock ${exam.number}</div><h1>${esc(exam.title)}</h1></div></div>${state.screen==='intro'?intro():state.screen==='result'?result():examView()}</main><footer class="site-footer">© 2026 WeWIN Education · Tài liệu luyện tập nội bộ</footer>`;syncAudio();}
+function render(){document.body.dataset.screen=state.screen;save();history.replaceState(null,'',`?screen=${state.screen}&test=${exam.id}&skill=${state.skill}&part=${state.part}`);root.innerHTML=`${header()}<main class="shell"><div class="exam-top"><div><div class="eyebrow">${exam.level} · Mock ${exam.number}</div><h1>${esc(exam.title)}</h1></div></div>${state.screen==='intro'?intro():state.screen==='result'?result():examView()}</main><footer class="site-footer">© 2026 WeWIN Education · Tài liệu luyện tập nội bộ</footer>`;syncAudio();}
 document.addEventListener('input',event=>{const el=event.target;if(el.id==='audio-seek'&&Number.isFinite(audio.duration)){audio.currentTime=Number(el.value);updateAudioUI();return;}if(el.dataset.question){(el.dataset.manual?state.manual:state.answers)[el.dataset.question]=el.value;save();}});
 document.addEventListener('change',event=>{const el=event.target;const id=el.dataset.target||el.dataset.colour;if(id){const t=root.querySelector(`[data-target="${id}"]`).value,c=root.querySelector(`[data-colour="${id}"]`).value;state.answers[id]=t&&c?t+'|'+c:'';save();}});
 function submit(){const modal=document.querySelector('#modal');modal.innerHTML='<h2>Nộp bài luyện tập?</h2><p>Các câu bỏ trống tính 0 điểm; phần viết cần giáo viên nhận xét được tách riêng.</p><div class="dialog-actions"><button class="btn" data-action="close">Làm tiếp</button><button class="btn primary" data-action="confirm">Nộp và xem kết quả</button></div>';modal.showModal();}

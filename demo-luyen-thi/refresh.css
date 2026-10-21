@@ -1,0 +1,119 @@
+/* Selected design A. WeWIN brand and readable learning surfaces. */
+:root{--shadow-card:0 8px 28px rgb(22 55 90 / .055);--shadow-card-hover:0 14px 32px rgb(22 55 90 / .10);--surface-hover:#f1f1f3}
+:root[data-theme=dark]{color-scheme:dark;--primary:#87bfff;--primary-hover:#a1ceff;--primary-light:#203b58;--primary-foreground:#11283f;--navy:#dfeafa;--gold:#f0c46d;--gold-light:#343023;--background:#101a28;--surface:#172536;--foreground:#edf3fa;--muted:#b1c0d2;--border:#243346;--border-strong:#3c4e63;--success:#87d4b0;--success-bg:#16392c;--danger:#ffa9b6;--danger-bg:#442532;--surface-hover:#233548;--shadow-card:0 8px 28px rgb(0 0 0 / .15);--shadow-card-hover:0 14px 32px rgb(0 0 0 / .24)}
+html{scroll-behavior:smooth;scroll-padding-top:120px}
+body{min-width:0}
+button,input,select,textarea{font-family:var(--app-font)}
+.btn:not(.primary):not(.danger):hover{background:var(--surface-hover)}
+.btn.primary:hover{background:var(--primary-hover)}
+.site-header{position:sticky;top:16px;z-index:20;width:calc(100% - 48px);max-width:1160px;margin:24px auto 0;border:1px solid var(--border);border-radius:16px;background:color-mix(in srgb,var(--surface) 90%,transparent);backdrop-filter:blur(16px);box-shadow:var(--shadow-card)}
+.header-inner{min-height:72px;max-width:none;padding:12px 20px;gap:20px}
+.brand img{width:132px;height:40px;object-fit:contain}
+.main-nav{margin-left:0;gap:28px}
+.main-nav .nav-active{border:0;padding:0}
+.main-nav button{background:none;color:var(--muted);padding:0;border:0}
+.main-nav a:hover,.main-nav button:hover{color:var(--primary);text-decoration:none}
+.header-actions{display:flex;gap:8px;align-items:center}
+.header-actions .btn{font-size:13px}
+.theme-toggle{flex-shrink:0}
+.theme-toggle .icon{width:20px;height:20px}
+.mobile-nav-toggle{display:none}
+.mobile-nav{padding:0 20px 16px}
+.mobile-nav[hidden]{display:none}
+.mobile-nav button,.mobile-nav a{display:block;padding:12px;background:none;color:var(--foreground);font-size:14px;border:0;width:100%;text-align:left;border-radius:12px}
+.mobile-nav button:hover,.mobile-nav a:hover{background:var(--primary-light);text-decoration:none}
+.exam-header-label{font-size:13px;color:var(--muted)}
+.site-footer{max-width:1208px}
+.catalog-v2{max-width:1208px;padding:40px 24px 24px}
+.catalog-welcome{display:flex;justify-content:space-between;align-items:center;gap:24px;margin-bottom:24px}
+.catalog-welcome p{color:var(--muted);font-size:13px}
+.catalog-welcome>span{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--muted)}
+.catalog-welcome .icon{width:16px;height:16px;color:var(--primary)}
+.learning-bento{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.learning-hero{position:relative;grid-column:span 2;min-height:330px;background:#fcf8ef;border-radius:24px;overflow:hidden;box-shadow:var(--shadow-card)}
+.learning-hero-bg{position:absolute;inset:0 0 0 auto;width:65%;height:100%;object-fit:contain;object-position:right center;mask-image:linear-gradient(to right,transparent,black 12%);animation:learning-art-float 8s ease-in-out infinite;pointer-events:none}
+.learning-hero-copy{position:relative;z-index:1;padding:32px;max-width:58%;color:#16375a}
+.learning-hero .eyebrow{color:#0759ac;font-size:11px}
+.learning-hero h1{font-size:34px;letter-spacing:-.7px;line-height:1.18;margin:16px 0;text-wrap:balance}
+.learning-hero h1 em{font-style:normal;color:#0869c7}
+.learning-hero p{font-size:13px;max-width:290px;color:#495b6e;margin-bottom:24px}
+.learning-hero .btn{background:#0869c7;border-color:#0869c7;color:#fff;font-size:13px}
+.learning-hero .btn:hover{background:#0759ac;text-decoration:none}
+.hero-proof{font-size:11px;color:#495b6e;margin-top:12px}
+.learning-guide{background:var(--surface);border:1px solid var(--border);border-radius:24px;padding:28px 24px;box-shadow:var(--shadow-card);display:flex;flex-direction:column;justify-content:center}
+.learning-guide .eyebrow{font-size:11px;letter-spacing:1.5px}
+.learning-guide h2{font-size:20px;margin:12px 0 16px;line-height:1.3}
+.learning-guide ol{list-style:none;padding:0;margin:0;display:grid;gap:16px}
+.learning-guide li{display:flex;align-items:center;gap:12px;font-size:13px}
+.learning-guide li span{width:28px;height:28px;background:var(--primary-light);border-radius:8px;display:grid;place-items:center;color:var(--primary);font-size:12px;font-weight:500;flex-shrink:0}
+.learning-guide>p{font-size:11px;color:var(--muted);margin-top:20px}
+.learning-level{position:relative;min-width:0;min-height:216px;overflow:hidden;border:1px solid transparent;border-radius:20px;padding:0;box-shadow:var(--shadow-card);transition:transform .22s,box-shadow .22s;text-align:left}
+.learning-level[data-value=starters]{background:rgb(254 246 230)}
+.learning-level[data-value=movers]{background:rgb(182 221 253)}
+.learning-level[data-value=flyers]{background:rgb(236 254 246)}
+.learning-level[aria-pressed=true]{border-color:#0869c7}
+.learning-level:hover{transform:translateY(-4px);box-shadow:var(--shadow-card-hover)}
+.learning-level img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;object-position:right center;mask-image:linear-gradient(to right,transparent,black 24%)}
+.learning-level-copy{position:relative;padding:24px;max-width:60%;color:#16375a}
+.learning-level .eyebrow{color:#344c65;font-size:10px;letter-spacing:1.5px}
+.learning-level h2{font-size:23px;margin:8px 0 12px}
+.learning-level p{font-size:12px;color:#495b6e;max-width:150px}
+.learning-level-link{display:flex;align-items:center;gap:8px;margin-top:20px;font-size:12px;font-weight:500;color:#0759ac}
+.learning-level-link .icon{width:16px;height:16px}
+.catalog-v2 .resume-banner{margin-top:24px}
+.catalog-v2 .catalog-heading{margin:40px 0 20px;align-items:end}
+.catalog-v2 .catalog-heading h2{font-size:24px}
+.catalog-v2 .catalog-heading p{font-size:13px;color:var(--muted);margin-top:8px}
+.catalog-help{font-size:12px;color:var(--primary);background:transparent;border:0;padding:0;white-space:nowrap}
+.catalog-tools{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:24px}
+.catalog-v2 .tabbar{border-color:var(--border);max-width:100%;overflow-x:auto}
+.catalog-v2 .tabbar button{min-height:40px;font-size:13px;padding:8px 14px}
+.catalog-v2 .tabbar button:hover{background:var(--surface-hover)}
+.catalog-v2 .tabbar button.active:hover{background:var(--primary-light)}
+.catalog-search{position:relative;width:280px;min-width:0}
+.catalog-search>.icon{position:absolute;left:12px;top:12px;width:16px;height:16px;color:var(--muted)}
+.catalog-search input{width:100%;height:40px;padding:8px 12px 8px 38px;border:1px solid var(--border-strong);border-radius:12px;background:var(--surface);color:var(--foreground);font-size:13px}
+.catalog-search input:focus{outline:2px solid color-mix(in srgb,var(--primary) 12%,transparent);border-color:var(--primary)}
+.catalog-count{color:var(--muted);font-size:12px;margin-bottom:16px}
+.catalog-v2 .exam-grid{gap:20px}
+.catalog-v2 .exam-card{border-radius:20px;box-shadow:var(--shadow-card);transition:transform .2s,box-shadow .2s;min-width:0}
+.catalog-v2 .exam-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-card-hover)}
+.catalog-v2 .cover{height:auto;aspect-ratio:1.8;background:var(--primary-light)}
+.catalog-v2 .cover img{width:100%;height:100%;object-fit:cover;transition:transform .3s}
+.catalog-v2 .exam-card:hover .cover img{transform:scale(1.025)}
+.catalog-v2 .cover-badge{background:rgb(255 255 255 / .86);border:1px solid rgb(255 255 255 / .55);backdrop-filter:blur(12px);color:#16375a;font-size:11px;padding:5px 10px}
+.catalog-v2 .card-body{padding:20px;min-height:208px}
+.catalog-v2 .card-meta{font-size:11px;margin-bottom:10px}
+.catalog-v2 .card-meta .level,.catalog-v2 .card-meta .available{font-size:11px}
+.catalog-v2 .available:before{width:5px;height:5px}
+.catalog-v2 .card-body h3{font-size:18px;line-height:1.3;margin-bottom:16px}
+.catalog-v2 .skills{gap:16px;flex-wrap:wrap;padding:0;border:0;margin-bottom:20px}
+.catalog-v2 .skills span{font-size:12px}
+.catalog-v2 .skills .icon{width:15px;height:15px}
+.catalog-v2 .card-actions .btn{font-size:13px;color:var(--primary)}
+.catalog-more{display:flex;justify-content:center;margin:28px 0 16px}
+.catalog-more .btn{min-width:190px}
+.catalog-empty{min-height:280px;display:flex;flex-direction:column;align-items:center;justify-content:center;background:var(--surface);border:1px solid var(--border);border-radius:20px;text-align:center;padding:24px}
+.catalog-empty h3{font-size:18px;margin-bottom:8px}
+.catalog-empty p{font-size:13px;color:var(--muted);margin-bottom:20px}
+.score-card.total{background:#16375a;color:#fff}
+.question-panel{top:112px}
+:root[data-theme=dark] .tabbar button.active:hover{background:var(--primary-light)}
+:root[data-theme=dark] .footer-actions .btn:not(.primary):not(:disabled):hover{background:var(--surface-hover)}
+:root[data-theme=dark] .lead-intro{background:#fff6dd;color:#16375a}
+:root[data-theme=dark] .lead-intro .eyebrow{color:#0759ac}
+:root[data-theme=dark] .lead-intro p,:root[data-theme=dark] .lead-intro-note{color:#495b6e}
+.app-loading{max-width:1160px;margin:24px auto;padding:24px}
+.app-loading-top{height:72px;border-radius:16px;background:var(--surface);margin-bottom:32px}
+.app-loading-hero{height:330px;border-radius:24px;background:color-mix(in srgb,var(--foreground) 6%,transparent)}
+.app-loading-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-top:16px}
+.app-loading-card{height:216px;border-radius:20px;background:color-mix(in srgb,var(--foreground) 6%,transparent)}
+.app-loading-hero,.app-loading-card{animation:learning-skeleton 1.8s ease-in-out infinite}
+@keyframes learning-art-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+@keyframes learning-skeleton{50%{opacity:.45}}
+@media(max-width:1100px){.learning-hero-copy{padding:28px;max-width:64%}.learning-hero h1{font-size:30px}.main-nav{gap:20px}.learning-level-copy{padding:20px;max-width:70%}.learning-level h2{font-size:21px}.learning-hero{min-height:340px}}
+@media(min-width:768px) and (max-width:1023px){.learning-bento{grid-template-columns:1fr}.learning-hero{grid-column:auto;min-height:320px}.learning-hero-copy{max-width:58%}.learning-guide{display:none}.learning-level{min-height:196px;width:100%}.learning-level-copy{max-width:55%;padding:24px}}
+@media(max-width:767px){
+ html{scroll-padding-top:96px}.site-header{width:calc(100% - 32px);margin-top:16px;top:8px}.header-inner{min-height:64px;padding:12px;gap:8px}.brand img{width:112px;height:32px}.main-nav,.home-link,.exam-header-label{display:none}.mobile-nav-toggle{display:inline-flex}.header-actions{gap:4px}.header-actions .btn{padding:8px}.header-actions .btn.icon-only{width:40px}.catalog-v2{padding:24px 16px 16px}.catalog-welcome{margin-bottom:20px}.catalog-welcome>span{display:none}.learning-bento{display:block}.learning-bento>*{margin-bottom:16px}.learning-hero{min-height:370px}.learning-hero-copy{max-width:100%;padding:28px 24px}.learning-hero h1{font-size:32px;max-width:260px}.learning-hero p{max-width:240px}.learning-hero-bg{width:100%;opacity:.22;object-position:right center;mask-image:none}.learning-guide{display:none}.learning-level{min-height:190px;width:100%;display:block}.learning-level h2{font-size:24px}.learning-level-copy{max-width:62%;padding:24px}.learning-level p{max-width:160px}.learning-level-link{margin-top:16px}.catalog-v2 .catalog-heading{margin-top:32px;display:block}.catalog-v2 .catalog-heading h2{font-size:22px}.catalog-help{display:inline-block;margin-top:12px}.catalog-tools{display:block}.catalog-v2 .tabbar{width:100%;justify-content:space-between}.catalog-v2 .tabbar button{font-size:12px;padding:8px 10px}.catalog-search{display:block;width:100%;margin-top:12px}.catalog-search input{height:44px;font-size:16px}.catalog-search>.icon{top:14px}.catalog-v2 .exam-grid{grid-template-columns:1fr}.catalog-v2 .cover{aspect-ratio:1.85}.app-loading{padding:16px}.app-loading-grid{grid-template-columns:1fr}.app-loading-card{height:190px}
+}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}.learning-level:hover,.catalog-v2 .exam-card:hover{transform:none}.catalog-v2 .exam-card:hover .cover img{transform:none}}

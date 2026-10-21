@@ -64,3 +64,12 @@ Form WeWIN xuất hiện ngay khi mở web, hai bước, nền bài luyện làm
 api/lead.mjs dùng Vercel Node.js Function, phụ thuộc lead-server.mjs và lead-fields.mjs. LEAD_GATE_SECRET cần đặt dưới dạng secret trong môi trường Production. Không đưa giá trị secret vào mã nguồn. Xác nhận đăng ký dùng cookie ký HMAC, HttpOnly, SameSite=Lax, Secure trên HTTPS; hiệu lực 30 ngày trên cùng trình duyệt để tránh phụ huynh phải gửi lại khi đổi đề. Đây là cổng thu lead của giao diện web luyện tập hiện tại, không phải hệ thống xác thực tài khoản hay bảo vệ bản quyền các tài nguyên tĩnh.
 
 node tools/test-lead.mjs kiểm thử dữ liệu bắt buộc, ánh xạ entry Google Form, lỗi mạng, trang CAPTCHA không được coi là thành công, chữ ký và hết hạn cookie. Kiểm thử không gửi lead giả lên Google. Chạy bản xem trước có phản hồi mô phỏng bằng node tools/dev-server.mjs --mock-leads tại cổng 8766. Không dùng phản hồi mô phỏng trên hosting. Khi chuyển bản tĩnh sang cPanel cần có endpoint máy chủ tương đương; không tải cookie secret về phía trình duyệt.
+
+
+## Giao diện A · 21/10/2026
+
+Đã chọn hướng A: banner bento, hướng dẫn ngắn, ba thẻ cấp độ, tìm kiếm và danh sách đề. Hướng B không triển khai. catalog.mjs chỉ dựng giao diện/tìm kiếm theo 30 đề gốc, 6 thẻ đầu và nút xem thêm; app.mjs giữ handler mở đề và đọc trạng thái bài. refresh.css bổ sung bố cục, bóng mềm, header dính và token sáng/tối cho cả ba cấp độ. theme.mjs chỉ đổi token, không render lại bài hoặc ngắt audio. Chế độ ghi nhớ trong localStorage với khóa wewin-theme; không có lựa chọn thì theo cài đặt hệ thống.
+
+Bốn ảnh assets/design-20261021/*.webp tạo bằng imagegen, tổng134674byte, giữ vùng chữ sạch; ảnh chỉ là nền điều hướng, không thay tranh câu hỏi. Bản PNG gốc và prompt nằm ở output/wewin-design-20261021 trong workspace, không gửi lên hosting. Giảm chuyển động theo prefers-reduced-motion, chỉ chuyển động nhẹ ở banner. Skeleton chỉ xuất hiện khi ứng dụng đang tải module thật; lọc/tìm kiếm dữ liệu sẵn không thêm chờ giả.
+
+node tools/test-catalog.mjs kiểm tra 30 đề, số câu từng cấp, lọc/tìm tên/số đề và giới hạn số thẻ. Các kiểm tra scoring, Movers, Flyers và lead tiếp tục chạy. Form Google giữ nguyên 8 trường, 3 trường bắt buộc và cookie xác nhận.

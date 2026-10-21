@@ -6,7 +6,7 @@ import {createLeadHandler} from '../lead-server.mjs';
 const root=fileURLToPath(new URL('../',import.meta.url));
 const mock=process.argv.includes('--mock-leads');
 const handler=createLeadHandler(mock?{secret:'local-testing-secret-not-used-in-production',fetchImpl:async url=>new Response(url.endsWith('viewform')?'<input name="fbzx" value="test">':'<div>Cảm ơn Quý phụ huynh đã đăng ký! WeWIN Education đã ghi nhận thông tin</div>')}:{});
-const mime={'.html':'text/html','.mjs':'text/javascript','.css':'text/css','.png':'image/png','.jpg':'image/jpeg','.mp3':'audio/mpeg'};
+const mime={'.html':'text/html','.mjs':'text/javascript','.css':'text/css','.png':'image/png','.jpg':'image/jpeg','.webp':'image/webp','.mp3':'audio/mpeg'};
 createServer(async(req,res)=>{
   const path=new URL(req.url,'http://localhost').pathname;
   if(path==='/api/lead')return handler(req,res);
