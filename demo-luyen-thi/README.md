@@ -2,7 +2,7 @@
 
 Production: https://wewin-luyen-thi.vercel.app/
 
-50 practice tests: Starters 01–10, Movers 06–15 and Hard Movers 16–25, Flyers 06–15 and Hard Flyers 16–25. All 240 supplied Part MP3 tracks and approved design A remain available. PDFs, teacher keys and Speaking material are not published.
+40 available practice tests: Movers 06–15 and Hard Movers 16–25, Flyers 06–15 and Hard Flyers 16–25. The previous Starters set and its associated practice records have been cleared while WeWIN prepares replacement material. All 200 Movers and Flyers Part MP3 tracks remain available. PDFs, teacher keys and Speaking material are not published.
 
 ## Learning experience
 
@@ -32,7 +32,7 @@ This version requires its server API. Static files alone on cPanel do not provid
 
 `npm run dev` starts an isolated PostgreSQL-compatible fixture database at http://127.0.0.1:8780. Accounts: `local.admin`, `local.teacher`, `local.student`; password `Local-Test-2026!`. Google submissions and AI are explicitly simulated locally, without production records. `--production-services` explicitly opts into configured real services.
 
-`npm test` validates all 2,840 objective answers, public data sanitisation, PostgreSQL constraints, role/ownership rules, first-attempt ranking, submission idempotency, review caching and teacher audit. `node tools/test-flyers-hard.mjs` and `npm run test:movers-hard` check the two advanced sets and their 100 QA-approved Part tracks. Existing scoring, catalog, audio and lead tests remain in `tools/test-*.mjs`.
+`npm test` validates all 2,440 objective answers, public data sanitisation, PostgreSQL constraints, role/ownership rules, first-attempt ranking, submission idempotency, review caching and teacher audit. `node tools/test-starters-cleared.mjs` confirms the old Starters set is absent. `node tools/test-flyers-hard.mjs` and `npm run test:movers-hard` check the two advanced sets and their 100 QA-approved Part tracks. Existing scoring, catalog, audio and lead tests remain in `tools/test-*.mjs`.
 
 `python tools/prepare_flyers_hard.py` imports Hard Flyers 16–25 from the external source PDFs, answer key and supplied Part MP3s, checking all 50 audio files against the PASS QA manifest. It writes an intermediate `flyers-hard.mjs` and question-page images locally. Then `python tools/prepare_platform.py` regenerates the combined private/public test data and cropped interaction pictures. If the source pack is in another folder, pass `--hard-pack-dir <path>` to the latter. These are local editorial steps. Generated JSON and media are committed so Vercel needs neither Python nor PDFs.
 

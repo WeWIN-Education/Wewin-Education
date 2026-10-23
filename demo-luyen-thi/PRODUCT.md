@@ -10,7 +10,7 @@ Children practising English at Starters, Movers and Flyers levels, with parents 
 
 ## Product Purpose
 
-Help children complete picture-led Reading and Listening practice, receive objective results, and obtain separate formative Writing feedback. Preserve the approved 50 tests and supplied recordings, including the advanced Movers and Flyers sets.
+Help children complete picture-led Reading and Listening practice, receive objective results, and obtain separate formative Writing feedback. The available catalog currently contains 40 Movers and Flyers tests; the previous Starters set and its attempt data have been cleared to make room for replacement material.
 
 ## Brand Personality
 

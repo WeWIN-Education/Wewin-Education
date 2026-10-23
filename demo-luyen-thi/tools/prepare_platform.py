@@ -11,7 +11,15 @@ def module(name,marker=' = '):
     raw=(SITE/name).read_text(encoding='utf-8').split(marker,1)[1].lstrip()
     return json.JSONDecoder().raw_decode(raw)[0]
 starters=module('exams.mjs');movers=module('movers.mjs')+module('movers-hard.mjs');flyers=module('flyers.mjs')+module('flyers-hard.mjs')
-artwork=module('exams.mjs','export const artwork = ')
+artwork_source=module('exams.mjs','export const artwork = ')
+art_refs=set()
+for exam in starters+movers+flyers:
+    for part in exam.get('reading',[])+exam.get('listening',[]):
+        art_refs.update(x for x in part.get('bank',[]) if isinstance(x,str))
+        for q in part.get('questions',[]):
+            if isinstance(q.get('art'),str):art_refs.add(q['art'])
+            art_refs.update(x for x in q.get('choiceArts',[]) if isinstance(x,str))
+artwork={key:value for key,value in artwork_source.items() if key in art_refs}
 public=[];private=[]
 # Coordinates are relative to the rendered picture, not page/screen pixels.
 positions={6:[(15,35),(42,30),(86,32),(15,72),(70,65),(92,72)],7:[(14,28),(48,24),(88,30),(15,74),(40,78),(90,73)],8:[(23,31),(48,27),(81,30),(13,72),(70,69),(91,72)],9:[(15,29),(41,29),(84,31),(15,78),(68,71),(92,73)],10:[(13,29),(42,25),(75,26),(13,70),(36,71),(85,73)],11:[(15,26),(40,25),(87,24),(17,76),(69,70),(91,76)],12:[(18,29),(45,24),(85,29),(11,73),(34,73),(88,76)],13:[(18,27),(39,24),(79,28),(19,75),(65,73),(87,74)],14:[(21,28),(47,28),(75,34),(15,73),(68,72),(90,75)],15:[(20,25),(57,24),(83,25),(18,76),(70,71),(91,73)]}
