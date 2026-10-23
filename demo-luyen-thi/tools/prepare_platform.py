@@ -94,6 +94,8 @@ for level,source in [('starters',starters),('movers',movers),('flyers',flyers)]:
                             else:q['answer']={'target':'blanket-book' if level=='flyers' and i==3 else 'sign','word':q['answer']}
                         p['painting']=True;part['questions']=[];part.pop('images',None)
                 if p.get('manual'):
+                    if level=='flyers':
+                        p['writingImages']=[render(pages[14],(25,215,570,360),f'platform/{e["id"]}-writing-context.jpg')]
                     part['writingMax']=6 if level=='movers' else 5
                     part['contextTitle']=e['title'];part['characters']=['Win','Lily'] if level=='flyers' and n not in [12,14] else ['Win','Tom'] if level=='flyers' else ['Win']
                     part['instruction']='Look at the three pictures. Write a story using 20 or more words.' if level=='flyers' else 'Look at the picture. Complete the sentences, answer the questions, then write two sentences of your own.'
