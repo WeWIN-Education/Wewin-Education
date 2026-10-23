@@ -7,3 +7,7 @@ assets/page-*.png
 assets/inspection-*.jpg
 assets/mascots.png
 __pycache__/
+node_modules/
+dist/
+
+!.env.example

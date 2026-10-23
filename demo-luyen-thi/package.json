@@ -1,0 +1,21 @@
+{
+  "name": "wewin-practice",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "build": "node tools/build.mjs",
+    "test": "node --test tools/platform.test.mjs",
+    "migrate": "node --env-file-if-exists=.env.local tools/migrate.mjs",
+    "dev": "node --env-file-if-exists=.env.local tools/platform-dev.mjs",
+    "prepare:content": "python tools/prepare_platform.py"
+  },
+  "dependencies": {
+    "@neondatabase/serverless": "^1.0.2"
+  },
+  "devDependencies": {
+    "@electric-sql/pglite": "^0.3.14"
+  }
+}
