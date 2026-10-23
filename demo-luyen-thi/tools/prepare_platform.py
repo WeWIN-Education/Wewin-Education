@@ -3,14 +3,14 @@ from pathlib import Path
 import argparse,json,re,copy,fitz,hashlib,os
 from PIL import Image
 ROOT=Path(__file__).resolve().parents[2];SITE=ROOT/'demo-luyen-thi'
-parser=argparse.ArgumentParser();parser.add_argument('--hard-pack-dir',type=Path,default=Path(os.environ.get('WEWIN_HARD_FLYERS_DIR',ROOT.parent/'WeWIN_Flyers_Hard_16_25_Full_Pack')));args=parser.parse_args();HARD_ROOT=args.hard_pack_dir.resolve()
+parser=argparse.ArgumentParser();parser.add_argument('--hard-pack-dir',type=Path,default=Path(os.environ.get('WEWIN_HARD_FLYERS_DIR',ROOT.parent/'WeWIN_Flyers_Hard_16_25_Full_Pack')));parser.add_argument('--hard-movers-pack-dir',type=Path,default=Path(os.environ.get('WEWIN_HARD_MOVERS_DIR',ROOT.parent/'WeWIN_Movers_Hard_16_25_Full_Pack')));args=parser.parse_args();HARD_ROOT=args.hard_pack_dir.resolve();MOVERS_HARD_ROOT=args.hard_movers_pack_dir.resolve()
 OUT=SITE/'generated';OUT.mkdir(exist_ok=True)
 ASSETS=SITE/'assets/platform';ASSETS.mkdir(exist_ok=True)
 VERSION='2026-10-23-v2'
 def module(name,marker=' = '):
     raw=(SITE/name).read_text(encoding='utf-8').split(marker,1)[1].lstrip()
     return json.JSONDecoder().raw_decode(raw)[0]
-starters=module('exams.mjs');movers=module('movers.mjs');flyers=module('flyers.mjs')+module('flyers-hard.mjs')
+starters=module('exams.mjs');movers=module('movers.mjs')+module('movers-hard.mjs');flyers=module('flyers.mjs')+module('flyers-hard.mjs')
 artwork=module('exams.mjs','export const artwork = ')
 public=[];private=[]
 # Coordinates are relative to the rendered picture, not page/screen pixels.
@@ -34,8 +34,9 @@ def render(page,rect,relative):
     if not dest.exists():page.get_pixmap(matrix=fitz.Matrix(1.6,1.6),clip=fitz.Rect(rect),alpha=False).save(dest,jpg_quality=91)
     return relative
 hard_positions={n:[(20,40),(50,38),(85,38),(14,73),(50,66),(66,70),(87,70)] for n in range(16,26)}
-def targets(n):
-    points=hard_positions[n] if n in hard_positions else positions[n]
+movers_hard_positions={n:[(20,34),(87,31),(40,35),(55,57),(89,62),(67,62),(18,62)] for n in range(16,26)}
+def targets(n,level):
+    points=movers_hard_positions[n] if level=='movers' and n in movers_hard_positions else hard_positions[n] if n in hard_positions else positions[n]
     return [{'id':f'p{i+1}','x':x,'y':y,'rx':10,'ry':18} for i,(x,y) in enumerate(points)]
 def clean(q):
     return {k:copy.deepcopy(v) for k,v in q.items() if k not in ['answer','accepted','sample','targets','colour']}
@@ -52,8 +53,10 @@ for level,source in [('starters',starters),('movers',movers),('flyers',flyers)]:
                 doc=fitz.open(ROOT/'WeWIN_Flyers_10_Tests_06_15.pdf');pages=[doc[(n-6)*18+i] for i in range(18)]
             elif level=='flyers':
                 doc=fitz.open(HARD_ROOT/f'WeWIN_Flyers_Hard_Mock_{n:02}.pdf');pages=[doc[i] for i in range(18)]
-            else:
+            elif n<16:
                 doc=fitz.open(ROOT/'WeWIN_Movers_10_New_Tests_06_15_Full_Pack'/f'WeWIN_Movers_Mock_{n:02}.pdf');pages=[doc[i] for i in range(18)]
+            else:
+                doc=fitz.open(MOVERS_HARD_ROOT/f'WeWIN_Movers_Hard_Mock_{n:02}.pdf');pages=[doc[i] for i in range(18)]
         for skill in ['reading','listening']:
             pub[skill]=[]
             for pi,p in enumerate(e[skill]):
@@ -83,7 +86,7 @@ for level,source in [('starters',starters),('movers',movers),('flyers',flyers)]:
                             text=page.get_text().split('\n2\n',1)[1];names=[x.strip() for x in text.split('Example:')[0].splitlines() if x.strip()];assert len(names)==7,(e['id'],names)
                             example=text.split('Example:')[1].strip().splitlines()[0];key={}
                         image=render(page,page.get_image_info()[1]['bbox'],f'platform/{e["id"]}-match.jpg')
-                        part['interaction']={'type':'match','image':image,'names':[{'id':x,'label':x} for x in names],'targets':targets(n),'example':{'name':example,'target':'p1'}}
+                        part['interaction']={'type':'match','image':image,'names':[{'id':x,'label':x} for x in names],'targets':targets(n,level),'example':{'name':example,'target':'p1'}}
                         if not p.get('personOrder'):
                             for q in p['questions']:
                                 desc=q['choices'][int(q['answer'])-1]['label'].lower().split(';')[0].split(',')[0]
@@ -101,7 +104,7 @@ for level,source in [('starters',starters),('movers',movers),('flyers',flyers)]:
                             for q,(_,label) in zip(part['questions'],qs):q['prompt']=label
                     if pi==4:
                         image=render(pages[6],pages[6].get_image_info()[1]['bbox'],f'platform/{e["id"]}-paint.jpg')
-                        regions=hard_colour_regions if level=='flyers' and n>=16 else colour_regions
+                        regions=hard_colour_regions if e.get('difficulty')=='Hard' else colour_regions
                         part['interaction']={'type':'paint','image':image,'width':1000,'height':1500,'regions':regions,'paintCount':4 if level=='movers' else 3,'writeCount':1 if level=='movers' else 2}
                         for i,q in enumerate(p['questions']):
                             q['prompt']=f'Question {i+1}'

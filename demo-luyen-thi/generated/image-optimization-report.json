@@ -1,9 +1,9 @@
 {
-  "sourceImages": 501,
+  "sourceImages": 651,
   "individualCrops": 73,
-  "webpFiles": 1123,
-  "activeOriginalBytes": 130255408,
-  "largestVariantsBytes": 52779922,
-  "allResponsiveVariantsBytes": 75419886,
-  "allOriginalRasterBytes": 157076145
+  "webpFiles": 1423,
+  "activeOriginalBytes": 155974989,
+  "largestVariantsBytes": 69203238,
+  "allResponsiveVariantsBytes": 98676288,
+  "allOriginalRasterBytes": 187667710
 }
