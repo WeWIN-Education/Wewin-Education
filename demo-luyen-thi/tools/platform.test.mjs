@@ -9,11 +9,12 @@ import {createPlatformHandler,passwordHash,passwordMatches} from '../server/plat
 import {exams,grade,validateSubmission} from '../server/scoring.mjs';
 import {validateReview} from '../server/writing.mjs';
 const allAnswers=e=>Object.fromEntries(['reading','listening'].flatMap(s=>e[s].filter(p=>!p.manual).flatMap(p=>p.painting?[[p.id,Object.fromEntries(p.questions.map(q=>[q.answer.target,{color:q.answer.color,word:q.answer.word}]))]]:p.matchKey?[[p.id,p.matchKey]]:p.questions.map(q=>[q.id,q.answer]))));
-test('all 30 source tests grade perfect, empty, wrong and numeric variants without exposing private data',async()=>{
+test('all 40 source tests grade perfect, empty, wrong and numeric variants without exposing private data',async()=>{
  let count=0;for(const e of exams){const answers=allAnswers(e);const s=grade(e,validateSubmission(e,{answers}).answers);assert.equal(s.total,100,e.id);assert.equal(grade(e,{}).total,0);count+=s.reading.total+s.listening.total;}
- assert.equal(count,1620);
+ assert.equal(count,2300);
  const data=JSON.parse(await readFile(new URL('../generated/exams-public.json',import.meta.url),'utf8'));
- assert.equal(data.length,30);for(const e of data){assert.equal(e.listening[0].interaction.names.length,7,e.id);assert.equal(new Set(e.listening[0].interaction.names.map(n=>n.id)).size,7,e.id);for(const skill of ['reading','listening'])for(const part of e[skill])for(const q of part.questions){assert.ok(!('answer'in q));assert.ok(!('sample'in q));assert.ok(!('accepted'in q));}}
+ assert.equal(data.length,40);for(const e of data){assert.equal(e.listening[0].interaction.names.length,7,e.id);assert.equal(new Set(e.listening[0].interaction.names.map(n=>n.id)).size,7,e.id);for(const skill of ['reading','listening'])for(const part of e[skill])for(const q of part.questions){assert.ok(!('answer'in q));assert.ok(!('sample'in q));assert.ok(!('accepted'in q));}}
+ const hard=data.filter(e=>e.id>='flyers-16'&&e.id<='flyers-25');assert.equal(hard.length,10);assert.ok(hard.every(e=>e.difficulty==='Hard'&&e.readingCount===43&&e.listeningCount===25));
  const f=exams.find(e=>e.id==='flyers-12');assert.equal(grade(f,{'l2-3':'thirty two'}).listening.correct,1);
 });
 test('password hashing has random salts and constant length comparisons',async()=>{const a=await passwordHash('abcdefghij123');const b=await passwordHash('abcdefghij123');assert.notEqual(a,b);assert.ok(await passwordMatches('abcdefghij123',a));assert.equal(await passwordMatches('wrong',a),false);});

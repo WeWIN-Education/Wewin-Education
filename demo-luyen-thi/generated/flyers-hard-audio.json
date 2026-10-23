@@ -1,0 +1,459 @@
+{
+  "tests": 10,
+  "partAudios": 50,
+  "qaPass": 50,
+  "bytes": 226904644,
+  "assets": 140,
+  "audio": [
+    {
+      "test": "flyers-16",
+      "part": 1,
+      "file": "flyers/16/listening-1.mp3",
+      "bytes": 3725313,
+      "duration": 232.8,
+      "sha256": "2c592baa89018e10258a54dd50b8f360e408344659b225b5e71dd27bd87af7b5",
+      "qa": "PASS"
+    },
+    {
+      "test": "flyers-16",
+      "part": 2,
+      "file": "flyers/16/listening-2.mp3",
+      "bytes": 4502299,
+      "duration": 281.36,
+      "sha256": "e997288684c3a17ce2fe0940a09d80855cac515cf717f989680c0ed7bd5de0f8",
+      "qa": "PASS"
+    },
+    {
+      "test": "flyers-16",
+      "part": 3,
+      "file": "flyers/16/listening-3.mp3",
+      "bytes": 3793858,
+      "duration": 237.09,
+      "sha256": "45fcdf3acbe4248ca92397afe69684b5c6e4d30c58ffdd38bd43f7bfd5ce319d",
+      "qa": "PASS"
+    },
+    {
+      "test": "flyers-16",
+      "part": 4,
+      "file": "flyers/16/listening-4.mp3",
+      "bytes": 4654854,
+      "duration": 290.9,
+      "sha256": "12a0f0c99676879cff6595388bf07ddf993a75ede5efb0f2b3810cc4b232e229",
+      "qa": "PASS"
+    },
+    {
+      "test": "flyers-16",
+      "part": 5,
+      "file": "flyers/16/listening-5.mp3",
+      "bytes": 5996085,
+      "duration": 374.73,
+      "sha256": "7d7ca058668e64d77adeb6377655d4a1e4744af2591f915702eba31fb0ca8bc4",
+      "qa": "PASS"
+    },
+    {
+      "test": "flyers-17",
+      "part": 1,
+      "file": "flyers/17/listening-1.mp3",
+      "bytes": 3745375,
+      "duration": 234.06,
+      "sha256": "f3040f0af90590679756989e62d50be1d67d365eccfa69b9ee68294e0821e4c9",
+      "qa": "PASS"
+    },
+    {
+      "test": "flyers-17",
+      "part": 2,
+      "file": "flyers/17/listening-2.mp3",
+      "bytes": 4506478,
+      "duration": 281.63,
+      "sha256": "d4e229b47e2bfddc46cdac693417a9c557f57b4009f3bbbe5574f8d02d3d63b0",
+      "qa": "PASS"
+    },
+    {
+      "test": "flyers-17",
+      "part": 3,
+      "file": "flyers/17/listening-3.mp3",
+      "bytes": 3823533,
+      "duration": 238.94,
+      "sha256": "6e864206dd2d364d3537e9d10ef9f71e58550736d44ead9825510c28434da59b",
+      "qa": "PASS"
+    },
+    {
+      "test": "flyers-17",
+      "part": 4,
+      "file": "flyers/17/listening-4.mp3",
+      "bytes": 4772718,
+      "duration": 298.27,
+      "sha256": "e7d231bf3d5ebbfec8ef726081ee8602ffcb76d37631da3fd74c89200bab13be",
+      "qa": "PASS"
+    },
+    {
+      "test": "flyers-17",
+      "part": 5,
+      "file": "flyers/17/listening-5.mp3",
+      "bytes": 5983964,
+      "duration": 373.97,
+      "sha256": "ff5cc9610ac15da9d22bb4a87a134b5ad147a483c5df31eb2a51de8873aca8ce",
+      "qa": "PASS"
+    },
+    {
+      "test": "flyers-18",
+      "part": 1,
+      "file": "flyers/18/listening-1.mp3",
+      "bytes": 3708176,
+      "duration": 231.73,
+      "sha256": "60d164dd787a32a9293413675d2d7d30e0156054e084af3fbbb9f9231ce43581",
+      "qa": "PASS"
+    },
+    {
+      "test": "flyers-18",
+      "part": 2,
+      "file": "flyers/18/listening-2.mp3",
+      "bytes": 4456323,
+      "duration": 278.49,
+      "sha256": "35351699d606e052497113f9d0acf116522e98f03254d5041d3b70e5c34e8f1d",
+      "qa": "PASS"
+    },
+    {
+      "test": "flyers-18",
+      "part": 3,
+      "file": "flyers/18/listening-3.mp3",
+      "bytes": 3829385,
+      "duration": 239.31,
+      "sha256": "ffeb13d88b68fdfc98132df95ed57a41fb3137f38e4cefcad4488fdda823779f",
+      "qa": "PASS"
+    },
+    {
+      "test": "flyers-18",
+      "part": 4,
+      "file": "flyers/18/listening-4.mp3",
+      "bytes": 4669901,
+      "duration": 291.84,
+      "sha256": "2f9661f0f27b255acb5258571b9a5a75ef50d195b7c4298a626c601bab60ed36",
+      "qa": "PASS"
+    },
+    {
+      "test": "flyers-18",
+      "part": 5,
+      "file": "flyers/18/listening-5.mp3",
+      "bytes": 5999011,
+      "duration": 374.91,
+      "sha256": "355e53a57fbef9eb470a17baac43c7cb1130d635cc566758855631d61f7ca888",
+      "qa": "PASS"
+    },
+    {
+      "test": "flyers-19",
+      "part": 1,
+      "file": "flyers/19/listening-1.mp3",
+      "bytes": 3732418,
+      "duration": 233.25,
+      "sha256": "24bb3e6f5840d12007265a4a236b334ec72ef776130c3dca8494d66eb0393da3",
+      "qa": "PASS"
+    },
+    {
+      "test": "flyers-19",
+      "part": 2,
+      "file": "flyers/19/listening-2.mp3",
+      "bytes": 4425394,
+      "duration": 276.56,
+      "sha256": "e1059fc169bca839b3386a3cdc64bf26f5186a1b9a18a6cf24c5d4757c31fe81",
+      "qa": "PASS"
+    },
+    {
+      "test": "flyers-19",
+      "part": 3,
+      "file": "flyers/19/listening-3.mp3",
+      "bytes": 3856970,
+      "duration": 241.03,
+      "sha256": "a79f3842cd83e0826684f3fb662aa5174c2937d8cbf21ec88fcc7e4a881e7122",
+      "qa": "PASS"
+    },
+    {
+      "test": "flyers-19",
+      "part": 4,
+      "file": "flyers/19/listening-4.mp3",
+      "bytes": 4675334,
+      "duration": 292.18,
+      "sha256": "e02c54f3f923bac59a1d672cabeb75a9eb0f723368c12ddeaf5d90bcb0411b50",
+      "qa": "PASS"
+    },
+    {
+      "test": "flyers-19",
+      "part": 5,
+      "file": "flyers/19/listening-5.mp3",
+      "bytes": 5960141,
+      "duration": 372.48,
+      "sha256": "d744f97a45f19c23137fbc52482b2cfc2fd717bb350e89dc76c33ba15642029b",
+      "qa": "PASS"
+    },
+    {
+      "test": "flyers-20",
+      "part": 1,
+      "file": "flyers/20/listening-1.mp3",
+      "bytes": 3720297,
+      "duration": 232.49,
+      "sha256": "6ca33ff88a03a1de4868908e751211b9a83b5a53b86fb7d3aabfd32d11e63843",
+      "qa": "PASS"
+    },
+    {
+      "test": "flyers-20",
+      "part": 2,
+      "file": "flyers/20/listening-2.mp3",
+      "bytes": 4400317,
+      "duration": 274.99,
+      "sha256": "e9e3de1ef4c8031f73071d1b884c96fdc39f80c9389d598c426e58519cb73799",
+      "qa": "PASS"
+    },
+    {
+      "test": "flyers-20",
+      "part": 3,
+      "file": "flyers/20/listening-3.mp3",
+      "bytes": 3825623,
+      "duration": 239.07,
+      "sha256": "ccf4abe9cf8f918f6a4207222c574742ff36dafdd65ff472167502cc50b44b7e",
+      "qa": "PASS"
+    },
+    {
+      "test": "flyers-20",
+      "part": 4,
+      "file": "flyers/20/listening-4.mp3",
+      "bytes": 4612640,
+      "duration": 288.26,
+      "sha256": "6b2bbf58f5c1f644c7fb335567bba6b14530d5e053fa6bed2b9ed318587022f8",
+      "qa": "PASS"
+    },
+    {
+      "test": "flyers-20",
+      "part": 5,
+      "file": "flyers/20/listening-5.mp3",
+      "bytes": 5971843,
+      "duration": 373.21,
+      "sha256": "063b75faad9fb082d9c440cd850814a4603a188aa23db06d8d6a1dedde8a9be7",
+      "qa": "PASS"
+    },
+    {
+      "test": "flyers-21",
+      "part": 1,
+      "file": "flyers/21/listening-1.mp3",
+      "bytes": 3728238,
+      "duration": 232.99,
+      "sha256": "fec72ff15a3a4e1811e57a2579dd6bb18529f0f4b7a0533b9d1d0d656c090a36",
+      "qa": "PASS"
+    },
+    {
+      "test": "flyers-21",
+      "part": 2,
+      "file": "flyers/21/listening-2.mp3",
+      "bytes": 4422887,
+      "duration": 276.4,
+      "sha256": "6519d9db9115c640978b4fa8ba84a57cfb596d48371d9742b4ab3bbf200464c3",
+      "qa": "PASS"
+    },
+    {
+      "test": "flyers-21",
+      "part": 3,
+      "file": "flyers/21/listening-3.mp3",
+      "bytes": 3871181,
+      "duration": 241.92,
+      "sha256": "adab958f85f8dae955be72bf864b438668845c40e2f9acdcb9037549158ba8db",
+      "qa": "PASS"
+    },
+    {
+      "test": "flyers-21",
+      "part": 4,
+      "file": "flyers/21/listening-4.mp3",
+      "bytes": 4605117,
+      "duration": 287.79,
+      "sha256": "03bad0c7d1cff06e4db7c09cfbf6614e6df9fff2a0020e201aac5e3df1ab442c",
+      "qa": "PASS"
+    },
+    {
+      "test": "flyers-21",
+      "part": 5,
+      "file": "flyers/21/listening-5.mp3",
+      "bytes": 5970172,
+      "duration": 373.11,
+      "sha256": "5ae9b4cef4eeed9893d2cda84f33e17debbe2811224a4b2a1dd9558c6793dccc",
+      "qa": "PASS"
+    },
+    {
+      "test": "flyers-22",
+      "part": 1,
+      "file": "flyers/22/listening-1.mp3",
+      "bytes": 3672650,
+      "duration": 229.51,
+      "sha256": "9def9234951955ec21726559b42cafa44227298e0233d287b922134a46489b47",
+      "qa": "PASS"
+    },
+    {
+      "test": "flyers-22",
+      "part": 2,
+      "file": "flyers/22/listening-2.mp3",
+      "bytes": 4474714,
+      "duration": 279.64,
+      "sha256": "218d645abcf07c22b89fd0785105d805c094027a45717fc7517075f20d698e96",
+      "qa": "PASS"
+    },
+    {
+      "test": "flyers-22",
+      "part": 3,
+      "file": "flyers/22/listening-3.mp3",
+      "bytes": 3938054,
+      "duration": 246.1,
+      "sha256": "5c6f0db492a90e7e90097429ffe1cfa92d6629fd70c68494323c2164db201e5b",
+      "qa": "PASS"
+    },
+    {
+      "test": "flyers-22",
+      "part": 4,
+      "file": "flyers/22/listening-4.mp3",
+      "bytes": 4721727,
+      "duration": 295.08,
+      "sha256": "de8f10a2b60eddd402ac579103aa2b6d71292a0210425a02a58e688dac0a4a26",
+      "qa": "PASS"
+    },
+    {
+      "test": "flyers-22",
+      "part": 5,
+      "file": "flyers/22/listening-5.mp3",
+      "bytes": 5963066,
+      "duration": 372.66,
+      "sha256": "6b24557c021b2fa4f79b92e1aa31a7bc031a7a89b5d53b627dd39538cc04e939",
+      "qa": "PASS"
+    },
+    {
+      "test": "flyers-23",
+      "part": 1,
+      "file": "flyers/23/listening-1.mp3",
+      "bytes": 3728656,
+      "duration": 233.01,
+      "sha256": "9ac1de688dbb95f97210c83aaa596b869e4b0b8fdf1b88444e0154f35ec6f377",
+      "qa": "PASS"
+    },
+    {
+      "test": "flyers-23",
+      "part": 2,
+      "file": "flyers/23/listening-2.mp3",
+      "bytes": 4489342,
+      "duration": 280.56,
+      "sha256": "d0f95de1ff295e8dfb47ae1ca503293b73efc7137710fff973ab7759ef55f217",
+      "qa": "PASS"
+    },
+    {
+      "test": "flyers-23",
+      "part": 3,
+      "file": "flyers/23/listening-3.mp3",
+      "bytes": 3819772,
+      "duration": 238.71,
+      "sha256": "5be16adf38871f02a3c2c608a0a369a54c8eb5a98ffff32d3a10addcf72088bb",
+      "qa": "PASS"
+    },
+    {
+      "test": "flyers-23",
+      "part": 4,
+      "file": "flyers/23/listening-4.mp3",
+      "bytes": 4703337,
+      "duration": 293.93,
+      "sha256": "4192ba7373b4fda90a78f84e91721afeadec1961b1e0e783e49509c311103e39",
+      "qa": "PASS"
+    },
+    {
+      "test": "flyers-23",
+      "part": 5,
+      "file": "flyers/23/listening-5.mp3",
+      "bytes": 5986890,
+      "duration": 374.15,
+      "sha256": "23e54c7b021e9846eabe4391a34bc8ed13a40a1aa8e16027bec1c6c760ca1ef3",
+      "qa": "PASS"
+    },
+    {
+      "test": "flyers-24",
+      "part": 1,
+      "file": "flyers/24/listening-1.mp3",
+      "bytes": 3724895,
+      "duration": 232.78,
+      "sha256": "a0054518e67d760a83c81c2ef9abdcc137c7fbc3fe5bceccbbbed1a3257148e9",
+      "qa": "PASS"
+    },
+    {
+      "test": "flyers-24",
+      "part": 2,
+      "file": "flyers/24/listening-2.mp3",
+      "bytes": 4386942,
+      "duration": 274.16,
+      "sha256": "fe6c71b0cedbd4d84eb779545c730bc226be13e7e1d55f75870106f7568d5b27",
+      "qa": "PASS"
+    },
+    {
+      "test": "flyers-24",
+      "part": 3,
+      "file": "flyers/24/listening-3.mp3",
+      "bytes": 3791768,
+      "duration": 236.96,
+      "sha256": "181f928f0fcde2b233ba1890007e003147465864bd1def4816de67b5b7fb9519",
+      "qa": "PASS"
+    },
+    {
+      "test": "flyers-24",
+      "part": 4,
+      "file": "flyers/24/listening-4.mp3",
+      "bytes": 4755582,
+      "duration": 297.2,
+      "sha256": "e28174cc8f82e5b0fe268fc9f8e8b9e351b387a6a61665ce06ab0de2cc1413d2",
+      "qa": "PASS"
+    },
+    {
+      "test": "flyers-24",
+      "part": 5,
+      "file": "flyers/24/listening-5.mp3",
+      "bytes": 5957633,
+      "duration": 372.32,
+      "sha256": "9272c48b4efb994231ecba8c561fc9ac42cedfab2d1c78b4d7731e305e0ebb01",
+      "qa": "PASS"
+    },
+    {
+      "test": "flyers-25",
+      "part": 1,
+      "file": "flyers/25/listening-1.mp3",
+      "bytes": 3728656,
+      "duration": 233.01,
+      "sha256": "4c59f270f71e9bff483cf3bcd66efc182949d799960a138463ebd81fbccaf1c7",
+      "qa": "PASS"
+    },
+    {
+      "test": "flyers-25",
+      "part": 2,
+      "file": "flyers/25/listening-2.mp3",
+      "bytes": 4477221,
+      "duration": 279.8,
+      "sha256": "2c87fbb969b525031746bc4a82f9c3ce0b2881776ba1208667952a743820e294",
+      "qa": "PASS"
+    },
+    {
+      "test": "flyers-25",
+      "part": 3,
+      "file": "flyers/25/listening-3.mp3",
+      "bytes": 3856970,
+      "duration": 241.03,
+      "sha256": "6f1acfe3a4307dcd6054ccb62a14c5d98eaee303d4b107b5b7737861bc813fdc",
+      "qa": "PASS"
+    },
+    {
+      "test": "flyers-25",
+      "part": 4,
+      "file": "flyers/25/listening-4.mp3",
+      "bytes": 4796542,
+      "duration": 299.76,
+      "sha256": "a5f250267226f2e4431c40e2e7cb4b21a47c1eb25d152c48146ff878321ca2eb",
+      "qa": "PASS"
+    },
+    {
+      "test": "flyers-25",
+      "part": 5,
+      "file": "flyers/25/listening-5.mp3",
+      "bytes": 5984382,
+      "duration": 374.0,
+      "sha256": "cfb0def860b3009e6af1c6ddcaf4d55be1570545fb6be5663040d4df116e320f",
+      "qa": "PASS"
+    }
+  ]
+}

@@ -1,15 +1,16 @@
 """Reproducible migration of original WeWIN material; no answers in public output."""
 from pathlib import Path
-import json,re,copy,fitz,hashlib
+import argparse,json,re,copy,fitz,hashlib,os
 from PIL import Image
 ROOT=Path(__file__).resolve().parents[2];SITE=ROOT/'demo-luyen-thi'
+parser=argparse.ArgumentParser();parser.add_argument('--hard-pack-dir',type=Path,default=Path(os.environ.get('WEWIN_HARD_FLYERS_DIR',ROOT.parent/'WeWIN_Flyers_Hard_16_25_Full_Pack')));args=parser.parse_args();HARD_ROOT=args.hard_pack_dir.resolve()
 OUT=SITE/'generated';OUT.mkdir(exist_ok=True)
 ASSETS=SITE/'assets/platform';ASSETS.mkdir(exist_ok=True)
 VERSION='2026-10-23-v2'
 def module(name,marker=' = '):
     raw=(SITE/name).read_text(encoding='utf-8').split(marker,1)[1].lstrip()
     return json.JSONDecoder().raw_decode(raw)[0]
-starters=module('exams.mjs');movers=module('movers.mjs');flyers=module('flyers.mjs')
+starters=module('exams.mjs');movers=module('movers.mjs');flyers=module('flyers.mjs')+module('flyers-hard.mjs')
 artwork=module('exams.mjs','export const artwork = ')
 public=[];private=[]
 # Coordinates are relative to the rendered picture, not page/screen pixels.
@@ -26,11 +27,16 @@ colour_regions=[
  {'id':'boy-shirt','path':'M553 466 Q586 494 626 490 L650 544 L628 560 L627 605 L564 612 L564 546 L538 530 Z','cx':595,'cy':547},
  {'id':'sign','path':'M453 1140 Q453 1117 478 1117 L957 1117 Q980 1117 980 1140 L980 1299 Q980 1320 956 1320 L477 1320 Q453 1320 453 1299 Z','cx':717,'cy':1218},
  {'id':'boy-hat','path':'M658 280 L749 237 L732 352 Z','cx':716,'cy':292}]
+hard_colour_regions=copy.deepcopy(colour_regions)
+hard_colour_regions[2]={'id':'bench-hat','path':'M842 542 Q868 531 889 564 L925 670 Q866 700 792 671 Z','cx':858,'cy':612}
 def render(page,rect,relative):
     dest=SITE/'assets'/relative
     if not dest.exists():page.get_pixmap(matrix=fitz.Matrix(1.6,1.6),clip=fitz.Rect(rect),alpha=False).save(dest,jpg_quality=91)
     return relative
-def targets(n):return [{'id':f'p{i+1}','x':x,'y':y,'rx':10,'ry':18} for i,(x,y) in enumerate(positions[n])]
+hard_positions={n:[(20,40),(50,38),(85,38),(14,73),(50,66),(66,70),(87,70)] for n in range(16,26)}
+def targets(n):
+    points=hard_positions[n] if n in hard_positions else positions[n]
+    return [{'id':f'p{i+1}','x':x,'y':y,'rx':10,'ry':18} for i,(x,y) in enumerate(points)]
 def clean(q):
     return {k:copy.deepcopy(v) for k,v in q.items() if k not in ['answer','accepted','sample','targets','colour']}
 def number_question(q,i):
@@ -38,15 +44,20 @@ def number_question(q,i):
     return q
 for level,source in [('starters',starters),('movers',movers),('flyers',flyers)]:
     for original in source:
-        e=copy.deepcopy(original);e['levelKey']=level;e['version']=VERSION
-        pub={k:copy.deepcopy(v) for k,v in e.items() if k not in ['reading','listening']}
+        e=copy.deepcopy(original);e['levelKey']=level;e['version']=e.get('version',VERSION)
+        pub={k:copy.deepcopy(v) for k,v in e.items() if k not in ['reading','listening','personOrder','exampleName','matchKey']}
         if level!='starters':
-            n=int(e['number']);doc=fitz.open(ROOT/'WeWIN_Flyers_10_Tests_06_15.pdf') if level=='flyers' else fitz.open(ROOT/'WeWIN_Movers_10_New_Tests_06_15_Full_Pack'/f'WeWIN_Movers_Mock_{n:02}.pdf')
-            pages=[doc[(n-6)*18+i if level=='flyers' else i] for i in range(18)]
+            n=int(e['number'])
+            if level=='flyers' and n<=15:
+                doc=fitz.open(ROOT/'WeWIN_Flyers_10_Tests_06_15.pdf');pages=[doc[(n-6)*18+i] for i in range(18)]
+            elif level=='flyers':
+                doc=fitz.open(HARD_ROOT/f'WeWIN_Flyers_Hard_Mock_{n:02}.pdf');pages=[doc[i] for i in range(18)]
+            else:
+                doc=fitz.open(ROOT/'WeWIN_Movers_10_New_Tests_06_15_Full_Pack'/f'WeWIN_Movers_Mock_{n:02}.pdf');pages=[doc[i] for i in range(18)]
         for skill in ['reading','listening']:
             pub[skill]=[]
             for pi,p in enumerate(e[skill]):
-                p['id']=f'{skill[0]}{pi+1}';part={k:copy.deepcopy(v) for k,v in p.items() if k not in ['questions','hint','options']}
+                p['id']=f'{skill[0]}{pi+1}';part={k:copy.deepcopy(v) for k,v in p.items() if k not in ['questions','hint','options','personOrder','exampleName','matchKey']}
                 part['questions']=[number_question(clean(q),i) for i,q in enumerate(p['questions'])]
                 if level=='starters':
                     if p.get('options'):part['options']=[(x[0],x[1],{'tick':'True','cross':'False','yes':'Yes','no':'No'}.get(x[0],x[0])) for x in p['options']]
@@ -64,15 +75,20 @@ for level,source in [('starters',starters),('movers',movers),('flyers',flyers)]:
                         p['painting']=True;part['questions']=[]
                 elif skill=='listening':
                     if pi==0:
-                        page=pages[1];text=page.get_text().split('\n2\n',1)[1];names=[x.strip() for x in text.split('Example:')[0].splitlines() if x.strip()];assert len(names)==7,(e['id'],names)
-                        example=text.split('Example:')[1].strip().splitlines()[0]
+                        page=pages[1]
+                        prepared_key=copy.deepcopy(p.get('matchKey'))
+                        if p.get('personOrder'):
+                            names=p['personOrder'];example=p['exampleName'];key=prepared_key
+                        else:
+                            text=page.get_text().split('\n2\n',1)[1];names=[x.strip() for x in text.split('Example:')[0].splitlines() if x.strip()];assert len(names)==7,(e['id'],names)
+                            example=text.split('Example:')[1].strip().splitlines()[0];key={}
                         image=render(page,page.get_image_info()[1]['bbox'],f'platform/{e["id"]}-match.jpg')
                         part['interaction']={'type':'match','image':image,'names':[{'id':x,'label':x} for x in names],'targets':targets(n),'example':{'name':example,'target':'p1'}}
-                        key={}
-                        for q in p['questions']:
-                            desc=q['choices'][int(q['answer'])-1]['label'].lower().split(';')[0].split(',')[0]
-                            target=next(v for word,v in [('yellow','p2'),('glasses','p3'),('purple','p4'),('curly','p5'),('pink','p6')] if word in desc)
-                            q['answer']=target;key[q['prompt']]=target;q['choices']=[]
+                        if not p.get('personOrder'):
+                            for q in p['questions']:
+                                desc=q['choices'][int(q['answer'])-1]['label'].lower().split(';')[0].split(',')[0]
+                                target=next(v for word,v in [('yellow','p2'),('glasses','p3'),('purple','p4'),('curly','p5'),('pink','p6')] if word in desc)
+                                q['answer']=target;key[q['prompt']]=target;q['choices']=[]
                         p['matchKey']=key;part['questions']=[];part.pop('images',None)
                     if pi==2:
                         text=pages[3].get_text();lines=text.split('\n4\n',1)[1].splitlines();names=[x for x in lines if re.fullmatch('[A-Z][a-z]+',x)];assert len(names)==6,(e['id'],names)
@@ -85,11 +101,12 @@ for level,source in [('starters',starters),('movers',movers),('flyers',flyers)]:
                             for q,(_,label) in zip(part['questions'],qs):q['prompt']=label
                     if pi==4:
                         image=render(pages[6],pages[6].get_image_info()[1]['bbox'],f'platform/{e["id"]}-paint.jpg')
-                        part['interaction']={'type':'paint','image':image,'width':1000,'height':1500,'regions':colour_regions,'paintCount':4 if level=='movers' else 3,'writeCount':1 if level=='movers' else 2}
+                        regions=hard_colour_regions if level=='flyers' and n>=16 else colour_regions
+                        part['interaction']={'type':'paint','image':image,'width':1000,'height':1500,'regions':regions,'paintCount':4 if level=='movers' else 3,'writeCount':1 if level=='movers' else 2}
                         for i,q in enumerate(p['questions']):
                             q['prompt']=f'Question {i+1}'
                             if q.get('colour'):
-                                target,color=q['answer'].split('|');region='kite-left' if 'kite' in target else 'bench-hat' if 'hat' in target else 'ground-bag' if 'bag' in target else 'blanket-book'
+                                target,color=q['answer'].split('|');color=color.strip();region='kite-left' if 'kite' in target else 'bench-hat' if 'hat' in target else 'ground-bag' if 'bag' in target else 'blanket-book'
                                 q['answer']={'target':region,'color':color}
                             else:q['answer']={'target':'blanket-book' if level=='flyers' and i==3 else 'sign','word':q['answer']}
                         p['painting']=True;part['questions']=[];part.pop('images',None)
@@ -97,7 +114,7 @@ for level,source in [('starters',starters),('movers',movers),('flyers',flyers)]:
                     if level=='flyers':
                         p['writingImages']=[render(pages[14],(25,215,570,360),f'platform/{e["id"]}-writing-context.jpg')]
                     part['writingMax']=6 if level=='movers' else 5
-                    part['contextTitle']=e['title'];part['characters']=['Win','Lily'] if level=='flyers' and n not in [12,14] else ['Win','Tom'] if level=='flyers' else ['Win']
+                    part['contextTitle']=e['title'];part['characters']=['Win'] if level=='flyers' and n>=16 else ['Win','Lily'] if level=='flyers' and n not in [12,14] else ['Win','Tom'] if level=='flyers' else ['Win']
                     part['instruction']='Look at the three pictures. Write a story using 20 or more words.' if level=='flyers' else 'Look at the picture. Complete the sentences, answer the questions, then write two sentences of your own.'
                     if level=='movers':
                         body=pages[14].get_text().split('Example:')[1]

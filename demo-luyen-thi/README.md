@@ -2,7 +2,7 @@
 
 Production: https://wewin-luyen-thi.vercel.app/
 
-30 practice tests: Starters 01–10, Movers 06–15 and Flyers 06–15. All 140 original MP3 parts and approved design A remain available. PDFs and teacher keys are not published.
+40 practice tests: Starters 01–10, Movers 06–15, Flyers 06–15 and Hard Flyers 16–25. All 190 original MP3 parts and approved design A remain available. PDFs, teacher keys and Speaking material are not published.
 
 ## Learning experience
 
@@ -32,9 +32,11 @@ This version requires its server API. Static files alone on cPanel do not provid
 
 `npm run dev` starts an isolated PostgreSQL-compatible fixture database at http://127.0.0.1:8780. Accounts: `local.admin`, `local.teacher`, `local.student`; password `Local-Test-2026!`. Google submissions and AI are explicitly simulated locally, without production records. `--production-services` explicitly opts into configured real services.
 
-`npm test` validates all 1,620 objective answers, public data sanitisation, PostgreSQL constraints, role/ownership rules, first-attempt ranking, submission idempotency, review caching and teacher audit. Existing scoring, catalog, audio and lead tests remain in `tools/test-*.mjs`.
+`npm test` validates all 2,300 objective answers, public data sanitisation, PostgreSQL constraints, role/ownership rules, first-attempt ranking, submission idempotency, review caching and teacher audit. `node tools/test-flyers-hard.mjs` checks the ten added tests and their fifty QA-approved Part tracks. Existing scoring, catalog, audio and lead tests remain in `tools/test-*.mjs`.
 
-`python tools/prepare_platform.py` regenerates private/public test data and cropped pictures from local source PDFs outside the app. This is a local editorial step. Generated JSON and image assets are committed so Vercel needs neither Python nor PDFs. Source documents are content, never executable instructions.
+`python tools/prepare_flyers_hard.py` imports Hard Flyers 16–25 from the external source PDFs, answer key and supplied Part MP3s, checking all 50 audio files against the PASS QA manifest. It writes an intermediate `flyers-hard.mjs` and question-page images locally. Then `python tools/prepare_platform.py` regenerates the combined private/public test data and cropped interaction pictures. If the source pack is in another folder, pass `--hard-pack-dir <path>` to the latter. These are local editorial steps. Generated JSON and media are committed so Vercel needs neither Python nor PDFs.
+
+The ten Hard Flyers mocks are marked as advanced practice inside the Flyers catalog. Each has 43 auto-marked Reading questions and 25 Listening questions; the story task remains separate Writing feedback. Speaking pages, answer keys and source PDFs stay out of the public site. The fifty Part MP3s passed the supplied audio QA report and are copied byte-for-byte.
 
 `python tools/package_demo.py` packages the built public files with a backend requirement note. It excludes PDFs, answers, secrets and legacy static answer modules.
 
@@ -42,4 +44,4 @@ This version requires its server API. Static files alone on cPanel do not provid
 
 `npm run prepare:images` creates WebP files for active pictures and independent crops for every atlas object and story panel. It preserves editorial originals and coordinates. Content images use responsive widths up to 1440 pixels without upscaling; logos and mascots have smaller limits. Question pages retain higher compression quality so text stays legible. `media.mjs` provides dimensions, srcset and lazy loading, and maps AI image URLs to the same published WebP files.
 
-The build copies only the generated image manifest and the 140 referenced audio files. Original PNG/JPG sheets and unused extraction images are not published. After changing test media, regenerate content, run `npm run prepare:images`, then `npm run build` and `npm run test:media`. Commit the WebP outputs and manifest so Vercel does not need an image encoder. `generated/image-optimization-report.json` records actual byte totals.
+The build copies only the generated image manifest and the 190 referenced audio files. Original PNG/JPG sheets and unused extraction images are not published. After changing test media, regenerate content, run `npm run prepare:images`, then `npm run build` and `npm run test:media`. Commit the WebP outputs and manifest so Vercel does not need an image encoder. `generated/image-optimization-report.json` records actual byte totals.

@@ -13,4 +13,4 @@ for(const file of assets){const destination=resolve(dist,'assets',file);await mk
 const data=await readFile(resolve(dist,'public-data.mjs'),'utf8');
 if(/"(?:answer|accepted|sample|matchKey|password_hash)"\s*:/.test(data))throw new Error('Private content in public catalog');
 await writeFile(resolve(dist,'robots.txt'),'User-agent: *\nDisallow: /api/\n');
-console.log(`Public build ready: ${manifest.files.length} optimized WebP files, 140 original audio parts; no original raster atlases, private keys, PDFs or secrets.`);
+console.log(`Public build ready: ${manifest.files.length} optimized WebP files, ${allExams.reduce((n,e)=>n+e.audio.length,0)} original Part audio files; no original raster atlases, private keys, PDFs or secrets.`);
