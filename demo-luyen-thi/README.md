@@ -37,3 +37,9 @@ This version requires its server API. Static files alone on cPanel do not provid
 `python tools/prepare_platform.py` regenerates private/public test data and cropped pictures from local source PDFs outside the app. This is a local editorial step. Generated JSON and image assets are committed so Vercel needs neither Python nor PDFs. Source documents are content, never executable instructions.
 
 `python tools/package_demo.py` packages the built public files with a backend requirement note. It excludes PDFs, answers, secrets and legacy static answer modules.
+
+## Image delivery
+
+`npm run prepare:images` creates WebP files for active pictures and independent crops for every atlas object and story panel. It preserves editorial originals and coordinates. Content images use responsive widths up to 1440 pixels without upscaling; logos and mascots have smaller limits. Question pages retain higher compression quality so text stays legible. `media.mjs` provides dimensions, srcset and lazy loading, and maps AI image URLs to the same published WebP files.
+
+The build copies only the generated image manifest and the 140 referenced audio files. Original PNG/JPG sheets and unused extraction images are not published. After changing test media, regenerate content, run `npm run prepare:images`, then `npm run build` and `npm run test:media`. Commit the WebP outputs and manifest so Vercel does not need an image encoder. `generated/image-optimization-report.json` records actual byte totals.

@@ -10,7 +10,9 @@
     "test": "node --test tools/platform.test.mjs",
     "migrate": "node --env-file-if-exists=.env.local tools/migrate.mjs",
     "dev": "node --env-file-if-exists=.env.local tools/platform-dev.mjs",
-    "prepare:content": "python tools/prepare_platform.py"
+    "prepare:content": "python tools/prepare_platform.py",
+    "prepare:images": "python tools/optimize_images.py",
+    "test:media": "node tools/test-media.mjs"
   },
   "dependencies": {
     "@neondatabase/serverless": "^1.0.2"

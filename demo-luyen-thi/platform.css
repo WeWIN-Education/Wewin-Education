@@ -9,7 +9,7 @@
 .interactive-picture{display:block;width:100%;height:auto;max-width:100%;border-radius:12px;overflow:visible}
 .match-picture{max-height:calc(100dvh - 260px)}.interactive-picture:not(.raster-art){fill:none;stroke:none;stroke-width:0}
 .interactive-picture image{pointer-events:none}.interactive-picture [role=button]{cursor:pointer;outline:none}.person-hit{fill:transparent;stroke:transparent;stroke-width:3}
-.interactive-picture [data-person]:focus-visible .person-hit,.interactive-picture [data-person]:hover .person-hit{stroke:var(--primary);stroke-dasharray:8 7;fill:color-mix(in srgb,var(--primary) 6%,transparent)}
+.interactive-picture [data-person]:focus-visible .person-hit{stroke:var(--primary);stroke-width:2}
 .picture-link{stroke:var(--primary);stroke-width:4;fill:none;stroke-linecap:round;pointer-events:none;opacity:.72}.selected-link{stroke-width:6;opacity:1}.example-link{stroke:var(--muted);opacity:.5;stroke-width:3}.drag-preview{opacity:.9;stroke-dasharray:10 7}.drag-preview[hidden]{display:none}
 .name-hit{fill:transparent;stroke:transparent;stroke-width:2}.name-hit.chosen{fill:var(--primary-light);stroke:var(--primary)}.name-text{font-family:var(--app-font);font-size:28px;font-weight:600;fill:var(--foreground);pointer-events:none}
 .interactive-picture [data-name]:hover .name-hit,.interactive-picture [data-name]:focus-visible .name-hit{stroke:var(--primary);fill:var(--primary-light)}
@@ -19,8 +19,11 @@
 .picture-tool-tabs{display:flex;gap:8px;flex-wrap:wrap;margin:16px 0}.picture-tool-tabs .btn{min-height:40px}.picture-tool-tabs .selected{border-color:var(--primary);color:var(--primary);background:var(--primary-light)}
 .picture-word-input{margin:0 0 12px!important;width:100%!important;font-size:16px}.word-entry-label{display:block;margin:16px 0 8px}.picture-zoom .interactive-picture{max-height:none}.picture-zoom{max-width:min(1100px,calc(100% - 32px))}
 .word-bank{display:flex;gap:12px;flex-wrap:wrap;background:var(--primary-light);padding:20px;border-radius:12px;margin:20px 0}.word-bank span{padding:8px 16px;background:var(--surface);border-radius:8px;font-size:16px;color:var(--foreground)}
-.question-art-gallery{display:grid;grid-template-columns:1fr 1fr;gap:16px}.question-art-gallery figure{margin:0;padding:16px;border:1px solid var(--border);border-radius:12px}.question-art-gallery figcaption{font-size:12px;color:var(--muted)}.question-art-gallery svg{max-height:140px}
+.question-art-gallery{display:grid;grid-template-columns:1fr 1fr;gap:16px}.question-art-gallery figure{margin:0;padding:16px;border:1px solid var(--border);border-radius:12px}.question-art-gallery figcaption{font-size:12px;color:var(--muted)}.question-art-gallery .raster-art{width:100%;height:140px;object-fit:contain;background:#fff}
 .question-picture{width:100%;height:auto;border-radius:12px}.platform-shell .raster-art{overflow:hidden}.story-context{padding:12px 0;margin-bottom:12px;display:flex;flex-direction:column;gap:8px}.story-context strong{font-size:20px}.story-context span{font-size:13px;color:var(--muted)}
+.option-art img.raster-art{position:absolute;inset:6px;width:calc(100% - 12px);height:calc(100% - 12px);object-fit:contain;background:#fff}
+.catalog-v2 .cover img{object-fit:contain}.catalog-v2 .exam-card:hover .cover img{transform:none}
+@media(max-width:767px){.intro-picture img{object-fit:contain;object-position:center}.option-art img.raster-art{inset:4px;width:calc(100% - 8px);height:calc(100% - 8px)}}
 .writing-note{padding:12px 16px;background:var(--gold-light);border-radius:12px;margin-bottom:20px;font-size:13px}.writing-answer{min-height:120px;font-family:var(--app-font);font-size:16px;line-height:1.6;color:var(--foreground);background:var(--surface);border:1px solid var(--border-strong)}
 .word-count{font-size:12px;color:var(--muted);padding:8px 0 0 32px}.save-status{font-size:12px;color:var(--muted)}
 .dashboard-heading{margin:24px 0 32px}.dashboard-heading h1{font-size:26px;margin:8px 0 12px}.dashboard-heading p{color:var(--muted);font-size:14px}.dashboard-history,.leaderboard-section,.writing-result,.answer-review,.management-block{padding:24px;background:var(--surface);border:1px solid var(--border);border-radius:16px;margin:24px 0}
