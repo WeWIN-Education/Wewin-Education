@@ -233,3 +233,37 @@ body:not([data-screen=exam]) .workspace-body {
     background-position: 8px 15px, center, center, center;
   }
 }
+
+/* Fade the hero's rectangular image edges and reduce cropping on level illustrations. */
+.hero-illustration > img {
+  max-height: 340px;
+  object-fit: contain;
+  object-position: center;
+  filter: drop-shadow(0 18px 18px rgb(26 77 137 / .12));
+  -webkit-mask-image: radial-gradient(ellipse 70% 78% at 64% 55%, #000 50%, transparent 100%);
+  mask-image: radial-gradient(ellipse 70% 78% at 64% 55%, #000 50%, transparent 100%);
+}
+.hero-art-caption { display: none; }
+.cambridge-level > .level-art {
+  top: 50%;
+  right: -1%;
+  width: 54%;
+  height: 136%;
+  object-fit: cover;
+  object-position: right 54%;
+  transform: translateY(-50%);
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 28%);
+  mask-image: linear-gradient(to right, transparent 0%, #000 28%);
+}
+@media(max-width:600px) {
+  .hero-illustration > img {
+    max-height: 180px;
+    -webkit-mask-image: radial-gradient(ellipse 70% 78% at 64% 55%, #000 50%, transparent 100%);
+    mask-image: radial-gradient(ellipse 70% 78% at 64% 55%, #000 50%, transparent 100%);
+  }
+  .cambridge-level > .level-art {
+    width: 52%;
+    height: 140%;
+    object-position: right 54%;
+  }
+}
