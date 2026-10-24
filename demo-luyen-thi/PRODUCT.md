@@ -24,7 +24,7 @@ The rejected direction B, intersecting decorative connectors, badges covering cl
 
 1. Make the learning task and picture details easy to understand.
 2. Keep listening answers discoverable through audio, without text hints.
-3. Preserve the approved interface while fixing concrete usability defects.
+3. Use the approved Cambridge dashboard redesign: Overview, Practice, Results and Leaderboard. No XP, streaks or daily missions for occasional mock-test use.
 4. Keep parent and staff explanations Vietnamese and the exam experience English.
 5. Reduce image payload without losing text, objects or target alignment.
 

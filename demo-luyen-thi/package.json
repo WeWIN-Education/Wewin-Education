@@ -8,6 +8,8 @@
   "scripts": {
     "build": "node tools/build.mjs",
     "test": "node --test tools/platform.test.mjs",
+    "test:ui": "node --test tools/learning-ui.test.mjs",
+    "test:client": "node --test tools/client-runtime.test.mjs",
     "migrate": "node --env-file-if-exists=.env.local tools/migrate.mjs",
     "dev": "node --env-file-if-exists=.env.local tools/platform-dev.mjs",
     "prepare:content": "python tools/prepare_platform.py",

@@ -22,6 +22,16 @@ export class Repository{
   return this.attempt(attempt.id);
  }
  async history(ownerId){return this.q('SELECT id,exam_id,exam_version,created_at,submitted_at,result FROM practice_attempts WHERE owner_id=$1 ORDER BY created_at DESC LIMIT 100',[ownerId]);}
+ async learningActivity(user,{student='',status='all',limit=50,offset=0}={}){
+  const scope=user.role==='admin'?'true':`a.owner_kind='user' AND EXISTS (SELECT 1 FROM practice_enrollments pe JOIN practice_classes pc ON pc.id=pe.class_id WHERE pe.student_id::text=a.owner_id AND pc.teacher_id=$1)`;
+  const params=user.role==='admin'?[]:[user.id];
+  const conditions=[scope];
+  if(student){params.push(student);conditions.push(`a.owner_id=$${params.length}`);}
+  if(status==='submitted')conditions.push('a.submitted_at IS NOT NULL');
+  if(status==='draft')conditions.push('a.submitted_at IS NULL');
+  params.push(limit,offset);
+  return this.q(`SELECT a.id,a.exam_id,a.exam_version,a.created_at,a.submitted_at,a.owner_kind,u.nickname,u.username,u.role,a.result->>'total' AS total_score FROM practice_attempts a LEFT JOIN practice_users u ON u.id::text=a.owner_id AND a.owner_kind='user' WHERE ${conditions.join(' AND ')} ORDER BY COALESCE(a.submitted_at,a.created_at) DESC,a.id LIMIT $${params.length-1} OFFSET $${params.length}`,params);
+ }
  async leaderboard(exam){return this.q('SELECT u.nickname,r.reading_score,r.listening_score,r.total_score,rank() OVER(ORDER BY r.total_score DESC) AS rank FROM practice_rankings r JOIN practice_users u ON u.id=r.student_id WHERE r.exam_id=$1 AND r.exam_version=$2 AND u.active=true ORDER BY r.total_score DESC,r.submitted_at ASC LIMIT 100',[exam.id,exam.version]);}
  async mayTeach(teacher,student){return teacher.role==='admin'||!!(await this.q('SELECT 1 FROM practice_enrollments e JOIN practice_classes c ON c.id=e.class_id WHERE e.student_id=$1 AND c.teacher_id=$2 LIMIT 1',[student,teacher.id]))[0];}
  async staffData(user){const users=user.role==='admin'?await this.q('SELECT id,username,nickname,role,active,must_change_password FROM practice_users ORDER BY created_at DESC'):await this.q("SELECT DISTINCT u.id,u.username,u.nickname,u.role,u.active,u.must_change_password FROM practice_users u JOIN practice_enrollments e ON e.student_id=u.id JOIN practice_classes c ON c.id=e.class_id WHERE c.teacher_id=$1 ORDER BY u.nickname",[user.id]);const classes=user.role==='admin'?await this.q('SELECT * FROM practice_classes ORDER BY name'):await this.q('SELECT * FROM practice_classes WHERE teacher_id=$1 ORDER BY name',[user.id]);return {users,classes,enrollments:user.role==='admin'?await this.q('SELECT * FROM practice_enrollments'):await this.q('SELECT e.* FROM practice_enrollments e JOIN practice_classes c ON c.id=e.class_id WHERE c.teacher_id=$1',[user.id])};}

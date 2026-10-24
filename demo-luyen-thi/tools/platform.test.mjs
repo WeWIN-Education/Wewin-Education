@@ -51,6 +51,16 @@ test('real Postgres semantics: auth, permissions, atomic first ranking, idempote
   const override={...reviewed.body.review.original,score:5,completion:'Giáo viên xác nhận bài tốt.'};assert.equal((await request('review-override&id='+attempt.id,{cookie:cookies.outsider,data:{review:override,reason:'Test'}})).status,403);const adjusted=await request('review-override&id='+attempt.id,{cookie:cookies.teacher,data:{review:override,reason:'Reviewed all three pictures'}});assert.equal(adjusted.body.review.original.score,4);assert.equal(adjusted.body.review.teacher_override.score,5);assert.equal(adjusted.body.audit.length,1);
   const payload=Buffer.from(JSON.stringify({v:1,exp:Date.now()+60000,nonce:'local-fixture'})).toString('base64url');const guestCookie='wewin_lead_access='+payload+'.'+createHmac('sha256',key).update(payload).digest('base64url');
   const guestAttempt=(await request('attempts',{cookie:guestCookie,data:{examId:exam.id}})).body.attempt;const guestSubmit=await request('submit&id='+guestAttempt.id,{cookie:guestCookie,data});assert.equal(guestSubmit.status,200);assert.equal(guestSubmit.body.attempt.result.total,100);assert.equal((await request('writing&id='+guestAttempt.id,{cookie:guestCookie,data:{}})).status,401);assert.equal((await request('leaderboard&exam='+exam.id)).body.entries.length,2);
+  assert.equal((await request('activity')).status,401);
+  assert.equal((await request('activity',{cookie:cookies.student})).status,403);
+  assert.equal((await request('activity',{cookie:guestCookie})).status,401);
+  const teacherActivity=await request('activity',{cookie:cookies.teacher});assert.equal(teacherActivity.status,200);assert.ok(teacherActivity.body.activities.length>=2);assert.ok(teacherActivity.body.activities.every(a=>a.nickname==='Learner A'&&a.owner_kind==='user'));assert.ok(teacherActivity.body.activities.every(a=>!('answers' in a)&&!('writing' in a)&&!('password_hash' in a)));
+  assert.equal((await request('activity',{cookie:cookies.outsider})).body.activities.length,0);
+  assert.equal((await request('activity&student='+other.id,{cookie:cookies.teacher})).body.activities.length,0);
+  assert.equal((await request('activity&status=draft',{cookie:cookies.teacher})).body.activities.length,0);
+  assert.equal((await request('activity&offset=50',{cookie:cookies.admin})).body.activities.length,0);
+  assert.equal((await request('activity&status=invalid',{cookie:cookies.admin})).status,422);
+  const adminActivity=(await request('activity',{cookie:cookies.admin})).body.activities;assert.ok(adminActivity.some(a=>a.owner_kind==='guest'));assert.ok(adminActivity.some(a=>a.nickname==='Learner B'));
   const inactive=await request('user&id='+student.id,{cookie:cookies.admin,data:{active:false}});assert.equal(inactive.status,200);assert.equal((await request('session',{cookie:cookies.student})).body.user,null);
   assert.equal((await request('user&id='+admin.id,{cookie:cookies.admin,data:{active:false}})).status,409);
   assert.equal(validateReview(override,5,1).score,5);

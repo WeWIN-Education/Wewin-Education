@@ -64,6 +64,12 @@ export function createPlatformHandler({getRepository=productionRepository,ai=ass
     return send(200,{review:await repo.reviewForAttempt(id)});
    }
    if(resource==='staff'&&req.method==='GET'){requireUser(user,['teacher','admin']);return send(200,{...await repo.staffData(user),dailyAiLimit:Number(await repo.setting('daily_ai_limit'))||10});}
+   if(resource==='activity'&&req.method==='GET'){
+    requireUser(user,['teacher','admin']);const status=url.searchParams.get('status')||'all';
+    const offset=Math.max(0,Math.min(10000,Number(url.searchParams.get('offset'))||0));
+    if(!Number.isInteger(offset)||!['all','submitted','draft'].includes(status))throw new ApiError(422,'Choose valid activity filters.');
+    return send(200,{activities:await repo.learningActivity(user,{student:text(url.searchParams.get('student'),100),status,limit:50,offset})});
+   }
    if(resource==='users'&&req.method==='POST'){
     requireUser(user,['admin']);const username=text(input.username,80).toLowerCase(),nickname=text(input.nickname,60),role=input.role;if(!/^[a-z0-9._-]{3,80}$/.test(username)||!nickname||!['student','teacher','admin'].includes(role))throw new ApiError(422,'Enter a valid username, display name and role.');const created=await repo.createUser({username,nickname,role,passwordHash:await passwordHash(input.password)});return send(201,{user:created});
    }

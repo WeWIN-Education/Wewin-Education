@@ -1,5 +1,11 @@
 # Practice platform implementation
 
+## Cambridge dashboard redesign
+
+The later approved redesign replaces direction A's centered catalog layout with a learning workspace. `learning-shell.mjs` owns shared navigation/header and native drawer interactions; `learning-ui.mjs` owns pure summaries/widgets; `library.mjs` renders the test library while reusing existing catalog filtering and media helpers. `learning.css` defines brand/motion/layout tokens and shared practice/results/management surfaces. The existing exam interaction, grading and AI contracts remain unchanged. `history` is a real frontend route displaying saved attempts.
+
+The `activity` GET resource exposes a paginated read-only attempt journal to staff. Its SQL scopes teacher records through existing class enrolments and never returns private answers/writing or credential fields. It reads existing attempts; no schema migration is needed. Permission tests cover anonymous/student/guest rejection, unrelated teachers, crafted student filters and admin access.
+
 Approved scope: the 2026-10-21/23 conversation plan. Keep visual direction A and all original media. Add English exam UI, picture interactions, server scoring, accounts, ranking and formative AI writing.
 
 ## Inspected baseline
