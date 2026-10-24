@@ -32,12 +32,13 @@ function catalogAction(e){return attemptCTA(e,history);}
 function catalogResults(){return renderLibraryResults({category,query,limit,action:catalogAction,attempts:history});}
 function render(){
  const focused=document.documentElement.dataset.input==='keyboard'&&root.contains(document.activeElement)?document.activeElement:null;
- const focusData=focused?.dataset?.action?{...focused.dataset}:null;
+ const focusData=focused?.dataset?.action?{...focused.dataset}:null,focusId=focused?.id;
  document.body.dataset.screen=screen;document.documentElement.lang=['catalog','dashboard','history','staff','login'].includes(screen)?'vi':'en';
  const params=new URLSearchParams({screen});if(['intro','exam','result'].includes(screen)){params.set('test',exam.id);params.set('skill',skill);params.set('part',partIndex);if(attempt?.id)params.set('attempt',attempt.id);}window.history.replaceState(null,'','?'+params);
  const error=`<p id="screen-error" class="screen-error" role="alert" ${errorMessage?'':'hidden'}>${esc(errorMessage)}</p>`;
  const content=screen==='catalog'?error+libraryLayout({category,query,results:catalogResults(),attempts:history,user:session.user,available:historyAvailable}):`<div class="platform-shell">${error}${screen==='intro'?introView():screen==='exam'?examView():screen==='result'?resultView():screen==='staff'?staffView():screen==='login'?loginView():dashboardView()}</div>`;
  root.innerHTML=renderShell({screen,category,session,exams:allExams,attempts:history,available:historyAvailable,content,footer:footer()});
+ if(focusId)byId(focusId)?.focus({preventScroll:true});
  if(focusData)[...root.querySelectorAll('[data-action]')].find(el=>Object.entries(focusData).every(([key,value])=>el.dataset[key]===value))?.focus({preventScroll:true});
  syncAudio();if(screen==='exam'&&currentPart().interaction)bindPictureInteractions(root,{part:currentPart(),selectName,connect,region:selectRegion});
  if(screen==='result'||screen==='board')renderBoardInto();
