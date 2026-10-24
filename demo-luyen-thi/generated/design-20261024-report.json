@@ -1,0 +1,50 @@
+[
+  {
+    "source": "design-20261024/learning-world.png",
+    "sourceBytes": 1669590,
+    "variants": [
+      {
+        "file": "optimized/design-20261024/learning-world-480.webp",
+        "width": 480,
+        "height": 320,
+        "bytes": 12786
+      },
+      {
+        "file": "optimized/design-20261024/learning-world-960.webp",
+        "width": 960,
+        "height": 640,
+        "bytes": 30870
+      },
+      {
+        "file": "optimized/design-20261024/learning-world-1440.webp",
+        "width": 1440,
+        "height": 960,
+        "bytes": 51450
+      }
+    ]
+  },
+  {
+    "source": "design-20261024/study-corner.png",
+    "sourceBytes": 1634900,
+    "variants": [
+      {
+        "file": "optimized/design-20261024/study-corner-320.webp",
+        "width": 320,
+        "height": 213,
+        "bytes": 5776
+      },
+      {
+        "file": "optimized/design-20261024/study-corner-640.webp",
+        "width": 640,
+        "height": 427,
+        "bytes": 13882
+      },
+      {
+        "file": "optimized/design-20261024/study-corner-960.webp",
+        "width": 960,
+        "height": 640,
+        "bytes": 23544
+      }
+    ]
+  }
+]
