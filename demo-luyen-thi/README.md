@@ -1,6 +1,6 @@
 # WeWIN English Practice
 
-Production: https://wewin-luyen-thi.vercel.app/
+Production: https://exam.wewin.edu.vn/
 
 60 practice tests: Starters 06–15 and Hard Starters 16–25, Movers 06–15 and Hard Movers 16–25, Flyers 06–15 and Hard Flyers 16–25. The previous Starter set and its practice records were cleared before these replacement tests were added. All 280 individual Part MP3 tracks are available. PDFs, teacher keys and Speaking material are not published.
 

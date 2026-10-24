@@ -10,7 +10,7 @@ export function validateReview(value,max,count){
  if(max===6&&(value.itemScores.length!==count||value.itemScores.some(x=>x!==0&&x!==1)||value.itemScores.reduce((a,b)=>a+b,0)!==value.score))throw new Error('INVALID_AI_OUTPUT');
  return value;
 }
-export async function assessWriting(exam,writing,{fetchImpl=fetch,key=process.env.OPENAI_API_KEY,model=process.env.AI_WRITING_MODEL||'gpt-5.6-terra',origin=process.env.PUBLIC_APP_ORIGIN||'https://wewin-luyen-thi.vercel.app'}={}){
+export async function assessWriting(exam,writing,{fetchImpl=fetch,key=process.env.OPENAI_API_KEY,model=process.env.AI_WRITING_MODEL||'gpt-5.6-terra',origin=process.env.PUBLIC_APP_ORIGIN||'https://exam.wewin.edu.vn'}={}){
  const part=writingPart(exam);if(!part)throw new Error('NO_WRITING_TASK');const max=exam.levelKey==='movers'?6:5;
  const entries=part.questions.map(q=>({question:q.prompt,id:q.id,text:writing[q.id]||''}));
  if(entries.every(e=>!e.text.trim()))return {completion:'Bài viết đang để trống. Bé hãy viết câu trả lời dựa vào tranh.',corrections:[],vocabulary:[],score:0,maxScore:max,sample:'',itemScores:max===6?entries.map(()=>0):[]};
