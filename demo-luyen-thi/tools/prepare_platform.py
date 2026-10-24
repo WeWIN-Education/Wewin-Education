@@ -10,7 +10,7 @@ VERSION='2026-10-23-v2'
 def module(name,marker=' = '):
     raw=(SITE/name).read_text(encoding='utf-8').split(marker,1)[1].lstrip()
     return json.JSONDecoder().raw_decode(raw)[0]
-starters=module('exams.mjs');movers=module('movers.mjs')+module('movers-hard.mjs');flyers=module('flyers.mjs')+module('flyers-hard.mjs')
+starters=module('exams.mjs')+module('starters-hard.mjs');movers=module('movers.mjs')+module('movers-hard.mjs');flyers=module('flyers.mjs')+module('flyers-hard.mjs')
 artwork_source=module('exams.mjs','export const artwork = ')
 art_refs=set()
 for exam in starters+movers+flyers:
@@ -43,7 +43,9 @@ def render(page,rect,relative):
     return relative
 hard_positions={n:[(20,40),(50,38),(85,38),(14,73),(50,66),(66,70),(87,70)] for n in range(16,26)}
 movers_hard_positions={n:[(20,34),(87,31),(40,35),(55,57),(89,62),(67,62),(18,62)] for n in range(16,26)}
-def targets(n,level):
+def targets(n,level,part_data=None):
+    if part_data and part_data.get('personTargets'):
+        return [{'id':f'p{i+1}',**copy.deepcopy(point)} for i,point in enumerate(part_data['personTargets'])]
     points=movers_hard_positions[n] if level=='movers' and n in movers_hard_positions else hard_positions[n] if n in hard_positions else positions[n]
     return [{'id':f'p{i+1}','x':x,'y':y,'rx':10,'ry':18} for i,(x,y) in enumerate(points)]
 def clean(q):
@@ -68,20 +70,23 @@ for level,source in [('starters',starters),('movers',movers),('flyers',flyers)]:
         for skill in ['reading','listening']:
             pub[skill]=[]
             for pi,p in enumerate(e[skill]):
-                p['id']=f'{skill[0]}{pi+1}';part={k:copy.deepcopy(v) for k,v in p.items() if k not in ['questions','hint','options','personOrder','exampleName','matchKey']}
+                p['id']=f'{skill[0]}{pi+1}';part={k:copy.deepcopy(v) for k,v in p.items() if k not in ['questions','hint','options','personOrder','personTargets','regionPositions','exampleName','matchKey']}
                 part['questions']=[number_question(clean(q),i) for i,q in enumerate(p['questions'])]
                 if level=='starters':
                     if p.get('options'):part['options']=[(x[0],x[1],{'tick':'True','cross':'False','yes':'Yes','no':'No'}.get(x[0],x[0])) for x in p['options']]
                     if p.get('type')=='match':
-                        names=[p['exampleName']]+[q['prompt'] for q in p['questions']]
-                        names.append(next(x for x in ['May','Pat','Kim','Alex','Nick','Sue','Bill'] if x not in names))
-                        part['interaction']={'type':'match','image':p['image'],'names':[{'id':x,'label':x} for x in dict.fromkeys(names)],'targets':[{'id':f'p{i+1}','x':x,'y':y,'rx':6,'ry':12} for i,(x,y) in enumerate([(15,34),(42,34),(68,34),(15,74),(38,74),(63,74),(85,74)])],'example':{'name':p['exampleName'],'target':'p1'}}
-                        p['matchKey']={q['prompt']:q['answer'] for q in p['questions']};part['questions']=[]
+                        names=p.get('personOrder') or [p['exampleName']]+[q['prompt'] for q in p['questions']]
+                        if not p.get('personOrder'):
+                            names.append(next(x for x in ['May','Pat','Kim','Alex','Nick','Sue','Bill'] if x not in names))
+                        example_target=f'p{names.index(p["exampleName"])+1}'
+                        part['interaction']={'type':'match','image':p['image'],'names':[{'id':x,'label':x} for x in dict.fromkeys(names)],'targets':targets(int(e['number']),level,p),'example':{'name':p['exampleName'],'target':example_target}}
+                        p['matchKey']=copy.deepcopy(p.get('matchKey') or {q['prompt']:q['answer'] for q in p['questions']});part['questions']=[]
                     if p.get('type')=='colour':
                         ids=['under-table','on-chair','under-tree','next-box','in-box','other'];xy=[(27.36,43.32),(67.83,58.34),(83.41,44.02),(9.46,79.74),(25.84,78.17),(89.88,79.83)]
                         iw,ih=Image.open(SITE/'assets'/p['image']).size;h=1000*ih/iw
-                        regions=[{'id':k,'path':f'M {x*10-30} {y*h/100} a30 {h*.036} 0 1 0 60 0 a30 {h*.036} 0 1 0 -60 0','cx':x*10,'cy':y*h/100} for k,(x,y) in zip(ids,xy)]
-                        part['interaction']={'type':'paint','image':p['image'],'width':1000,'height':h,'regions':regions,'paintCount':5,'writeCount':0}
+                        points=p.get('regionPositions') or [{'id':k,'x':x,'y':y} for k,(x,y) in zip(ids,xy)]
+                        regions=[{'id':point['id'],'path':f'M {point["x"]*10-30} {point["y"]*h/100} a30 {h*.036} 0 1 0 60 0 a30 {h*.036} 0 1 0 -60 0','cx':point['x']*10,'cy':point['y']*h/100} for point in points]
+                        part['interaction']={'type':'paint','image':p['image'],'width':1000,'height':h,'regions':regions,'paintCount':sum(1 for q in p['questions'] if q.get('colour')),'writeCount':0}
                         for i,q in enumerate(p['questions']):q['answer']={'target':q['answer']['target'],'color':q['answer']['colour']};q['prompt']=f'Question {i+1}'
                         p['painting']=True;part['questions']=[]
                 elif skill=='listening':

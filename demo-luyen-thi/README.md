@@ -2,7 +2,7 @@
 
 Production: https://wewin-luyen-thi.vercel.app/
 
-40 available practice tests: Movers 06–15 and Hard Movers 16–25, Flyers 06–15 and Hard Flyers 16–25. The previous Starters set and its associated practice records have been cleared while WeWIN prepares replacement material. All 200 Movers and Flyers Part MP3 tracks remain available. PDFs, teacher keys and Speaking material are not published.
+60 practice tests: Starters 06–15 and Hard Starters 16–25, Movers 06–15 and Hard Movers 16–25, Flyers 06–15 and Hard Flyers 16–25. The previous Starter set and its practice records were cleared before these replacement tests were added. All 280 individual Part MP3 tracks are available. PDFs, teacher keys and Speaking material are not published.
 
 ## Learning experience
 
@@ -32,7 +32,7 @@ This version requires its server API. Static files alone on cPanel do not provid
 
 `npm run dev` starts an isolated PostgreSQL-compatible fixture database at http://127.0.0.1:8780. Accounts: `local.admin`, `local.teacher`, `local.student`; password `Local-Test-2026!`. Google submissions and AI are explicitly simulated locally, without production records. `--production-services` explicitly opts into configured real services.
 
-`npm test` validates all 2,440 objective answers, public data sanitisation, PostgreSQL constraints, role/ownership rules, first-attempt ranking, submission idempotency, review caching and teacher audit. `node tools/test-starters-cleared.mjs` confirms the old Starters set is absent. `node tools/test-flyers-hard.mjs` and `npm run test:movers-hard` check the two advanced sets and their 100 QA-approved Part tracks. Existing scoring, catalog, audio and lead tests remain in `tools/test-*.mjs`.
+`npm test` validates all 3,340 objective answers, public data sanitisation, PostgreSQL constraints, role/ownership rules, first-attempt ranking, submission idempotency, review caching and teacher audit. `npm run test:starters` checks Starters 06–15 and Hard 16–25 with 80 Part tracks. `node tools/test-flyers-hard.mjs` and `npm run test:movers-hard` check the other advanced sets and their 100 QA-approved Part tracks. Existing scoring, catalog, audio and lead tests remain in `tools/test-*.mjs`.
 
 `python tools/prepare_flyers_hard.py` imports Hard Flyers 16–25 from the external source PDFs, answer key and supplied Part MP3s, checking all 50 audio files against the PASS QA manifest. It writes an intermediate `flyers-hard.mjs` and question-page images locally. Then `python tools/prepare_platform.py` regenerates the combined private/public test data and cropped interaction pictures. If the source pack is in another folder, pass `--hard-pack-dir <path>` to the latter. These are local editorial steps. Generated JSON and media are committed so Vercel needs neither Python nor PDFs.
 
@@ -40,10 +40,12 @@ The ten Hard Flyers mocks are marked as advanced practice inside the Flyers cata
 
 The ten Hard Movers mocks are marked the same way in the Movers catalog. Each has 29 auto-marked Reading questions and 25 Listening questions; the six-answer Part 6 task remains separate AI writing feedback. Speaking pages, answer keys and source PDFs stay out of the public site. The fifty supplied Part MP3s passed the audio QA manifest and are copied byte-for-byte; Full Test mixes are not published.
 
+Starters 06–15 and Hard 16–25 each contain 25 auto-marked Reading & Writing questions and 20 Listening questions. Part 1 matches names to characters, Part 4 uses the same uncropped colouring picture with target regions aligned to the objects, and all four individual MP3s play by Part. Hard Starter audio was checked against its PASS manifest. Full Test mixes, Speaking, PDFs and answer keys are not published.
+
 `python tools/package_demo.py` packages the built public files with a backend requirement note. It excludes PDFs, answers, secrets and legacy static answer modules.
 
 ## Image delivery
 
 `npm run prepare:images` creates WebP files for active pictures and independent crops for every atlas object and story panel. It preserves editorial originals and coordinates. Content images use responsive widths up to 1440 pixels without upscaling; logos and mascots have smaller limits. Question pages retain higher compression quality so text stays legible. `media.mjs` provides dimensions, srcset and lazy loading, and maps AI image URLs to the same published WebP files.
 
-The build copies only the generated image manifest and the 190 referenced audio files. Original PNG/JPG sheets and unused extraction images are not published. After changing test media, regenerate content, run `npm run prepare:images`, then `npm run build` and `npm run test:media`. Commit the WebP outputs and manifest so Vercel does not need an image encoder. `generated/image-optimization-report.json` records actual byte totals.
+The build copies only the generated image manifest and the 280 referenced audio files. Original PNG/JPG sheets and unused extraction images are not published. After changing test media, regenerate content, run `npm run prepare:images`, then `npm run build` and `npm run test:media`. Commit the WebP outputs and manifest so Vercel does not need an image encoder. `generated/image-optimization-report.json` records actual byte totals.

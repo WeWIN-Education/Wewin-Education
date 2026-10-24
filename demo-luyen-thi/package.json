@@ -11,10 +11,12 @@
     "migrate": "node --env-file-if-exists=.env.local tools/migrate.mjs",
     "dev": "node --env-file-if-exists=.env.local tools/platform-dev.mjs",
     "prepare:content": "python tools/prepare_platform.py",
+    "prepare:starters": "python tools/prepare_starters_new.py",
     "prepare:movers-hard": "python tools/prepare_movers_hard.py",
     "prepare:flyers-hard": "python tools/prepare_flyers_hard.py",
     "prepare:images": "python tools/optimize_images.py",
     "test:media": "node tools/test-media.mjs",
+    "test:starters": "node tools/test-starters.mjs",
     "test:movers-hard": "node tools/test-movers-hard.mjs"
   },
   "dependencies": {

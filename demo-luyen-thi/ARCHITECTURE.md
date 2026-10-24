@@ -23,12 +23,12 @@ Student writes -> submitted attempt -> persisted writing review job -> OpenAI Re
 
 ## Validation contract
 
-Regression: 40 available tests / 2,440 objective answers / 140 separate Writing responses, 100 base audio parts plus 100 added Part tracks. Starter exam attempts, rankings, writing reviews and audit rows are cleared when replacing the set. Validate no keys in public output, role/owner boundaries, first-submission races, duplicate requests, model failures and picture transforms. Browser QA through cua_repl at desktop/tablet/mobile, both themes.
+Regression: 60 tests / 3,340 objective answers / 140 separate Writing responses / 280 individual Part tracks. The prior Starter attempt data was cleared before replacing the set with versioned tests 06–25. Validate no keys in public output, role/owner boundaries, first-submission races, duplicate requests, model failures and picture transforms. Browser QA through cua_repl at desktop/tablet/mobile, both themes.
 
 ## Connected services and verification · 23 October 2026
 
 The owner authorised the supplied OpenAI key and Neon account thanhnhanngo153@gmail.com. The new Singapore Neon project has the actual migrated schema, one administrator, one teacher and an empty class. No fictional students or rankings were inserted into production. Temporary credentials are outside the repository and must be changed by their owner at first login. Production secrets were saved through Vercel's sensitive environment settings; local copies are ignored.
 
-A real OpenAI Responses request against the original Flyers writing image returned valid structured feedback in all five sections. Automated tests use isolated PGlite PostgreSQL and cover 2,440 objective answers across 40 available tests, ownership, assigned-class access, forced password changes, CSRF rejection, duplicate/concurrent submission, first-attempt ranking, guest exclusion and teacher review audit. Local browser checks use clearly labelled simulated AI, separate from this real provider smoke test.
+A real OpenAI Responses request against the original Flyers writing image returned valid structured feedback in all five sections. Automated tests use isolated PGlite PostgreSQL and cover 3,340 objective answers across 60 tests, ownership, assigned-class access, forced password changes, CSRF rejection, duplicate/concurrent submission, first-attempt ranking, guest exclusion and teacher review audit. Local browser checks use clearly labelled simulated AI, separate from this real provider smoke test.
 
 Remaining operational limit: WeWIN must issue actual student accounts and enrol them into classes before student history, AI entitlements and rankings can be used by those learners. Scores are formative practice scores, not official Cambridge or CEFR placement results.
