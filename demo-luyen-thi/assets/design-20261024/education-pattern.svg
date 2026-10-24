@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="900" viewBox="0 0 1100 900" fill="none">
+  <!-- Decorative educational line drawings. No content or controls are baked into this layer. -->
+  <g stroke="#86a9d7" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" opacity=".72">
+    <g transform="translate(66 84) rotate(-12 36 30)">
+      <path fill="#dae8fa" fill-opacity=".7" d="M36 8C23 0 8 2 1 7v49c10-6 23-5 35 3 12-8 25-9 35-3V7C60 1 49 1 36 8Z"/>
+      <path d="M36 8v51M9 15c7-2 14-1 20 2M9 25c7-2 14-1 20 2m14-10c7-3 14-4 20-2m-20 12c7-3 14-4 20-2"/>
+    </g>
+    <g transform="translate(430 38) rotate(20 30 38)">
+      <path fill="#efe7fb" fill-opacity=".65" d="M3 6h52a7 7 0 0 1 7 7v58H10a7 7 0 0 1-7-7V6Z"/>
+      <path d="M14 6v65m7-49h30m-30 10h23M3 58h59"/>
+    </g>
+    <g transform="translate(820 100) rotate(9 34 34)">
+      <circle cx="34" cy="34" r="30" fill="#e1f2ee" fill-opacity=".6"/>
+      <ellipse cx="34" cy="34" rx="13" ry="30"/>
+      <path d="M4 34h60M9 19h50M9 49h50m-42 24h34M34 64v9"/>
+    </g>
+    <g transform="translate(264 340) rotate(-9 35 35)">
+      <path d="M5 41V27a28 28 0 0 1 56 0v14"/>
+      <rect x="1" y="31" width="13" height="28" rx="6" fill="#d8e8fc"/>
+      <rect x="52" y="31" width="13" height="28" rx="6" fill="#d8e8fc"/>
+    </g>
+    <g transform="translate(958 396) rotate(15 35 25)">
+      <path fill="#e1ecfb" fill-opacity=".75" d="M5 2h60a5 5 0 0 1 5 5v34a5 5 0 0 1-5 5H28L14 58V46H5a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5Z"/>
+      <path d="m11 32 6-19 6 19m-10-6h8m8-13v19h6c9 0 9-10 0-10h-6m0-9h6c8 0 8 9 0 9m26-7c-10-7-18 9-8 16 3 2 6 1 8 0"/>
+    </g>
+    <g transform="translate(616 660) rotate(-16 35 25)">
+      <path fill="#dceafb" fill-opacity=".65" d="m0 18 35-16 35 16-35 16L0 18Z"/>
+      <path d="M13 25v18c14 10 29 10 44 0V25m13-7v24m0 0-4 8h8l-4-8"/>
+    </g>
+    <g transform="translate(83 716) rotate(13 36 28)">
+      <path fill="#e8e3fa" fill-opacity=".5" d="M1 7c10-7 23-7 35 1 12-8 25-8 35-1v47c-12-6-23-5-35 2-12-7-24-8-35-2V7Z"/>
+      <path d="M36 8v48m-26-38h15m-15 9h15m21-9h15m-15 9h15"/>
+    </g>
+  </g>
+  <g stroke="#d3af70" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" opacity=".7">
+    <g transform="translate(95 410) rotate(27 12 48)">
+      <path fill="#f9eac9" fill-opacity=".8" d="M2 12h20v64L12 95 2 76V12Z"/>
+      <path d="M2 12V5a5 5 0 0 1 5-5h10a5 5 0 0 1 5 5v7M2 22h20M8 22v54m8-54v54M2 76h20M9 89h6"/>
+    </g>
+    <g transform="translate(672 319) rotate(-23 46 13)">
+      <rect x="0" y="0" width="94" height="27" rx="5" fill="#fbefda" fill-opacity=".7"/>
+      <path d="M13 0v11m13-11v6m13-6v11m13-11v6m13-6v11m13-11v6"/>
+    </g>
+    <path fill="#f8e9c7" fill-opacity=".6" d="m1001 693 6 13 14 2-10 10 2 14-12-7-13 7 3-14-11-10 15-2 6-13Z"/>
+    <path d="m316 171 4 9 10 1-7 7 2 10-9-5-9 5 2-10-7-7 10-1 4-9Z"/>
+    <path d="m439 766 5 10 11 2-8 8 2 11-10-5-10 5 2-11-8-8 11-2 5-10Z"/>
+  </g>
+  <g stroke="#9bbeb3" stroke-width="2" stroke-linecap="round" opacity=".65">
+    <path d="M538 217h12m-6-6v12M188 617h12m-6-6v12M903 801h12m-6-6v12"/>
+    <circle cx="49" cy="290" r="5"/>
+    <circle cx="784" cy="528" r="5"/>
+    <circle cx="1052" cy="204" r="4"/>
+    <path d="m426 513 6 6-6 6-6-6 6-6Zm428-282 5 5-5 5-5-5 5-5Z"/>
+  </g>
+</svg>

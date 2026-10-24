@@ -15,3 +15,7 @@ UI/UX Pro Max query `claymorphism educational cards --domain style` returned the
 - Prompts and provenance: assets/design-20261024/README.md. Image sizes: generated/design-20261024-report.json.
 
 Browser use is disabled in Work settings at implementation time. Existing client/runtime and media checks validate markup/data/assets, not visual layout. Do not claim a completed browser review or measured Core Web Vitals.
+
+## Overall educational motif background
+
+The owner clarified that the broad workspace gutters need educational motifs, not another hero/card illustration or a landscape wallpaper. Keep the existing hero and card styling. Add a repeating transparent SVG of line-art books, pencils, ruler, globe, headphones, graduation cap, ABC speech bubble, stars and small marks over the existing pale canvas. The pattern is static and decorative. Use a smaller tile on phones; omit it from the focused exam workspace. Source: assets/design-20261024/education-pattern.svg. Build embeds its 3.3KB source into CSS to eliminate preview MIME/cache dependencies and an extra request. The generated landscape draft is unused and not published.

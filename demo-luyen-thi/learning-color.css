@@ -214,3 +214,22 @@
   .learning-stat h3 { font-size: 11px; }
   .learning-stats { gap: 12px; }
 }
+
+/* Decorative educational motifs on the overall workspace, behind every card. */
+body:not([data-screen=exam]) .workspace-body {
+  background-color: var(--background);
+  background-image:
+    url('assets/design-20261024/education-pattern.svg'),
+    radial-gradient(ellipse at 5% 12%, var(--canvas-blue), transparent 65%),
+    radial-gradient(ellipse at 95% 48%, var(--canvas-lavender), transparent 60%),
+    radial-gradient(ellipse at 12% 95%, var(--canvas-mint), transparent 60%);
+  background-repeat: repeat, no-repeat, no-repeat, no-repeat;
+  background-position: 14px 24px, center, center, center;
+  background-size: 1100px 900px, 100% 100%, 100% 100%, 100% 100%;
+}
+@media(max-width:600px) {
+  body:not([data-screen=exam]) .workspace-body {
+    background-size: 760px 622px, 100% 100%, 100% 100%, 100% 100%;
+    background-position: 8px 15px, center, center, center;
+  }
+}
