@@ -12,6 +12,7 @@ private=json.loads((SITE/'generated/exams-private.json').read_text(encoding='utf
 artwork=json.loads((SITE/'generated/artwork.json').read_text(encoding='utf-8'))
 direct=set(['logo.png','win.png']+[f'design-20261021/{x}.webp' for x in ['hero','starters','movers','flyers']])
 direct.update(f'design-20261024/{name}.png' for name in ['learning-world','study-corner'])
+direct.update(f'design-20261029/{name}.png' for name in ['win-welcome','win-listening'])
 specs={}
 
 def art_key(spec):
