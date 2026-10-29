@@ -2,6 +2,11 @@ import {mediaPath} from './media.mjs';
 const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 export const palette=[['red','#e65055'],['blue','#287bd0'],['green','#40a35a'],['yellow','#f3ce37'],['purple','#9560c8'],['orange','#ee9445'],['pink','#eb86b0'],['brown','#996943'],['black','#30323b'],['white','#ffffff']];
 function namesWithCoordinates(spec){return spec.names.map((n,i)=>({...n,x:i<3?150+i*350:125+(i-3)*250,y:i<3?44:spec.imageHeight+162}));}
+export function personAtPoint(spec,x,y){
+ const h=spec.imageHeight||667;
+ const hits=spec.targets.map(target=>({target,distance:((x-target.x*10)/Math.max(target.rx*10,70))**2+((y-100-target.y*h/100)/(target.ry*h/100))**2})).filter(hit=>hit.distance<=1).sort((a,b)=>a.distance-b.distance);
+ return hits[0]?.target;
+}
 export function matchScene(part,links,selectedName){
  const s=part.interaction,h=s.imageHeight||667,names=namesWithCoordinates({...s,imageHeight:h}),bound={...links,[s.example.name]:s.example.target};
  const lines=Object.entries(bound).map(([name,id])=>{const n=names.find(n=>n.id===name),target=s.targets.find(t=>t.id===id);return n&&target?`<line x1="${n.x}" y1="${n.y+(n.y<100?18:-18)}" x2="${target.x*10}" y2="${100+target.y*h/100}" class="picture-link ${name===s.example.name?'example-link':''} ${selectedName===name?'selected-link':''}"/>`:'';}).join('');
@@ -22,10 +27,10 @@ export function bindPictureInteractions(root,{part,selectName,connect,region}){
   el.classList.add('is-dragging');svg.setPointerCapture(event.pointerId);event.preventDefault();
  }));
  const move=event=>{if(!drag)return;const point=new DOMPoint(event.clientX,event.clientY).matrixTransform(drag.svg.getScreenCTM().inverse());const line=drag.svg.querySelector('.drag-preview');line.setAttribute('x2',point.x);line.setAttribute('y2',point.y);};
- const up=event=>{if(!drag)return;const target=document.elementFromPoint(event.clientX,event.clientY)?.closest('[data-person]');const current=drag;drag=null;current.svg.querySelector('.drag-preview')?.setAttribute('hidden','');if(target&&target.getAttribute('aria-disabled')!=='true')connect(current.name,target.dataset.person);else selectName(current.name,true);};
+ const up=event=>{if(!drag)return;const current=drag;drag=null;const point=new DOMPoint(event.clientX,event.clientY).matrixTransform(current.svg.getScreenCTM().inverse()),target=personAtPoint(part.interaction,point.x,point.y);current.svg.querySelector('.drag-preview')?.setAttribute('hidden','');if(current.svg.hasPointerCapture(event.pointerId))current.svg.releasePointerCapture(event.pointerId);if(target&&target.id!==part.interaction.example.target)connect(current.name,target.id);else selectName(current.name,true);};
  root.onpointermove=move;root.onpointerup=up;root.onpointercancel=()=>{drag?.svg.querySelector('.drag-preview')?.setAttribute('hidden','');drag=null;};
  root.querySelectorAll('[data-name],[data-person],[data-region]').forEach(el=>{
-  const activate=()=>{if(el.getAttribute('aria-disabled')==='true')return;if(el.dataset.name)selectName(el.dataset.name,true);if(el.dataset.person)connect(null,el.dataset.person);if(el.dataset.region)region(el.dataset.region);};
-  el.addEventListener('click',activate);el.addEventListener('keydown',event=>{if(event.key==='Enter'||event.key===' '){event.preventDefault();activate();}});
+  const activate=event=>{if(el.getAttribute('aria-disabled')==='true')return;if(el.dataset.name)selectName(el.dataset.name,true);if(el.dataset.person){const svg=el.closest('svg');const point=event.type==='click'?new DOMPoint(event.clientX,event.clientY).matrixTransform(svg.getScreenCTM().inverse()):null;const target=point?personAtPoint(part.interaction,point.x,point.y):{id:el.dataset.person};if(target)connect(null,target.id);}if(el.dataset.region)region(el.dataset.region);};
+  el.addEventListener('click',activate);el.addEventListener('keydown',event=>{if(event.key==='Enter'||event.key===' '){event.preventDefault();activate(event);}});
  });
 }

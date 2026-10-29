@@ -42,8 +42,11 @@ def render(page,rect,relative):
     if not dest.exists():page.get_pixmap(matrix=fitz.Matrix(1.6,1.6),clip=fitz.Rect(rect),alpha=False).save(dest,jpg_quality=91)
     return relative
 hard_positions={n:[(20,40),(50,38),(85,38),(14,73),(50,66),(66,70),(87,70)] for n in range(16,26)}
+# Mock 23 IDs follow the independent key, not the order of people in the picture.
+hard_pool_targets=[dict(id=f'p{i+1}',x=x,y=y,rx=rx,ry=ry) for i,(x,y,rx,ry) in enumerate([(17,27,10,24),(76,27,10,24),(88,72,11,23),(48,51,11,25),(20,72,12,23),(36,27,10,24),(66,72,11,23)])]
 movers_hard_positions={n:[(20,34),(87,31),(40,35),(55,57),(89,62),(67,62),(18,62)] for n in range(16,26)}
 def targets(n,level,part_data=None):
+    if level=='flyers' and n==23:return copy.deepcopy(hard_pool_targets)
     if part_data and part_data.get('personTargets'):
         return [{'id':f'p{i+1}',**copy.deepcopy(point)} for i,point in enumerate(part_data['personTargets'])]
     points=movers_hard_positions[n] if level=='movers' and n in movers_hard_positions else hard_positions[n] if n in hard_positions else positions[n]
@@ -129,6 +132,7 @@ for level,source in [('starters',starters),('movers',movers),('flyers',flyers)]:
                 if p.get('manual'):
                     if level=='flyers':
                         p['writingImages']=[render(pages[14],(25,215,570,360),f'platform/{e["id"]}-writing-context.jpg')]
+                    if level=='flyers':part['storyImages']=copy.deepcopy(p['writingImages'])
                     part['writingMax']=6 if level=='movers' else 5
                     part['contextTitle']=e['title'];part['characters']=['Win'] if level=='flyers' and n>=16 else ['Win','Lily'] if level=='flyers' and n not in [12,14] else ['Win','Tom'] if level=='flyers' else ['Win']
                     part['instruction']='Look at the three pictures. Write a story using 20 or more words.' if level=='flyers' else 'Look at the picture. Complete the sentences, answer the questions, then write two sentences of your own.'

@@ -52,6 +52,7 @@ function partInstruction(p){if(p.instruction)return p.instruction;if(skill==='li
 function figure(p){
  if(p.interaction)return `<div class="picture-toolbar"><strong>${p.interaction.type==='match'?'Draw lines':'Colour & write'}</strong>${button('Zoom','zoom-picture','ghost')}</div><div class="picture-stage">${p.interaction.type==='match'?matchScene(p,answers[p.id]||{},selectedName):paintScene(p,answers[p.id]||{})}</div>`;
  const context=p.contextTitle?`<div class="story-context"><strong>${esc(p.contextTitle)}</strong>${p.characters?.length?`<span>Characters: ${p.characters.map(esc).join(' · ')}</span>`:''}</div>`:'';
+ if(p.storyImages?.length)return context+`<div class="story-pictures">${p.storyImages.map((src,i)=>`<button class="mover-page" data-action="zoom-page" data-image="${src}" aria-label="Enlarge the three story pictures">${image(src,'Story pictures 1, 2 and 3')}</button>`).join('')}</div>`;
  if(p.images?.length)return context+p.images.map((src,i)=>`<button class="mover-page" data-action="zoom-page" data-image="${src}" aria-label="Enlarge question page ${i+1}">${image(src,`Part ${partIndex+1}, page ${i+1}`)}</button>`).join('');
  if(p.image)return image(p.image,'Picture for this part','question-picture');
  if(p.storyArts)return p.storyArts.map((spec,i)=>`<figure class="story-item"><figcaption>Picture ${i+1}</figcaption>${art(spec,`Picture ${i+1}`)}</figure>`).join('');
