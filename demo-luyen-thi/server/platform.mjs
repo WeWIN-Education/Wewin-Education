@@ -6,7 +6,7 @@ import {hasLeadAccess} from '../lead-server.mjs';
 import {assessWriting,writingPart,writingHash,validateReview} from './writing.mjs';
 const scrypt=promisify(scryptCallback),COOKIE='wewin_session';
 const hash=value=>createHash('sha256').update(value).digest('hex');
-export async function passwordHash(password){if(typeof password!=='string'||password.length<10||password.length>128)throw new ApiError(422,'Use a password of 10–128 characters.');const salt=randomBytes(16).toString('hex'),key=await scrypt(password,salt,64);return salt+':'+key.toString('hex');}
+export async function passwordHash(password){if(typeof password!=='string'||password.length<3||password.length>128)throw new ApiError(422,'Use a password of 3–128 characters.');const salt=randomBytes(16).toString('hex'),key=await scrypt(password,salt,64);return salt+':'+key.toString('hex');}
 export async function passwordMatches(password,encoded){if(typeof password!=='string'||password.length>128||typeof encoded!=='string')return false;const [salt,key]=encoded.split(':');if(!salt||! /^[0-9a-f]{128}$/.test(key||''))return false;const actual=await scrypt(password,salt,64);return timingSafeEqual(actual,Buffer.from(key,'hex'));}
 export class ApiError extends Error{constructor(status,message,code='REQUEST_ERROR'){super(message);this.status=status;this.code=code;}}
 const safeUser=u=>u?{id:u.id,username:u.username,nickname:u.nickname,role:u.role,active:u.active,mustChangePassword:u.must_change_password}:null;
@@ -71,11 +71,11 @@ export function createPlatformHandler({getRepository=productionRepository,ai=ass
     return send(200,{activities:await repo.learningActivity(user,{student:text(url.searchParams.get('student'),100),status,limit:50,offset})});
    }
    if(resource==='users'&&req.method==='POST'){
-    requireUser(user,['admin']);const username=text(input.username,80).toLowerCase(),nickname=text(input.nickname,60),role=input.role;if(!/^[a-z0-9._-]{3,80}$/.test(username)||!nickname||!['student','teacher','admin'].includes(role))throw new ApiError(422,'Enter a valid username, display name and role.');const created=await repo.createUser({username,nickname,role,passwordHash:await passwordHash(input.password)});return send(201,{user:created});
+    requireUser(user,['admin']);const username=text(input.username,80).toLowerCase(),nickname=text(input.nickname,60),role=input.role;if(!/^[a-z0-9._-]{3,80}$/.test(username)||!nickname||!['student','teacher','admin'].includes(role))throw new ApiError(422,'Enter a valid username, display name and role.');const created=await repo.createUser({username,nickname,role,passwordHash:await passwordHash(input.password || '123'),mustChange:false});return send(201,{user:created});
    }
    if(resource==='user'&&req.method==='POST'){
     requireUser(user,['admin']);const target=await repo.user(id);if(!target)throw new ApiError(404,'Account not found.');if(input.active===false&&target.role==='admin'){const staff=await repo.staffData(user);if(staff.users.filter(u=>u.role==='admin'&&u.active).length<=1)throw new ApiError(409,'The last active administrator cannot be disabled.');}
-    const changes={};if(typeof input.active==='boolean')changes.active=input.active;if(text(input.nickname,60))changes.nickname=text(input.nickname,60);if(input.password){changes.passwordHash=await passwordHash(input.password);changes.mustChange=true;}await repo.changeUser(id,changes);return send(200,{ok:true});
+    const changes={};if(typeof input.active==='boolean')changes.active=input.active;if(text(input.nickname,60))changes.nickname=text(input.nickname,60);if(input.password){changes.passwordHash=await passwordHash(input.password);changes.mustChange=false;}await repo.changeUser(id,changes);return send(200,{ok:true});
    }
    if(resource==='classes'&&req.method==='POST'){
     requireUser(user,['admin']);const teacher=input.teacherId?await repo.user(input.teacherId):null;if(!text(input.name,100)||teacher&&teacher.role!=='teacher')throw new ApiError(422,'Choose a valid class name and teacher.');return send(201,{class:await repo.createClass(text(input.name,100),teacher?.id)});

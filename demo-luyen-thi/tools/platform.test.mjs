@@ -31,6 +31,14 @@ test('real Postgres semantics: auth, permissions, atomic first ranking, idempote
   const login=async username=>(await request('login',{data:{username,password:'Temporary-12345'}})).cookie;
   const cookies={student:await login('student'),other:await login('other'),teacher:await login('teacher'),outsider:await login('outsider'),admin:await login('admin')};
   assert.equal((await request('login',{data:{username:'student',password:'bad'}})).status,401);
+  const defaultAccount=await request('users',{cookie:cookies.admin,data:{username:'default.student',nickname:'Default learner',role:'student'}});assert.equal(defaultAccount.status,201);
+  const defaultLogin=await request('login',{data:{username:'default.student',password:'123'}});assert.equal(defaultLogin.status,200);assert.equal(defaultLogin.body.user.mustChangePassword,false);
+  assert.equal((await request('attempts',{cookie:defaultLogin.cookie,data:{examId:'flyers-06'}})).status,200);
+  await request('user&id='+defaultAccount.body.user.id,{cookie:cookies.admin,data:{password:'123'}});
+  assert.equal((await request('session',{cookie:defaultLogin.cookie})).body.user,null);
+  assert.equal((await request('login',{data:{username:'default.student',password:'123'}})).body.user.mustChangePassword,false);
+  await repo.q('DELETE FROM practice_attempts WHERE owner_id=$1',[defaultAccount.body.user.id]);
+
   const crossOrigin=await fetch(origin+'/?resource=attempts',{method:'POST',headers:{Origin:'https://unrelated.example','Content-Type':'application/json',Cookie:cookies.student},body:JSON.stringify({examId:'flyers-06'})});assert.equal(crossOrigin.status,403);
   await repo.createUser({username:'temporary',nickname:'Temporary',role:'student',passwordHash:password});const temporary=await login('temporary');assert.equal((await request('attempts',{cookie:temporary,data:{examId:'flyers-06'}})).body.code,'PASSWORD_CHANGE_REQUIRED');const changed=await request('password',{cookie:temporary,data:{currentPassword:'Temporary-12345',password:'Updated-123456'}});assert.equal(changed.status,200);assert.equal((await request('session',{cookie:temporary})).body.user,null);assert.equal((await request('session',{cookie:changed.cookie})).body.user.mustChangePassword,false);
   const cls=await repo.createClass('Class A',teacher.id);await repo.enroll(cls.id,student.id);
