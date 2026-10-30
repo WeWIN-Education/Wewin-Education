@@ -10,7 +10,7 @@ test('client renders overview, library, resumed draft, listening, result, histor
  const root=node('app'),modal=node('modal'),audio=node('audio');audio.paused=true;audio.pause=()=>audio.paused=true;audio.play=async()=>audio.paused=false;audio.load=()=>{};audio.currentTime=0;
  globalThis.document={documentElement:{dataset:{}},body:{dataset:{}},activeElement:null,querySelector:selector=>selector.startsWith('#')?node(selector.slice(1)):null,querySelectorAll:()=>[],getElementById:node,addEventListener:(name,fn)=>{const list=listeners.get(name)||[];list.push(fn);listeners.set(name,list);}};
  globalThis.matchMedia=()=>({matches:false});globalThis.localStorage={getItem:()=>null,setItem(){}};globalThis.sessionStorage={getItem:()=>null,setItem(){}};
- globalThis.location={search:'',href:'http://localhost/'};globalThis.window={history:{replaceState(){}},scrollTo(){},addEventListener(){},dispatchEvent(){}};
+ globalThis.location={search:'',href:'http://localhost/'};globalThis.window={history:{replaceState(){},pushState(){}},scrollTo(){},addEventListener(){},dispatchEvent(){}};
  let user={id:'fixture-student',nickname:'Local QA Learner',role:'student',mustChangePassword:false};
  const e=allExams[0];let stored={id:'fixture-attempt',exam_id:e.id,exam_version:e.version,answers:{},writing:{},created_at:'2026-10-24T01:00:00Z',updated_at:'2026-10-24T01:00:00Z',submitted_at:null};
  globalThis.fetch=async(url,options={})=>{const p=new URL(url,'http://localhost').searchParams,resource=p.get('resource');calls.push(resource);let data;

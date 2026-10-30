@@ -1,5 +1,5 @@
 // Only literal interface copy is translated. Interpolated data and test content stay untouched.
-const pairs = [
+const pairs = [["Chơi Vocab miễn phí, không cần tài khoản","Play Vocab free — no account needed"],
  [
   "Tổng quan",
   "Overview"

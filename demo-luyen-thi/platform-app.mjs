@@ -1,3 +1,4 @@
+import {createVocabUI} from './vocab.mjs';
 import {createGuestSessionGuard} from './guest-session.mjs';
 import {t,ui,getLanguage,onLanguageChange,setLanguage} from './language.mjs';
 import {renderScoreCards,renderLeaderboard} from './results-ui.mjs';
@@ -13,6 +14,7 @@ import {mediaImage,artworkImage} from './media.mjs';
 const root=document.querySelector('#app'),modal=document.querySelector('#modal'),audio=document.querySelector('#audio');
 const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const initial=new URLSearchParams(location.search);
+const vocab=createVocabUI({redraw:()=>{if(screen==='vocab')render();}});
 let session={user:null,registered:false,databaseReady:false},exam=allExams.find(e=>e.id===initial.get('test'))||allExams[0];
 let screen=initial.get('screen')||'dashboard',skill=initial.get('skill')==='listening'?'listening':'reading',partIndex=Math.max(0,Number(initial.get('part'))||0);
 let attempt=null,answers={},writing={},selectedName='',tool='colour',color='blue',wordArea='',undo=[],audioSource='',draftTimer=null,pendingDraft=null,category='all',query='',limit=6,boardLevel='starters',boardExam='starters-01',boardEntries=[],history=[],staff=null,staffStudent='',staffAttempts=[],selectedStaffAttempt=null,review=null,errorMessage='',busy=false,saveMessage=t('Saved on this device'),gatePromise,reviewTimer=null;
@@ -35,14 +37,14 @@ function catalogAction(e){return attemptCTA(e,history);}
 function catalogResults(){return renderLibraryResults({category,query,limit,action:catalogAction,attempts:history});}
 function render(){
  const focused=document.documentElement.dataset.input==='keyboard'&&root.contains(document.activeElement)?document.activeElement:null;
- const focusData=focused?.dataset?.action?{...focused.dataset}:null,focusId=focused?.id;
+ const focusData=focused?.dataset&&(focused.dataset.action||focused.dataset.vocab)?{...focused.dataset}:null,focusId=focused?.id;
  document.body.dataset.screen=screen;document.documentElement.lang=getLanguage();
- const params=new URLSearchParams({screen});if(['intro','exam','result'].includes(screen)){params.set('test',exam.id);params.set('skill',skill);params.set('part',partIndex);if(attempt?.id)params.set('attempt',attempt.id);}window.history.replaceState(null,'','?'+params);
+ const params=new URLSearchParams({screen});if(['intro','exam','result'].includes(screen)){params.set('test',exam.id);params.set('skill',skill);params.set('part',partIndex);if(attempt?.id)params.set('attempt',attempt.id);}if(screen==='vocab')vocab.params(params);window.history.replaceState(null,'','?'+params);
  const error=ui`<p id="screen-error" class="screen-error" role="alert" ${errorMessage?'':'hidden'}>${esc(errorMessage)}</p>`;
- const content=screen==='catalog'?error+libraryLayout({category,query,results:catalogResults(),attempts:history,user:session.user,available:historyAvailable}):ui`<div class="platform-shell">${error}${screen==='intro'?introView():screen==='exam'?examView():screen==='result'?resultView():screen==='staff'?staffView():screen==='login'?loginView():dashboardView()}</div>`;
+ const content=screen==='catalog'?error+libraryLayout({category,query,results:catalogResults(),attempts:history,user:session.user,available:historyAvailable}):ui`<div class="platform-shell">${error}${screen==='vocab'?vocab.render():screen==='intro'?introView():screen==='exam'?examView():screen==='result'?resultView():screen==='staff'?staffView():screen==='login'?loginView():dashboardView()}</div>`;
  root.innerHTML=renderShell({screen,category,session,exams:allExams,attempts:history,available:historyAvailable,content,footer:footer()});
  if(focusId)byId(focusId)?.focus({preventScroll:true});
- if(focusData)[...root.querySelectorAll('[data-action]')].find(el=>Object.entries(focusData).every(([key,value])=>el.dataset[key]===value))?.focus({preventScroll:true});
+ if(focusData)[...root.querySelectorAll('[data-action],[data-vocab]')].find(el=>Object.entries(focusData).every(([key,value])=>el.dataset[key]===value))?.focus({preventScroll:true});
  syncAudio();if(screen==='exam'&&currentPart().interaction)bindPictureInteractions(root,{part:currentPart(),selectName,connect,region:selectRegion});
  if(screen==='result'||screen==='board')renderBoardInto();
 }
@@ -60,13 +62,13 @@ function openGuestRegistration(){
  if(document.getElementById('lead-gate'))return;
  if(modal.open)modal.close();
  gatePromise=requireLeadAccess();
- gatePromise.then(async()=>{session=await api('session');guestGuard.setSession(session);errorMessage='';await refreshHistory();render();}).catch(notify);
+ gatePromise.then(async unlocked=>{if(unlocked===false)return;session=await api('session');guestGuard.setSession(session);errorMessage='';await refreshHistory();render();}).catch(notify);
 }
 function expireGuest(reason){
  if(session.user)return;
  persist();guestGuard.stop();clearTimeout(draftTimer);clearTimeout(reviewTimer);audio.pause();
  session={...session,user:null,registered:false,guest:null,accessType:'none',guestStatus:reason};history=[];
- if(modal.open)modal.close();screen='login';
+ if(modal.open)modal.close();if(screen==='vocab'){errorMessage='';render();return;}screen='login';
  errorMessage=t(reason==='expired'?'Your 24-hour guest access has expired. Please register again.':'Your guest session has expired. Sign in with your registered phone number.');
  render();
 }
@@ -74,7 +76,7 @@ window.addEventListener('wewin-guest-expired',event=>expireGuest(event.detail?.r
 for(const event of ['pointerdown','pointermove','keydown','input','wheel'])document.addEventListener(event,()=>guestGuard.noteActivity(),{passive:true});
 window.addEventListener('focus',()=>guestGuard.check());
 document.addEventListener('visibilitychange',()=>{if(!document.hidden)guestGuard.check();});
-function navigate(next){clearTimeout(reviewTimer);errorMessage='';screen=next;render();window.scrollTo({top:0,behavior:'instant'});if(document.documentElement.dataset.input==='keyboard')byId('main-content')?.focus({preventScroll:true});}
+function navigate(next){clearTimeout(reviewTimer);if(next!=='vocab')vocab.stop();errorMessage='';screen=next;render();if(!session.registered&&!['vocab','login'].includes(next))openGuestRegistration();window.scrollTo({top:0,behavior:'instant'});if(document.documentElement.dataset.input==='keyboard')byId('main-content')?.focus({preventScroll:true});}
 async function refreshHistory(){if(!session.registered||session.user&&session.user.role!=='student'){history=[];historyAvailable=true;return;}try{history=(await api('history')).attempts;historyAvailable=true;}catch{historyAvailable=false;}}
 function introView(){const count=exam.reading.filter(p=>p.manual).length;return ui`<div class="intro-grid"><section class="intro-picture">${image(exam.cover,exam.title)}</section><section class="intro-copy"><div class="eyebrow">${examLabel(exam)}</div><h1>${esc(exam.title)}</h1><p>Practise Reading & Listening with pictures and audio.</p><div class="intro-stats"><div class="intro-stat">${icon('book')}<strong>Reading</strong><small>${exam.readingCount} automatically marked questions</small></div><div class="intro-stat">${icon('headphones')}<strong>Listening</strong><small>${exam.listeningCount} questions</small></div></div><div class="instructions"><p>You can pause and listen again.</p><p>Answer the questions, draw lines and colour in the picture.</p><p>Your first submitted attempt is used for the student leaderboard.</p>${count?ui`<p>Open writing is assessed separately. ${session.user?.role==='student'?'AI feedback is available after you submit.':'Please contact WeWIN to access AI Writing assessment.'}</p>`:''}</div>${button(busy?t('Opening your attempt…'):t('Start practice'),'start','primary full',busy?'disabled':'')}<p class="small muted">See your score and shields after submitting your practice.</p></section></div>`;}
 function art(spec,alt){return spec?artworkImage(spec,alt):'';}
@@ -147,6 +149,7 @@ document.addEventListener('input',event=>{const el=event.target;if(el.id==='cata
 document.addEventListener('change',async event=>{if(event.target.id==='activity-status'||event.target.id==='activity-student'){activityStatus=byId('activity-status').value;activityStudent=byId('activity-student').value;activityOffset=0;byId('activity-results').textContent=t('Đang tải nhật ký…');if(await loadActivity()){const target=byId('activity-results');if(target)target.innerHTML=activityResults();}}if(event.target.id==='board-level'){boardLevel=event.target.value;boardExam=allExams.find(e=>e.levelKey===boardLevel).id;render();loadBoard();}if(event.target.id==='board-exam'){boardExam=event.target.value;loadBoard();}});
 document.addEventListener('click',async event=>{const el=event.target.closest('[data-action]');if(!el||el.disabled)return;const {action,value,id}=el.dataset;event.preventDefault();try{
  if(action==='ui-language'){setLanguage(getLanguage()==='vi'?'en':'vi');return;}
+ if(action==='vocab'){window.history.pushState(null,'',location.href);await vocab.open();navigate('vocab');return;}
  if(action==='catalog'){category='all';navigate('catalog');return;}
  if(action==='library-level'){category=value;limit=6;navigate('catalog');byId('catalog')?.scrollIntoView({block:'start'});return;}
  if(action==='my-history'){if(session.user&&session.user.role!=='student'){await loadStaff();byId('staff-activity')?.scrollIntoView({block:'start'});return;}await refreshHistory();navigate('history');return;}
@@ -154,7 +157,7 @@ document.addEventListener('click',async event=>{const el=event.target.closest('[
  if(['refresh-activity','activity-previous','activity-next'].includes(action)){el.disabled=true;if(action==='activity-previous')activityOffset=Math.max(0,activityOffset-50);if(action==='activity-next')activityOffset+=50;if(await loadActivity()){const target=byId('activity-results');if(target)target.innerHTML=activityResults();}el.disabled=false;return;}
  if(action==='guest-register'){openGuestRegistration();return;}
  if(action==='login')return showLogin();
- if(action==='logout'){guestGuard.stop();await api('logout',{data:{}});session=await api('session');attempt=null;answers={};writing={};history=[];staff=null;selectedStaffAttempt=null;review=null;boardEntries=[];navigate('catalog');if(!session.registered)openGuestRegistration();return;}
+ if(action==='logout'){guestGuard.stop();await api('logout',{data:{}});session=await api('session');attempt=null;answers={};writing={};history=[];staff=null;selectedStaffAttempt=null;review=null;boardEntries=[];navigate(screen==='vocab'?'vocab':'catalog');return;}
  if(action==='close-modal'){modal.close();return;}
  if(action==='open-test'){exam=allExams.find(e=>e.id===el.dataset.exam)||exam;attempt=null;partIndex=0;skill='reading';navigate('intro');return;}
  if(action==='category'||action==='level-card'){category=value;limit=6;render();if(action==='level-card')byId('catalog').scrollIntoView({block:'start'});return;}
@@ -201,16 +204,19 @@ document.addEventListener('submit',async event=>{const form=event.target;if(!['l
  }catch(e){if(error)error.textContent=t(e.message);else notify(e);}finally{if(submit?.isConnected)submit.disabled=false;}
 });
 window.addEventListener('wewin-signin',showLogin);
+window.addEventListener('wewin-vocab',async()=>{window.history.pushState(null,'',location.href);await vocab.open();navigate('vocab');});
+window.addEventListener('popstate',async()=>{const p=new URLSearchParams(location.search);if(p.get('screen')==='vocab'){screen='vocab';await vocab.open(p.get('game'),p.get('unit'));render();}else window.location.reload();});
 modal.addEventListener('cancel',event=>{if(session.user?.mustChangePassword)event.preventDefault();});
-try{session=await api('session');}catch(e){session={user:null,registered:false,databaseReady:false};errorMessage=t('Results storage is temporarily unavailable. Please try again shortly.');}
-if(session.user?.role==='teacher'||session.user?.role==='admin'){staff=await api('staff').catch(()=>null);await loadActivity();screen='staff';}
+try{session=await api('session');}catch(e){session={user:null,registered:false,databaseReady:false};if(screen!=='vocab')errorMessage=t('Results storage is temporarily unavailable. Please try again shortly.');}
+if(screen!=='vocab'&&(session.user?.role==='teacher'||session.user?.role==='admin')){staff=await api('staff').catch(()=>null);await loadActivity();screen='staff';}
 else if(screen==='exam'||screen==='result'){
  const attemptId=initial.get('attempt');if(attemptId&&session.registered){try{const data=await api('attempt',{id:attemptId});attempt=data.attempt;answers=attempt.answers;writing=attempt.writing;review=data.review;screen=attempt.submitted_at?'result':'exam';}catch{screen='intro';}}else screen='intro';
 }
-if(!['catalog','intro','exam','result','staff','dashboard','history','board','login'].includes(screen))screen='catalog';
+if(!['vocab','catalog','intro','exam','result','staff','dashboard','history','board','login'].includes(screen))screen='catalog';
 if(session.registered&&(!session.user||session.user.role==='student')&&!session.user?.mustChangePassword)await refreshHistory();
+if(screen==='vocab')await vocab.open(initial.get('game'),initial.get('unit'));
 partIndex=Math.min(partIndex,exam[skill].length-1);render();
 guestGuard.setSession(session);
-if(!session.registered&&screen!=='login'){if(session.guestStatus==='idle_expired')expireGuest('idle_expired');else openGuestRegistration();}
+if(!session.registered&&!['vocab','login'].includes(screen)){if(session.guestStatus==='idle_expired')expireGuest('idle_expired');else openGuestRegistration();}
 if(session.user?.mustChangePassword)showPassword();
 if(screen==='result'||screen==='board')loadBoard();if(screen==='result'&&review?.status==='processing')pollReview();
