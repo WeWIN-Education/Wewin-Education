@@ -1207,6 +1207,54 @@ const pairs = [
  [
   "Khám phá đề luyện",
   "Explore practice tests"
+ ],
+ [
+  "Khách dùng thử",
+  "Guest trial"
+ ],
+ [
+  "Quyền khách 24 giờ",
+  "24-hour guest access"
+ ],
+ [
+  "Hết hạn lúc",
+  "Expires at"
+ ],
+ [
+  "Không hoạt động 3 giờ sẽ cần đăng nhập lại.",
+  "Sign in again after 3 hours without activity."
+ ],
+ [
+  "Đăng nhập tài khoản khác",
+  "Sign in with another account"
+ ],
+ [
+  "Tên đăng nhập hoặc SĐT khách",
+  "Username or guest phone number"
+ ],
+ [
+  "Đăng ký quyền khách 24 giờ",
+  "Register for 24-hour guest access"
+ ],
+ [
+  "Khách dùng số điện thoại đã đăng ký và mật khẩu 123. Quyền làm bài hết hạn sau 24 giờ; không hoạt động 3 giờ sẽ cần đăng nhập lại.",
+  "Guests sign in with their registered phone number and password 123. Access expires after 24 hours; sign in again after 3 hours without activity."
+ ],
+ [
+  "Quyền khách có hiệu lực 24 giờ. Không hoạt động 3 giờ sẽ hết phiên. Đăng nhập lại bằng SĐT đã đăng ký, mật khẩu 123.",
+  "Guest access lasts 24 hours. Sessions expire after 3 hours without activity. Sign in again with your registered phone number and password 123."
+ ],
+ [
+  "Quyền làm bài 24 giờ đã hết hạn. Vui lòng đăng ký lại.",
+  "Your 24-hour guest access has expired. Please register again."
+ ],
+ [
+  "Phiên khách đã hết hạn. Đăng nhập lại bằng số điện thoại đã đăng ký.",
+  "Your guest session has expired. Sign in with your registered phone number."
+ ],
+ [
+  "Phiên khách đã hết hạn. Vui lòng đăng nhập lại.",
+  "Your guest session has expired. Sign in again."
  ]
 ];
 const lookup=new Map();

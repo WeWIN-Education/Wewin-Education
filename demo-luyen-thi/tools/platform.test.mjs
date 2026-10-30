@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {PGlite} from '@electric-sql/pglite';
 import {createServer} from 'node:http';
-import {createHmac} from 'node:crypto';
+import {guestPhoneHash,issueGuestSession,GUEST_LIFETIME_MS} from '../server/guest-access.mjs';
 import {readFile} from 'node:fs/promises';
 import {Repository} from '../server/repository.mjs';
 import {createPlatformHandler,passwordHash,passwordMatches} from '../server/platform.mjs';
@@ -57,7 +57,7 @@ test('real Postgres semantics: auth, permissions, atomic first ranking, idempote
   assert.equal((await request('writing&id='+attempt.id,{cookie:cookies.other,data:{}})).status,403);
   const reviewed=await request('writing&id='+attempt.id,{cookie:cookies.student,data:{}});assert.equal(reviewed.body.review.status,'completed');await request('writing&id='+attempt.id,{cookie:cookies.student,data:{}});assert.equal(calls,1);
   const override={...reviewed.body.review.original,score:5,completion:'Giáo viên xác nhận bài tốt.'};assert.equal((await request('review-override&id='+attempt.id,{cookie:cookies.outsider,data:{review:override,reason:'Test'}})).status,403);const adjusted=await request('review-override&id='+attempt.id,{cookie:cookies.teacher,data:{review:override,reason:'Reviewed all three pictures'}});assert.equal(adjusted.body.review.original.score,4);assert.equal(adjusted.body.review.teacher_override.score,5);assert.equal(adjusted.body.audit.length,1);
-  const payload=Buffer.from(JSON.stringify({v:1,exp:Date.now()+60000,nonce:'local-fixture'})).toString('base64url');const guestCookie='wewin_lead_access='+payload+'.'+createHmac('sha256',key).update(payload).digest('base64url');
+  const guestRecord=await repo.registerGuest(guestPhoneHash('0900000000',key),await passwordHash('123'),Date.now(),GUEST_LIFETIME_MS);const issuedGuest=await issueGuestSession(repo,guestRecord,key);const guestCookie='wewin_lead_access='+issuedGuest.token;
   const guestAttempt=(await request('attempts',{cookie:guestCookie,data:{examId:exam.id}})).body.attempt;const guestSubmit=await request('submit&id='+guestAttempt.id,{cookie:guestCookie,data});assert.equal(guestSubmit.status,200);assert.equal(guestSubmit.body.attempt.result.total,100);assert.equal((await request('writing&id='+guestAttempt.id,{cookie:guestCookie,data:{}})).status,401);assert.equal((await request('leaderboard&exam='+exam.id)).body.entries.length,2);
   assert.equal((await request('activity')).status,401);
   assert.equal((await request('activity',{cookie:cookies.student})).status,403);

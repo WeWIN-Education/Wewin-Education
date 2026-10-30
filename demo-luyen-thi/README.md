@@ -22,7 +22,7 @@ Movers Part 6 uses six practice marks; Flyers Part 7 uses a five-mark formative 
 
 ## Accounts and deployment
 
-Vercel Node functions use Neon PostgreSQL. Accounts are provisioned by an administrator, with no public signup. Student, teacher and administrator permissions are checked on server requests. Teachers see assigned classes only. Passwords use salted scrypt; opaque sessions are stored as hashes and delivered in HttpOnly cookies. New/reset accounts must change their temporary password before use.
+Vercel Node functions use Neon PostgreSQL. Accounts are provisioned by an administrator, with no public signup. Student, teacher and administrator permissions are checked on server requests. Teachers see assigned classes only. Passwords use salted scrypt; opaque sessions are stored as hashes and delivered in HttpOnly cookies. Administrator-created accounts use the configured default password and do not require a first-login password change.
 
 Set `DATABASE_URL`, `OPENAI_API_KEY` and `LEAD_GATE_SECRET` as production secrets in Vercel. Optional configuration is in `.env.example`. Never commit real `.env` files. The AI default is `gpt-5.6-terra`, using Responses structured output and `store: false`. Environment changes require redeployment.
 
@@ -57,3 +57,5 @@ Starters 06–15 and Hard 16–25 each contain 25 auto-marked Reading & Writing 
 The build copies only the generated image manifest and the 280 referenced audio files. Original PNG/JPG sheets and unused extraction images are not published. After changing test media, regenerate content, run `npm run prepare:images`, then `npm run build` and `npm run test:media`. Commit the WebP outputs and manifest so Vercel does not need an image encoder. `generated/image-optimization-report.json` records actual byte totals.
 
 The globe button in the header and parent registration dialog switches interface copy between Vietnamese and English, persisting `wewin-language` locally. Localisation translates authored UI literals only; exam text, images, audio, answers, names and Google Form option values retain their original data. Switching language preserves the active screen and unsaved interface fields.
+
+Guest registration grants a fixed 24 hours from confirmed registration. Guest sessions expire after 3 hours without input; background session GETs never renew activity. Guests re-authenticate with their registered phone number and default password 123 within the original 24 hours. After that, they must complete registration again. Guest identities and session hashes are stored in PostgreSQL separately from student accounts, and never qualify for AI or public rankings. Former 30-day v1 lead cookies are rejected. The client verifies on focus/visibility and locks stale sessions, while all protected APIs enforce expiry independently.

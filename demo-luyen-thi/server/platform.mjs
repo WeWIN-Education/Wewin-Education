@@ -1,13 +1,13 @@
-import {createHash,randomBytes,randomUUID,scrypt as scryptCallback,timingSafeEqual} from 'node:crypto';
-import {promisify} from 'node:util';
+import {createHash,randomBytes,randomUUID} from 'node:crypto';
+import {passwordHash as encodePassword,passwordMatches} from './passwords.mjs';
 import {productionRepository} from './repository.mjs';
 import {getExam,validateSubmission,grade} from './scoring.mjs';
-import {hasLeadAccess} from '../lead-server.mjs';
+import {GUEST_IDLE_MS,authenticateGuest,guestPhoneHash,issueGuestSession,guestCookie,guestCookieToken,guestTokenHash} from './guest-access.mjs';
 import {assessWriting,writingPart,writingHash,validateReview} from './writing.mjs';
-const scrypt=promisify(scryptCallback),COOKIE='wewin_session';
+const COOKIE='wewin_session';
 const hash=value=>createHash('sha256').update(value).digest('hex');
-export async function passwordHash(password){if(typeof password!=='string'||password.length<3||password.length>128)throw new ApiError(422,'Use a password of 3–128 characters.');const salt=randomBytes(16).toString('hex'),key=await scrypt(password,salt,64);return salt+':'+key.toString('hex');}
-export async function passwordMatches(password,encoded){if(typeof password!=='string'||password.length>128||typeof encoded!=='string')return false;const [salt,key]=encoded.split(':');if(!salt||! /^[0-9a-f]{128}$/.test(key||''))return false;const actual=await scrypt(password,salt,64);return timingSafeEqual(actual,Buffer.from(key,'hex'));}
+export async function passwordHash(password){try{return await encodePassword(password);}catch(error){if(typeof password!=='string'||password.length<3||password.length>128)throw new ApiError(422,error.message);throw error;}}
+export {passwordMatches};
 export class ApiError extends Error{constructor(status,message,code='REQUEST_ERROR'){super(message);this.status=status;this.code=code;}}
 const safeUser=u=>u?{id:u.id,username:u.username,nickname:u.nickname,role:u.role,active:u.active,mustChangePassword:u.must_change_password}:null;
 const text=(v,max=160)=>typeof v==='string'?v.trim().slice(0,max):'';
@@ -16,27 +16,49 @@ const tokenFrom=req=>(req.headers.cookie||'').split(';').map(s=>s.trim()).find(s
 function sessionCookie(req,token,clear=false){return `${COOKIE}=${token}; HttpOnly; SameSite=Lax; Path=/; Max-Age=${clear?0:30*86400}${req.headers['x-forwarded-proto']==='https'||process.env.VERCEL?'; Secure':''}`;}
 async function body(req){if(!String(req.headers['content-type']||'').startsWith('application/json'))throw new ApiError(415,'Send JSON data.');if(Number(req.headers['content-length'])>65536)throw new ApiError(413,'Submission is too large.');try{if(req.body!==undefined)return typeof req.body==='string'?JSON.parse(req.body):req.body;let raw='';for await(const c of req){raw+=c;if(Buffer.byteLength(raw)>65536)throw new ApiError(413,'Submission is too large.');}return JSON.parse(raw||'{}');}catch(e){if(e instanceof ApiError)throw e;throw new ApiError(400,'Invalid request data.');}}
 function csrf(req){const host=req.headers['x-forwarded-host']||req.headers.host;try{if(!req.headers.origin||new URL(req.headers.origin).host!==host)throw new Error();}catch{throw new ApiError(403,'Submit this request from the WeWIN website.');}}
-export function createPlatformHandler({getRepository=productionRepository,ai=assessWriting,leadSecret=()=>process.env.LEAD_GATE_SECRET}={}){
+export function createPlatformHandler({getRepository=productionRepository,ai=assessWriting,leadSecret=()=>process.env.LEAD_GATE_SECRET,now=()=>Date.now()}={}){
  return async(req,res)=>{
   const send=(status,value)=>{res.statusCode=status;res.setHeader('Content-Type','application/json; charset=utf-8');res.setHeader('Cache-Control','no-store');res.end(JSON.stringify(value));};
   try{
    const url=new URL(req.url,'https://wewin.example');const resource=url.searchParams.get('resource')||'session';const id=url.searchParams.get('id');const repo=await getRepository();
    let user=null;const token=tokenFrom(req);if(repo&&token&&/^[a-f0-9]{64}$/.test(token))user=await repo.session(hash(token));
    const leadKey=typeof leadSecret==='function'?leadSecret():leadSecret;
-   const guest=hasLeadAccess(req.headers.cookie,leadKey);const owner=user?{id:user.id,kind:'user'}:guest?{id:hash(req.headers.cookie.split(';').map(x=>x.trim()).find(x=>x.startsWith('wewin_lead_access='))||''),kind:'guest'}:null;
-   if(req.method==='GET'&&resource==='session')return send(200,{user:safeUser(user),registered:!!user||guest,databaseReady:!!repo,aiReady:!!process.env.OPENAI_API_KEY});
+   const guestAccess=await authenticateGuest(repo,req.headers.cookie,leadKey,now());
+   let guest=guestAccess.guest;
+   const owner=user?{id:user.id,kind:'user'}:guest?{id:guest.id,kind:'guest'}:null;
+   if(!user&&guestAccess.reason&&guestAccess.reason!=='unavailable')res.setHeader('Set-Cookie',guestCookie(req));
+   const sessionInfo=()=>({user:safeUser(user),registered:!!user||!!guest,accessType:user?'account':guest?'guest':'none',guest:user?null:guest,guestStatus:guestAccess.reason,databaseReady:!!repo,aiReady:!!process.env.OPENAI_API_KEY});
+   if(req.method==='GET'&&resource==='session')return send(200,sessionInfo());
    if(!repo)throw new ApiError(503,'Account and result storage is being configured. Please try again later.','DATABASE_UNAVAILABLE');
    if(!['GET','POST'].includes(req.method))throw new ApiError(405,'Method not allowed.');
    const input=req.method==='POST'?(csrf(req),await body(req)):{};
    if(resource==='login'&&req.method==='POST'){
     const name=text(input.username,80).toLowerCase();if(!await repo.limit('login:'+hash(name+'|'+(req.headers['x-forwarded-for']||req.socket?.remoteAddress||'')),10,900))throw new ApiError(429,'Too many sign-in attempts. Please try again later.');
-    const found=await repo.userByName(name);const valid=await passwordMatches(input.password,found?.password_hash||'');if(!found?.active||!valid)throw new ApiError(401,'Incorrect username or password.');
-    const value=randomBytes(32).toString('hex');await repo.newSession(hash(value),found.id);res.setHeader('Set-Cookie',sessionCookie(req,value));return send(200,{user:safeUser(found)});
+    const found=await repo.userByName(name);
+    if(!found&&/^0[0-9]{9}$/.test(name)&&leadKey){
+     if(!await repo.limit('guest-login:'+guestPhoneHash(name,leadKey),10,900))throw new ApiError(429,'Too many sign-in attempts. Please try again later.');
+     const record=await repo.guestByPhone(guestPhoneHash(name,leadKey));
+     if(!record||!await passwordMatches(input.password,record.password_hash))throw new ApiError(401,'Incorrect username or password.');
+     if(new Date(record.expires_at).getTime()<=now())throw new ApiError(401,'Your 24-hour guest access has expired. Please register again.','GUEST_ACCESS_EXPIRED');
+     const issued=await issueGuestSession(repo,record,leadKey,now());
+     res.setHeader('Set-Cookie',[sessionCookie(req,'',true),guestCookie(req,issued.token,issued.expiresAt,now())]);
+     return send(200,{user:null,registered:true,accessType:'guest',guest:issued.guest});
+    }
+    const valid=await passwordMatches(input.password,found?.password_hash||'');if(!found?.active||!valid)throw new ApiError(401,'Incorrect username or password.');
+    const value=randomBytes(32).toString('hex');await repo.newSession(hash(value),found.id);res.setHeader('Set-Cookie',[sessionCookie(req,value),guestCookie(req)]);return send(200,{user:safeUser(found)});
    }
-   if(resource==='logout'&&req.method==='POST'){if(token)await repo.endSession(hash(token));res.setHeader('Set-Cookie',sessionCookie(req,'',true));return send(200,{ok:true});}
+   if(resource==='logout'&&req.method==='POST'){if(token)await repo.endSession(hash(token));const guestToken=guestCookieToken(req.headers.cookie);if(guestToken)await repo.endGuestSession(guestTokenHash(guestToken));res.setHeader('Set-Cookie',[sessionCookie(req,'',true),guestCookie(req)]);return send(200,{ok:true});}
    if(resource==='password'&&req.method==='POST'){
     requireUser(user);if(!await passwordMatches(input.currentPassword,user.password_hash))throw new ApiError(401,'Current password is incorrect.');await repo.changeUser(user.id,{passwordHash:await passwordHash(input.password),mustChange:false});const value=randomBytes(32).toString('hex');await repo.newSession(hash(value),user.id);res.setHeader('Set-Cookie',sessionCookie(req,value));return send(200,{ok:true});
    }
+   const publicResource=resource==='leaderboard';
+   if(!user&&!guest&&guestAccess.reason&&!publicResource)throw new ApiError(401,guestAccess.reason==='expired'?'Your 24-hour guest access has expired. Please register again.':'Your guest session has expired. Sign in with your registered phone number.','GUEST_'+(guestAccess.reason==='expired'?'ACCESS_EXPIRED':'SESSION_EXPIRED'));
+   if(resource==='touch-session'&&req.method==='POST'){
+    if(!owner)throw new ApiError(401,'Please sign in.','GUEST_SESSION_EXPIRED');
+    if(guest){if(!await repo.touchGuestSession(guestAccess.tokenHash,now(),GUEST_IDLE_MS))throw new ApiError(401,'Your guest session has expired. Sign in again.','GUEST_SESSION_EXPIRED');const fresh=await authenticateGuest(repo,req.headers.cookie,leadKey,now());guest=fresh.guest;}
+    return send(200,sessionInfo());
+   }
+   if(guest&&req.method==='POST'&&resource!=='touch-session'){if(!await repo.touchGuestSession(guestAccess.tokenHash,now(),GUEST_IDLE_MS))throw new ApiError(401,'Your guest session has expired. Sign in again.','GUEST_SESSION_EXPIRED');}
    if(user?.must_change_password)throw new ApiError(403,'Please change your temporary password first.','PASSWORD_CHANGE_REQUIRED');
    if(resource==='leaderboard'&&req.method==='GET'){const exam=getExam(url.searchParams.get('exam'));if(!exam)throw new ApiError(404,'Test not found.');return send(200,{exam:exam.id,entries:await repo.leaderboard(exam)});}
    if(resource==='history'&&req.method==='GET'){

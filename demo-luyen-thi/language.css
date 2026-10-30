@@ -12,3 +12,6 @@
   .workspace-header-right .btn.theme-toggle { width:32px; min-height:44px; padding:6px; }
   .workspace-header .header-signin { width:60px; padding:5px; white-space:normal; font-size:11px; }
 }
+
+.guest-login-hint { padding:12px 14px; margin:14px 0; border:1px solid var(--border-strong); border-radius:12px; background:var(--primary-light); color:var(--foreground); font-size:12px; line-height:1.65; }
+.guest-account .user-avatar .icon { width:18px; height:18px; }
