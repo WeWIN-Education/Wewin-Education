@@ -1,0 +1,13 @@
+{
+  "sourceWorkbook": "WeWIN_Tu_Vung_Cambridge.xlsx",
+  "sourceSha256": "68c8f898bbfaaf01b6f99fac6eec8e01a567a4cfe7a5f248984420c04416a5ee",
+  "entries": 1274,
+  "audioFiles": 1274,
+  "missingDetails": 0,
+  "missingAudio": 0,
+  "collections": {
+    "starters": 381,
+    "movers": 399,
+    "flyers": 494
+  }
+}

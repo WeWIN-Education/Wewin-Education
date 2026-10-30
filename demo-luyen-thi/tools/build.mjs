@@ -6,10 +6,11 @@ import {allExams} from '../public-data.mjs';
 const root=fileURLToPath(new URL('../',import.meta.url)),dist=resolve(root,'dist');
 if(basename(dist)!=='dist'||resolve(dist,'..')!==resolve(root))throw new Error('Unsafe build destination');
 await rm(dist,{recursive:true,force:true});await mkdir(dist,{recursive:true});
-const files=['vocab.mjs','vocab-catalog.mjs','vocab.css','guest-session.mjs','language.mjs','language.css','hero-mascot.css','shields.mjs','results-ui.mjs','index.html','styles.css','lead-gate.css','refresh.css','platform.css','learning.css','learning-color.css','learning-ui.mjs','learning-shell.mjs','library.mjs','theme.mjs','lead-fields.mjs','lead-gate.mjs','catalog.mjs','public-data.mjs','media.mjs','media-manifest.mjs','client-api.mjs','picture-ui.mjs','platform-app.mjs','bootstrap.mjs'];
+const files=['vocab-audio.mjs','vocab.mjs','vocab-catalog.mjs','vocab.css','guest-session.mjs','language.mjs','language.css','hero-mascot.css','shields.mjs','results-ui.mjs','index.html','styles.css','lead-gate.css','refresh.css','platform.css','learning.css','learning-color.css','learning-ui.mjs','learning-shell.mjs','library.mjs','theme.mjs','lead-fields.mjs','lead-gate.mjs','catalog.mjs','public-data.mjs','media.mjs','media-manifest.mjs','client-api.mjs','picture-ui.mjs','platform-app.mjs','bootstrap.mjs'];
 for(const name of files)await cp(resolve(root,name),resolve(dist,name));
 await cp(resolve(root,'vocab-data'),resolve(dist,'vocab-data'),{recursive:true});
 await cp(resolve(root,'assets/vocab'),resolve(dist,'assets/vocab'),{recursive:true});
+await cp(resolve(root,'assets/vocab-audio'),resolve(dist,'assets/vocab-audio'),{recursive:true});
 const assets=new Set([...manifest.files,...allExams.flatMap(e=>e.audio),'logo.png','favicon.png','design-20261024/education-pattern.svg']);
 for(const file of assets){const destination=resolve(dist,'assets',file);await mkdir(resolve(destination,'..'),{recursive:true});await cp(resolve(root,'assets',file),destination);}
 // Embed the tiny decorative pattern so previews do not depend on SVG MIME handling or another request.

@@ -10,6 +10,7 @@ function browser(search='?screen=vocab'){
  const add=(map,name,fn)=>map.set(name,[...(map.get(name)||[]),fn]);
  globalThis.document={documentElement:{dataset:{}},body:{dataset:{}},activeElement:null,hidden:false,querySelector:s=>s.startsWith('#')?node(s.slice(1)):null,querySelectorAll:()=>[],getElementById:node,addEventListener:(n,f)=>add(listeners,n,f),createElement(){throw Error('Unexpected lead gate on public Vocab');}};
  globalThis.window={history:{replaceState(){},pushState(){}},scrollTo(){},addEventListener:(n,f)=>add(windowListeners,n,f),dispatchEvent:e=>{for(const f of windowListeners.get(e.type)||[])f(e);}};
+ globalThis.Audio=class{pause(){} removeAttribute(){} load(){} play(){return Promise.resolve();}};
  globalThis.localStorage={getItem:k=>storage.get(k)||null,setItem:(k,v)=>storage.set(k,v)};
  globalThis.sessionStorage={getItem:()=>null,setItem(){}};globalThis.matchMedia=()=>({matches:false});globalThis.location={search,href:'http://localhost/'+search};
  return {node,listeners,windowListeners,storage,async click(action,id){const el={dataset:{vocab:action,id},disabled:false};for(const f of listeners.get('click')||[])await f({target:{closest:s=>s==='[data-vocab]'?el:null},preventDefault(){}});await new Promise(r=>setTimeout(r,0));}};
@@ -17,7 +18,7 @@ function browser(search='?screen=vocab'){
 
 test('all three source word collections and their artwork ship locally',async()=>{
  assert.deepEqual(vocabBooks.map(b=>[b.units,b.words]),[[16,381],[13,399],[16,494]]);
- for(const b of vocabBooks){const {default:units}=await import(`../vocab-data/${b.id}.mjs`);assert.equal(units.length,b.units);assert.equal(units.reduce((n,u)=>n+u.words.length,0),b.words);assert.equal(new Set(units.map(u=>u.id)).size,units.length);for(const u of units){assert.ok(u.words.length>0);for(const item of [u,...u.words]){if(item.art)await access(new URL(`../assets/vocab/${item.art}.webp`,import.meta.url));}for(const w of u.words){assert.equal(typeof w.en,'string');assert.equal(typeof w.vi,'string');}}}
+ for(const b of vocabBooks){const {default:units}=await import(`../vocab-data/${b.id}.mjs`);assert.equal(units.length,b.units);assert.equal(units.reduce((n,u)=>n+u.words.length,0),b.words);assert.equal(new Set(units.map(u=>u.id)).size,units.length);for(const u of units){assert.ok(u.words.length>0);for(const item of [u,...u.words]){if(item.art)await access(new URL(`../assets/vocab/${item.art}.webp`,import.meta.url));}for(const w of u.words){assert.equal(typeof w.en,'string');assert.equal(typeof w.vi,'string');for(const name of ['ipa','example','exampleVi'])assert.ok(w[name]?.trim(),`${b.id}/${u.id}/${w.en}: missing ${name}`);assert.match(w.audio,/^vocab-audio\/(starters|movers|flyers)\/\d{3}\.mp3$/);const bytes=await readFile(new URL('../assets/'+w.audio,import.meta.url));assert.equal(bytes.subarray(0,3).toString(),'ID3');assert.ok(bytes.length>256);}}}
  const build=await readFile(new URL('./build.mjs',import.meta.url),'utf8');assert.match(build,/'vocab-data'/);assert.match(build,/'assets\/vocab'/);
 });
 
@@ -39,7 +40,7 @@ test('quiz, matching, spelling and listening render, finish, and save separate l
  assert.match(html,/vocab-result-score">4\/4/);
  await b.click('return');await b.click('mode','match');
  const left=[...html.matchAll(/data-vocab="match-left" data-id="(\d+)"[^>]*>([^<]+)/g)],right=[...html.matchAll(/data-vocab="match-right" data-id="(\d+)"[^>]*>([^<]+)/g)];
- // Speech unsupported feedback must not prevent matching.
+ // Matching remains usable while the word recording is played.
  for(const l of left){const w=words.find(w=>w.en===l[2]);await b.click('match-left',l[1]);await b.click('match-right',right.find(r=>r[2]===w.vi)[1]);}
  await b.click('next');assert.match(html,/vocab-result-score">4\/4/);
  await b.click('return');await b.click('mode','listen');
@@ -54,4 +55,13 @@ test('anonymous and expired guests can use the complete Vocab shell without a re
  globalThis.fetch=async url=>{const resource=new URL(url,'http://localhost').searchParams.get('resource');calls.push(resource);assert.equal(resource,'session');return {ok:true,status:200,json:async()=>({registered:false,user:null,guest:null,guestStatus:'idle_expired'})};};
  await import('../platform-app.mjs?vocab-public-test');const root=b.node('app');assert.match(root.innerHTML,/vocab-modes/);assert.match(root.innerHTML,/data-action="vocab"/);assert.doesNotMatch(root.innerHTML,/id="lead-gate"/);assert.deepEqual(calls,['session']);
  for(const f of b.windowListeners.get('wewin-guest-expired')||[])f({detail:{reason:'expired'}});assert.equal(document.body.dataset.screen,'vocab');assert.match(root.innerHTML,/vocab-modes/);
+});
+
+
+test('flashcards expose IPA and bilingual examples on separate accessible faces',async()=>{
+ const b=browser();let html='',ui;ui=createVocabUI({redraw:()=>html=ui.render()});await ui.open('starters','0');await b.click('flash');
+ assert.match(html,/data-flash-face="front" aria-hidden="false"/);assert.match(html,/data-flash-face="back" aria-hidden="true"/);
+ assert.match(html,/ˈæl.fə.bet/);assert.match(html,/I can say the English alphabet./);assert.match(html,/Tôi có thể đọc bảng chữ cái tiếng Anh./);
+ assert.match(html,/data-word-audio="vocab-audio\/starters\/001.mp3"/);await b.click('flip');assert.match(html,/vocab-flash-card is-flipped/);
+ assert.match(html,/data-flash-face="back" aria-hidden="false"/);await b.click('flash-next');assert.doesNotMatch(html,/vocab-flash-card is-flipped/);assert.match(html,/I have a cat and a dog./);
 });
