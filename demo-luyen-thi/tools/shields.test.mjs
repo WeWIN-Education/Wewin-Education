@@ -1,3 +1,5 @@
+import {setLanguage} from '../language.mjs';
+setLanguage('en');
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {shieldsFor} from '../shields.mjs';

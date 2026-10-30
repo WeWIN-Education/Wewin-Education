@@ -31,9 +31,10 @@ test('client renders overview, library, resumed draft, listening, result, histor
  assert.match(root.innerHTML,/Local QA Learner/);assert.match(root.innerHTML,/Tiếp tục bài đang làm/);assert.match(root.innerHTML,/learning-sidebar/);assert.ok(!root.innerHTML.includes('NaN'));
  await click('catalog');assert.match(root.innerHTML,/id="catalog-search"/);assert.match(root.innerHTML,/test-row/);
  await click('library-level',{value:'flyers'});assert.match(root.innerHTML,/20 đề Flyers/);
- await click('load-attempt',{id:stored.id});assert.equal(document.body.dataset.screen,'exam');assert.match(root.innerHTML,/exam-focus/);assert.match(root.innerHTML,/Reading & Writing/);
+ await click('load-attempt',{id:stored.id});assert.equal(document.body.dataset.screen,'exam');assert.match(root.innerHTML,/exam-focus/);assert.match(root.innerHTML,/Đọc & Viết/);
+ await click('ui-language');assert.match(root.innerHTML,/Your learning space/);assert.ok(root.innerHTML.includes(e.reading[0].questions[0].prompt));await click('ui-language');assert.match(root.innerHTML,/Không gian học tập/);
  await click('skill',{value:'listening'});assert.match(root.innerHTML,/audio-seek/);assert.match(root.innerHTML,/Draw lines/);
- await click('confirm-submit');assert.equal(document.body.dataset.screen,'result');assert.match(root.innerHTML,/here are your results/);assert.match(root.innerHTML,/Practice complete/);assert.ok(!root.innerHTML.includes('NaN'));
+ await click('confirm-submit');assert.equal(document.body.dataset.screen,'result');assert.match(root.innerHTML,/kết quả của bạn/);assert.match(root.innerHTML,/Hoàn thành bài luyện/);assert.ok(!root.innerHTML.includes('NaN'));
  await click('my-history');assert.equal(document.body.dataset.screen,'history');assert.match(root.innerHTML,/Xem kết quả/);assert.match(root.innerHTML,/0<small>\/100/);
  // Staff rendering is exercised with a stubbed service; real role enforcement is covered by platform.test.mjs.
  assert.ok(calls.includes('submit'));assert.ok(calls.includes('history'));
