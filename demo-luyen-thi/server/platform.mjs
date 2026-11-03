@@ -12,6 +12,7 @@ export class ApiError extends Error{constructor(status,message,code='REQUEST_ERR
 const safeUser=u=>u?{id:u.id,username:u.username,nickname:u.nickname,role:u.role,active:u.active,mustChangePassword:u.must_change_password}:null;
 const text=(v,max=160)=>typeof v==='string'?v.trim().slice(0,max):'';
 const requireUser=(u,roles)=>{if(!u)throw new ApiError(401,'Please sign in.');if(roles&&!roles.includes(u.role))throw new ApiError(403,'You do not have access to this feature.');};
+function deadline(value,now){const date=typeof value==='string'&&value.length<=40&&/T.*(?:Z|[+-]\d\d:\d\d)$/.test(value)?new Date(value):null;if(!date||!Number.isFinite(date.getTime())||date.getTime()<=now)throw new ApiError(422,'Choose a due date and time in the future.');return date.toISOString();}
 const tokenFrom=req=>(req.headers.cookie||'').split(';').map(s=>s.trim()).find(s=>s.startsWith(COOKIE+'='))?.slice(COOKIE.length+1)||'';
 function sessionCookie(req,token,clear=false){return `${COOKIE}=${token}; HttpOnly; SameSite=Lax; Path=/; Max-Age=${clear?0:30*86400}${req.headers['x-forwarded-proto']==='https'||process.env.VERCEL?'; Secure':''}`;}
 async function body(req){if(!String(req.headers['content-type']||'').startsWith('application/json'))throw new ApiError(415,'Send JSON data.');if(Number(req.headers['content-length'])>65536)throw new ApiError(413,'Submission is too large.');try{if(req.body!==undefined)return typeof req.body==='string'?JSON.parse(req.body):req.body;let raw='';for await(const c of req){raw+=c;if(Buffer.byteLength(raw)>65536)throw new ApiError(413,'Submission is too large.');}return JSON.parse(raw||'{}');}catch(e){if(e instanceof ApiError)throw e;throw new ApiError(400,'Invalid request data.');}}
@@ -60,17 +61,18 @@ export function createPlatformHandler({getRepository=productionRepository,ai=ass
    }
    if(guest&&req.method==='POST'&&resource!=='touch-session'){if(!await repo.touchGuestSession(guestAccess.tokenHash,now(),GUEST_IDLE_MS))throw new ApiError(401,'Your guest session has expired. Sign in again.','GUEST_SESSION_EXPIRED');}
    if(user?.must_change_password)throw new ApiError(403,'Please change your temporary password first.','PASSWORD_CHANGE_REQUIRED');
+   if(resource==='assignments-migrate'&&req.method==='POST'){requireUser(user,['admin']);await repo.migrate();const indexes=await repo.q("SELECT indexname FROM pg_indexes WHERE tablename='practice_attempts' AND indexname IN ('practice_one_free_draft','practice_one_assigned_attempt')");if(indexes.length!==2)throw new ApiError(503,'Assignment storage is not ready.');await repo.q('DROP INDEX IF EXISTS practice_one_draft');return send(200,{ok:true});}
    if(resource==='leaderboard'&&req.method==='GET'){const exam=getExam(url.searchParams.get('exam'));if(!exam)throw new ApiError(404,'Test not found.');return send(200,{exam:exam.id,entries:await repo.leaderboard(exam)});}
    if(resource==='history'&&req.method==='GET'){
-    if(!owner)throw new ApiError(401,'Complete registration or sign in first.');const student=id||owner.id;if(student!==owner.id){requireUser(user,['teacher','admin']);if(!await repo.mayTeach(user,student))throw new ApiError(403,'This student is not in your assigned classes.');}return send(200,{attempts:await repo.history(student)});
+    if(!owner)throw new ApiError(401,'Complete registration or sign in first.');const student=id||owner.id;if(student!==owner.id){requireUser(user,['teacher','admin']);if(!await repo.mayTeach(user,student))throw new ApiError(403,'This student is not in your assigned classes.');}return send(200,{attempts:await repo.history(student,user?.role==='teacher'?user.id:null)});
    }
-   const canRead=async attempt=>{if(!attempt)throw new ApiError(404,'Attempt not found.');if(owner?.id===attempt.owner_id||user?.role==='admin')return;if(!user||!['teacher','admin'].includes(user.role)||attempt.owner_kind!=='user'||!await repo.mayTeach(user,attempt.owner_id))throw new ApiError(403,'This attempt belongs to another learner.');};
+   const canRead=async attempt=>{if(!attempt)throw new ApiError(404,'Attempt not found.');if(owner?.id===attempt.owner_id||user?.role==='admin')return;if(attempt.assignment_id){const assignment=await repo.assignment(attempt.assignment_id);if(user?.role==='teacher'&&assignment?.teacher_id===user.id)return;throw new ApiError(403,'This assignment belongs to another class.');}if(!user||!['teacher','admin'].includes(user.role)||attempt.owner_kind!=='user'||!await repo.mayTeach(user,attempt.owner_id))throw new ApiError(403,'This attempt belongs to another learner.');};
    if(resource==='attempts'&&req.method==='POST'){
     if(!owner)throw new ApiError(401,'Complete registration or sign in first.');if(user&&user.role!=='student')throw new ApiError(403,'Use a student account to start a ranked attempt.');const exam=getExam(input.examId);if(!exam)throw new ApiError(404,'Test not found.');return send(200,{attempt:await repo.createAttempt(owner,exam)});
    }
    if(resource==='attempt'&&req.method==='GET'){const attempt=await repo.attempt(id);await canRead(attempt);return send(200,{attempt,review:await repo.reviewForAttempt(id)});}
    if(['draft','submit'].includes(resource)&&req.method==='POST'){
-    const attempt=await repo.attempt(id);if(!attempt||attempt.owner_id!==owner?.id)throw new ApiError(403,'You cannot edit this attempt.');if(attempt.submitted_at)return send(200,{attempt});const exam=getExam(attempt.exam_id);if(exam?.version!==attempt.exam_version)throw new ApiError(409,'This test has been updated. Please start a new attempt.');
+    const attempt=await repo.attempt(id);if(!attempt||attempt.owner_id!==owner?.id)throw new ApiError(403,'You cannot edit this attempt.');if(attempt.submitted_at)return send(200,{attempt});if(attempt.assignment_id){const assignment=await repo.assignment(attempt.assignment_id);if(!assignment||!await repo.isEnrolled(assignment.class_id,user?.id))throw new ApiError(403,'You are not enrolled in this class.');if(assignment.closed_at)throw new ApiError(409,'This assignment has been cancelled.');}const exam=getExam(attempt.exam_id);if(exam?.version!==attempt.exam_version)throw new ApiError(409,'This test has been updated. Please start a new attempt.');
     let submission;try{submission=validateSubmission(exam,input);}catch(e){throw new ApiError(422,e.message);}
     if(resource==='draft'){await repo.draft(id,owner,submission.answers,submission.writing);return send(200,{ok:true});}
     const result=grade(exam,submission.answers);const submitted=await repo.submit(attempt,owner,submission.answers,submission.writing,result,user?.role==='student');return send(200,{attempt:submitted});
@@ -84,6 +86,21 @@ export function createPlatformHandler({getRepository=productionRepository,ai=ass
     const acquired=await repo.acquireReview(review.id);if(!acquired)return send(200,{review:await repo.reviewForAttempt(id)});
     try{const output=await ai(exam,attempt.writing);validateReview(output,exam.levelKey==='movers'?6:5,writingPart(exam).questions.length);await repo.finishReview(review.id,output);}catch(e){await repo.finishReview(review.id,null,['AI_NOT_CONFIGURED','AI_LIMIT_REACHED','INVALID_AI_OUTPUT','AI_REVIEW_UNAVAILABLE'].includes(e.message)?e.message:'AI_PROVIDER_ERROR');}
     return send(200,{review:await repo.reviewForAttempt(id)});
+   }
+   if(resource==='class-teacher'&&req.method==='POST'){
+    requireUser(user,['admin']);const cls=await repo.classById(id);if(!cls)throw new ApiError(404,'Class not found.');const teacher=input.teacherId?await repo.user(input.teacherId):null;if(input.teacherId&&(!teacher||teacher.role!=='teacher'||!teacher.active))throw new ApiError(422,'Choose an active teacher.');return send(200,{class:await repo.assignTeacher(cls.id,teacher?.id)});
+   }
+   if(resource==='assignments'&&req.method==='GET'){requireUser(user,['student','teacher','admin']);return send(200,{assignments:await repo.assignments(user),serverNow:new Date(now()).toISOString()});}
+   if(resource==='assignments'&&req.method==='POST'){
+    requireUser(user,['teacher','admin']);const cls=await repo.classById(input.classId);if(!cls)throw new ApiError(404,'Class not found.');if(user.role==='teacher'&&cls.teacher_id!==user.id)throw new ApiError(403,'This class is not assigned to you.');const exam=getExam(input.examId);if(!exam)throw new ApiError(422,'Choose an available practice test.');const title=text(input.title,160)||exam.title;const assignment=await repo.createAssignment({classId:cls.id,createdBy:user.id,exam,title,instructions:text(input.instructions,2000),dueAt:deadline(input.dueAt,now())});return send(201,{assignment});
+   }
+   if(resource==='assignment'&&['GET','POST'].includes(req.method)){
+    requireUser(user,['teacher','admin']);const assignment=await repo.assignment(id);if(!assignment)throw new ApiError(404,'Assignment not found.');if(user.role==='teacher'&&assignment.teacher_id!==user.id)throw new ApiError(403,'This class is not assigned to you.');
+    if(req.method==='GET')return send(200,{assignment,students:await repo.assignmentResults(assignment),serverNow:new Date(now()).toISOString()});
+    if(assignment.closed_at)throw new ApiError(409,'This assignment has been cancelled.');const changes=input.close===true?{closedAt:new Date(now()).toISOString()}:{dueAt:deadline(input.dueAt,now())};return send(200,{assignment:await repo.editAssignment(assignment.id,changes)});
+   }
+   if(resource==='assignment-start'&&req.method==='POST'){
+    requireUser(user,['student']);const assignment=await repo.assignment(id);if(!assignment)throw new ApiError(404,'Assignment not found.');if(!await repo.isEnrolled(assignment.class_id,user.id))throw new ApiError(403,'You are not enrolled in this class.');if(assignment.closed_at)throw new ApiError(409,'This assignment has been cancelled.');const exam=getExam(assignment.exam_id);if(!exam||exam.version!==assignment.exam_version)throw new ApiError(409,'This test has been updated. Please contact your teacher.');const attempt=await repo.createAssignedAttempt(assignment,user);if(!attempt)throw new ApiError(409,'This assignment is no longer available.');return send(200,{attempt,assignment});
    }
    if(resource==='staff'&&req.method==='GET'){requireUser(user,['teacher','admin']);return send(200,{...await repo.staffData(user),dailyAiLimit:Number(await repo.setting('daily_ai_limit'))||10});}
    if(resource==='activity'&&req.method==='GET'){
@@ -100,7 +117,7 @@ export function createPlatformHandler({getRepository=productionRepository,ai=ass
     const changes={};if(typeof input.active==='boolean')changes.active=input.active;if(text(input.nickname,60))changes.nickname=text(input.nickname,60);if(input.password){changes.passwordHash=await passwordHash(input.password);changes.mustChange=false;}await repo.changeUser(id,changes);return send(200,{ok:true});
    }
    if(resource==='classes'&&req.method==='POST'){
-    requireUser(user,['admin']);const teacher=input.teacherId?await repo.user(input.teacherId):null;if(!text(input.name,100)||teacher&&teacher.role!=='teacher')throw new ApiError(422,'Choose a valid class name and teacher.');return send(201,{class:await repo.createClass(text(input.name,100),teacher?.id)});
+    requireUser(user,['admin']);const teacher=input.teacherId?await repo.user(input.teacherId):null;if(!text(input.name,100)||input.teacherId&&(!teacher||teacher.role!=='teacher'||!teacher.active))throw new ApiError(422,'Choose a valid class name and teacher.');return send(201,{class:await repo.createClass(text(input.name,100),teacher?.id)});
    }
    if(resource==='enroll'&&req.method==='POST'){requireUser(user,['admin']);const student=await repo.user(input.studentId);if(student?.role!=='student')throw new ApiError(422,'Choose a student account.');await repo.enroll(input.classId,input.studentId);return send(200,{ok:true});}
    if(resource==='settings'&&req.method==='POST'){requireUser(user,['admin']);if(!Number.isInteger(input.dailyAiLimit)||input.dailyAiLimit<1||input.dailyAiLimit>100)throw new ApiError(422,'Daily limit must be between 1 and 100.');await repo.setSetting('daily_ai_limit',input.dailyAiLimit);return send(200,{ok:true});}

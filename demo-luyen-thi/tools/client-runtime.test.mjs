@@ -15,6 +15,7 @@ test('client renders overview, library, resumed draft, listening, result, histor
  const e=allExams[0];let stored={id:'fixture-attempt',exam_id:e.id,exam_version:e.version,answers:{},writing:{},created_at:'2026-10-24T01:00:00Z',updated_at:'2026-10-24T01:00:00Z',submitted_at:null};
  globalThis.fetch=async(url,options={})=>{const p=new URL(url,'http://localhost').searchParams,resource=p.get('resource');calls.push(resource);let data;
   if(resource==='session')data={user,registered:true,databaseReady:true};
+  else if(resource==='assignments')data={assignments:[]};
   else if(resource==='history')data={attempts:[stored]};
   else if(resource==='attempts'||resource==='attempt')data={attempt:stored,review:null};
   else if(resource==='leaderboard')data={entries:[]};
@@ -38,5 +39,5 @@ test('client renders overview, library, resumed draft, listening, result, histor
  await click('my-history');assert.equal(document.body.dataset.screen,'history');assert.match(root.innerHTML,/Xem kết quả/);assert.match(root.innerHTML,/0<small>\/100/);
  // Staff rendering is exercised with a stubbed service; real role enforcement is covered by platform.test.mjs.
  assert.ok(calls.includes('submit'));assert.ok(calls.includes('history'));
- await click('staff');assert.equal(document.body.dataset.screen,'staff');assert.match(root.innerHTML,/Nhật ký bài làm/);assert.match(root.innerHTML,/Xem kết quả/);
+ await click('staff');await click('staff-section',{value:'activity'});assert.equal(document.body.dataset.screen,'staff');assert.match(root.innerHTML,/Nhật ký bài làm/);assert.match(root.innerHTML,/Xem kết quả/);
 });

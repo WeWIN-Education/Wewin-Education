@@ -1,5 +1,14 @@
 // Only literal interface copy is translated. Interpolated data and test content stay untouched.
-const pairs = [["Chơi Vocab miễn phí, không cần tài khoản","Play Vocab free — no account needed"],
+const pairs = [
+ ["Vui lòng chọn ngày và giờ nộp bài trong tương lai.","Choose a due date and time in the future."],
+ ["Lớp này chưa được phân công cho bạn.","This class is not assigned to you."],
+ ["Bạn chưa được xếp vào lớp này.","You are not enrolled in this class."],
+ ["Bài giao này đã được hủy.","This assignment has been cancelled."],
+ ["Vui lòng chọn giáo viên đang hoạt động.","Choose an active teacher."],
+ ["Không tìm thấy bài được giao.","Assignment not found."],
+ ["Không tìm thấy lớp học.","Class not found."],
+ ["Đề đã được cập nhật. Vui lòng liên hệ giáo viên.","This test has been updated. Please contact your teacher."],
+["Chơi Vocab miễn phí, không cần tài khoản","Play Vocab free — no account needed"],
  [
   "Tổng quan",
   "Overview"
