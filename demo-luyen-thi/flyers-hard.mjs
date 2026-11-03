@@ -479,7 +479,7 @@ export const flyersHard = [
           },
           {
             "id": "r5-6",
-            "prompt": "Question 6",
+            "prompt": "Instead of doing everything together, the helpers ______.",
             "answer": "divided the jobs",
             "accepted": [
               "divided the jobs"
