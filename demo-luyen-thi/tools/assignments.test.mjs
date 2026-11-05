@@ -42,6 +42,19 @@ test('class ownership, assignment deadlines, independent attempts and class resu
   const rows=(await request('assignment&id='+id,{cookie:cookies.teacher})).body.students;assert.equal(rows.find(s=>s.student_id===users.student.id).result.total,100);assert.equal(rows.find(s=>s.student_id===users.other.id).result.total,0);
   // Submission time comes from Postgres, not the client clock or input body.
   assert.ok(rows.every(s=>s.submitted_at));assert.equal((await request('assignments',{cookie:cookies.teacher})).body.assignments.find(x=>x.id===id).submitted_count,2);
+  const dest=await repo.createClass('FLYERS 01',users.outside.id);
+  const member=(data)=>request('class-member&id='+cls.id,{cookie:cookies.admin,data:{studentId:users.student.id,...data}});
+  assert.equal((await request('class-edit&id='+cls.id,{cookie:cookies.teacher,data:{action:'rename',name:'Wrong'}})).status,403);
+  assert.equal((await member({action:'copy',targetClassId:dest.id})).status,200);assert.equal(await repo.isEnrolled(cls.id,users.student.id),true);assert.equal(await repo.isEnrolled(dest.id,users.student.id),true);
+  assert.equal((await member({action:'move',targetClassId:dest.id})).status,200);assert.equal(await repo.isEnrolled(cls.id,users.student.id),false);
+  assert.equal((await request('assignment&id='+id,{cookie:cookies.teacher})).body.students.find(s=>s.student_id===users.student.id).result.total,100);
+  assert.equal((await request('class-edit&id='+cls.id,{cookie:cookies.admin,data:{action:'rename',name:'New Flyers 1'}})).status,200);
+  assert.equal((await request('class-edit&id='+cls.id,{cookie:cookies.admin,data:{action:'rename',name:'FLYERS 01'}})).status,409);
+  assert.equal((await request('class-edit&id='+cls.id,{cookie:cookies.admin,data:{action:'archive'}})).status,422);
+  assert.equal((await request('class-edit&id='+cls.id,{cookie:cookies.admin,data:{action:'archive',confirm:true}})).status,200);
+  assert.equal((await request('assignment-start&id='+id,{cookie:cookies.other,data:{}})).status,409);
+  assert.equal((await request('class-edit&id='+cls.id,{cookie:cookies.admin,data:{action:'restore'}})).status,200);
+  assert.equal((await member({action:'remove',confirm:true})).status,200);assert.ok(await repo.user(users.student.id));await repo.enroll(cls.id,users.student.id);
   await teacher(users.outside.id);assert.equal((await request('assignment&id='+id,{cookie:cookies.teacher})).status,403);assert.equal((await request('assignment&id='+id,{cookie:cookies.outside})).status,200);
   const shared=await repo.createClass('Another class',users.teacher.id);await repo.enroll(shared.id,users.student.id);
   assert.equal((await request('attempt&id='+a.id,{cookie:cookies.teacher})).status,403,'teaching the same student elsewhere does not grant this assignment');

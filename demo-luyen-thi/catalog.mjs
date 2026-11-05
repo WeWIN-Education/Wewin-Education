@@ -1,3 +1,4 @@
+import {matchesSearch} from './search.mjs';
 import {mediaImage} from './media.mjs';
 import {exams,movers,flyers} from './public-data.mjs';
 const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -6,7 +7,7 @@ const icon=name=>`<svg class="icon" viewBox="0 0 24 24" aria-hidden="true">${pat
 const levelOptions=[['starters','Starters','Pre A1','Bắt đầu với những điều quen thuộc.'],['movers','Movers','A1','Tự tin đọc và nghe nhiều hơn.'],['flyers','Flyers','A2','Sẵn sàng cho thử thách tiếp theo.']];
 export const catalogItems=[...exams.map(e=>({...e,level:'starters',tag:e.difficulty?`${e.level} · ${e.difficulty}`:e.level,number:'Test '+e.number,readingCount:e.readingCount??25,listeningCount:e.listeningCount??20})),...movers.map(e=>({...e,level:'movers',tag:e.difficulty?`${e.level} · ${e.difficulty}`:e.level,number:'Mock '+e.number,readingCount:29,listeningCount:25})),...flyers.map(e=>({...e,level:'flyers',tag:e.difficulty?`${e.level} · ${e.difficulty}`:e.level,number:'Mock '+e.number,readingCount:43,listeningCount:25}))];
 export const levels=levelOptions.filter(([id])=>catalogItems.some(e=>e.level===id));
-export function filterCatalog(category,query){const text=query.trim().toLocaleLowerCase('vi');return catalogItems.filter(e=>(category==='all'||category===e.level)&&(!text||`${e.title} ${e.number} ${e.tag}`.toLocaleLowerCase('vi').includes(text)));}
+export function filterCatalog(category,query){return catalogItems.filter(e=>(category==='all'||category===e.level)&&matchesSearch(`${e.title} ${e.number} ${e.tag}`,query));}
 export function renderCatalogResults({category,query,limit,action}){
  const cards=filterCatalog(category,query);
  if(!cards.length)return `<div class="catalog-empty"><h3>Chưa tìm thấy đề phù hợp</h3><p>Thử tên đề, số đề hoặc một cấp độ khác.</p><button class="btn" data-action="clear-catalog">Xóa bộ lọc</button></div>`;

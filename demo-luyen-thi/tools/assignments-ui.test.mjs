@@ -15,5 +15,5 @@ test('student assignments escape instructions and staff class cards list the ass
  const row={id:'a',class_name:'Flyers 1',title:'Homework',exam_id:'flyers-16',due_at:'2026-11-04T03:00:00Z',instructions:'<script>alert(1)</script>'};
  const html=renderStudentAssignments({rows:[row],exams:allExams});assert.ok(!html.includes('<script>'));assert.match(html,/data-action="start-assignment"/);assert.equal(renderStudentAssignments({rows:[],exams:allExams,compact:true}),'');
  const staff={classes:[{id:'c',name:'Flyers 1',teacher_id:null}],users:[{id:'u',nickname:'A',username:'wewin01',role:'student'}],enrollments:[{class_id:'c',student_id:'u'}]};
- const classes=renderClassManagement({staff,user:{role:'admin'},exams:allExams});assert.match(classes,/Phân công giáo viên/);assert.match(classes,/Danh sách học viên/);assert.match(classes,/wewin01/);
+ const classes=renderClassManagement({staff,user:{role:'admin'},exams:allExams});assert.match(classes,/Phân công giáo viên/);assert.match(classes,/Danh sách học viên/);assert.match(classes,/WEWIN01/);
 });

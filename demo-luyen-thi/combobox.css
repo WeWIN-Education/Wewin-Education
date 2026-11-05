@@ -1,0 +1,26 @@
+.wewin-combo{position:relative;min-width:0;width:100%;font-weight:400}
+.combo-native{position:absolute!important;width:1px!important;height:1px!important;opacity:0!important;padding:0!important;pointer-events:none;clip-path:inset(50%)}
+.combo-box{min-height:46px;border:1px solid var(--border-strong);border-radius:12px;background:var(--surface);color:var(--foreground)}
+.combo-box:focus-within{outline:2px solid var(--primary);outline-offset:2px;border-color:var(--primary)}
+.combo-input-row{display:flex;align-items:center;min-width:0}.combo-input{min-width:0;width:100%;min-height:44px;border:0!important;box-shadow:none!important;outline:none!important;background:transparent!important;color:var(--foreground);padding:11px 12px!important;font:inherit;font-size:14px!important;border-radius:12px}
+.combo-toggle{display:grid;place-items:center;flex-shrink:0;width:44px;height:44px;padding:10px;border:0;background:transparent;color:var(--muted);border-radius:10px;cursor:pointer}.combo-toggle .icon{width:16px;height:16px}
+.combo-popup{position:fixed;z-index:1200;display:flex;flex-direction:column;max-height:320px;min-width:0;padding:6px;border:1px solid var(--border-strong);border-radius:14px;background:var(--surface);color:var(--foreground);box-shadow:0 12px 32px rgb(0 30 70 / .18);overflow:hidden}
+.combo-results{overflow:auto;overscroll-behavior:contain;min-height:0;flex:1}
+.combo-option{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:48px;padding:10px 12px;border-radius:10px;cursor:pointer;font-size:14px;line-height:1.45}
+.combo-option>div{display:grid;gap:3px;min-width:0;overflow-wrap:anywhere}.combo-option strong{font-size:14px;font-weight:500}.combo-code{font-size:12px;color:var(--primary);font-weight:600;letter-spacing:.2px}.combo-option small{font-size:12px;color:var(--muted);line-height:1.5}
+.combo-option.is-active{background:var(--primary-light);outline:1px solid var(--primary);outline-offset:-1px}.combo-option[aria-selected=true]{background:var(--primary-light)}
+.combo-option.is-disabled{cursor:default;color:var(--muted);opacity:.7}.combo-option-state{flex-shrink:0;font-size:11px;font-weight:500;color:var(--primary)}.combo-option-state .icon{width:18px;height:18px}
+.combo-summary{margin:5px 8px 3px;padding-top:7px;border-top:1px solid var(--border);font-size:12px;line-height:1.5;color:var(--muted)}
+.combo-chips{display:flex;flex-wrap:wrap;gap:6px;max-height:180px;overflow:auto;padding:0 8px}.combo-chips:not(:empty){padding-top:8px;padding-bottom:4px}
+.combo-chip{display:flex;align-items:center;gap:2px;max-width:100%;min-height:40px;padding-left:10px;background:var(--primary-light);color:var(--primary);border:1px solid var(--border-strong);border-radius:10px;font-size:13px}
+.combo-chip>span{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.combo-chip>button{display:grid;place-items:center;flex-shrink:0;width:40px;height:44px;border:0;background:transparent;color:var(--primary);border-radius:10px;cursor:pointer}.combo-chip .icon{width:14px;height:14px}
+.combo-chip button:focus-visible,.combo-toggle:focus-visible{outline:2px solid var(--primary);outline-offset:1px}
+.classwork-search{display:grid;gap:8px;max-width:520px;margin:0 0 22px}.classwork-search label{font-size:13px;font-weight:600;color:var(--foreground)}.classwork-search input{width:100%;min-height:46px;padding:12px 14px;border:1px solid var(--border-strong);border-radius:12px;background:var(--surface);color:var(--foreground);font:inherit;font-size:14px}.classwork-search [role=status]{font-size:12px;color:var(--muted);min-height:0}
+.roster-person{display:grid;gap:5px;min-width:0}.roster-actions{display:flex;align-items:center;flex-wrap:wrap;gap:6px}.class-roster li{align-items:center;flex-wrap:wrap}.roster-actions .btn{font-size:12px;min-height:44px}.archived-class{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px 0;border-bottom:1px solid var(--border)}
+.activity-filters .wewin-combo,.board-controls .wewin-combo{min-width:140px;flex:1}
+@media(hover:hover) and (pointer:fine){.combo-option:not(.is-disabled):hover{background:var(--primary-light)}.combo-chip button:hover,.combo-toggle:hover{background:var(--surface-hover)}}
+@media(max-width:600px){.combo-option{padding:10px;font-size:14px}.combo-code{font-size:12px}.combo-input{font-size:16px!important}.classwork-actions{gap:8px}.roster-actions{width:100%}.combo-popup{border-radius:12px}.combo-chip{font-size:12px}.class-card .classwork-actions .btn{flex:1 1 40%}}
+
+.classwork-dialog{background:var(--surface);color:var(--foreground);border:2px solid var(--border-strong);border-radius:22px;max-height:calc(100dvh - 32px);overflow:auto;padding:28px}.classwork-dialog:not(.class-results-dialog){width:min(640px,calc(100vw - 32px))}
+
+.combo-chip>span{display:grid;gap:2px}.combo-chip small{font-size:12px;line-height:1.3;opacity:.85}

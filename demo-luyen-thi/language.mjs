@@ -1,5 +1,11 @@
 // Only literal interface copy is translated. Interpolated data and test content stay untouched.
 const pairs = [
+ ["Lớp đang hoạt động có tên này đã tồn tại.","An active class with this name already exists."],
+ ["Vui lòng chọn lớp đang hoạt động khác.","Choose another active class."],
+ ["Vui lòng nhập tên lớp.","Enter a class name."],
+ ["Khôi phục lớp trước khi sửa.","Restore this class before editing it."],
+ ["Học viên không còn ở lớp nguồn.","This learner is no longer in the source class."],
+
  ["Vui lòng chọn ngày và giờ nộp bài trong tương lai.","Choose a due date and time in the future."],
  ["Lớp này chưa được phân công cho bạn.","This class is not assigned to you."],
  ["Bạn chưa được xếp vào lớp này.","You are not enrolled in this class."],
