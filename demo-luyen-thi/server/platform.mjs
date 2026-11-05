@@ -61,6 +61,7 @@ export function createPlatformHandler({getRepository=productionRepository,ai=ass
    }
    if(guest&&req.method==='POST'&&resource!=='touch-session'){if(!await repo.touchGuestSession(guestAccess.tokenHash,now(),GUEST_IDLE_MS))throw new ApiError(401,'Your guest session has expired. Sign in again.','GUEST_SESSION_EXPIRED');}
    if(user?.must_change_password)throw new ApiError(403,'Please change your temporary password first.','PASSWORD_CHANGE_REQUIRED');
+   if(resource==='class-management-migrate'&&req.method==='POST'){requireUser(user,['admin']);await repo.migrate();return send(200,{ok:true});}
    if(resource==='leaderboard'&&req.method==='GET'){const exam=getExam(url.searchParams.get('exam'));if(!exam)throw new ApiError(404,'Test not found.');return send(200,{exam:exam.id,entries:await repo.leaderboard(exam)});}
    if(resource==='history'&&req.method==='GET'){
     if(!owner)throw new ApiError(401,'Complete registration or sign in first.');const student=id||owner.id;if(student!==owner.id){requireUser(user,['teacher','admin']);if(!await repo.mayTeach(user,student))throw new ApiError(403,'This student is not in your assigned classes.');}return send(200,{attempts:await repo.history(student,user?.role==='teacher'?user.id:null)});
