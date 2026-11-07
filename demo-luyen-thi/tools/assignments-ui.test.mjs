@@ -1,7 +1,19 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {assignmentState,assignmentReport,renderStudentAssignments,renderClassManagement,assignmentForm} from '../assignments-ui.mjs';
+import {assignmentState,assignmentReport,renderStudentAssignments,renderClassManagement,assignmentForm,assignmentLevel,assignmentExamField} from '../assignments-ui.mjs';
 import {allExams} from '../public-data.mjs';
+
+test('assignment choices start at the class level and include the entire level, including Hard papers',()=>{
+ for(const [name,level,count] of [['PRE STARTERS 9','starters',20],['STARTERS FOUNDATION 01','starters',20],['PRE MOVERS 1','movers',20],['TUTOR PHƯƠNG ANH FLYERS','flyers',20],['KET E6.2','ket',10],['WeWIN Practice','all',70]]){
+  assert.equal(assignmentLevel({name}),level);
+  const form=assignmentForm({cls:{id:'c',name},exams:allExams});assert.match(form,new RegExp(`value="${level}" selected`));
+  const field=assignmentExamField(allExams,level),ids=[...field.matchAll(/<option value="([^"]+)"/g)].map(m=>m[1]);assert.equal(ids.length,count);assert.deepEqual(ids.slice().sort(),allExams.filter(e=>level==='all'||e.levelKey===level).map(e=>e.id).sort());
+  assert.match(field,/<option value="" hidden selected>/,'a teacher must explicitly choose a paper');
+  if(level!=='all')assert.ok(ids.every(id=>id.startsWith(level+'-')));
+  if(['starters','movers','flyers'].includes(level))assert.ok(ids.includes(level+'-25'),'the last Hard paper is selectable');
+ }
+ const editing=assignmentForm({cls:{id:'c',name:'PRE STARTERS 9'},exams:allExams,assignment:{id:'a',title:'Existing homework',due_at:'2026-11-10T03:00:00Z'}});assert.doesNotMatch(editing,/assignment-level|name="examId"/);assert.match(editing,/Existing homework/);
+});
 test('deadline states distinguish a late submission, a zero score and unstarted work',()=>{
  const due='2026-11-03T03:00:00Z',now=Date.parse('2026-11-03T04:00:00Z');
  assert.equal(assignmentState({},due,now),'overdue');assert.equal(assignmentState({},due,now-7200000),'pending');assert.equal(assignmentState({attempt_id:'a'},due,now),'started');
