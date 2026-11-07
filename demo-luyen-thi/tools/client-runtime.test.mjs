@@ -39,7 +39,7 @@ test('client renders overview, library, resumed draft, listening, result, histor
  await click('my-history');assert.equal(document.body.dataset.screen,'history');assert.match(root.innerHTML,/Xem kết quả/);assert.match(root.innerHTML,/0<small>\/100/);
  // Staff rendering is exercised with a stubbed service; real role enforcement is covered by platform.test.mjs.
  assert.ok(calls.includes('submit'));assert.ok(calls.includes('history'));
- await click('staff');await click('staff-section',{value:'activity'});assert.equal(document.body.dataset.screen,'staff');assert.match(root.innerHTML,/Nhật ký bài làm/);assert.match(root.innerHTML,/Xem kết quả/);
+ await click('staff');await click('staff-section',{value:'activity'});assert.equal(document.body.dataset.screen,'staff');assert.match(root.innerHTML,/Nhật ký bài làm/);assert.match(root.innerHTML,/Xem kết quả/);assert.doesNotMatch(root.innerHTML,/ket-material|KET · Tài liệu giáo viên|KET · Teacher materials/);
  const ket=allExams.find(e=>e.id==='ket-01');
  await click('open-test',{exam:ket.id});assert.doesNotMatch(root.innerHTML,/Practice materials|ket\/01\/full-test\.mp3|WeWIN_KET_Mock_01\.pdf|Partner discussion/);assert.match(root.innerHTML,/data-action="start"/);
  stored={id:'ket-fixture',exam_id:ket.id,exam_version:ket.version,answers:{},writing:{'r6-1':'EMAIL FIXTURE','r7-1':'STORY FIXTURE'},created_at:'2026-11-07T01:00:00Z',submitted_at:null};
