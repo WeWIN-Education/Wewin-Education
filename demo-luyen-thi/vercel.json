@@ -10,10 +10,7 @@
   "functions": {
     "api/practice.mjs": {
       "maxDuration": 60,
-      "includeFiles": [
-        "server/schema.sql",
-        "server/materials/ket/**"
-      ]
+      "includeFiles": "server/**"
     }
   }
 }
