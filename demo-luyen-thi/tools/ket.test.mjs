@@ -15,6 +15,7 @@ import manifest from '../media-manifest.mjs';
 test('all ten KET papers contain every part, 55 answer-key-verified objective items and separate writing',async()=>{
  const ket=exams.filter(e=>e.levelKey==='ket');assert.equal(ket.length,10);assert.equal(allExams.length,70);
  for(const e of ket){
+  assert.equal(e.title,'Mock '+e.number);
   assert.equal(e.reading.length,7);assert.equal(e.listening.length,5);assert.equal(e.writingAssessment,'teacher');
   const answers=Object.fromEntries([...e.reading.filter(p=>!p.manual),...e.listening].flatMap(p=>p.questions.map(q=>[q.id,q.answer])));
   const result=grade(e,answers);assert.equal(result.reading.total,30);assert.equal(result.listening.total,25);assert.equal(result.total,100);

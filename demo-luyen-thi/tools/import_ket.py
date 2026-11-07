@@ -56,7 +56,7 @@ for t in data:
     paths[9] = picture(doc[8], f'{num}/page-09', (35, 166, 560, 288))
     paths[10] = picture(doc[9], f'{num}/page-10', (35, 187, 560, 300))
     cover = picture(doc[9], f'{num}/cover', (45, 197, 208, 269))
-    e = dict(id=f'ket-{num}', number=num, title=f'A2 Key for Schools · Mock {num}', level='A2 Key (KET)', levelKey='ket', version='2026-11-07-ket-v1', cover=cover, readingCount=30, listeningCount=25, writingAssessment='teacher', audio=[f'ket/{num}/listening-{i}.mp3' for i in range(1,6)], fullAudio=f'ket/{num}/full-test.mp3', audioVersion='20261107-ket', studentPdf=f'ket/pdf/WeWIN_KET_Mock_{num}.pdf', speakingImages=[paths[18]], reading=[], listening=[])
+    e = dict(id=f'ket-{num}', number=num, title=f'Mock {num}', level='A2 Key (KET)', levelKey='ket', version='2026-11-07-ket-v1', cover=cover, readingCount=30, listeningCount=25, writingAssessment='teacher', audio=[f'ket/{num}/listening-{i}.mp3' for i in range(1,6)], fullAudio=f'ket/{num}/full-test.mp3', audioVersion='20261107-ket', studentPdf=f'ket/pdf/WeWIN_KET_Mock_{num}.pdf', speakingImages=[paths[18]], reading=[], listening=[])
     def part(skill, index, title, instruction, pages, questions, **extra):
         e[skill].append(dict(id=f'{skill[0]}{index}', title=title, instruction=instruction, images=[paths[i] for i in pages], questions=questions, **extra))
     part('reading',1,'Read notices and messages','For each question, choose the correct answer (A, B or C).',[2,3],[choice_question(f'r1-{i}',q['q'],q['choices'],q['answer'],i) for i,q in enumerate(t['reading1'],1)])
