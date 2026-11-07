@@ -163,7 +163,7 @@ document.addEventListener('click',async event=>{const el=event.target.closest('[
  if(action==='refresh-classes')return loadStaff();
  if(action==='staff-section'){staffSection=value;render();return;}
  if(action==='new-class')return openClassModal(newClassForm(staff.users));
- if(action==='assign-teacher')return openClassModal(teacherForm(staff.classes.find(c=>c.id===id),staff.users));
+ if(action==='assign-teacher')return openClassModal(teacherForm(staff.classes.find(c=>c.id===id),staff.users,staff.classStaff||[]));
  if(action==='rename-class')return openClassModal(renameClassForm(staff.classes.find(c=>c.id===id)));
  if(action==='archive-class')return openClassModal(removalConfirmation(staff.classes.find(c=>c.id===id)));
  if(action==='remove-member')return openClassModal(removalConfirmation(staff.classes.find(c=>c.id===el.dataset.class),staff.users.find(u=>u.id===id)));
@@ -229,7 +229,7 @@ document.addEventListener('submit',async event=>{const form=event.target;if(!['l
    const cls=staff.classes.find(c=>c.id===data.classId);if(failed.length){openClassModal(enrollForm(cls,staff));mountStudentPicker(modal,staff,cls.id);setSelectedStudents(failed);modal.querySelector('.form-error').textContent=(getLanguage()==='en'?'Added ':'Đã thêm ')+(ids.length-failed.length)+'/'+ids.length+'. '+(getLanguage()==='en'?'Some learners could not be added. Retry the remaining selection.':'Một số học viên chưa thêm được. Hãy thử lại các học viên còn được chọn.');}
    else openClassModal(`<h2>${getLanguage()==='en'?'Learners added':'Đã thêm học viên'}</h2><p>${getLanguage()==='en'?'Added ':'Đã thêm '}${ids.length} ${getLanguage()==='en'?'learners to ':'học viên vào lớp '}<strong>${esc(cls.name)}</strong>.</p>${button(getLanguage()==='en'?'Add more':'Thêm tiếp','class-enroll','primary',`data-id="${cls.id}"`)}`);return;
   }
-  if(form.id==='class-teacher-form'){await api('class-teacher',{id:form.dataset.class,data:{teacherId:data.teacherId}});modal.close();await loadStaff();return;}
+  if(form.id==='class-teacher-form'){const fields=new FormData(form);await api('class-staff',{id:form.dataset.class,data:{classCode:data.classCode,teacherIds:[data.teacherId,...fields.getAll('coTeacherIds')].filter(Boolean),assistantIds:fields.getAll('assistantIds')}});modal.close();await loadStaff();return;}
   if(form.id==='assignment-form'){const dueAt=new Date(data.dueAt+':00+07:00').toISOString();if(form.dataset.assignment)await api('assignment',{id:form.dataset.assignment,data:{dueAt}});else await api('assignments',{data:{classId:form.dataset.class,examId:data.examId,title:data.title,instructions:data.instructions,dueAt}});modal.close();await loadStaff();return;}
   if(form.id==='create-user-form')await api('users',{data});
   if(form.id==='create-class-form')await api('classes',{data});

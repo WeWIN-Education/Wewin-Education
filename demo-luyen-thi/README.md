@@ -22,6 +22,8 @@ Guests can practise, write and receive objective results. AI Writing and public 
 
 Movers Part 6 uses six practice marks; Flyers Part 7 uses a five-mark formative rubric and a 20-word prompt. OpenAI sees the original task images and submitted writing. Feedback includes completion, grammar/spelling corrections, vocabulary suggestions, an estimated practice mark and a sample. It is generated after submission, cached per attempt, and limited to 10 new reviews per student per UTC day by default. Assigned teachers can adjust feedback with an auditable reason. Failures retain writing and allow bounded retries.
 
+Class staffing supports a lead teacher, multiple co-teachers and teaching assistants. All assigned staff have equal rights to assign tests and view class results; membership is enforced for assignments, attempts, history, activity and writing reviews. Admins edit the whole team using searchable multi-select fields and can record the source class code. The legacy `class-teacher` API remains supported. The additive staffing migration runs once per repository instance, checks readiness first and uses a PostgreSQL advisory lock to serialize first-time setup; existing classes, students, results and lead-teacher assignments remain intact.
+
 ## Accounts and deployment
 
 Vercel Node functions use Neon PostgreSQL. Accounts are provisioned by an administrator, with no public signup. Student, teacher and administrator permissions are checked on server requests. Teachers see assigned classes only. Passwords use salted scrypt; opaque sessions are stored as hashes and delivered in HttpOnly cookies. Administrator-created accounts use the configured default password and do not require a first-login password change.

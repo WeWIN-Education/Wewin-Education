@@ -67,7 +67,7 @@ export function createPlatformHandler({getRepository=productionRepository,ai=ass
    if(resource==='history'&&req.method==='GET'){
     if(!owner)throw new ApiError(401,'Complete registration or sign in first.');const student=id||owner.id;if(student!==owner.id){requireUser(user,['teacher','admin']);if(!await repo.mayTeach(user,student))throw new ApiError(403,'This student is not in your assigned classes.');}return send(200,{attempts:await repo.history(student,user?.role==='teacher'?user.id:null)});
    }
-   const canRead=async attempt=>{if(!attempt)throw new ApiError(404,'Attempt not found.');if(owner?.id===attempt.owner_id||user?.role==='admin')return;if(attempt.assignment_id){const assignment=await repo.assignment(attempt.assignment_id);if(user?.role==='teacher'&&assignment?.teacher_id===user.id)return;throw new ApiError(403,'This assignment belongs to another class.');}if(!user||!['teacher','admin'].includes(user.role)||attempt.owner_kind!=='user'||!await repo.mayTeach(user,attempt.owner_id))throw new ApiError(403,'This attempt belongs to another learner.');};
+   const canRead=async attempt=>{if(!attempt)throw new ApiError(404,'Attempt not found.');if(owner?.id===attempt.owner_id||user?.role==='admin')return;if(attempt.assignment_id){const assignment=await repo.assignment(attempt.assignment_id);if(user?.role==='teacher'&&assignment&&await repo.canTeachClass(user,assignment.class_id))return;throw new ApiError(403,'This assignment belongs to another class.');}if(!user||!['teacher','admin'].includes(user.role)||attempt.owner_kind!=='user'||!await repo.mayTeach(user,attempt.owner_id))throw new ApiError(403,'This attempt belongs to another learner.');};
    if(resource==='attempts'&&req.method==='POST'){
     if(!owner)throw new ApiError(401,'Complete registration or sign in first.');if(user&&user.role!=='student')throw new ApiError(403,'Use a student account to start a ranked attempt.');const exam=getExam(input.examId);if(!exam)throw new ApiError(404,'Test not found.');return send(200,{attempt:await repo.createAttempt(owner,exam)});
    }
@@ -91,6 +91,14 @@ export function createPlatformHandler({getRepository=productionRepository,ai=ass
    if(resource==='class-teacher'&&req.method==='POST'){
     requireUser(user,['admin']);const cls=await repo.classById(id);if(!cls||cls.archived_at)throw new ApiError(404,'Class not found.');const teacher=input.teacherId?await repo.user(input.teacherId):null;if(input.teacherId&&(!teacher||teacher.role!=='teacher'||!teacher.active))throw new ApiError(422,'Choose an active teacher.');return send(200,{class:await repo.assignTeacher(cls.id,teacher?.id)});
    }
+   if(resource==='class-staff'&&req.method==='POST'){
+    requireUser(user,['admin']);const cls=await repo.classById(id);if(!cls||cls.archived_at)throw new ApiError(404,'Class not found.');
+    const {teacherIds,assistantIds}=input;if(!Array.isArray(teacherIds)||!Array.isArray(assistantIds)||teacherIds.length>30||assistantIds.length>30)throw new ApiError(422,'Choose valid class staff.');
+    const ids=[...teacherIds,...assistantIds];if(new Set(ids).size!==ids.length||ids.some(v=>typeof v!=='string'||!/^[-a-f0-9]{36}$/i.test(v)))throw new ApiError(422,'Choose each staff member only once.');
+    for(const staffId of ids){const staff=await repo.user(staffId);if(!staff?.active||staff.role!=='teacher')throw new ApiError(422,'Choose active teacher accounts.');}
+    if('classCode' in input&&typeof input.classCode!=='string')throw new ApiError(422,'Enter a valid class code.');const classCode='classCode' in input?text(input.classCode,30).toUpperCase():undefined;if(classCode&&!/^[A-Z0-9_-]{3,30}$/.test(classCode))throw new ApiError(422,'Enter a valid class code.');
+    return send(200,{class:await repo.assignClassStaff(id,teacherIds,assistantIds,classCode)});
+   }
    if(resource==='class-edit'&&req.method==='POST'){
     requireUser(user,['admin']);const cls=await repo.classById(id);if(!cls)throw new ApiError(404,'Class not found.');const action=input.action;
     if(action==='archive'){if(input.confirm!==true)throw new ApiError(422,'Confirm removing this class.');return send(200,{class:await repo.archiveClass(id,true)});}
@@ -108,10 +116,10 @@ export function createPlatformHandler({getRepository=productionRepository,ai=ass
    }
    if(resource==='assignments'&&req.method==='GET'){requireUser(user,['student','teacher','admin']);return send(200,{assignments:await repo.assignments(user),serverNow:new Date(now()).toISOString()});}
    if(resource==='assignments'&&req.method==='POST'){
-    requireUser(user,['teacher','admin']);const cls=await repo.classById(input.classId);if(!cls||cls.archived_at)throw new ApiError(404,'Class not found.');if(user.role==='teacher'&&cls.teacher_id!==user.id)throw new ApiError(403,'This class is not assigned to you.');const exam=getExam(input.examId);if(!exam)throw new ApiError(422,'Choose an available practice test.');const title=text(input.title,160)||exam.title;const assignment=await repo.createAssignment({classId:cls.id,createdBy:user.id,exam,title,instructions:text(input.instructions,2000),dueAt:deadline(input.dueAt,now())});return send(201,{assignment});
+    requireUser(user,['teacher','admin']);const cls=await repo.classById(input.classId);if(!cls||cls.archived_at)throw new ApiError(404,'Class not found.');if(user.role==='teacher'&&!await repo.canTeachClass(user,cls.id))throw new ApiError(403,'This class is not assigned to you.');const exam=getExam(input.examId);if(!exam)throw new ApiError(422,'Choose an available practice test.');const title=text(input.title,160)||exam.title;const assignment=await repo.createAssignment({classId:cls.id,createdBy:user.id,exam,title,instructions:text(input.instructions,2000),dueAt:deadline(input.dueAt,now())});return send(201,{assignment});
    }
    if(resource==='assignment'&&['GET','POST'].includes(req.method)){
-    requireUser(user,['teacher','admin']);const assignment=await repo.assignment(id);if(!assignment)throw new ApiError(404,'Assignment not found.');if(user.role==='teacher'&&assignment.teacher_id!==user.id)throw new ApiError(403,'This class is not assigned to you.');
+    requireUser(user,['teacher','admin']);const assignment=await repo.assignment(id);if(!assignment)throw new ApiError(404,'Assignment not found.');if(user.role==='teacher'&&!await repo.canTeachClass(user,assignment.class_id))throw new ApiError(403,'This class is not assigned to you.');
     if(req.method==='GET')return send(200,{assignment,students:await repo.assignmentResults(assignment),serverNow:new Date(now()).toISOString()});
     if(assignment.closed_at||assignment.class_archived_at)throw new ApiError(409,'This assignment has been cancelled.');const changes=input.close===true?{closedAt:new Date(now()).toISOString()}:{dueAt:deadline(input.dueAt,now())};return send(200,{assignment:await repo.editAssignment(assignment.id,changes)});
    }
