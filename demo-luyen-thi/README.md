@@ -2,7 +2,9 @@
 
 Production: https://exam.wewin.edu.vn/
 
-60 practice tests: Starters 06–15 and Hard Starters 16–25, Movers 06–15 and Hard Movers 16–25, Flyers 06–15 and Hard Flyers 16–25. The previous Starter set and its practice records were cleared before these replacement tests were added. All 280 individual Part MP3 tracks are available. PDFs, teacher keys and Speaking material are not published.
+70 practice tests: Starters 06–25, Movers 06–25, Flyers 06–25 and KET (A2 Key for Schools) Mock 01–10. All 330 individual Listening Part tracks and 10 KET full-test recordings are available. KET adds 300 objective Reading questions, 250 Listening questions and 20 separately saved Writing tasks. Its email/story tasks require 25/35 words respectively and are reviewed by a teacher, without using the Flyers AI rubric or YLE shield conversion.
+
+KET candidate resources include ten individual question PDFs, the combined 190-page question PDF and Speaking discussion pictures. Teacher answer keys, writing models, listening scripts, examiner guide and editable data are downloadable only through the authenticated teacher/admin materials endpoint in Management. Source answer data and teacher documents are never copied into the public build. The 834 intermediate TTS clips are intentionally excluded; the 60 final supplied recordings are imported and checked for decodability and matching duration. Reimport using `python tools/import_ket.py <pack-directory>`; input SHA-256 hashes are validated before importing, and existing YLE papers are preserved.
 
 ## Learning experience
 
@@ -26,7 +28,7 @@ Vercel Node functions use Neon PostgreSQL. Accounts are provisioned by an admini
 
 Set `DATABASE_URL`, `OPENAI_API_KEY` and `LEAD_GATE_SECRET` as production secrets in Vercel. Optional configuration is in `.env.example`. Never commit real `.env` files. The AI default is `gpt-5.6-terra`, using Responses structured output and `store: false`. Environment changes require redeployment.
 
-Install with `npm ci`; run `npm test` and `npm run build`. Vercel deploys `dist/` and the two functions in `api/`. The build uses a client-file allowlist. Source answer modules, private JSON, server modules, PDFs and secrets are excluded from static output. The API function bundles private scoring data separately.
+Install with `npm ci`; run `npm test` and `npm run build`. Vercel deploys `dist/` and the two functions in `api/`. The build uses a client-file allowlist. Source answer modules, private JSON, server modules, teacher PDFs and secrets are excluded from static output. The API function bundles private scoring data separately.
 
 For a new database run `npm run migrate` with a private `.env.local`, then `tools/bootstrap-admin.mjs` using the environment variables in that script. Do not rerun initial provisioning against an existing installation. Schema migration uses additive, idempotent DDL.
 

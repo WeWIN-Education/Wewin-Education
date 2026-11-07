@@ -11,7 +11,7 @@ for(const name of files)await cp(resolve(root,name),resolve(dist,name));
 await cp(resolve(root,'vocab-data'),resolve(dist,'vocab-data'),{recursive:true});
 await cp(resolve(root,'assets/vocab'),resolve(dist,'assets/vocab'),{recursive:true});
 await cp(resolve(root,'assets/vocab-audio'),resolve(dist,'assets/vocab-audio'),{recursive:true});
-const assets=new Set([...manifest.files,...allExams.flatMap(e=>e.audio),'logo.png','favicon.png','design-20261024/education-pattern.svg']);
+const assets=new Set([...manifest.files,...allExams.flatMap(e=>[...e.audio,...(e.fullAudio?[e.fullAudio]:[]),...(e.studentPdf?[e.studentPdf]:[])]),...(allExams.some(e=>e.levelKey==='ket')?['ket/pdf/WeWIN_KET_All_10_Mock_Tests.pdf']:[]),'logo.png','favicon.png','design-20261024/education-pattern.svg']);
 for(const file of assets){const destination=resolve(dist,'assets',file);await mkdir(resolve(destination,'..'),{recursive:true});await cp(resolve(root,'assets',file),destination);}
 // Embed the tiny decorative pattern so previews do not depend on SVG MIME handling or another request.
 const pattern=await readFile(resolve(root,'assets/design-20261024/education-pattern.svg'));
@@ -20,4 +20,4 @@ await writeFile(resolve(dist,'learning-color.css'),colourCSS.replaceAll('assets/
 const data=await readFile(resolve(dist,'public-data.mjs'),'utf8');
 if(/"(?:answer|accepted|sample|matchKey|password_hash)"\s*:/.test(data))throw new Error('Private content in public catalog');
 await writeFile(resolve(dist,'robots.txt'),'User-agent: *\nDisallow: /api/\n');
-console.log(`Public build ready: ${manifest.files.length} optimized WebP files, ${allExams.reduce((n,e)=>n+e.audio.length,0)} original Part audio files; no original raster atlases, private keys, PDFs or secrets.`);
+console.log(`Public build ready: ${manifest.files.length} optimized WebP files, ${allExams.reduce((n,e)=>n+e.audio.length,0)} Part audio files plus KET full recordings and student PDFs; no private keys, teacher PDFs or secrets.`);

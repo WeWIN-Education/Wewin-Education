@@ -17,7 +17,7 @@ test('library preserves all levels, search, load more and accessible empty state
  const render=opts=>renderLibraryResults({category:'all',query:'',limit:6,action:e=>attemptCTA(e),...opts});
  assert.equal((render({}).match(/<article/g)||[]).length,6);assert.match(render({}),/Xem thêm 6 đề/);assert.equal((render({category:'starters',query:'hard',limit:30}).match(/<article/g)||[]).length,10);assert.match(render({query:'nonexistent'}),/Xóa bộ lọc/);
  const cards=levelCards({exams:allExams,category:'flyers'});assert.equal((cards.match(/aria-pressed="true"/g)||[]).length,1);
- const library=libraryLayout({category:'all',query:'',results:render({})});assert.match(library,/60 đề luyện/);assert.match(library,/id="catalog-search"/);
+ const library=libraryLayout({category:'all',query:'',results:render({})});assert.match(library,/70 đề luyện/);assert.match(library,/id="catalog-search"/);
 });
 test('personal data is escaped and unavailable progress never pretends to be zero',()=>{
  const markup=dashboardOverview({exams:allExams,user:{nickname:'<script>alert(1)</script>'},available:false});assert.ok(!markup.includes('<script>'));assert.match(markup,/&lt;script&gt;/);assert.match(markup,/Chưa tải được/);

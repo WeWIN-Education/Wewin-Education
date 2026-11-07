@@ -1,4 +1,18 @@
 /* Colourful WeWIN surfaces: outlined cards, a quiet illustrated canvas and readable content. */
+.cambridge-level.level-ket {background:var(--cream);border-color:var(--gold)}
+.dot-ket {background:var(--gold)}
+.level-tag-ket {background:var(--cream);color:var(--foreground)}
+.progress-ket {accent-color:var(--gold)}
+.ket-resources {margin-top:24px;padding-top:18px;border-top:1px solid var(--border)}
+.ket-resources h2 {font-size:17px;margin-bottom:12px}
+.ket-resource-links {display:flex;flex-wrap:wrap;gap:10px;margin:12px 0}
+.ket-resource-links .btn {white-space:normal;text-align:left}
+.ket-resources details {margin-top:12px;padding:12px 0;border-top:1px solid var(--border)}
+.ket-resources summary {font-weight:600;cursor:pointer;color:var(--blue-ink)}
+.ket-resources audio {display:block;width:100%;margin-top:14px}
+.ket-resources img {max-width:100%;height:auto;margin-top:12px}
+@media(min-width:1101px){.catalog-v3>.level-selection .level-grid{grid-template-columns:repeat(4,minmax(0,1fr))}.catalog-v3>.level-selection .level-card-copy{padding:20px 16px;max-width:75%}.catalog-v3>.level-selection .level-card-copy h3{font-size:22px}}
+@media(min-width:651px) and (max-width:1100px){.catalog-v3>.level-selection .level-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 :root {
   --canvas-blue: #edf4ff;
   --canvas-mint: #e7f5ef;

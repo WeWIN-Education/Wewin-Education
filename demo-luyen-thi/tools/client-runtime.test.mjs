@@ -40,4 +40,11 @@ test('client renders overview, library, resumed draft, listening, result, histor
  // Staff rendering is exercised with a stubbed service; real role enforcement is covered by platform.test.mjs.
  assert.ok(calls.includes('submit'));assert.ok(calls.includes('history'));
  await click('staff');await click('staff-section',{value:'activity'});assert.equal(document.body.dataset.screen,'staff');assert.match(root.innerHTML,/Nhật ký bài làm/);assert.match(root.innerHTML,/Xem kết quả/);
+ const ket=allExams.find(e=>e.id==='ket-01');
+ await click('open-test',{exam:ket.id});assert.match(root.innerHTML,/ket\/01\/full-test\.mp3/);assert.match(root.innerHTML,/WeWIN_KET_Mock_01\.pdf/);assert.match(root.innerHTML,/Speaking/);
+ stored={id:'ket-fixture',exam_id:ket.id,exam_version:ket.version,answers:{},writing:{'r6-1':'EMAIL FIXTURE','r7-1':'STORY FIXTURE'},created_at:'2026-11-07T01:00:00Z',submitted_at:null};
+ await click('load-attempt',{id:stored.id});await click('part',{value:'5'});assert.match(root.innerHTML,/Write 25 or more words/);assert.match(root.innerHTML,/EMAIL FIXTURE/);
+ await click('part',{value:'6'});assert.match(root.innerHTML,/Write 35 or more words/);assert.match(root.innerHTML,/STORY FIXTURE/);
+ await click('skill',{value:'listening'});assert.match(audio.src,/ket\/01\/listening-1\.mp3/);
+ await click('confirm-submit');assert.match(root.innerHTML,/EMAIL FIXTURE/);assert.match(root.innerHTML,/STORY FIXTURE/);assert.doesNotMatch(root.innerHTML,/shield-strip/);assert.ok(!calls.includes('writing'));
 });

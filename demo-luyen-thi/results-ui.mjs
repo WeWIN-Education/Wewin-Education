@@ -5,14 +5,17 @@ const shield = filled => ui`<svg class="shield-symbol${filled ? ' filled' : ''}"
 export function shieldStrip(count) {
   return ui`<span class="shield-strip" role="img" aria-label="${count} out of 5 shields">${Array.from({length:5}, (_, i) => shield(i < count)).join('')}</span>`;
 }
-export function renderScoreCards(result) {
+export function renderScoreCards(result, levelKey) {
+  if(levelKey==='ket')return ui`<div class="score-grid"><section class="score-card total"><div class="score-label">Reading &amp; Listening practice score</div><div class="score-number">${result.total}<span> / 100</span></div><p>Reading 50% · Listening 50%</p></section>${['reading','listening'].map(skill=>ui`<section class="score-card"><div class="score-label">${skill==='reading'?'Reading':'Listening'}</div><div class="score-number">${result[skill].correct}<span> / ${result[skill].total}</span></div><p>Correct answers · ${result[skill].score} / 50 points</p></section>`).join('')}</div>`;
+
   const counts = ['reading', 'listening'].map(skill => shieldsFor(skill, result[skill].correct, result[skill].total));
   return ui`<div class="score-grid"><section class="score-card total"><div class="score-label">Total score</div><div class="score-number">${result.total}<span> / 100</span></div><div class="shield-total">${shield(true)} ${counts[0] + counts[1]}<span> / 10 shields</span></div><p>Reading &amp; Writing 50% · Listening 50%</p></section>${['reading','listening'].map((skill,i) => ui`<section class="score-card"><div class="score-label">${skill === 'reading' ? t('Reading &amp; Writing') : t('Listening')}</div><div class="shield-card-count">${counts[i]}<span> / 5 shields</span></div>${shieldStrip(counts[i])}<p class="shield-raw-score">${result[skill].correct}/${result[skill].total} correct answers</p><p>${result[skill].score} / 50 points</p></section>`).join('')}</div>`;
 }
-export function renderLeaderboard(entries) {
+export function renderLeaderboard(entries, levelKey) {
   if (entries === null) return ui`<p class="empty-copy">Leaderboard is unavailable. Please try again later.</p>`;
   if (!entries.length) return ui`<p class="empty-copy">No ranked attempts for this test yet.</p>`;
   return ui`<ol class="shield-leaderboard" aria-label="${t("Student leaderboard")}">${entries.map(row => {
+    if(levelKey==='ket'){const initials=String(row.nickname||'').trim().split(/\s+/).map(w=>Array.from(w)[0]).slice(-2).join('').toUpperCase();return ui`<li class="shield-board-row"><span class="board-rank">${Number(row.rank)}</span><span class="board-avatar">${esc(initials)}</span><strong class="board-name">${esc(row.nickname)}</strong><div class="board-skill"><span>Reading</span><strong>${Number(row.reading_correct)} / ${Number(row.reading_total)}</strong></div><div class="board-skill"><span>Listening</span><strong>${Number(row.listening_correct)} / ${Number(row.listening_total)}</strong></div><div class="board-points"><strong>${Number(row.total_score)}<small> / 100</small></strong></div></li>`;}
     const reading = shieldsFor('reading', Number(row.reading_correct), Number(row.reading_total));
     const listening = shieldsFor('listening', Number(row.listening_correct), Number(row.listening_total));
     const initials = Array.from(String(row.nickname || '').trim().split(/\s+/).map(word => Array.from(word)[0]).slice(-2).join('')).join('').toLocaleUpperCase();

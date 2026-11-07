@@ -149,8 +149,11 @@ for level,source in [('starters',starters),('movers',movers),('flyers',flyers)]:
                 pub[skill].append(part)
         pub['readingCount']=sum(len(p['questions']) for p in e['reading'] if not p.get('manual'));pub['listeningCount']=sum(len(p['questions']) for p in e['listening'])
         public.append(pub);private.append(e)
+if (SITE/'ket.mjs').exists():
+    private.extend(module('ket.mjs'))
+    public.extend(e for e in json.loads((OUT/'exams-public.json').read_text(encoding='utf-8')) if e.get('levelKey')=='ket')
 (OUT/'exams-private.json').write_text(json.dumps(private,ensure_ascii=False),encoding='utf-8')
 (OUT/'exams-public.json').write_text(json.dumps(public,ensure_ascii=False),encoding='utf-8')
 (OUT/'artwork.json').write_text(json.dumps(artwork,ensure_ascii=False),encoding='utf-8')
-(SITE/'public-data.mjs').write_text('export const allExams = '+json.dumps(public,ensure_ascii=False)+';\nexport const artwork = '+json.dumps(artwork,ensure_ascii=False)+';\nexport const exams=allExams.filter(e=>e.levelKey===\'starters\');export const movers=allExams.filter(e=>e.levelKey===\'movers\');export const flyers=allExams.filter(e=>e.levelKey===\'flyers\');\n',encoding='utf-8')
+(SITE/'public-data.mjs').write_text('export const allExams = '+json.dumps(public,ensure_ascii=False)+';\nexport const artwork = '+json.dumps(artwork,ensure_ascii=False)+';\nexport const exams=allExams.filter(e=>e.levelKey===\'starters\');export const movers=allExams.filter(e=>e.levelKey===\'movers\');export const flyers=allExams.filter(e=>e.levelKey===\'flyers\');export const ket=allExams.filter(e=>e.levelKey===\'ket\');\n',encoding='utf-8')
 print(f'Prepared {len(public)} versioned tests with public interactions and private scoring keys.')

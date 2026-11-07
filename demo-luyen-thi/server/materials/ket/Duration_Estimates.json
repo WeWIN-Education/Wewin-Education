@@ -1,0 +1,72 @@
+[
+  {
+    "test": 1,
+    "words": 2127,
+    "target_wpm": 135,
+    "estimated_minutes": 30.9,
+    "includes_transfer_minutes": 6
+  },
+  {
+    "test": 2,
+    "words": 2130,
+    "target_wpm": 135,
+    "estimated_minutes": 30.9,
+    "includes_transfer_minutes": 6
+  },
+  {
+    "test": 3,
+    "words": 2105,
+    "target_wpm": 135,
+    "estimated_minutes": 30.7,
+    "includes_transfer_minutes": 6
+  },
+  {
+    "test": 4,
+    "words": 2100,
+    "target_wpm": 135,
+    "estimated_minutes": 30.7,
+    "includes_transfer_minutes": 6
+  },
+  {
+    "test": 5,
+    "words": 2102,
+    "target_wpm": 135,
+    "estimated_minutes": 30.7,
+    "includes_transfer_minutes": 6
+  },
+  {
+    "test": 6,
+    "words": 2132,
+    "target_wpm": 135,
+    "estimated_minutes": 30.9,
+    "includes_transfer_minutes": 6
+  },
+  {
+    "test": 7,
+    "words": 2173,
+    "target_wpm": 135,
+    "estimated_minutes": 31.2,
+    "includes_transfer_minutes": 6
+  },
+  {
+    "test": 8,
+    "words": 2124,
+    "target_wpm": 135,
+    "estimated_minutes": 30.9,
+    "includes_transfer_minutes": 6
+  },
+  {
+    "test": 9,
+    "words": 2102,
+    "target_wpm": 135,
+    "estimated_minutes": 30.7,
+    "includes_transfer_minutes": 6
+  },
+  {
+    "test": 10,
+    "words": 2150,
+    "target_wpm": 135,
+    "estimated_minutes": 31.1,
+    "includes_transfer_minutes": 6
+  }
+]

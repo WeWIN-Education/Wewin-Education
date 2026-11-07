@@ -1,3 +1,4 @@
+import {readKetMaterial} from './ket-materials.mjs';
 import {createHash,randomBytes,randomUUID} from 'node:crypto';
 import {passwordHash as encodePassword,passwordMatches} from './passwords.mjs';
 import {productionRepository} from './repository.mjs';
@@ -61,6 +62,7 @@ export function createPlatformHandler({getRepository=productionRepository,ai=ass
    }
    if(guest&&req.method==='POST'&&resource!=='touch-session'){if(!await repo.touchGuestSession(guestAccess.tokenHash,now(),GUEST_IDLE_MS))throw new ApiError(401,'Your guest session has expired. Sign in again.','GUEST_SESSION_EXPIRED');}
    if(user?.must_change_password)throw new ApiError(403,'Please change your temporary password first.','PASSWORD_CHANGE_REQUIRED');
+   if(resource==='ket-material'&&req.method==='GET'){requireUser(user,['teacher','admin']);const file=await readKetMaterial(id);if(!file)throw new ApiError(404,'Material not found.');res.statusCode=200;res.setHeader('Content-Type',file.type);res.setHeader('Content-Disposition','attachment; filename="'+file.filename+'"');res.setHeader('Cache-Control','private, no-store');res.setHeader('X-Content-Type-Options','nosniff');return res.end(file.bytes);}
    if(resource==='leaderboard'&&req.method==='GET'){const exam=getExam(url.searchParams.get('exam'));if(!exam)throw new ApiError(404,'Test not found.');return send(200,{exam:exam.id,entries:await repo.leaderboard(exam)});}
    if(resource==='history'&&req.method==='GET'){
     if(!owner)throw new ApiError(401,'Complete registration or sign in first.');const student=id||owner.id;if(student!==owner.id){requireUser(user,['teacher','admin']);if(!await repo.mayTeach(user,student))throw new ApiError(403,'This student is not in your assigned classes.');}return send(200,{attempts:await repo.history(student,user?.role==='teacher'?user.id:null)});
@@ -77,7 +79,7 @@ export function createPlatformHandler({getRepository=productionRepository,ai=ass
     const result=grade(exam,submission.answers);const submitted=await repo.submit(attempt,owner,submission.answers,submission.writing,result,user?.role==='student');return send(200,{attempt:submitted});
    }
    if(resource==='writing'&&req.method==='POST'){
-    requireUser(user,['student']);const attempt=await repo.attempt(id);if(attempt?.owner_id!==user.id||!attempt.submitted_at)throw new ApiError(403,'Submit your own attempt before requesting writing feedback.');const exam=getExam(attempt.exam_id);if(!writingPart(exam))throw new ApiError(422,'This test has no open writing task.');
+    requireUser(user,['student']);const attempt=await repo.attempt(id);if(attempt?.owner_id!==user.id||!attempt.submitted_at)throw new ApiError(403,'Submit your own attempt before requesting writing feedback.');const exam=getExam(attempt.exam_id);if(exam.writingAssessment==='teacher')throw new ApiError(422,'KET writing is saved for teacher assessment.');if(!writingPart(exam))throw new ApiError(422,'This test has no open writing task.');
     if(!process.env.OPENAI_API_KEY&&ai===assessWriting)throw new ApiError(503,'AI Writing is not configured. Your writing is saved.');
     let review=await repo.reviewForAttempt(id);
     if(review?.status==='completed')return send(200,{review});

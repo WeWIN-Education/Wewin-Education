@@ -4,6 +4,16 @@
   "buildCommand": "npm run build",
   "installCommand": "npm ci --no-audit --no-fund",
   "outputDirectory": "dist",
-  "regions": ["sin1"],
-  "functions": {"api/practice.mjs": {"maxDuration": 60, "includeFiles": "server/schema.sql"}}
+  "regions": [
+    "sin1"
+  ],
+  "functions": {
+    "api/practice.mjs": {
+      "maxDuration": 60,
+      "includeFiles": [
+        "server/schema.sql",
+        "server/materials/ket/**"
+      ]
+    }
+  }
 }

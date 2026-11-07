@@ -136,8 +136,8 @@ const pairs = [
   "Every attempt is a chance to grow in confidence."
  ],
  [
-  "Ba cấp độ, một hành trình",
-  "Three levels, one journey"
+  "Bốn cấp độ, một hành trình",
+  "Four levels, one journey"
  ],
  [
   "Chọn cấp độ của bạn",
@@ -372,8 +372,8 @@ const pairs = [
   "Ready for a challenge?<br><em>Let's begin with Win.</em>"
  ],
  [
-  "Luyện Reading & Listening cùng Starters, Movers và Flyers. Chọn cấp độ, bắt đầu theo nhịp của bạn.",
-  "Practise Reading & Listening with Starters, Movers and Flyers. Choose a level and learn at your own pace."
+  "Luyện Reading & Listening cùng Starters, Movers, Flyers và KET. Chọn cấp độ, bắt đầu theo nhịp của bạn.",
+  "Practise Reading & Listening with Starters, Movers, Flyers and KET. Choose a level and learn at your own pace."
  ],
  [
   "Tiếp tục bài đang làm ",
@@ -1270,7 +1270,12 @@ const pairs = [
  [
   "Phiên khách đã hết hạn. Vui lòng đăng nhập lại.",
   "Your guest session has expired. Sign in again."
- ]
+ ],
+["Tài liệu luyện tập", "Practice materials"],
+["Toàn bộ 10 đề PDF", "All 10 question papers"],
+["Bản nghe đầy đủ", "Full Listening recording"],
+["Speaking · Thảo luận theo cặp", "Speaking · Partner discussion"],
+["Luyện A2 Key for Schools.", "Practise A2 Key for Schools."]
 ];
 const lookup=new Map();
 for(const [vi,en] of pairs){lookup.set(vi,{vi,en});lookup.set(en,{vi,en});}
