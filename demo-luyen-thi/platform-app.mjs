@@ -2,6 +2,7 @@ import {enhanceSelects,enhanceListSearch,mountStudentPicker,selectedStudents,set
 import {displayCode,matchesSearch} from './search.mjs';
 import {renderClassManagement,renderStudentAssignments,teacherForm,newClassForm,enrollForm,assignmentForm,assignmentExamField,assignmentReport,classDate,renameClassForm,moveStudentForm,removalConfirmation} from './assignments-ui.mjs';
 import {createVocabUI} from './vocab.mjs';
+import {createStorylandUI} from './storyland.mjs';
 import {createGuestSessionGuard} from './guest-session.mjs';
 import {t,ui,getLanguage,onLanguageChange,setLanguage} from './language.mjs';
 import {renderScoreCards,renderLeaderboard} from './results-ui.mjs';
@@ -20,6 +21,7 @@ const initial=new URLSearchParams(location.search);
 const vocab=createVocabUI({redraw:()=>{if(screen==='vocab')render();}});
 let session={user:null,registered:false,databaseReady:false},exam=allExams.find(e=>e.id===initial.get('test'))||allExams[0];
 let screen=initial.get('screen')||'dashboard',skill=initial.get('skill')==='listening'?'listening':'reading',partIndex=Math.max(0,Number(initial.get('part'))||0);
+const storyland=createStorylandUI({initialStoryId:initial.get('story')||'',redraw:()=>{if(screen==='storyland')render();}});
 let attempt=null,answers={},writing={},selectedName='',tool='colour',color='blue',wordArea='',undo=[],audioSource='',draftTimer=null,pendingDraft=null,category='all',query='',limit=6,boardLevel='starters',boardExam='starters-01',boardEntries=[],history=[],staff=null,staffStudent='',staffAttempts=[],selectedStaffAttempt=null,review=null,errorMessage='',busy=false,saveMessage=t('Saved on this device'),gatePromise,reviewTimer=null;
 let historyAvailable=true,catalogSearchTimer=null;
 let classAssignments=[],assignmentsAvailable=true,staffSection='classes';
@@ -36,18 +38,18 @@ const image=(src,alt='',cls='')=>mediaImage(src,alt,{className:cls});
 const button=(label,action,cls='',extra='')=>ui`<button class="btn ${cls}" data-action="${action}" ${extra}>${t(label)}</button>`;
 const announce=message=>{byId('announcer').textContent=message;};
 function notify(error){errorMessage=t(error.message||String(error));const target=byId('screen-error');if(target){target.textContent=errorMessage;target.hidden=false;}announce(errorMessage);}
-const footer=()=>ui`<footer class="site-footer"><span>© 2026 WeWIN Education</span><span>${['exam','intro','result','board'].includes(screen)?t('WeWIN practice material · Not an official Cambridge exam'):t('Tài liệu luyện tập WeWIN · Không phải đề thi chính thức Cambridge')}</span></footer>`;
+const footer=()=>ui`<footer class="site-footer"><span>© 2026 WeWIN Education</span><span>${screen==='storyland'?t('WEWIN STORYLAND · Truyện song ngữ Anh–Việt'):['exam','intro','result','board'].includes(screen)?t('WeWIN practice material · Not an official Cambridge exam'):t('Tài liệu luyện tập WeWIN · Không phải đề thi chính thức Cambridge')}</span></footer>`;
 function catalogAction(e){return attemptCTA(e,history);}
 function catalogResults(){return renderLibraryResults({category,query,limit,action:catalogAction,attempts:history});}
 function render(){
  const focused=document.documentElement.dataset.input==='keyboard'&&root.contains(document.activeElement)?document.activeElement:null;
  const focusData=focused?.dataset&&(focused.dataset.action||focused.dataset.vocab)?{...focused.dataset}:null,focusId=focused?.id;
  document.body.dataset.screen=screen;document.documentElement.lang=getLanguage();
- const params=new URLSearchParams({screen});if(['intro','exam','result'].includes(screen)){params.set('test',exam.id);params.set('skill',skill);params.set('part',partIndex);if(attempt?.id)params.set('attempt',attempt.id);}if(screen==='vocab')vocab.params(params);window.history.replaceState(null,'','?'+params);
+ const params=new URLSearchParams({screen});if(['intro','exam','result'].includes(screen)){params.set('test',exam.id);params.set('skill',skill);params.set('part',partIndex);if(attempt?.id)params.set('attempt',attempt.id);}if(screen==='vocab')vocab.params(params);if(screen==='storyland')storyland.params(params);window.history.replaceState(null,'','?'+params);
  const error=ui`<p id="screen-error" class="screen-error" role="alert" ${errorMessage?'':'hidden'}>${esc(errorMessage)}</p>`;
- const content=screen==='catalog'?error+libraryLayout({category,query,results:catalogResults(),attempts:history,user:session.user,available:historyAvailable}):ui`<div class="platform-shell">${error}${screen==='vocab'?vocab.render():screen==='assignments'?renderStudentAssignments({rows:classAssignments,exams:allExams,available:assignmentsAvailable}):screen==='intro'?introView():screen==='exam'?examView():screen==='result'?resultView():screen==='staff'?staffView():screen==='login'?loginView():dashboardView()}</div>`;
+ const content=screen==='catalog'?error+libraryLayout({category,query,results:catalogResults(),attempts:history,user:session.user,available:historyAvailable}):ui`<div class="platform-shell">${error}${screen==='vocab'?vocab.render():screen==='storyland'?storyland.render():screen==='assignments'?renderStudentAssignments({rows:classAssignments,exams:allExams,available:assignmentsAvailable}):screen==='intro'?introView():screen==='exam'?examView():screen==='result'?resultView():screen==='staff'?staffView():screen==='login'?loginView():dashboardView()}</div>`;
  root.innerHTML=renderShell({screen,category,session,exams:allExams,attempts:history,available:historyAvailable,content,footer:footer()});
- enhanceSelects(root);enhanceListSearch(root);
+ enhanceSelects(root);enhanceListSearch(root);if(screen==='storyland')storyland.mount(root);
  if(focusId){const control=byId(focusId);if(control?.classList?.contains('combo-input'))control.dataset.restoreFocus='true';control?.focus({preventScroll:true});}
  if(focusData)[...root.querySelectorAll('[data-action],[data-vocab]')].find(el=>Object.entries(focusData).every(([key,value])=>el.dataset[key]===value))?.focus({preventScroll:true});
  syncAudio();if(screen==='exam'&&currentPart().interaction)bindPictureInteractions(root,{part:currentPart(),selectName,connect,region:selectRegion});
@@ -73,7 +75,7 @@ function expireGuest(reason){
  if(session.user)return;
  persist();guestGuard.stop();clearTimeout(draftTimer);clearTimeout(reviewTimer);audio.pause();
  session={...session,user:null,registered:false,guest:null,accessType:'none',guestStatus:reason};history=[];
- if(modal.open)modal.close();if(screen==='vocab'){errorMessage='';render();return;}screen='login';
+ if(modal.open)modal.close();if(['vocab','storyland'].includes(screen)){errorMessage='';render();return;}screen='login';
  errorMessage=t(reason==='expired'?'Your 24-hour guest access has expired. Please register again.':'Your guest session has expired. Sign in with your registered phone number.');
  render();
 }
@@ -81,7 +83,7 @@ window.addEventListener('wewin-guest-expired',event=>expireGuest(event.detail?.r
 for(const event of ['pointerdown','pointermove','keydown','input','wheel'])document.addEventListener(event,()=>guestGuard.noteActivity(),{passive:true});
 window.addEventListener('focus',()=>guestGuard.check());
 document.addEventListener('visibilitychange',()=>{if(!document.hidden)guestGuard.check();});
-function navigate(next){clearTimeout(reviewTimer);if(next!=='vocab')vocab.stop();errorMessage='';screen=next;render();if(!session.registered&&!['vocab','login'].includes(next))openGuestRegistration();window.scrollTo({top:0,behavior:'instant'});if(document.documentElement.dataset.input==='keyboard')byId('main-content')?.focus({preventScroll:true});}
+function navigate(next){clearTimeout(reviewTimer);if(next!=='vocab')vocab.stop();if(next!=='storyland')storyland.stop();errorMessage='';screen=next;render();if(!session.registered&&!['vocab','storyland','login'].includes(next))openGuestRegistration();window.scrollTo({top:0,behavior:'instant'});if(document.documentElement.dataset.input==='keyboard')byId('main-content')?.focus({preventScroll:true});}
 async function refreshAssignments(){if(!session.user){classAssignments=[];assignmentsAvailable=true;return;}try{classAssignments=(await api('assignments')).assignments;assignmentsAvailable=true;}catch{assignmentsAvailable=false;}}
 async function refreshHistory(){if(!session.registered||session.user&&session.user.role!=='student'){history=[];historyAvailable=true;return;}try{history=(await api('history')).attempts;historyAvailable=true;}catch{historyAvailable=false;}await refreshAssignments();}
 function introView(){const count=exam.reading.filter(p=>p.manual).length;return ui`<div class="intro-grid"><section class="intro-picture">${image(exam.cover,exam.title)}</section><section class="intro-copy"><div class="eyebrow">${examLabel(exam)}</div><h1>${esc(exam.title)}</h1><p>Practise Reading & Listening with pictures and audio.</p><div class="intro-stats"><div class="intro-stat">${icon('book')}<strong>Reading</strong><small>${exam.readingCount} automatically marked questions</small></div><div class="intro-stat">${icon('headphones')}<strong>Listening</strong><small>${exam.listeningCount} questions</small></div></div><div class="instructions"><p>You can pause and listen again.</p><p>${exam.levelKey==='ket'?'Reading & Writing: 60 minutes · Listening: approximately 30 minutes.':'Answer the questions, draw lines and colour in the picture.'}</p><p>Your first submitted attempt is used for the student leaderboard.</p>${count?ui`<p>Open writing is assessed separately. ${exam.writingAssessment==='teacher'?'Your two writing tasks are saved for teacher assessment.':session.user?.role==='student'?'AI feedback is available after you submit.':'Please contact WeWIN to access AI Writing assessment.'}</p>`:''}</div>${button(busy?t('Opening your attempt…'):t('Start practice'),'start','primary full',busy?'disabled':'')}<p class="small muted">${exam.levelKey==='ket'?'See your Reading & Listening practice score after submitting.':'See your score and shields after submitting your practice.'}</p></section></div>`;}
@@ -150,13 +152,15 @@ function syncAudio(){if(screen!=='exam'||skill!=='listening'){audio.pause();retu
 async function play(){try{await audio.play();if(byId('audio-error'))byId('audio-error').hidden=true;}catch{showAudioError();}}
 function showAudioError(){if(byId('audio-error')){byId('audio-error').hidden=false;byId('audio-error').textContent='Unable to play this recording. Check your connection and try again.';}}
 for(const event of ['loadedmetadata','durationchange','play','pause','timeupdate','ended'])audio.addEventListener(event,audioUI);audio.addEventListener('error',showAudioError);
-document.addEventListener('input',event=>{const el=event.target;if(el.id==='catalog-search'){query=el.value;limit=6;clearTimeout(catalogSearchTimer);catalogSearchTimer=setTimeout(()=>{const target=byId('catalog-results');if(el.isConnected&&target)target.innerHTML=catalogResults();},250);return;}if(el.dataset.question){answers[el.dataset.question]=el.value;scheduleSave();}if(el.dataset.writing){writing[el.dataset.writing]=el.value;const count=byId('words-'+el.dataset.writing);if(count)count.textContent=wordCount(el.value)+' words · Write '+(count.dataset.minWords||20)+' or more words';scheduleSave();}if(el.id==='audio-seek'&&Number.isFinite(audio.duration))audio.currentTime=Number(el.value);
+document.addEventListener('input',event=>{const el=event.target;if(storyland.handleInput(event))return;if(el.id==='catalog-search'){query=el.value;limit=6;clearTimeout(catalogSearchTimer);catalogSearchTimer=setTimeout(()=>{const target=byId('catalog-results');if(el.isConnected&&target)target.innerHTML=catalogResults();},250);return;}if(el.dataset.question){answers[el.dataset.question]=el.value;scheduleSave();}if(el.dataset.writing){writing[el.dataset.writing]=el.value;const count=byId('words-'+el.dataset.writing);if(count)count.textContent=wordCount(el.value)+' words · Write '+(count.dataset.minWords||20)+' or more words';scheduleSave();}if(el.id==='audio-seek'&&Number.isFinite(audio.duration))audio.currentTime=Number(el.value);
  if(el.dataset.wordRegion){const p=currentPart(),areas=answers[p.id]||{},id=el.dataset.wordRegion;const count=Object.values(areas).filter(v=>v.word).length;if(!areas[id]?.word&&el.value.trim()&&count>=p.interaction.writeCount){el.value='';announce('Erase an existing word before writing in a new place.');return;}if(!el.dataset.snapshot){pictureSnapshot();el.dataset.snapshot='true';}answers[p.id]={...areas,[id]:{...areas[id],word:el.value}};scheduleSave();root.querySelectorAll(ui`[data-region="${id}"] .picture-word`).forEach(node=>node.textContent=el.value);}
 });
-document.addEventListener('change',async event=>{if(event.target.id==='assignment-level'){const field=modal.querySelector('#assignment-exam-field');if(field){field.outerHTML=assignmentExamField(allExams,event.target.value);enhanceSelects(modal);}return;}if(event.target.id==='activity-status'||event.target.id==='activity-student'){activityStatus=byId('activity-status').value;activityStudent=byId('activity-student').value;activityOffset=0;byId('activity-results').textContent=t('Đang tải nhật ký…');if(await loadActivity()){const target=byId('activity-results');if(target)target.innerHTML=activityResults();}}if(event.target.id==='board-level'){boardLevel=event.target.value;boardExam=allExams.find(e=>e.levelKey===boardLevel).id;render();loadBoard();}if(event.target.id==='board-exam'){boardExam=event.target.value;loadBoard();}});
+document.addEventListener('change',async event=>{if(storyland.handleChange(event))return;if(event.target.id==='assignment-level'){const field=modal.querySelector('#assignment-exam-field');if(field){field.outerHTML=assignmentExamField(allExams,event.target.value);enhanceSelects(modal);}return;}if(event.target.id==='activity-status'||event.target.id==='activity-student'){activityStatus=byId('activity-status').value;activityStudent=byId('activity-student').value;activityOffset=0;byId('activity-results').textContent=t('Đang tải nhật ký…');if(await loadActivity()){const target=byId('activity-results');if(target)target.innerHTML=activityResults();}}if(event.target.id==='board-level'){boardLevel=event.target.value;boardExam=allExams.find(e=>e.levelKey===boardLevel).id;render();loadBoard();}if(event.target.id==='board-exam'){boardExam=event.target.value;loadBoard();}});
 document.addEventListener('click',async event=>{const el=event.target.closest('[data-action]');if(!el||el.disabled)return;const {action,value,id}=el.dataset;event.preventDefault();try{
  if(action==='ui-language'){setLanguage(getLanguage()==='vi'?'en':'vi');return;}
  if(action==='vocab'){window.history.pushState(null,'',location.href);await vocab.open();navigate('vocab');return;}
+ if(action==='storyland'){window.history.pushState(null,'',location.href);navigate('storyland');return;}
+ if(action.startsWith('storyland-')){await storyland.handleAction(action,el.dataset);return;}
  if(action==='my-assignments'){await refreshAssignments();navigate('assignments');return;}
  if(action==='refresh-assignments'){el.disabled=true;await refreshAssignments();render();return;}
  if(action==='refresh-classes')return loadStaff();
@@ -182,7 +186,7 @@ document.addEventListener('click',async event=>{const el=event.target.closest('[
  if(['refresh-activity','activity-previous','activity-next'].includes(action)){el.disabled=true;if(action==='activity-previous')activityOffset=Math.max(0,activityOffset-50);if(action==='activity-next')activityOffset+=50;if(await loadActivity()){const target=byId('activity-results');if(target)target.innerHTML=activityResults();}el.disabled=false;return;}
  if(action==='guest-register'){openGuestRegistration();return;}
  if(action==='login')return showLogin();
- if(action==='logout'){guestGuard.stop();await api('logout',{data:{}});session=await api('session');attempt=null;answers={};writing={};history=[];classAssignments=[];staff=null;selectedStaffAttempt=null;review=null;boardEntries=[];navigate(screen==='vocab'?'vocab':'catalog');return;}
+ if(action==='logout'){guestGuard.stop();await api('logout',{data:{}});session=await api('session');attempt=null;answers={};writing={};history=[];classAssignments=[];staff=null;selectedStaffAttempt=null;review=null;boardEntries=[];navigate(['vocab','storyland'].includes(screen)?screen:'catalog');return;}
  if(action==='close-modal'){modal.close();return;}
  if(action==='open-test'){exam=allExams.find(e=>e.id===el.dataset.exam)||exam;attempt=null;partIndex=0;skill='reading';navigate('intro');return;}
  if(action==='category'||action==='level-card'){category=value;limit=6;render();if(action==='level-card')byId('catalog').scrollIntoView({block:'start'});return;}
@@ -240,18 +244,18 @@ document.addEventListener('submit',async event=>{const form=event.target;if(!['l
 });
 window.addEventListener('wewin-signin',showLogin);
 window.addEventListener('wewin-vocab',async()=>{window.history.pushState(null,'',location.href);await vocab.open();navigate('vocab');});
-window.addEventListener('popstate',async()=>{const p=new URLSearchParams(location.search);if(p.get('screen')==='vocab'){screen='vocab';await vocab.open(p.get('game'),p.get('unit'));render();}else window.location.reload();});
+window.addEventListener('popstate',async()=>{const p=new URLSearchParams(location.search);if(p.get('screen')==='vocab'){screen='vocab';await vocab.open(p.get('game'),p.get('unit'));render();}else if(p.get('screen')==='storyland'){screen='storyland';storyland.setInitialStory(p.get('story')||'');render();}else window.location.reload();});
 modal.addEventListener('cancel',event=>{if(session.user?.mustChangePassword)event.preventDefault();});
-try{session=await api('session');}catch(e){session={user:null,registered:false,databaseReady:false};if(screen!=='vocab')errorMessage=t('Results storage is temporarily unavailable. Please try again shortly.');}
-if(screen!=='vocab'&&(session.user?.role==='teacher'||session.user?.role==='admin')){staff=await api('staff').catch(()=>null);await Promise.all([loadActivity(),refreshAssignments()]);screen='staff';}
+try{session=await api('session');}catch(e){session={user:null,registered:false,databaseReady:false};if(!['vocab','storyland'].includes(screen))errorMessage=t('Results storage is temporarily unavailable. Please try again shortly.');}
+if(!['vocab','storyland'].includes(screen)&&(session.user?.role==='teacher'||session.user?.role==='admin')){staff=await api('staff').catch(()=>null);await Promise.all([loadActivity(),refreshAssignments()]);screen='staff';}
 else if(screen==='exam'||screen==='result'){
  const attemptId=initial.get('attempt');if(attemptId&&session.registered){try{const data=await api('attempt',{id:attemptId});attempt=data.attempt;answers=attempt.answers;writing=attempt.writing;review=data.review;screen=attempt.submitted_at?'result':'exam';}catch{screen='intro';}}else screen='intro';
 }
-if(!['assignments','vocab','catalog','intro','exam','result','staff','dashboard','history','board','login'].includes(screen))screen='catalog';
+if(!['assignments','vocab','storyland','catalog','intro','exam','result','staff','dashboard','history','board','login'].includes(screen))screen='catalog';
 if(session.registered&&(!session.user||session.user.role==='student')&&!session.user?.mustChangePassword)await refreshHistory();
 if(screen==='vocab')await vocab.open(initial.get('game'),initial.get('unit'));
 partIndex=Math.min(partIndex,exam[skill].length-1);render();
 guestGuard.setSession(session);
-if(!session.registered&&!['vocab','login'].includes(screen)){if(session.guestStatus==='idle_expired')expireGuest('idle_expired');else openGuestRegistration();}
+if(!session.registered&&!['vocab','storyland','login'].includes(screen)){if(session.guestStatus==='idle_expired')expireGuest('idle_expired');else openGuestRegistration();}
 if(session.user?.mustChangePassword)showPassword();
 if(screen==='result'||screen==='board')loadBoard();if(screen==='result'&&review?.status==='processing')pollReview();
