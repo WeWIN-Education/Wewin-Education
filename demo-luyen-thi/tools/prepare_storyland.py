@@ -1,4 +1,4 @@
-"""Compress and import WEWIN STORYLAND 50 bilingual stories, WebP artwork, MP3 recordings, and word cues."""
+"""Compress and import WEWIN STORYLAND 50 bilingual stories, high-quality WebP artwork (native resolution + responsive srcset), MP3 recordings, and word cues."""
 from pathlib import Path
 from concurrent.futures import ThreadPoolExecutor
 from PIL import Image
@@ -36,18 +36,31 @@ for key, rel_path in assets_map.items():
     webp_name = f'{stem}.webp'
     dst_img = OUT_ASSETS_DIR / webp_name
     new_assets_map[key] = f'assets/{webp_name}'
-    image_tasks.append((src_img, dst_img))
+    image_tasks.append((key, stem, src_img, dst_img))
 
 
-def compress_image(pair):
-    src_img, dst_img = pair
+def compress_image(task):
+    key, stem, src_img, dst_img = task
     orig_size = src_img.stat().st_size
     with Image.open(src_img) as im:
         im = im.convert('RGB')
-        if im.width > 560 or im.height > 400:
-            im.thumbnail((560, 400), Image.Resampling.LANCZOS)
-        im.save(dst_img, 'WEBP', quality=68, method=6)
-    return orig_size, dst_img.stat().st_size
+        width, height = im.width, im.height
+        # Preserve 100% native resolution without distorting aspect ratio
+        im.save(dst_img, 'WEBP', quality=75, method=6)
+        meta = {'w': width, 'h': height}
+        variant_bytes = 0
+        if width >= 520:
+            w360 = 360
+            h360 = max(1, round(height * (w360 / width)))
+            im_small = im.resize((w360, h360), Image.Resampling.LANCZOS)
+            small_name = f'{stem}-360w.webp'
+            dst_small = OUT_ASSETS_DIR / small_name
+            im_small.save(dst_small, 'WEBP', quality=72, method=6)
+            meta['src360'] = f'assets/{small_name}'
+            meta['w360'] = w360
+            meta['h360'] = h360
+            variant_bytes = dst_small.stat().st_size
+    return key, meta, orig_size, dst_img.stat().st_size + variant_bytes
 
 
 audio_tasks = []
@@ -72,43 +85,48 @@ for story in stories:
 def compress_audio(pair):
     src_mp3, dst_mp3 = pair
     orig_size = src_mp3.stat().st_size
-    subprocess.run([
-        FFMPEG, '-nostdin', '-v', 'error', '-y',
-        '-i', str(src_mp3),
-        '-map', '0:a:0', '-vn', '-map_metadata', '-1',
-        '-ac', '1', '-ar', '24000',
-        '-codec:a', 'libmp3lame', '-b:a', '32k',
-        '-threads', '1', str(dst_mp3)
-    ], check=True, capture_output=True)
+    if not dst_mp3.is_file() or dst_mp3.stat().st_size <= 1024:
+        subprocess.run([
+            FFMPEG, '-nostdin', '-v', 'error', '-y',
+            '-i', str(src_mp3),
+            '-map', '0:a:0', '-vn', '-map_metadata', '-1',
+            '-ac', '1', '-ar', '24000',
+            '-codec:a', 'libmp3lame', '-b:a', '32k',
+            '-threads', '1', str(dst_mp3)
+        ], check=True, capture_output=True)
     assert dst_mp3.stat().st_size > 1024, f'Empty output MP3: {dst_mp3}'
     return orig_size, dst_mp3.stat().st_size
 
 
 with ThreadPoolExecutor(max_workers=12) as pool:
-    img_stats = list(pool.map(compress_image, image_tasks))
+    img_results = list(pool.map(compress_image, image_tasks))
 
 with ThreadPoolExecutor(max_workers=8) as pool:
     aud_stats = list(pool.map(compress_audio, audio_tasks))
+
+asset_meta = {key: meta for key, meta, _, _ in img_results}
 
 catalog_out = {
     'title': raw.get('title', 'WEWIN STORYLAND'),
     'subtitle': raw.get('subtitle', 'Stories for the Mind. Lessons for the Heart.'),
     'stories': stories,
     'assets': new_assets_map,
+    'assetMeta': asset_meta,
 }
 (OUT_DATA_DIR / 'data.json').write_text(
     json.dumps(catalog_out, ensure_ascii=False, separators=(',', ':')),
     encoding='utf-8'
 )
 
-orig_img_bytes = sum(x[0] for x in img_stats)
-new_img_bytes = sum(x[1] for x in img_stats)
+orig_img_bytes = sum(x[2] for x in img_results)
+new_img_bytes = sum(x[3] for x in img_results)
 orig_aud_bytes = sum(x[0] for x in aud_stats)
 new_aud_bytes = sum(x[1] for x in aud_stats)
 
 report = {
     'stories': len(stories),
-    'images': len(img_stats),
+    'images': len(img_results),
+    'responsiveVariants': sum(1 for _, m, _, _ in img_results if 'src360' in m),
     'audioFiles': len(aud_stats),
     'originalImagesMB': round(orig_img_bytes / (1024 * 1024), 2),
     'compressedImagesMB': round(new_img_bytes / (1024 * 1024), 2),

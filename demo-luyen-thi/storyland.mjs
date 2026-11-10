@@ -2,6 +2,8 @@ import {escapeHTML as esc, uiIcon} from './learning-ui.mjs';
 import {getLanguage} from './language.mjs';
 
 const STORAGE_KEY = 'wewin-storyland-v1';
+const ALLOWED_RATES = [0.75, 1, 1.25, 1.5];
+
 const iconPaths = {
   search: '<circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 5 5"/>',
   play: '<path d="m8 5 12 7-12 7V5Z" fill="currentColor" stroke="none"/>',
@@ -14,6 +16,8 @@ const iconPaths = {
   translate: '<path d="M3 5h12M9 3v2M5 5c1 6 5 8 9 10M13 5c-1 6-5 8-10 11m12 5 4-10 4 10m-6-3h4"/>',
   book: '<path d="M12 5v15M12 5C9 3 5 3 3 4v15c3-1 6-1 9 1 3-2 6-2 9-1V4c-2-1-6-1-9 1Z"/>',
   volume: '<path d="M11 5 6 9H2v6h4l5 4V5Zm4.5 3.5a5 5 0 0 1 0 7m2.5-9.5a9 9 0 0 1 0 12"/>',
+  follow: '<circle cx="12" cy="12" r="3"/><path d="M12 2v3m0 14v3M2 12h3m14 0h3"/>',
+  close: '<path d="M18 6 6 18M6 6l12 12"/>',
 };
 const icon = name => `<svg class="icon" viewBox="0 0 24 24" aria-hidden="true">${iconPaths[name] || iconPaths.book}</svg>`;
 const cleanSearch = value => String(value || '').toLocaleLowerCase('vi').normalize('NFD').replace(/\p{Diacritic}/gu, '').replace(/đ/g, 'd');
@@ -21,6 +25,11 @@ const formatTime = value => {
   const seconds = Number.isFinite(value) ? Math.max(0, Math.floor(value)) : 0;
   return `${String(Math.floor(seconds / 60)).padStart(2, '0')}:${String(seconds % 60).padStart(2, '0')}`;
 };
+const normalizeRate = value => {
+  const num = Number(value);
+  return ALLOWED_RATES.includes(num) ? num : 1;
+};
+const formatRate = value => `${Number(value)}x`;
 
 function createSafeAudio() {
   if (typeof Audio === 'function') {
@@ -28,6 +37,7 @@ function createSafeAudio() {
     el.preload = 'metadata';
     return el;
   }
+  const listeners = new Map();
   return {
     paused: true,
     ended: false,
@@ -36,10 +46,23 @@ function createSafeAudio() {
     playbackRate: 1,
     preload: 'metadata',
     src: '',
-    play: async function () { this.paused = false; },
-    pause: function () { this.paused = true; },
+    play: async function () {
+      this.paused = false;
+      this.dispatchEvent('play');
+    },
+    pause: function () {
+      this.paused = true;
+      this.dispatchEvent('pause');
+    },
     load: function () {},
-    addEventListener: function () {},
+    addEventListener: function (type, cb) {
+      if (!listeners.has(type)) listeners.set(type, new Set());
+      listeners.get(type).add(cb);
+    },
+    dispatchEvent: function (type, event = {}) {
+      const set = listeners.get(type);
+      if (set) set.forEach(cb => cb(event));
+    },
   };
 }
 
@@ -52,6 +75,10 @@ export function createStorylandUI({initialStoryId = '', redraw = () => {}} = {})
   let cueRequest = 0;
   let pendingSeek = null;
   let lastCue = null;
+  let programmaticScrollUntil = 0;
+  let lastScrolledScene = -1;
+  let boundHost = null;
+  let boundStream = null;
   const audio = createSafeAudio();
 
   const state = {
@@ -59,10 +86,12 @@ export function createStorylandUI({initialStoryId = '', redraw = () => {}} = {})
     scene: 0,
     category: 'all',
     level: 'all',
+    progress: 'all',
     query: '',
     showTranslation: true,
     readOnly: false,
     repeatScene: false,
+    autoFollow: true,
     fontSize: 20,
     finished: false,
     message: '',
@@ -91,15 +120,35 @@ export function createStorylandUI({initialStoryId = '', redraw = () => {}} = {})
   function text(vi, en) { return getLanguage() === 'en' ? en : vi; }
   function stories() { return catalog?.stories || []; }
   function currentStory() { return stories().find(item => item.id === state.storyId) || null; }
-  function assetPath(key) {
-    const source = catalog?.assets?.[key] || '';
-    const relative = source.replace(/^(?:\.\/)?assets\//, '');
+
+  function toAssetUrl(rawPath) {
+    const relative = String(rawPath || '').replace(/^(?:\.\/)?assets\//, '');
     return relative ? `assets/storyland/${relative}` : '';
   }
+
+  function assetPath(key) {
+    return toAssetUrl(catalog?.assets?.[key] || '');
+  }
+
+  function assetDetails(key) {
+    const src = assetPath(key);
+    const meta = catalog?.assetMeta?.[key] || {};
+    const width = Number(meta.w) || 560;
+    const height = Number(meta.h) || 380;
+    const src360 = meta.src360 ? toAssetUrl(meta.src360) : '';
+    const srcset = src360 ? `${src360} 360w, ${src} ${width}w` : (src ? `${src} ${width}w` : '');
+    return {src, srcset, width, height};
+  }
+
   function categories() { return [...new Set(stories().map(story => story.category))]; }
+  function levels() { return [...new Set(stories().map(story => story.level))]; }
   function categoryLabel(value) {
     if (getLanguage() !== 'en') return value;
     return ({'Việt Nam': 'Vietnamese tales', 'Cổ tích thế giới': 'World fairy tales', 'Ngụ ngôn': 'Fables', 'WEWIN Original': 'WEWIN Originals'})[value] || value;
+  }
+
+  function hasActiveFilters() {
+    return state.category !== 'all' || state.level !== 'all' || state.progress !== 'all' || Boolean(state.query.trim());
   }
 
   function loadCatalog() {
@@ -126,16 +175,30 @@ export function createStorylandUI({initialStoryId = '', redraw = () => {}} = {})
     return loading;
   }
 
+  function matchesStory(story, {
+    category = state.category,
+    level = state.level,
+    progressFilter = state.progress,
+    query = state.query,
+  } = {}) {
+    const progress = state.store.progress[story.id];
+    const isSaved = state.store.saved.includes(story.id);
+    const isCompleted = Boolean(progress?.completed);
+    const isInProgress = Boolean(progress && !progress.completed);
+
+    if (category !== 'all' && story.category !== category) return false;
+    if (level !== 'all' && story.level !== level) return false;
+    if (progressFilter === 'in-progress' && !isInProgress) return false;
+    if (progressFilter === 'completed' && !isCompleted) return false;
+    if (progressFilter === 'saved' && !isSaved) return false;
+
+    const cleanQ = cleanSearch(String(query || '').trim());
+    if (!cleanQ) return true;
+    return cleanSearch(`${story.titleEn} ${story.titleVi} ${story.category} ${story.level}`).includes(cleanQ);
+  }
+
   function filterStories() {
-    const query = cleanSearch(state.query.trim());
-    return stories().filter(story => {
-      const progress = state.store.progress[story.id];
-      if (state.category === 'saved' && !state.store.saved.includes(story.id)) return false;
-      if (state.category === 'completed' && !progress?.completed) return false;
-      if (!['all', 'saved', 'completed'].includes(state.category) && story.category !== state.category) return false;
-      if (state.level !== 'all' && story.level !== state.level) return false;
-      return !query || cleanSearch(`${story.titleEn} ${story.titleVi} ${story.category} ${story.level}`).includes(query);
-    });
+    return stories().filter(story => matchesStory(story));
   }
 
   function savedButton(story, compact = false) {
@@ -152,12 +215,68 @@ export function createStorylandUI({initialStoryId = '', redraw = () => {}} = {})
         ? text(`Đang nghe · cảnh ${(progress.scene || 0) + 1}/${story.scenes.length}`, `In progress · scene ${(progress.scene || 0) + 1}/${story.scenes.length}`)
         : text('Nghe truyện →', 'Listen now →');
     const statusClass = progress?.completed ? ' is-done' : progress ? ' is-active' : '';
+    const coverKey = story.cover || story.scenes[0]?.image;
+    const img = assetDetails(coverKey);
+    const sizes = '(max-width: 560px) calc(100vw - 36px), (max-width: 1180px) calc(50vw - 32px), 360px';
     return `<article class="storyland-card">
       <button type="button" class="storyland-card-open" data-action="storyland-open" data-id="${esc(story.id)}" aria-label="${text('Mở truyện', 'Open story')} ${esc(story.titleEn)} — ${esc(story.titleVi)}">
-        <span class="storyland-cover"><img src="${esc(assetPath(story.cover || story.scenes[0]?.image))}" alt="${text('Minh họa', 'Illustration')}: ${esc(story.titleVi)}" loading="lazy" decoding="async" width="560" height="380"><span class="storyland-level" data-level="${esc(story.level)}">${esc(story.level)}</span></span>
+        <span class="storyland-cover" data-fallback-label="${esc(story.titleEn)}">
+          <img src="${esc(img.src)}" ${img.srcset ? `srcset="${esc(img.srcset)}" sizes="${sizes}"` : ''} alt="${text('Minh họa', 'Illustration')}: ${esc(story.titleVi)}" loading="lazy" decoding="async" width="${img.width}" height="${img.height}">
+          <span class="storyland-level" data-level="${esc(story.level)}">${esc(story.level)}</span>
+        </span>
         <span class="storyland-card-copy"><span class="storyland-category">${esc(categoryLabel(story.category))}</span><strong lang="en">${esc(story.titleEn)}</strong><span class="storyland-title-vi" lang="vi">${esc(story.titleVi)}</span><span class="storyland-card-meta"><span>${story.scenes.length} ${text('cảnh · Anh–Việt', 'scenes · EN–VI')}</span><span class="storyland-progress-label${statusClass}">${esc(status)}</span></span></span>
       </button>${savedButton(story, true)}
     </article>`;
+  }
+
+  function renderFilterToolbar() {
+    const allStories = stories();
+    const completedCount = allStories.filter(s => state.store.progress[s.id]?.completed).length;
+    const inProgressCount = allStories.filter(s => state.store.progress[s.id] && !state.store.progress[s.id].completed).length;
+    const savedCount = state.store.saved.length;
+
+    const categoryItems = [
+      ['all', text('Tất cả thể loại', 'All categories'), allStories.length],
+      ...categories().map(value => [value, categoryLabel(value), allStories.filter(s => s.category === value).length]),
+    ];
+    const categoryMarkup = categoryItems.map(([value, label, count]) => (
+      `<button type="button" class="storyland-filter${state.category === value ? ' is-active' : ''}" data-action="storyland-filter" data-value="${esc(value)}" aria-pressed="${state.category === value}">${esc(label)}<span>${count}</span></button>`
+    )).join('');
+
+    const levelItems = [
+      ['all', text('Mọi trình độ', 'All levels')],
+      ...levels().map(level => [level, level]),
+    ];
+    const levelMarkup = levelItems.map(([value, label]) => (
+      `<button type="button" class="storyland-chip${state.level === value ? ' is-active' : ''}" data-action="storyland-level" data-value="${esc(value)}" aria-pressed="${state.level === value}">${esc(label)}</button>`
+    )).join('');
+
+    const progressItems = [
+      ['all', text('Mọi tiến độ', 'All status'), null],
+      ['in-progress', text('Đang nghe', 'In progress'), inProgressCount],
+      ['completed', text('Đã hoàn thành', 'Completed'), completedCount],
+      ['saved', text('Đã lưu', 'Saved'), savedCount],
+    ];
+    const progressMarkup = progressItems.map(([value, label, count]) => (
+      `<button type="button" class="storyland-chip${state.progress === value ? ' is-active' : ''}" data-action="storyland-progress" data-value="${esc(value)}" aria-pressed="${state.progress === value}">${esc(label)}${count !== null ? `<span>${count}</span>` : ''}</button>`
+    )).join('');
+
+    return `<div class="storyland-filter-stack">
+      <div class="storyland-filter-row">
+        <span class="storyland-filter-label" id="storyland-cat-label">${text('Thể loại', 'Category')}</span>
+        <div class="storyland-filters" role="group" aria-labelledby="storyland-cat-label">${categoryMarkup}</div>
+      </div>
+      <div class="storyland-filter-subrows">
+        <div class="storyland-filter-row">
+          <span class="storyland-filter-label" id="storyland-lvl-label">${text('Trình độ', 'Level')}</span>
+          <div class="storyland-segmented" role="group" aria-labelledby="storyland-lvl-label">${levelMarkup}</div>
+        </div>
+        <div class="storyland-filter-row">
+          <span class="storyland-filter-label" id="storyland-prog-label">${text('Tiến độ', 'Progress')}</span>
+          <div class="storyland-segmented" role="group" aria-labelledby="storyland-prog-label">${progressMarkup}</div>
+        </div>
+      </div>
+    </div>`;
   }
 
   function renderLibrary() {
@@ -165,22 +284,49 @@ export function createStorylandUI({initialStoryId = '', redraw = () => {}} = {})
     const progress = resume && state.store.progress[resume.id];
     const completed = Object.values(state.store.progress).filter(value => value?.completed).length;
     const totalScenes = stories().reduce((sum, story) => sum + story.scenes.length, 0);
-    const filterItems = [
-      ['all', text('Tất cả', 'All stories'), stories().length],
-      ...categories().map(value => [value, categoryLabel(value), null]),
-      ['saved', text('Đã lưu', 'Saved'), state.store.saved.length],
-      ['completed', text('Đã hoàn thành', 'Completed'), completed],
-    ];
-    const filterMarkup = filterItems.map(([value, label, count]) => `<button type="button" class="storyland-filter${state.category === value ? ' is-active' : ''}" data-action="storyland-filter" data-value="${esc(value)}" aria-pressed="${state.category === value}">${esc(label)}${count !== null ? `<span>${count}</span>` : ''}</button>`).join('');
-    const levelOptions = ['all', ...new Set(stories().map(story => story.level))].map(level => `<option value="${esc(level)}" ${state.level === level ? 'selected' : ''}>${level === 'all' ? text('Mọi trình độ', 'All levels') : esc(level)}</option>`).join('');
+    const heroImg = assetDetails(resume.cover || resume.scenes[0]?.image);
+    const heroSizes = '(max-width: 860px) calc(100vw - 36px), 440px';
+    const filtered = filterStories();
+    const initialGridMarkup = filtered.length
+      ? filtered.map(storyCard).join('')
+      : `<div class="storyland-empty" role="status">
+          <span>${text('Chưa tìm thấy truyện phù hợp với bộ lọc hiện tại.', 'No matching stories found for the current filters.')}</span>
+          <p>${text('Thử từ khóa khác hoặc đặt lại bộ lọc thể loại, trình độ và tiến độ.', 'Try another keyword or reset the category, level, and progress filters.')}</p>
+          <button type="button" class="btn ghost storyland-empty-reset" data-action="storyland-reset-filters">${text('Xóa bộ lọc & xem tất cả', 'Reset filters & show all')}</button>
+        </div>`;
+    const initialCountText = hasActiveFilters()
+      ? `${filtered.length} / ${stories().length} ${text('câu chuyện phù hợp', 'matching stories')}`
+      : `${filtered.length} ${text('câu chuyện', 'stories')}`;
+
     return `<section class="storyland-screen" aria-labelledby="storyland-title">
       <header class="page-heading storyland-heading"><div><p class="page-overline">WEWIN STORYLAND</p><h1 id="storyland-title">${text('Thư viện truyện song ngữ', 'Bilingual Story Library')}</h1><p>${text('Nghe truyện tiếng Anh, đọc theo từng từ được tô sáng và khám phá nghĩa tiếng Việt qua từng bức tranh.', 'Listen to English stories, follow word-by-word highlighting, and explore Vietnamese translations through illustrated scenes.')}</p></div><div class="storyland-heading-badges"><span class="vocab-public">${text('Mở cho tất cả mọi người', 'Open to everyone')}</span><span class="storyland-library-count">${stories().length} ${text('truyện song ngữ', 'bilingual stories')}</span></div></header>
       <section class="storyland-feature" aria-label="${text('Câu chuyện nổi bật', 'Featured story')}">
         <div class="storyland-feature-copy"><span class="storyland-eyebrow">${text('NGHE · ĐỌC THEO · HỌC TỪ MỚI', 'LISTEN · READ ALONG · LEARN NEW WORDS')}</span><h2>${text('Khơi sáng trí tuệ.<br>Nuôi dưỡng tâm hồn.', 'Stories for the Mind.<br>Lessons for the Heart.')}</h2><p>${text('Mỗi câu chuyện đều có giọng đọc tiếng Anh chuẩn và tranh minh họa theo từng cảnh. Chạm vào bất kỳ từ nào để nghe ngay từ vị trí đó.', 'Every story features natural English narration and scene-by-scene artwork. Tap any word or scene to listen right from that spot.')}</p><div class="storyland-feature-actions"><button type="button" class="btn primary storyland-feature-cta" data-action="storyland-open" data-id="${esc(resume.id)}">${uiIcon('headphones')}<span>${progress ? text(`Tiếp tục: ${resume.titleEn}`, `Continue: ${resume.titleEn}`) : text('Bắt đầu nghe truyện', 'Start listening')}</span></button></div><div class="storyland-facts"><span><strong>${stories().length}</strong> ${text('câu chuyện', 'stories')}</span><span><strong>${totalScenes}</strong> ${text('cảnh minh họa', 'illustrated scenes')}</span><span><strong>${completed}</strong> ${text('đã hoàn thành', 'completed')}</span></div></div>
-        <button type="button" class="storyland-feature-art" data-action="storyland-open" data-id="${esc(resume.id)}" aria-label="${text('Mở truyện', 'Open story')}: ${esc(resume.titleEn)} — ${esc(resume.titleVi)}"><img src="${esc(assetPath(resume.cover || resume.scenes[0]?.image))}" alt="${text('Minh họa', 'Illustration')}: ${esc(resume.titleVi)}" loading="eager" decoding="async" width="560" height="380"><div class="storyland-feature-art-badge"><span class="storyland-level" data-level="${esc(resume.level)}">${esc(resume.level)}</span><strong>${esc(resume.titleEn)}</strong><small>${esc(resume.titleVi)}</small></div></button>
+        <button type="button" class="storyland-feature-art" data-action="storyland-open" data-id="${esc(resume.id)}" data-fallback-label="${esc(resume.titleEn)}" aria-label="${text('Mở truyện', 'Open story')}: ${esc(resume.titleEn)} — ${esc(resume.titleVi)}">
+          <img src="${esc(heroImg.src)}" ${heroImg.srcset ? `srcset="${esc(heroImg.srcset)}" sizes="${heroSizes}"` : ''} alt="${text('Minh họa', 'Illustration')}: ${esc(resume.titleVi)}" loading="eager" fetchpriority="high" decoding="async" width="${heroImg.width}" height="${heroImg.height}">
+          <div class="storyland-feature-art-badge"><span class="storyland-level" data-level="${esc(resume.level)}">${esc(resume.level)}</span><strong>${esc(resume.titleEn)}</strong><small>${esc(resume.titleVi)}</small></div>
+        </button>
       </section>
-      <section class="storyland-library" aria-labelledby="storyland-library-title"><div class="storyland-library-heading"><div><h2 id="storyland-library-title">${text('Chọn một câu chuyện', 'Choose a story')}</h2><p class="storyland-result-count" id="storyland-result-count"></p></div><div class="storyland-controls"><label class="storyland-search">${icon('search')}<span class="sr-only">${text('Tìm truyện', 'Search stories')}</span><input id="storyland-search" type="search" value="${esc(state.query)}" placeholder="${text('Tìm tên truyện tiếng Anh hoặc tiếng Việt…', 'Search by English or Vietnamese title…')}" autocomplete="off"></label><label class="sr-only" for="storyland-level">${text('Lọc theo trình độ', 'Filter by level')}</label><select class="storyland-level-select" id="storyland-level">${levelOptions}</select></div></div>
-        <nav class="storyland-filters" aria-label="${text('Lọc truyện theo thể loại', 'Filter stories by category')}">${filterMarkup}</nav><div class="storyland-grid" id="storyland-grid"></div>
+      <section class="storyland-library" aria-labelledby="storyland-library-title">
+        <div class="storyland-library-heading">
+          <div>
+            <h2 id="storyland-library-title">${text('Chọn một câu chuyện', 'Choose a story')}</h2>
+            <div class="storyland-result-bar">
+              <p class="storyland-result-count" id="storyland-result-count" role="status" aria-live="polite">${esc(initialCountText)}</p>
+              <button type="button" class="storyland-reset-inline" id="storyland-reset-inline" data-action="storyland-reset-filters" ${hasActiveFilters() ? '' : 'hidden'}>${text('Xóa bộ lọc', 'Clear filters')}</button>
+            </div>
+          </div>
+          <div class="storyland-controls" role="search" aria-label="${text('Tìm kiếm truyện', 'Search stories')}">
+            <label class="storyland-search" for="storyland-search">
+              ${icon('search')}
+              <span class="sr-only">${text('Tìm tên truyện tiếng Anh hoặc tiếng Việt', 'Search by English or Vietnamese story title')}</span>
+              <input id="storyland-search" type="search" value="${esc(state.query)}" placeholder="${text('Tìm tên truyện tiếng Anh hoặc tiếng Việt…', 'Search by English or Vietnamese title…')}" autocomplete="off" spellcheck="false">
+              <button type="button" class="storyland-search-clear" id="storyland-search-clear" data-action="storyland-clear-search" aria-label="${text('Xóa từ khóa tìm kiếm', 'Clear search query')}" ${state.query ? '' : 'hidden'}>${icon('close')}</button>
+            </label>
+          </div>
+        </div>
+        ${renderFilterToolbar()}
+        <div class="storyland-grid" id="storyland-grid">${initialGridMarkup}</div>
       </section>
     </section>`;
   }
@@ -201,6 +347,8 @@ export function createStorylandUI({initialStoryId = '', redraw = () => {}} = {})
 
   function renderReader(story) {
     const activeScene = story.scenes[state.scene] || story.scenes[0];
+    const activeImg = assetDetails(activeScene.image);
+    const sceneSizes = '(max-width: 860px) calc(100vw - 40px), 44vw';
     const lesson = Array.isArray(story.lesson) ? story.lesson : [];
     const vocabulary = Array.isArray(story.vocab) ? story.vocab : [];
     const scenesMarkup = story.scenes.map((sc, idx) => {
@@ -239,13 +387,13 @@ export function createStorylandUI({initialStoryId = '', redraw = () => {}} = {})
       <div class="storyland-reader-grid">
         <aside class="storyland-picture-column" aria-label="${text('Tranh minh họa theo cảnh', 'Scene illustration')}">
           <figure class="storyland-scene-art">
-            <div class="storyland-scene-image">
-              <img id="storyland-active-img" src="${esc(assetPath(activeScene.image))}" alt="${esc(story.titleVi)} — ${text('cảnh', 'scene')} ${state.scene + 1}: ${esc(activeScene.vi)}" width="560" height="380" fetchpriority="high" decoding="async">
+            <div class="storyland-scene-image" id="storyland-scene-frame" data-fallback-label="${text('Tranh minh họa cảnh', 'Scene illustration')} ${state.scene + 1}" style="--scene-aspect:${activeImg.width}/${activeImg.height};--scene-natural-w:${activeImg.width}px">
+              <img id="storyland-active-img" src="${esc(activeImg.src)}" ${activeImg.srcset ? `srcset="${esc(activeImg.srcset)}" sizes="${sceneSizes}"` : ''} alt="${esc(story.titleVi)} — ${text('cảnh', 'scene')} ${state.scene + 1}: ${esc(activeScene.vi)}" width="${activeImg.width}" height="${activeImg.height}" fetchpriority="high" decoding="async">
             </div>
             <figcaption>
               <div>
                 <strong id="storyland-scene-caption">${text('Cảnh', 'Scene')} ${state.scene + 1} / ${story.scenes.length}</strong>
-                <span>${story.category === 'WEWIN Original' ? 'WEWIN Original' : text('Minh họa WEWIN STORYLAND', 'WEWIN STORYLAND illustration')}</span>
+                <span>${story.category === 'WEWIN Original' ? 'WEWIN Original' : text('Minh họa WEWIN STORYLAND · Tỷ lệ gốc', 'WEWIN STORYLAND illustration · Original ratio')}</span>
               </div>
               <div class="storyland-picture-nav">
                 <button type="button" class="storyland-scene-skip" data-action="storyland-previous" aria-label="${text('Cảnh trước', 'Previous scene')}" ${state.scene <= 0 ? 'disabled' : ''}>${icon('left')}</button>
@@ -256,8 +404,14 @@ export function createStorylandUI({initialStoryId = '', redraw = () => {}} = {})
           ${lesson.length ? `<aside class="storyland-lesson"><span>${text('BÀI HỌC Ý NGHĨA · LESSON FOR THE HEART', 'LESSON FOR THE HEART')}</span><p lang="en"><strong>${esc(lesson[0])}</strong></p><p lang="vi">${esc(lesson[1] || '')}</p></aside>` : ''}
         </aside>
         <div class="storyland-text-column">
-          <div class="storyland-reading-hint">${uiIcon('headphones')}<span>${text('Chạm vào bất kỳ từ tiếng Anh nào hoặc nút "Nghe cảnh này" để nghe từ đúng vị trí đó.', 'Tap any English word or "Play scene" to listen right from that position.')}</span></div>
-          <div class="storyland-scenes-stream" id="storyland-scenes-stream">${scenesMarkup}</div>
+          <div class="storyland-transcript-bar">
+            <div class="storyland-reading-hint">${uiIcon('headphones')}<span>${text('Chạm vào từ tiếng Anh hoặc "Nghe cảnh này" để nghe từ đúng vị trí đó.', 'Tap any English word or "Play scene" to listen right from that position.')}</span></div>
+            <button type="button" id="storyland-follow-btn" class="storyland-follow-btn${state.autoFollow ? ' is-following' : ' is-paused'}" data-action="storyland-follow" aria-pressed="${state.autoFollow}" ${state.autoFollow ? 'hidden' : ''}>
+              ${icon('follow')}
+              <span>${text('Theo dõi lời đọc', 'Follow narration')}</span>
+            </button>
+          </div>
+          <div class="storyland-scenes-stream" id="storyland-scenes-stream" tabindex="0" aria-label="${text('Lời thoại câu chuyện', 'Story transcript')}">${scenesMarkup}</div>
           ${state.finished ? `<div class="storyland-completion" role="status"><strong>${text('Tuyệt vời! Bạn đã nghe trọn vẹn câu chuyện!', 'Wonderful! You finished the story!')}</strong><p>${text('Hãy thử tự kể lại câu chuyện bằng lời của mình hoặc ôn lại kho báu từ vựng bên dưới nhé.', 'Try retelling the story in your own words or review the vocabulary treasures below.')}</p><button type="button" class="btn primary" data-action="storyland-replay">${icon('play')}<span>${text('Nghe lại từ đầu', 'Listen again from the start')}</span></button></div>` : ''}
           ${vocabulary.length ? `<section class="storyland-vocab-panel" aria-labelledby="storyland-vocab-heading"><h2 id="storyland-vocab-heading">${text('Kho báu từ vựng · My Word Treasures', 'My Word Treasures · Story Vocabulary')}</h2><p>${text('Chạm vào từ để nghe phát âm tiếng Anh.', 'Tap a word to hear its English pronunciation.')}</p><div class="storyland-vocab-grid">${vocabulary.map(([en, vi]) => `<button type="button" class="storyland-vocab-chip" data-action="storyland-pronounce" data-word="${esc(en)}"><span class="storyland-vocab-en" lang="en">${esc(en)}</span><span class="storyland-vocab-vi" lang="vi">${esc(vi)}</span>${icon('volume')}</button>`).join('')}</div></section>` : ''}
           ${story.note ? `<p class="storyland-adult-note">${esc(story.note)}</p>` : ''}
@@ -271,7 +425,11 @@ export function createStorylandUI({initialStoryId = '', redraw = () => {}} = {})
     const total = Number.isFinite(audio.duration) ? audio.duration : 0;
     const value = total ? Math.round((audio.currentTime / total) * 1000) : 0;
     const status = state.playerError || state.message || text('Bản thu âm tiếng Anh chuẩn', 'English narration ready');
-    return `<section class="storyland-player" aria-label="${text('Điều khiển bản thu truyện', 'Story audio controls')}">
+    const speedButtons = ALLOWED_RATES.map(rate => (
+      `<button type="button" class="storyland-rate-btn${state.rate === rate ? ' is-active' : ''}" data-action="storyland-rate" data-value="${rate}" aria-pressed="${state.rate === rate}" aria-label="${text('Tốc độ', 'Speed')} ${formatRate(rate)}">${formatRate(rate)}</button>`
+    )).join('');
+
+    return `<section class="storyland-player${state.playerError ? ' has-error' : ''}" aria-label="${text('Điều khiển bản thu truyện', 'Story audio controls')}">
       <div class="storyland-player-top">
         <div class="storyland-player-label">
           <span class="storyland-player-icon">${uiIcon('headphones')}</span>
@@ -282,7 +440,7 @@ export function createStorylandUI({initialStoryId = '', redraw = () => {}} = {})
         </div>
         <div class="storyland-player-options">
           <button type="button" class="storyland-repeat-btn${state.repeatScene ? ' is-active' : ''}" data-action="storyland-repeat" aria-pressed="${state.repeatScene}" title="${text('Lặp lại cảnh đang nghe', 'Repeat current scene')}">${icon('repeat')}<span>${text('Lặp cảnh', 'Repeat scene')}</span></button>
-          <label class="storyland-speed-label"><span>${text('Tốc độ', 'Speed')}</span><select id="storyland-rate" aria-label="${text('Tốc độ phát', 'Playback speed')}"><option value="0.8" ${state.rate === 0.8 ? 'selected' : ''}>0.8×</option><option value="1" ${state.rate === 1 ? 'selected' : ''}>1×</option><option value="1.2" ${state.rate === 1.2 ? 'selected' : ''}>1.2×</option><option value="1.5" ${state.rate === 1.5 ? 'selected' : ''}>1.5×</option></select></label>
+          <div class="storyland-speed-group" role="group" aria-label="${text('Tốc độ phát', 'Playback speed')}">${speedButtons}</div>
         </div>
       </div>
       <div class="storyland-seek-row"><span id="storyland-time-current">${formatTime(audio.currentTime)}</span><input type="range" id="storyland-seek" min="0" max="1000" step="1" value="${value}" aria-label="${text('Vị trí trong câu chuyện', 'Position in the story')}" ${total ? '' : 'disabled'}><span id="storyland-time-total">${formatTime(total)}</span></div>
@@ -316,18 +474,99 @@ export function createStorylandUI({initialStoryId = '', redraw = () => {}} = {})
     const filtered = filterStories();
     target.innerHTML = filtered.length
       ? filtered.map(storyCard).join('')
-      : `<div class="storyland-empty"><span>${text('Chưa tìm thấy truyện phù hợp.', 'No matching stories found.')}</span><p>${text('Thử từ khóa khác hoặc chọn "Tất cả".', 'Try another keyword or choose "All stories".')}</p></div>`;
+      : `<div class="storyland-empty" role="status">
+          <span>${text('Chưa tìm thấy truyện phù hợp với bộ lọc hiện tại.', 'No matching stories found for the current filters.')}</span>
+          <p>${text('Thử từ khóa khác hoặc đặt lại bộ lọc thể loại, trình độ và tiến độ.', 'Try another keyword or reset the category, level, and progress filters.')}</p>
+          <button type="button" class="btn ghost storyland-empty-reset" data-action="storyland-reset-filters">${text('Xóa bộ lọc & xem tất cả', 'Reset filters & show all')}</button>
+        </div>`;
     const count = host.querySelector('#storyland-result-count');
-    if (count) count.textContent = `${filtered.length} ${text('câu chuyện', 'stories')}`;
+    if (count) {
+      count.textContent = hasActiveFilters()
+        ? `${filtered.length} / ${stories().length} ${text('câu chuyện phù hợp', 'matching stories')}`
+        : `${filtered.length} ${text('câu chuyện', 'stories')}`;
+    }
+    const resetInline = host.querySelector('#storyland-reset-inline');
+    if (resetInline) resetInline.hidden = !hasActiveFilters();
+    const clearSearchBtn = host.querySelector('#storyland-search-clear');
+    if (clearSearchBtn) clearSearchBtn.hidden = !state.query;
+    const searchInput = host.querySelector('#storyland-search');
+    if (searchInput && searchInput.value !== state.query) searchInput.value = state.query;
+
     host.querySelectorAll('[data-action="storyland-filter"]').forEach(button => {
       const active = button.dataset.value === state.category;
       button.classList.toggle('is-active', active);
       button.setAttribute('aria-pressed', String(active));
     });
+    host.querySelectorAll('[data-action="storyland-level"]').forEach(button => {
+      const active = button.dataset.value === state.level;
+      button.classList.toggle('is-active', active);
+      button.setAttribute('aria-pressed', String(active));
+    });
+    host.querySelectorAll('[data-action="storyland-progress"]').forEach(button => {
+      const active = button.dataset.value === state.progress;
+      button.classList.toggle('is-active', active);
+      button.setAttribute('aria-pressed', String(active));
+    });
+  }
+
+  function updateFollowUI() {
+    if (!host) return;
+    const followBtn = host.querySelector('#storyland-follow-btn');
+    if (!followBtn) return;
+    followBtn.hidden = state.autoFollow;
+    followBtn.classList.toggle('is-following', state.autoFollow);
+    followBtn.classList.toggle('is-paused', !state.autoFollow);
+    followBtn.setAttribute('aria-pressed', String(state.autoFollow));
+  }
+
+  function pauseAutoFollowOnUserScroll({directUserGesture = false} = {}) {
+    if (directUserGesture) {
+      programmaticScrollUntil = 0;
+    } else if (Date.now() <= programmaticScrollUntil) {
+      return;
+    }
+    if (!state.autoFollow) return;
+    state.autoFollow = false;
+    updateFollowUI();
+  }
+
+  function scrollSceneIntoTranscript(sceneIndex, {force = false} = {}) {
+    if (!host) return;
+    if (!state.autoFollow && !force) return;
+    const stream = host.querySelector('#storyland-scenes-stream');
+    const sceneEl = host.querySelector(`#storyland-scene-${sceneIndex}`);
+    if (!stream || !sceneEl) return;
+
+    const reducedMotion = typeof matchMedia === 'function' && Boolean(matchMedia('(prefers-reduced-motion: reduce)')?.matches);
+    const behavior = reducedMotion ? 'auto' : 'smooth';
+    programmaticScrollUntil = Date.now() + (reducedMotion ? 80 : 520);
+    lastScrolledScene = sceneIndex;
+
+    const isMobileViewport = typeof window !== 'undefined' && Number(window.innerWidth) > 0 && window.innerWidth <= 860;
+    const canScrollContainer = typeof stream.scrollTo === 'function' && (!isMobileViewport || stream.scrollHeight > stream.clientHeight + 4);
+
+    if (canScrollContainer) {
+      const streamRect = typeof stream.getBoundingClientRect === 'function' ? stream.getBoundingClientRect() : {top: 0, height: stream.clientHeight || 480};
+      const sceneRect = typeof sceneEl.getBoundingClientRect === 'function' ? sceneEl.getBoundingClientRect() : {top: sceneEl.offsetTop || 0, height: sceneEl.offsetHeight || 110};
+      const currentTop = Number(stream.scrollTop) || 0;
+      const relativeTop = (sceneRect.top - streamRect.top) + currentTop;
+      const topPadding = Math.min(36, Math.max(12, (stream.clientHeight || 400) * 0.08));
+      const targetTop = Math.max(0, Math.round(relativeTop - topPadding));
+      stream.scrollTo({top: targetTop, behavior});
+      return;
+    }
+
+    if (typeof window !== 'undefined' && typeof window.scrollTo === 'function' && typeof sceneEl.getBoundingClientRect === 'function') {
+      const rect = sceneEl.getBoundingClientRect();
+      const targetY = Math.max(0, Math.round((window.scrollY || window.pageYOffset || 0) + rect.top - 96));
+      window.scrollTo({top: targetY, behavior});
+    }
   }
 
   function updatePlayer() {
     if (!host) return;
+    const playerEl = host.querySelector('.storyland-player');
+    if (playerEl) playerEl.classList.toggle('has-error', Boolean(state.playerError));
     const playBtn = host.querySelector('[data-action="storyland-play"]');
     const story = currentStory();
     if (playBtn && story) {
@@ -337,7 +576,9 @@ export function createStorylandUI({initialStoryId = '', redraw = () => {}} = {})
     }
     const total = Number.isFinite(audio.duration) ? audio.duration : 0;
     const seek = host.querySelector('#storyland-seek');
-    if (seek && document.activeElement !== seek) seek.value = total ? String(Math.round((audio.currentTime / total) * 1000)) : '0';
+    if (seek && (typeof document === 'undefined' || document.activeElement !== seek)) {
+      seek.value = total ? String(Math.round((audio.currentTime / total) * 1000)) : '0';
+    }
     if (seek) seek.disabled = !total;
     const current = host.querySelector('#storyland-time-current');
     const duration = host.querySelector('#storyland-time-total');
@@ -345,9 +586,14 @@ export function createStorylandUI({initialStoryId = '', redraw = () => {}} = {})
     if (duration) duration.textContent = formatTime(total);
     const status = host.querySelector('.storyland-player-status');
     if (status) status.textContent = state.playerError || state.message || text('Bản thu âm tiếng Anh chuẩn', 'English narration ready');
+    host.querySelectorAll('[data-action="storyland-rate"]').forEach(btn => {
+      const active = Number(btn.dataset.value) === state.rate;
+      btn.classList.toggle('is-active', active);
+      btn.setAttribute('aria-pressed', String(active));
+    });
   }
 
-  function updateActiveSceneDOM(sceneIndex, wordIndex, scroll = false) {
+  function updateActiveSceneDOM(sceneIndex, wordIndex, scroll = false, {forceScroll = false} = {}) {
     if (!host) return;
     const story = currentStory();
     if (!story) return;
@@ -361,10 +607,21 @@ export function createStorylandUI({initialStoryId = '', redraw = () => {}} = {})
     }
     const activeScene = story.scenes[sceneIndex];
     const img = host.querySelector('#storyland-active-img');
+    const frame = host.querySelector('#storyland-scene-frame');
     if (img && activeScene) {
-      const nextSrc = assetPath(activeScene.image);
-      if (img.getAttribute('src') !== nextSrc) {
-        img.setAttribute('src', nextSrc);
+      const details = assetDetails(activeScene.image);
+      if (img.getAttribute('src') !== details.src) {
+        if (frame) {
+          frame.classList.remove('is-image-error');
+          frame.setAttribute('data-fallback-label', `${text('Tranh minh họa cảnh', 'Scene illustration')} ${sceneIndex + 1}`);
+          frame.style.setProperty('--scene-aspect', `${details.width}/${details.height}`);
+          frame.style.setProperty('--scene-natural-w', `${details.width}px`);
+        }
+        img.setAttribute('src', details.src);
+        if (details.srcset) img.setAttribute('srcset', details.srcset);
+        else img.removeAttribute('srcset');
+        img.setAttribute('width', String(details.width));
+        img.setAttribute('height', String(details.height));
         img.setAttribute('alt', `${story.titleVi} — ${text('cảnh', 'scene')} ${sceneIndex + 1}: ${activeScene.vi}`);
       }
     }
@@ -375,14 +632,50 @@ export function createStorylandUI({initialStoryId = '', redraw = () => {}} = {})
     const playerTitle = host.querySelector('.storyland-player-label strong');
     if (playerTitle) playerTitle.textContent = `${text('Cảnh', 'Scene')} ${sceneIndex + 1}/${story.scenes.length} · ${story.titleEn}`;
     if (scroll) {
-      const sceneEl = host.querySelector(`#storyland-scene-${sceneIndex}`);
-      sceneEl?.scrollIntoView({block: 'nearest', behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth'});
+      scrollSceneIntoTranscript(sceneIndex, {force: forceScroll});
+    }
+  }
+
+  function handleMediaError(event) {
+    const target = event?.target;
+    if (!target || target.tagName !== 'IMG') return;
+    const wrapper = target.closest?.('.storyland-cover, .storyland-feature-art, .storyland-scene-image');
+    if (wrapper) wrapper.classList.add('is-image-error');
+  }
+
+  function bindHostEvents(root) {
+    if (!root) return;
+    if (boundHost !== root && typeof root.addEventListener === 'function') {
+      boundHost = root;
+      root.addEventListener('error', handleMediaError, true);
+      root.addEventListener('wheel', () => {
+        if (currentStory()) pauseAutoFollowOnUserScroll({directUserGesture: true});
+      }, {passive: true});
+      root.addEventListener('touchmove', () => {
+        if (currentStory()) pauseAutoFollowOnUserScroll({directUserGesture: true});
+      }, {passive: true});
+    }
+    const stream = root.querySelector?.('#storyland-scenes-stream');
+    if (stream && boundStream !== stream && typeof stream.addEventListener === 'function') {
+      boundStream = stream;
+      stream.addEventListener('wheel', () => pauseAutoFollowOnUserScroll({directUserGesture: true}), {passive: true});
+      stream.addEventListener('touchmove', () => pauseAutoFollowOnUserScroll({directUserGesture: true}), {passive: true});
+      stream.addEventListener('pointerdown', event => {
+        if (event && typeof stream.clientWidth === 'number' && event.offsetX >= stream.clientWidth - 20) {
+          pauseAutoFollowOnUserScroll({directUserGesture: true});
+        }
+      }, {passive: true});
+      stream.addEventListener('scroll', () => {
+        pauseAutoFollowOnUserScroll({directUserGesture: false});
+      }, {passive: true});
     }
   }
 
   function mount(root) {
     host = root;
+    bindHostEvents(root);
     updatePlayer();
+    updateFollowUI();
     if (lastCue) updateActiveSceneDOM(lastCue.scene, lastCue.word, false);
     if (catalog && !currentStory()) updateList();
   }
@@ -399,6 +692,37 @@ export function createStorylandUI({initialStoryId = '', redraw = () => {}} = {})
     return cues.find(cue => cue.scene === scene && cue.word === word) || cues.find(cue => cue.scene === scene) || null;
   }
 
+  function findCueAtTime(seconds) {
+    if (!cues.length || !Number.isFinite(seconds)) return null;
+    let low = 0;
+    let high = cues.length - 1;
+    let candidate = -1;
+    while (low <= high) {
+      const middle = (low + high) >> 1;
+      if (cues[middle].start <= seconds) {
+        candidate = middle;
+        low = middle + 1;
+      } else {
+        high = middle - 1;
+      }
+    }
+    return candidate >= 0 ? cues[candidate] : cues[0];
+  }
+
+  function fallbackSceneFromDuration(seconds) {
+    const story = currentStory();
+    if (!story || !story.scenes.length || !Number.isFinite(audio.duration) || audio.duration <= 0) return null;
+    const weights = story.scenes.map(sc => Math.max(1, String(sc.en || '').split(/\s+/).filter(Boolean).length));
+    const totalWeight = weights.reduce((a, b) => a + b, 0);
+    const ratio = Math.min(0.9999, Math.max(0, seconds / audio.duration));
+    let target = ratio * totalWeight;
+    for (let i = 0; i < weights.length; i++) {
+      if (target <= weights[i]) return i;
+      target -= weights[i];
+    }
+    return story.scenes.length - 1;
+  }
+
   function queueSeek(seconds) {
     if (!Number.isFinite(seconds)) return;
     if (Number.isFinite(audio.duration) && audio.duration > 0) {
@@ -408,7 +732,7 @@ export function createStorylandUI({initialStoryId = '', redraw = () => {}} = {})
     }
   }
 
-  function seekScene(sceneIndex, wordIndex = 0) {
+  function seekScene(sceneIndex, wordIndex = 0, {scroll = true, forceScroll = false} = {}) {
     const story = currentStory();
     if (!story) return;
     const index = Math.max(0, Math.min(Number(sceneIndex) || 0, story.scenes.length - 1));
@@ -419,7 +743,7 @@ export function createStorylandUI({initialStoryId = '', redraw = () => {}} = {})
     if (cue) queueSeek(cue.start);
     persistProgress(index);
     lastCue = cue ? {scene: cue.scene, word: cue.word} : {scene: index, word: wordIndex};
-    updateActiveSceneDOM(index, wordIndex, true);
+    updateActiveSceneDOM(index, wordIndex, scroll, {forceScroll});
     updatePlayer();
   }
 
@@ -430,6 +754,8 @@ export function createStorylandUI({initialStoryId = '', redraw = () => {}} = {})
     audio.pause();
     state.storyId = story.id;
     state.finished = false;
+    state.autoFollow = true;
+    lastScrolledScene = -1;
     const progress = state.store.progress[story.id];
     state.scene = Math.max(0, Math.min(Number(progress?.scene) || 0, story.scenes.length - 1));
     state.store.lastStory = story.id;
@@ -466,6 +792,7 @@ export function createStorylandUI({initialStoryId = '', redraw = () => {}} = {})
     if (state.readOnly) state.readOnly = false;
     if (audio.ended || state.finished) {
       state.finished = false;
+      state.autoFollow = true;
       state.scene = 0;
       queueSeek(0);
       redraw();
@@ -498,51 +825,65 @@ export function createStorylandUI({initialStoryId = '', redraw = () => {}} = {})
     updatePlayer();
   }
 
-  function syncFromAudio() {
-    if (!state.storyId || !cues.length) { updatePlayer(); return; }
-    let low = 0, high = cues.length - 1, candidate = -1;
-    while (low <= high) {
-      const middle = (low + high) >> 1;
-      if (cues[middle].start <= audio.currentTime) { candidate = middle; low = middle + 1; }
-      else high = middle - 1;
+  function syncFromAudio({fromSeek = false} = {}) {
+    if (!state.storyId) {
+      updatePlayer();
+      return;
     }
-    const cue = candidate >= 0 ? cues[candidate] : null;
+    if (!cues.length) {
+      const estScene = fallbackSceneFromDuration(audio.currentTime);
+      if (estScene !== null && (estScene !== state.scene || fromSeek)) {
+        state.scene = estScene;
+        persistProgress(estScene);
+        updateActiveSceneDOM(estScene, -1, true, {forceScroll: fromSeek});
+      }
+      updatePlayer();
+      return;
+    }
+
+    const cue = findCueAtTime(audio.currentTime);
     if (cue) {
-      if (state.repeatScene && cue.scene !== state.scene && audio.currentTime >= cue.start) {
-        seekScene(state.scene, 0);
+      if (!fromSeek && state.repeatScene && cue.scene !== state.scene && audio.currentTime >= cue.start) {
+        seekScene(state.scene, 0, {scroll: state.autoFollow});
         return;
       }
-      if (audio.currentTime <= cue.end + 0.12) {
+      const withinCueWindow = fromSeek || audio.currentTime <= cue.end + 0.18;
+      if (withinCueWindow) {
         const sceneChanged = cue.scene !== state.scene;
         if (sceneChanged) {
           state.scene = cue.scene;
           persistProgress(cue.scene);
         }
-        if (sceneChanged || !lastCue || cue.scene !== lastCue.scene || cue.word !== lastCue.word) {
+        const wordChanged = !lastCue || cue.scene !== lastCue.scene || cue.word !== lastCue.word;
+        if (sceneChanged || wordChanged || fromSeek) {
           lastCue = {scene: cue.scene, word: cue.word};
-          updateActiveSceneDOM(cue.scene, cue.word, sceneChanged);
+          const shouldScroll = fromSeek || (sceneChanged && lastScrolledScene !== cue.scene);
+          updateActiveSceneDOM(cue.scene, cue.word, shouldScroll, {forceScroll: fromSeek});
         }
       }
     }
     updatePlayer();
   }
 
+  function setRate(nextRate) {
+    state.rate = normalizeRate(nextRate);
+    audio.playbackRate = state.rate;
+    try { localStorage.setItem(`${STORAGE_KEY}-rate`, String(state.rate)); } catch { /* Ignore */ }
+    updatePlayer();
+  }
+
   function handleInput(event) {
-    const input = event.target;
+    const input = event?.target;
+    if (!input) return false;
     if (input.id === 'storyland-search') {
       state.query = input.value;
-      updateList();
-      return true;
-    }
-    if (input.id === 'storyland-level') {
-      state.level = input.value;
       updateList();
       return true;
     }
     if (input.id === 'storyland-seek') {
       if (Number.isFinite(audio.duration) && audio.duration > 0) {
         queueSeek((Number(input.value) / 1000) * audio.duration);
-        syncFromAudio();
+        syncFromAudio({fromSeek: true});
       }
       return true;
     }
@@ -550,21 +891,64 @@ export function createStorylandUI({initialStoryId = '', redraw = () => {}} = {})
   }
 
   function handleChange(event) {
-    if (event.target.id === 'storyland-level') {
-      state.level = event.target.value;
-      updateList();
+    const target = event?.target;
+    if (!target) return false;
+    if (target.id === 'storyland-seek') {
+      if (Number.isFinite(audio.duration) && audio.duration > 0) {
+        queueSeek((Number(target.value) / 1000) * audio.duration);
+        syncFromAudio({fromSeek: true});
+      }
       return true;
     }
-    if (event.target.id !== 'storyland-rate') return false;
-    state.rate = Number(event.target.value) || 1;
-    audio.playbackRate = state.rate;
-    try { localStorage.setItem(`${STORAGE_KEY}-rate`, String(state.rate)); } catch { /* Ignore */ }
-    return true;
+    return false;
   }
 
   async function handleAction(action, data = {}) {
     if (action === 'storyland-retry') { loadError = ''; await loadCatalog(); return; }
-    if (action === 'storyland-filter') { state.category = data.value || 'all'; updateList(); return; }
+    if (action === 'storyland-filter') {
+      const val = data.value || 'all';
+      if (['in-progress', 'completed', 'saved'].includes(val)) {
+        state.progress = val;
+      } else {
+        state.category = val;
+      }
+      updateList();
+      return;
+    }
+    if (action === 'storyland-level') {
+      state.level = data.value || 'all';
+      updateList();
+      return;
+    }
+    if (action === 'storyland-progress') {
+      state.progress = data.value || 'all';
+      updateList();
+      return;
+    }
+    if (action === 'storyland-clear-search') {
+      state.query = '';
+      updateList();
+      host?.querySelector?.('#storyland-search')?.focus?.({preventScroll: true});
+      return;
+    }
+    if (action === 'storyland-reset-filters') {
+      state.category = 'all';
+      state.level = 'all';
+      state.progress = 'all';
+      state.query = '';
+      updateList();
+      return;
+    }
+    if (action === 'storyland-rate') {
+      setRate(data.value);
+      return;
+    }
+    if (action === 'storyland-follow') {
+      state.autoFollow = true;
+      updateFollowUI();
+      scrollSceneIntoTranscript(state.scene, {force: true});
+      return;
+    }
     if (action === 'storyland-open') { await openStory(data.id); return; }
     if (action === 'storyland-back') { audio.pause(); state.storyId = ''; state.finished = false; cues = []; lastCue = null; persistProgress(); redraw(); return; }
     if (action === 'storyland-save') {
@@ -590,12 +974,12 @@ export function createStorylandUI({initialStoryId = '', redraw = () => {}} = {})
       return;
     }
     if (action === 'storyland-play') { if (audio.paused) await play(); else audio.pause(); return; }
-    if (action === 'storyland-replay') { state.finished = false; seekScene(0, 0); await play(); return; }
-    if (action === 'storyland-start-scene') { seekScene(Number(data.value) || 0, 0); await play(); return; }
-    if (action === 'storyland-word') { seekScene(Number(data.scene) || 0, Number(data.word) || 0); await play(); return; }
+    if (action === 'storyland-replay') { state.finished = false; state.autoFollow = true; updateFollowUI(); seekScene(0, 0, {forceScroll: true}); await play(); return; }
+    if (action === 'storyland-start-scene') { seekScene(Number(data.value) || 0, 0, {forceScroll: true}); await play(); return; }
+    if (action === 'storyland-word') { seekScene(Number(data.scene) || 0, Number(data.word) || 0, {scroll: false}); await play(); return; }
     if (action === 'storyland-pronounce') { pronounceWord(data.word); return; }
-    if (action === 'storyland-previous') { seekScene(state.scene - 1, 0); return; }
-    if (action === 'storyland-next') { seekScene(state.scene + 1, 0); return; }
+    if (action === 'storyland-previous') { seekScene(state.scene - 1, 0, {forceScroll: true}); return; }
+    if (action === 'storyland-next') { seekScene(state.scene + 1, 0, {forceScroll: true}); return; }
   }
 
   function setInitialStory(id) {
@@ -621,7 +1005,7 @@ export function createStorylandUI({initialStoryId = '', redraw = () => {}} = {})
     }
     updatePlayer();
   });
-  audio.addEventListener('timeupdate', syncFromAudio);
+  audio.addEventListener('timeupdate', () => syncFromAudio({fromSeek: false}));
   audio.addEventListener('play', () => {
     state.playerError = '';
     state.message = text('Đang phát bản thu âm · từ đang đọc được tô sáng.', 'Playing narration · active word highlighted.');
@@ -636,7 +1020,7 @@ export function createStorylandUI({initialStoryId = '', redraw = () => {}} = {})
     const story = currentStory();
     if (story) {
       if (state.repeatScene) {
-        seekScene(state.scene, 0);
+        seekScene(state.scene, 0, {scroll: state.autoFollow});
         play();
         return;
       }
@@ -649,13 +1033,13 @@ export function createStorylandUI({initialStoryId = '', redraw = () => {}} = {})
   });
   audio.addEventListener('error', () => {
     if (state.storyId) {
-      state.playerError = text('Không tải được bản thu. Kiểm tra kết nối rồi thử lại.', 'The recording could not load. Check your connection and try again.');
+      state.playerError = text('Không tải được bản thu. Kiểm tra kết nối rồi bấm Phát để thử lại.', 'The recording could not load. Check your connection and tap Play to retry.');
       updatePlayer();
     }
   });
 
-  try { state.rate = Number(localStorage.getItem(`${STORAGE_KEY}-rate`)) || 1; } catch { state.rate = 1; }
+  try { state.rate = normalizeRate(localStorage.getItem(`${STORAGE_KEY}-rate`)); } catch { state.rate = 1; }
   audio.playbackRate = state.rate;
 
-  return {render, mount, handleInput, handleChange, handleAction, setInitialStory, params, stop};
+  return {render, mount, handleInput, handleChange, handleAction, setInitialStory, params, stop, _audio: audio, _state: state};
 }

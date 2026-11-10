@@ -1,10 +1,11 @@
 {
   "stories": 50,
   "images": 956,
+  "responsiveVariants": 336,
   "audioFiles": 50,
   "originalImagesMB": 41.92,
-  "compressedImagesMB": 20.7,
+  "compressedImagesMB": 36.22,
   "originalAudioMB": 69.44,
   "compressedAudioMB": 17.37,
-  "totalSavedMB": 73.29
+  "totalSavedMB": 57.77
 }
