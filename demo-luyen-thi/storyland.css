@@ -19,8 +19,8 @@
 .storyland-facts span+span::before{position:absolute;left:-13px;top:50%;width:4px;height:4px;border-radius:50%;background:var(--champagne);transform:translateY(-50%);content:""}
 .storyland-feature-art{position:relative;min-width:0;min-height:280px;padding:0;overflow:hidden;border:0;background:#102a49;color:#fff;text-align:left;cursor:pointer}
 .storyland-feature-art::after{position:absolute;inset:35% 0 0;background:linear-gradient(transparent,rgb(8 23 43 / .84));content:"";pointer-events:none}
-.storyland-feature-art img{display:block;width:100%;height:100%;min-height:280px;object-fit:cover;object-position:center 24%;transition:transform 220ms var(--ease-out)}
-.storyland-feature-art-badge{position:absolute;z-index:1;right:20px;bottom:18px;left:20px;display:grid;gap:4px}
+.storyland-feature-art img{position:absolute;inset:0;display:block;width:100%;height:100%;min-height:0;object-fit:contain;object-position:center}
+.storyland-feature-art-badge{position:absolute;z-index:1;right:20px;bottom:18px;left:20px;display:grid;justify-items:start;gap:4px}
 .storyland-feature-art-badge strong{color:#fff;font-size:18px;font-weight:700;line-height:1.3;text-shadow:0 1px 6px rgb(0 0 0 / .4)}
 .storyland-feature-art-badge small{color:#dceaff;font-size:13px}
 
@@ -36,7 +36,8 @@
 .storyland-search{display:flex;align-items:center;gap:9px;min-width:0;min-height:46px;flex:1;padding:0 12px 0 14px;border:2px solid var(--border-strong);border-radius:14px;background:var(--surface);color:var(--muted);box-shadow:0 2px 6px rgb(16 32 56 / .04);transition:border-color 150ms ease,box-shadow 150ms ease}
 .storyland-search:focus-within{border-color:var(--primary);box-shadow:0 0 0 3px color-mix(in srgb,var(--primary) 18%,transparent)}
 .storyland-search>.icon{width:18px;height:18px;flex:0 0 auto;color:var(--primary)}
-.storyland-search input{width:100%;min-width:0;height:42px;padding:0;border:0;outline:0;background:transparent;color:var(--foreground);font:inherit;font-size:14px}
+.storyland-search input{width:100%;min-width:0;height:42px;padding:0;border:0;outline:0;background:transparent;color:var(--foreground);font:inherit;font-size:14px;box-shadow:none}
+.storyland-screen .storyland-search input:focus-visible{outline:none;box-shadow:none}
 .storyland-search input::placeholder{color:var(--muted)}
 .storyland-search input::-webkit-search-cancel-button{-webkit-appearance:none;appearance:none}
 .storyland-search-clear{display:inline-grid;width:28px;height:28px;flex:0 0 auto;place-items:center;padding:0;border:0;border-radius:999px;background:var(--surface-hover);color:var(--muted);cursor:pointer}
@@ -59,7 +60,7 @@
 .storyland-card{position:relative;min-width:0;overflow:hidden;border:2px solid var(--border-strong);border-radius:22px;background:var(--surface);box-shadow:0 4px 0 var(--border),var(--shadow-card);transition:transform 200ms var(--ease-out),border-color 180ms ease,box-shadow 180ms ease}
 .storyland-card-open{display:flex;flex-direction:column;width:100%;height:100%;padding:0;border:0;background:transparent;color:inherit;text-align:left;cursor:pointer}
 .storyland-cover{position:relative;display:block;width:100%;aspect-ratio:16/10;overflow:hidden;background:var(--sky)}
-.storyland-cover img{display:block;width:100%;height:100%;object-fit:cover;object-position:center 24%;transition:transform 220ms var(--ease-out)}
+.storyland-cover img{display:block;width:100%;height:100%;object-fit:contain;object-position:center}
 .storyland-cover.is-image-error img,.storyland-feature-art.is-image-error img,.storyland-scene-image.is-image-error img{opacity:0}
 .storyland-cover.is-image-error::before,.storyland-feature-art.is-image-error::before,.storyland-scene-image.is-image-error::before{position:absolute;inset:14px;display:grid;place-items:center;padding:12px;border:1px dashed var(--border-strong);border-radius:14px;background:color-mix(in srgb,var(--surface) 88%,transparent);color:var(--muted);font-size:12px;font-weight:600;text-align:center;content:attr(data-fallback-label)}
 .storyland-level{display:inline-flex;align-items:center;justify-content:center;min-width:38px;min-height:26px;padding:3px 9px;border:1px solid var(--border-strong);border-radius:8px;background:var(--mint);color:var(--mint-ink);font-size:11px;font-weight:700;letter-spacing:.4px;white-space:nowrap}
@@ -113,8 +114,8 @@
 .storyland-reader-grid{display:grid;grid-template-columns:minmax(290px,43fr) minmax(0,57fr);align-items:start;gap:22px}
 .storyland-picture-column{position:sticky;top:calc(var(--header-height,68px) + 18px);display:grid;gap:16px;min-width:0}
 .storyland-scene-art{display:flex;min-width:0;flex-direction:column;margin:0;overflow:hidden;border:2px solid var(--border-strong);border-radius:22px;background:var(--surface);box-shadow:0 4px 0 var(--border),var(--shadow-card)}
-.storyland-scene-image{position:relative;aspect-ratio:var(--scene-aspect,16/11);min-height:220px;max-height:min(56vh,460px);padding:12px;overflow:hidden;background:radial-gradient(circle at 50% 45%,#fffdf8,var(--cream));display:grid;place-items:center}
-.storyland-scene-image img{display:block;width:auto;height:auto;max-width:min(100%,calc(var(--scene-natural-w,720px) * 1.25));max-height:100%;aspect-ratio:var(--scene-aspect,auto);object-fit:contain;border-radius:12px;box-shadow:0 4px 16px rgb(16 32 56 / .08)}
+.storyland-scene-image{position:relative;aspect-ratio:var(--scene-aspect,16/11);min-height:0;max-height:min(64vh,560px);padding:0;overflow:hidden;background:var(--cream);display:grid;place-items:center}
+.storyland-scene-image img{display:block;width:100%;height:100%;min-height:0;max-width:100%;max-height:min(64vh,560px);object-fit:contain}
 .storyland-scene-art figcaption{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 18px;border-top:1px solid var(--border);color:var(--muted);font-size:12px}
 .storyland-scene-art figcaption strong{display:block;color:var(--foreground);font-size:13px;margin-bottom:2px}
 .storyland-picture-nav{display:flex;gap:8px}
@@ -137,7 +138,7 @@
 .storyland-scene-play-btn .icon{width:12px;height:12px}
 .storyland-english-line{margin:0;color:var(--foreground);font-weight:500;line-height:1.8;overflow-wrap:break-word}
 .storyland-word{cursor:pointer;border-radius:5px;padding:2px 1px;box-decoration-break:clone;-webkit-box-decoration-break:clone;transition:background-color 120ms ease,color 120ms ease}
-.storyland-word.is-speaking{background:var(--champagne);color:#172b44;box-shadow:0 2px 0 var(--gold);font-weight:600;padding-inline:3px}
+.storyland-word.is-speaking{background:var(--champagne);color:#172b44;box-shadow:0 2px 0 var(--gold)}
 .storyland-vietnamese-line{margin:10px 0 0;padding-top:10px;border-top:1px dashed var(--border-strong);color:var(--muted);font-size:14px;line-height:1.65;font-style:italic;overflow-wrap:break-word}
 .storyland-vietnamese-line.is-hidden{display:none}
 
@@ -213,7 +214,7 @@
 @media(max-width:860px){
   .storyland-feature{grid-template-columns:1fr}
   .storyland-feature-copy{padding:24px}
-  .storyland-feature-art,.storyland-feature-art img{min-height:220px;max-height:260px}
+  .storyland-feature-art{min-height:260px;aspect-ratio:3/2;max-height:360px}
   .storyland-library-heading{align-items:stretch;flex-direction:column}
   .storyland-controls{min-width:0;flex:1 1 auto}
   .storyland-reader-grid{grid-template-columns:1fr}
@@ -235,7 +236,7 @@
   .storyland-grid{grid-template-columns:1fr}
   .storyland-reader-header{padding:14px 16px;gap:12px}
   .storyland-reader-tools{width:100%;justify-content:space-between}
-  .storyland-scene-image{min-height:190px;padding:8px}
+  .storyland-scene-image{min-height:0;padding:0}
   .storyland-scene-item{padding:15px 16px}
   .storyland-player{left:8px;right:8px;bottom:calc(6px + env(safe-area-inset-bottom,0px));padding:10px 12px;border-radius:16px}
   .storyland-player-icon{width:34px;height:34px}

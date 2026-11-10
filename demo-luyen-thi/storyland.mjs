@@ -136,7 +136,8 @@ export function createStorylandUI({initialStoryId = '', redraw = () => {}} = {})
     const width = Number(meta.w) || 560;
     const height = Number(meta.h) || 380;
     const src360 = meta.src360 ? toAssetUrl(meta.src360) : '';
-    const srcset = src360 ? `${src360} 360w, ${src} ${width}w` : (src ? `${src} ${width}w` : '');
+    const enhanced = meta.src2x ? toAssetUrl(meta.src2x) : '';
+    const srcset = [src360 ? `${src360} 360w` : '', src ? `${src} ${width}w` : '', enhanced ? `${enhanced} ${meta.w2x}w` : ''].filter(Boolean).join(', ');
     return {src, srcset, width, height};
   }
 
@@ -317,12 +318,12 @@ export function createStorylandUI({initialStoryId = '', redraw = () => {}} = {})
             </div>
           </div>
           <div class="storyland-controls" role="search" aria-label="${text('Tìm kiếm truyện', 'Search stories')}">
-            <label class="storyland-search" for="storyland-search">
+            <div class="storyland-search">
               ${icon('search')}
-              <span class="sr-only">${text('Tìm tên truyện tiếng Anh hoặc tiếng Việt', 'Search by English or Vietnamese story title')}</span>
+              <label class="sr-only" for="storyland-search">${text('Tìm tên truyện tiếng Anh hoặc tiếng Việt', 'Search by English or Vietnamese story title')}</label>
               <input id="storyland-search" type="search" value="${esc(state.query)}" placeholder="${text('Tìm tên truyện tiếng Anh hoặc tiếng Việt…', 'Search by English or Vietnamese title…')}" autocomplete="off" spellcheck="false">
               <button type="button" class="storyland-search-clear" id="storyland-search-clear" data-action="storyland-clear-search" aria-label="${text('Xóa từ khóa tìm kiếm', 'Clear search query')}" ${state.query ? '' : 'hidden'}>${icon('close')}</button>
-            </label>
+            </div>
           </div>
         </div>
         ${renderFilterToolbar()}
@@ -597,9 +598,11 @@ export function createStorylandUI({initialStoryId = '', redraw = () => {}} = {})
     if (!host) return;
     const story = currentStory();
     if (!story) return;
-    host.querySelectorAll('.storyland-scene-item').forEach((item, idx) => {
-      item.classList.toggle('is-active', idx === sceneIndex);
-    });
+    const selectedScene = host.querySelector(`#storyland-scene-${sceneIndex}`);
+    if (!selectedScene?.classList.contains('is-active')) {
+      host.querySelectorAll('.storyland-scene-item.is-active').forEach(item => item.classList.remove('is-active'));
+      selectedScene?.classList.add('is-active');
+    }
     host.querySelectorAll('.storyland-word.is-speaking').forEach(node => node.classList.remove('is-speaking'));
     if (wordIndex >= 0) {
       const wordNode = host.querySelector(`.storyland-word[data-scene="${sceneIndex}"][data-word="${wordIndex}"]`);
@@ -785,6 +788,7 @@ export function createStorylandUI({initialStoryId = '', redraw = () => {}} = {})
       ? text('Sẵn sàng nghe · chạm Phát hoặc chọn một từ bất kỳ.', 'Ready to listen · press Play or tap any word.')
       : text('Bản thu sẵn sàng.', 'Recording ready.');
     redraw();
+    if (typeof window !== 'undefined' && window.scrollY > 0 && typeof window.scrollTo === 'function') window.scrollTo({top: 0, behavior: 'instant'});
   }
 
   async function play() {

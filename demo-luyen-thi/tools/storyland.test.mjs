@@ -125,6 +125,8 @@ function createMockDOM(initialHTML = '') {
       offsetHeight: 120,
       classes: new Set(['storyland-scene-item', ...(idx === 0 ? ['is-active'] : [])]),
       classList: {
+        add(c) { item.classes.add(c); },
+        remove(c) { item.classes.delete(c); },
         toggle(c, force) {
           if (force) item.classes.add(c);
           else item.classes.delete(c);
@@ -209,6 +211,7 @@ function createMockDOM(initialHTML = '') {
     },
     querySelectorAll(sel) {
       if (sel === '.storyland-scene-item') return sceneItems;
+      if (sel === '.storyland-scene-item.is-active') return sceneItems.filter(item => item.classes.has('is-active'));
       if (sel === '.storyland-word.is-speaking') {
         return [...activeWords.values()].filter(w => w.classList.contains('is-speaking'));
       }
@@ -228,7 +231,7 @@ test('StoryLand catalog, high-res WebP artwork, responsive srcset variants, MP3 
   assert.equal(Object.keys(catalog.assetMeta).length, 956);
 
   for (const [key, rel] of Object.entries(catalog.assets)) {
-    assert.match(rel, /^assets\/[\w-]+\.webp$/, `Asset ${key} should point to WebP`);
+    assert.match(rel, /^assets\/(?:artwork-v2\/)?[\w-]+\.(?:webp|jpg)$/, `Asset ${key} should point to an optimized image or original JPEG`);
     const fileStat = await stat(resolve(root, 'assets/storyland', rel.replace(/^assets\//, '')));
     assert.ok(fileStat.size > 200, `Empty WebP image for ${key}`);
     const meta = catalog.assetMeta[key];
@@ -236,6 +239,11 @@ test('StoryLand catalog, high-res WebP artwork, responsive srcset variants, MP3 
     if (meta.src360) {
       const smallStat = await stat(resolve(root, 'assets/storyland', meta.src360.replace(/^assets\//, '')));
       assert.ok(smallStat.size > 200, `Empty 360w WebP variant for ${key}`);
+    }
+    if (meta.src2x) {
+      assert.equal(meta.w2x, meta.w * 2);
+      assert.equal(meta.h2x, meta.h * 2);
+      assert.ok((await stat(resolve(root, 'assets/storyland', meta.src2x.replace(/^assets\//, '')))).size > 200);
     }
   }
 
@@ -442,7 +450,7 @@ test('StoryLand Smart Auto-Follow, Manual-Scroll Override, Resume-Follow, Seek, 
 test('StoryLand CSS enforces 43.5%/56.5% desktop split, object-fit contain on scenes, and responsive breakpoints (360, 390, 768, 1024, 1440px)', async () => {
   const css = await readFile(resolve(root, 'storyland.css'), 'utf8');
   assert.match(css, /grid-template-columns:minmax\(290px,43fr\)\s*minmax\(0,57fr\)/, 'Desktop reader must use 42-45% / 55-58% split');
-  assert.match(css, /\.storyland-cover img\{[^}]*object-fit:cover/, 'Card covers must use object-fit: cover');
+  assert.match(css, /\.storyland-cover img\{[^}]*object-fit:contain/, 'Card covers must preserve the entire illustration');
   assert.match(css, /\.storyland-scene-image img\{[^}]*object-fit:contain/, 'Scene images must prioritize object-fit: contain');
   assert.match(css, /env\(safe-area-inset-bottom/, 'Mobile player and reader must respect safe-area-inset-bottom');
   assert.match(css, /\.storyland-english-line\{[^}]*overflow-wrap:break-word/, 'Long English lines must wrap cleanly');

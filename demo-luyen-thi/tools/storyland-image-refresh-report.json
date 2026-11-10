@@ -1,0 +1,8 @@
+{
+  "images": 956,
+  "nativeOriginalBytes": 43951794,
+  "nativePublishedBytes": 38247323,
+  "enhancedImages": 620,
+  "enhancedBytes": 27014068,
+  "method": "Original JPEG or WebP quality 82, whichever is smaller; optional Lanczos 2x plus mild unsharp mask, WebP quality 85. No AI detail reconstruction."
+}
