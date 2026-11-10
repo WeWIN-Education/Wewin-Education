@@ -576,31 +576,31 @@ export const flyersHard = [
           {
             "id": "l1-1",
             "prompt": "Oliver",
-            "answer": "p7",
+            "answer": "p6",
             "choices": []
           },
           {
             "id": "l1-2",
             "prompt": "Robert",
-            "answer": "p2",
+            "answer": "p3",
             "choices": []
           },
           {
             "id": "l1-3",
             "prompt": "Isabel",
-            "answer": "p3",
+            "answer": "p7",
             "choices": []
           },
           {
             "id": "l1-4",
             "prompt": "Emma",
-            "answer": "p6",
+            "answer": "p2",
             "choices": []
           },
           {
             "id": "l1-5",
             "prompt": "Sophia",
-            "answer": "p5",
+            "answer": "p4",
             "choices": []
           }
         ],
@@ -616,11 +616,11 @@ export const flyersHard = [
           "Oliver"
         ],
         "matchKey": {
-          "Oliver": "p7",
-          "Robert": "p2",
-          "Isabel": "p3",
-          "Emma": "p6",
-          "Sophia": "p5"
+          "Oliver": "p6",
+          "Robert": "p3",
+          "Isabel": "p7",
+          "Emma": "p2",
+          "Sophia": "p4"
         }
       },
       {

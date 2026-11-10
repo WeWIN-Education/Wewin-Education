@@ -146,7 +146,16 @@ for n in range(16,26):
     for item in re.split(r'\s*;\s*(?=\d+\.)',re.sub(r'\s+',' ',listening_sections[0]).strip()):
         m=re.match(r'\d+\.\s*([A-Z][a-z]+):',item)
         if not m or m.group(1) not in names:raise ValueError(f'{test_id}: invalid Part 1 key: {item}')
-        name=m.group(1);match[name]=f'p{names.index(name)+1}'
+        name=m.group(1)
+        if n == 16:
+            # Name labels around the page do not identify the people below them.
+            description=item.split(':',1)[1].lower()
+            character_targets={'curly hair':'p6','glasses':'p3','pink t-shirt':'p7','yellow dress':'p2','purple dress':'p4'}
+            candidates=[target for phrase,target in character_targets.items() if phrase in description]
+            if len(candidates)!=1:raise ValueError(f'{test_id}: ambiguous character description: {item}')
+            match[name]=candidates[0]
+        else:
+            match[name]=f'p{names.index(name)+1}'
     if len(match)!=5:raise ValueError(f'{test_id}: expected five Listening 1 matches, got {len(match)}')
     l1=[{'id':f'l1-{i+1}','prompt':name,'answer':target,'choices':[]} for i,(name,target) in enumerate(match.items())]
     p1={'title':'Listen & match','images':[page_files[2]],'questions':l1,'type':'match','exampleName':example_name,'personOrder':names,'matchKey':match}

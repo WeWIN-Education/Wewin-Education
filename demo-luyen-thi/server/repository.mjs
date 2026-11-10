@@ -81,4 +81,5 @@ export class Repository{
  async reviewAudit(id){return this.q('SELECT teacher_id,previous_value,new_value,reason,created_at FROM practice_review_audit WHERE review_id=$1 ORDER BY created_at',[id]);}
 }
 let instance;
-export async function productionRepository(){if(!process.env.DATABASE_URL)return null;if(!instance){const {neon}=await import('@neondatabase/serverless');const sql=neon(process.env.DATABASE_URL);instance=new Repository({query:(text,params)=>sql.query(text,params)});}await instance.ensureClassStaff();return instance;}
+let flyers16Correction;
+export async function productionRepository(){if(!process.env.DATABASE_URL)return null;if(!instance){const {neon}=await import('@neondatabase/serverless');const sql=neon(process.env.DATABASE_URL);instance=new Repository({query:(text,params)=>sql.query(text,params)});}await instance.ensureClassStaff();if(!flyers16Correction)flyers16Correction=import('./flyers16-correction.mjs').then(({correctFlyers16Results})=>correctFlyers16Results(instance)).catch(error=>{flyers16Correction=null;throw error;});await flyers16Correction;return instance;}
