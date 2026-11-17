@@ -152,6 +152,9 @@ for level,source in [('starters',starters),('movers',movers),('flyers',flyers)]:
 if (SITE/'ket.mjs').exists():
     private.extend(module('ket.mjs'))
     public.extend(e for e in json.loads((OUT/'exams-public.json').read_text(encoding='utf-8')) if e.get('levelKey')=='ket')
+if (SITE/'flyers40.mjs').exists():
+    private.extend(module('flyers40.mjs'))
+    public.extend(e for e in json.loads((OUT/'exams-public.json').read_text(encoding='utf-8')) if e.get('id') in {f'flyers-{n}' for n in range(40,50)})
 (OUT/'exams-private.json').write_text(json.dumps(private,ensure_ascii=False),encoding='utf-8')
 (OUT/'exams-public.json').write_text(json.dumps(public,ensure_ascii=False),encoding='utf-8')
 (OUT/'artwork.json').write_text(json.dumps(artwork,ensure_ascii=False),encoding='utf-8')

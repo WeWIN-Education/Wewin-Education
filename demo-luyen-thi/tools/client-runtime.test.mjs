@@ -31,7 +31,7 @@ test('client renders overview, library, resumed draft, listening, result, histor
  const click=async(action,extra={})=>{const el={dataset:{action,...extra},disabled:false,closest:()=>null};const target={closest:selector=>selector==='[data-action]'?el:null};for(const fn of listeners.get('click')||[])await fn({target,preventDefault(){}});};
  assert.match(root.innerHTML,/Local QA Learner/);assert.match(root.innerHTML,/Tiếp tục bài đang làm/);assert.match(root.innerHTML,/learning-sidebar/);assert.ok(!root.innerHTML.includes('NaN'));
  await click('catalog');assert.match(root.innerHTML,/id="catalog-search"/);assert.match(root.innerHTML,/test-row/);
- await click('library-level',{value:'flyers'});assert.match(root.innerHTML,/20 đề Flyers/);
+ await click('library-level',{value:'flyers'});assert.match(root.innerHTML,/30 đề Flyers/);
  await click('load-attempt',{id:stored.id});assert.equal(document.body.dataset.screen,'exam');assert.match(root.innerHTML,/exam-focus/);assert.match(root.innerHTML,/Đọc & Viết/);
  await click('ui-language');assert.match(root.innerHTML,/Your learning space/);assert.ok(root.innerHTML.includes(e.reading[0].questions[0].prompt));await click('ui-language');assert.match(root.innerHTML,/Không gian học tập/);
  await click('skill',{value:'listening'});assert.match(root.innerHTML,/audio-seek/);assert.match(root.innerHTML,/Draw lines/);
@@ -47,4 +47,11 @@ test('client renders overview, library, resumed draft, listening, result, histor
  await click('part',{value:'6'});assert.match(root.innerHTML,/Write 35 or more words/);assert.match(root.innerHTML,/STORY FIXTURE/);
  await click('skill',{value:'listening'});assert.match(audio.src,/ket\/01\/listening-1\.mp3/);
  await click('confirm-submit');assert.match(root.innerHTML,/EMAIL FIXTURE/);assert.match(root.innerHTML,/STORY FIXTURE/);assert.doesNotMatch(root.innerHTML,/shield-strip/);assert.ok(!calls.includes('writing'));
+ const pending=allExams.find(e=>e.id==='flyers-40');
+ stored={id:'flyers40-fixture',exam_id:pending.id,exam_version:pending.version,answers:{},writing:{},created_at:'2026-11-17T01:00:00Z',submitted_at:null};
+ await click('load-attempt',{id:stored.id});await click('skill',{value:'listening'});
+ assert.match(root.innerHTML,/id="audio-play"/);assert.match(root.innerHTML,/id="audio-seek"/);
+ assert.match(audio.src,/flyers40\/40\/listening-1\.mp3/);assert.ok(!String(audio.src).includes('undefined'));
+ const savedAudio=pending.audio;pending.audio=[];await click('part',{value:'1'});
+ assert.match(root.innerHTML,/Audio Listening của đề này đang chờ bổ sung/);assert.doesNotMatch(root.innerHTML,/id="audio-play"|id="audio-seek"/);pending.audio=savedAudio;
 });

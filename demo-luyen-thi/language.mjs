@@ -1,5 +1,7 @@
 // Only literal interface copy is translated. Interpolated data and test content stay untouched.
 const pairs = [
+ ["Audio Listening của đề này đang chờ bổ sung.","The Listening audio for this test is awaiting upload."],
+ ["Chưa có audio","Audio pending"],
  ["Lớp đang hoạt động có tên này đã tồn tại.","An active class with this name already exists."],
  ["Vui lòng chọn lớp đang hoạt động khác.","Choose another active class."],
  ["Vui lòng nhập tên lớp.","Enter a class name."],

@@ -9,6 +9,8 @@ assets/mascots.png
 __pycache__/
 node_modules/
 dist/
+tmp/
+output/
 
 !.env.example
 .vercel/

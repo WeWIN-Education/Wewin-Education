@@ -1,0 +1,13 @@
+{
+  "tests": 10,
+  "readingQuestions": 430,
+  "listeningQuestions": 250,
+  "writingTasks": 10,
+  "audioFiles": 50,
+  "audioPending": false,
+  "sourceSHA256": "8e15faae6df4fcf225b3b59148a9acfccade2338e78828d236212ed9c1299f3d",
+  "webpFiles": 320,
+  "imageBytes": 29209780,
+  "pictureCoordinates": "Manually mapped from the original artwork; source pos placeholders are not used.",
+  "audioVersion": "20261117-flyers40-bce0e012ae54"
+}

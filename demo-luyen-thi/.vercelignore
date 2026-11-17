@@ -2,6 +2,8 @@
 .vercel
 qa
 previews
+tmp
+output
 README.md
 QA.md
 .htaccess
