@@ -1,0 +1,1280 @@
+{
+  "tests": 30,
+  "starters": 10,
+  "movers": 10,
+  "ketNewEdition": 10,
+  "previousTestsPreserved": 80,
+  "audioParts": 140,
+  "audioFiles": [
+    {
+      "file": "packs20261118/movers/40/listening-1.mp3",
+      "sourceSHA256": "c1f1e4a2a4cd87e3f543ca28be6d06dbd6fe55291e46afbba9e18dd55ed4f27d",
+      "sha256": "ef461c99f8865916b8137f50077387414011a1c2f39c7201ccbe0e2677d525fb",
+      "sourceBytes": 5007789,
+      "bytes": 3755853,
+      "duration": 312.895,
+      "status": "PASS"
+    },
+    {
+      "file": "packs20261118/movers/40/listening-2.mp3",
+      "sourceSHA256": "18a6fcd4edb58785d0aa7f3c16a1a2b9b26a89560d5d3272ca51945281386efd",
+      "sha256": "2d06fda2145f436d37d5fc33a8fa2346e340333b0b8518ec5375c2ba29c75c18",
+      "sourceBytes": 3535149,
+      "bytes": 2651373,
+      "duration": 220.855,
+      "status": "PASS"
+    },
+    {
+      "file": "packs20261118/movers/40/listening-3.mp3",
+      "sourceSHA256": "655875a7234e9959082b925d29d4dd94b77c691e824c7cbe74400d16ac5d882e",
+      "sha256": "073e717bcad3898d49cb5563d7190b92fdbeefb2651cedaf64b1ff2bf188e893",
+      "sourceBytes": 4764333,
+      "bytes": 3573261,
+      "duration": 297.685,
+      "status": "PASS"
+    },
+    {
+      "file": "packs20261118/movers/40/listening-4.mp3",
+      "sourceSHA256": "aea5c34172dd3a17fbc52ea2817b8b357c464ac56819c124700c37821fd85adb",
+      "sha256": "ca3797b81d0ef1cb4362234b2f7fe753ace22052987f9799d128e2b0e3c8efce",
+      "sourceBytes": 4392621,
+      "bytes": 3294477,
+      "duration": 274.46,
+      "status": "PASS"
+    },
+    {
+      "file": "packs20261118/movers/40/listening-5.mp3",
+      "sourceSHA256": "eddf227cda657e74df03a8c5fedfa6c3fd41ffadd5207f685d05657e1d8db9ff",
+      "sha256": "b14b8176451145b427b35e18567b32598018fa3b6b9be8256fbda73fa7cf9d68",
+      "sourceBytes": 4521261,
+      "bytes": 3390957,
+      "duration": 282.49,
+      "status": "PASS"
+    },
+    {
+      "file": "packs20261118/movers/41/listening-1.mp3",
+      "sourceSHA256": "203d4945d0408e6b8d20287d21dac0adfca442585ccb7d39af9fa095e21da4ec",
+      "sha256": "c755209a35676bfcb7a7913266d843181527faf0e1f614aa28685b1bb66d9d48",
+      "sourceBytes": 5014701,
+      "bytes": 3761037,
+      "duration": 313.325,
+      "status": "PASS"
+    },
+    {
+      "file": "packs20261118/movers/41/listening-2.mp3",
+      "sourceSHA256": "89e4dd6a48a06585d99aad6a32780b05d5a20c647fbccc47b6364a6223569090",
+      "sha256": "d710615bdf54f0c8573a16bb67d494427a07b14b369357ea51059b0289047781",
+      "sourceBytes": 3729453,
+      "bytes": 2797101,
+      "duration": 232.995,
+      "status": "PASS"
+    },
+    {
+      "file": "packs20261118/movers/41/listening-3.mp3",
+      "sourceSHA256": "feb562890c50937f131b47db327e682e6062e36beda64647d75509139bf816f1",
+      "sha256": "6208bbfeccb5ef109985af2098f49f4032fd8fea7f0f82b79b9e1377467f6fc2",
+      "sourceBytes": 4753197,
+      "bytes": 3564909,
+      "duration": 296.99,
+      "status": "PASS"
+    },
+    {
+      "file": "packs20261118/movers/41/listening-4.mp3",
+      "sourceSHA256": "b5b0c49638d48b6084036e616ca3cea430820fcef709d054c28e49693ea58fcc",
+      "sha256": "51b5fc013e2604f2ab45bda7b0d6942c70062008a6b98b78312e686f036a08e0",
+      "sourceBytes": 4453677,
+      "bytes": 3340269,
+      "duration": 278.27,
+      "status": "PASS"
+    },
+    {
+      "file": "packs20261118/movers/41/listening-5.mp3",
+      "sourceSHA256": "cb9f3a7b97a0fb41089a4d6b6eee6da828b4d0729df9c0b2b1d21d4fd8a60f97",
+      "sha256": "1153771e11cb82e100c5619e3a454bd6a3dcc5b43ab053a80c22318d27ce4015",
+      "sourceBytes": 4500525,
+      "bytes": 3375405,
+      "duration": 281.2,
+      "status": "PASS"
+    },
+    {
+      "file": "packs20261118/movers/42/listening-1.mp3",
+      "sourceSHA256": "f7b78ba85b62af080e1bc10a8542f7b1fceb44d67fa5436d35b594d54d3b8e8d",
+      "sha256": "a72ea54dd696c244f5f9cbc444afa5b680399061e8ee9acda1fe8df00b080eed",
+      "sourceBytes": 4970157,
+      "bytes": 3727629,
+      "duration": 310.545,
+      "status": "PASS"
+    },
+    {
+      "file": "packs20261118/movers/42/listening-2.mp3",
+      "sourceSHA256": "15d831e76f3a20a47f6d64dd1e9f6e84b53814f8806a06f4b7a28c9704ef23f1",
+      "sha256": "ab093efd8227868da5a0d4593b4842a324dff7f47e40d173747362c9859cd033",
+      "sourceBytes": 3481773,
+      "bytes": 2611341,
+      "duration": 217.525,
+      "status": "PASS"
+    },
+    {
+      "file": "packs20261118/movers/42/listening-3.mp3",
+      "sourceSHA256": "1884c34202b2176a107cfbda5fb3db641c64372c178f0c9b51c824e22ad7a47b",
+      "sha256": "9f75a4a9dd989eb019aa74f484641c54904451a079c70aad2b9395203c971e4e",
+      "sourceBytes": 4730925,
+      "bytes": 3548205,
+      "duration": 295.6,
+      "status": "PASS"
+    },
+    {
+      "file": "packs20261118/movers/42/listening-4.mp3",
+      "sourceSHA256": "320c6cab9da06aea0e04baa2dcdd701d5761237e721dde4c2b85eade7313ec90",
+      "sha256": "875ddd0a3f9661a61016d63594998dd96515ad0d098c815eeb8cffe0423ce9f4",
+      "sourceBytes": 4430253,
+      "bytes": 3322701,
+      "duration": 276.81,
+      "status": "PASS"
+    },
+    {
+      "file": "packs20261118/movers/42/listening-5.mp3",
+      "sourceSHA256": "2c0431a58ff304690d159ae75a576316d891ba588e54c7588396918d7da92ddc",
+      "sha256": "af726bd284f744eec9b91564c2dd1ac9ed1bd5b9a1fa176a0d06bb401b7c2961",
+      "sourceBytes": 4513965,
+      "bytes": 3385485,
+      "duration": 282.03,
+      "status": "PASS"
+    },
+    {
+      "file": "packs20261118/movers/43/listening-1.mp3",
+      "sourceSHA256": "5c78af81385d309fc6bcbb0fa9e7f464b288ad5062b9cacfe378c0d571ed1025",
+      "sha256": "a01117f857aa767d4bdc324bbe0a51ea4e79a000c7ee549143fbf044f98e4711",
+      "sourceBytes": 5026221,
+      "bytes": 3769677,
+      "duration": 314.045,
+      "status": "PASS"
+    },
+    {
+      "file": "packs20261118/movers/43/listening-2.mp3",
+      "sourceSHA256": "8b6e69d30535ef9b2ba699223a5dd94508478097ed9a5cb6fbb7cea23af35794",
+      "sha256": "93eecde891b147521fee6ce78ebc7d4ecb9347f42a6e1405b602c3fef9482dfa",
+      "sourceBytes": 3482541,
+      "bytes": 2611917,
+      "duration": 217.565,
+      "status": "PASS"
+    },
+    {
+      "file": "packs20261118/movers/43/listening-3.mp3",
+      "sourceSHA256": "c36f2452e81367641760b7b946e160e48f4b27668f9252f637547a3c27e4e134",
+      "sha256": "45884b8eee12ab824f5b2ceb639109ed4c63f4237c22371f07bd9239f2067a44",
+      "sourceBytes": 4760493,
+      "bytes": 3570381,
+      "duration": 297.435,
+      "status": "PASS"
+    },
+    {
+      "file": "packs20261118/movers/43/listening-4.mp3",
+      "sourceSHA256": "5daf00038eb4e16d9976005f38c24974abc11b5d93312bd471180447fb145bad",
+      "sha256": "11b30030d278c7ec6571d90c3789eed0985410c3e8fc7197af275ec5aa705dba",
+      "sourceBytes": 4450221,
+      "bytes": 3337677,
+      "duration": 278.05,
+      "status": "PASS"
+    },
+    {
+      "file": "packs20261118/movers/43/listening-5.mp3",
+      "sourceSHA256": "7ff5f39487a158e28068805e393038ce6ed264592fc81d4c7a1d4f45684dc285",
+      "sha256": "6828af216da4a23457f95d98c6c8b535b29c3f0da41cd52c9e6467b522ad786b",
+      "sourceBytes": 4508973,
+      "bytes": 3381741,
+      "duration": 281.72,
+      "status": "PASS"
+    },
+    {
+      "file": "packs20261118/movers/44/listening-1.mp3",
+      "sourceSHA256": "14c191685ae24bb6e86a8c0664728eff1c740ac6fd159552c8f04f698d6aacc9",
+      "sha256": "6d436972a782d8ab814300348524a655cc757a388dccbeaa4ca85b84a1b15c0f",
+      "sourceBytes": 4962093,
+      "bytes": 3721581,
+      "duration": 310.055,
+      "status": "PASS"
+    },
+    {
+      "file": "packs20261118/movers/44/listening-2.mp3",
+      "sourceSHA256": "b1ee7c290ce1c6a666f6db0ab07abbbf33cfae376bc8a3ad18265ab4cdcf812b",
+      "sha256": "658957fc72a371a80c0f19f576d786fb6ac37624f34d0b06560344173ec78508",
+      "sourceBytes": 3604653,
+      "bytes": 2703501,
+      "duration": 225.215,
+      "status": "PASS"
+    },
+    {
+      "file": "packs20261118/movers/44/listening-3.mp3",
+      "sourceSHA256": "8c2f9cfbc1217b23862810b9e29558d3dc59515e1e875b138593710e16108a6a",
+      "sha256": "c7f5da868ed9a97d231892683edf7842ed7159cad3835ae6c8745bc61aa0c9e4",
+      "sourceBytes": 4768941,
+      "bytes": 3576717,
+      "duration": 297.975,
+      "status": "PASS"
+    },
+    {
+      "file": "packs20261118/movers/44/listening-4.mp3",
+      "sourceSHA256": "f87239e21537d1335f2c6b354b257f24653e346005e748144a1ed188fa6135e0",
+      "sha256": "e5a33de046c7ff5cc3f15d8e0d658d35f54049a6d594a565e987787fe32a814b",
+      "sourceBytes": 4409133,
+      "bytes": 3306861,
+      "duration": 275.48,
+      "status": "PASS"
+    },
+    {
+      "file": "packs20261118/movers/44/listening-5.mp3",
+      "sourceSHA256": "de9a14479ae38afb3dea9aeca7c5427fe66a1fcdd7ec0dddfa17db3989679680",
+      "sha256": "de06aef223c6ddd55091cb3dadb5e12e7a70d657eecb681a7b7d39a4a02e7109",
+      "sourceBytes": 4519725,
+      "bytes": 3389805,
+      "duration": 282.4,
+      "status": "PASS"
+    },
+    {
+      "file": "packs20261118/movers/45/listening-1.mp3",
+      "sourceSHA256": "c8849a08624e0b33e769211ec5c03a4de38ff0a6e7e991c719fbdf3a987eb71c",
+      "sha256": "16141d51e108ff0e8bce0c0aaaa2f1ffca29e99034315818553ee7c0bbd27fe5",
+      "sourceBytes": 4980525,
+      "bytes": 3735405,
+      "duration": 311.185958,
+      "status": "PASS"
+    },
+    {
+      "file": "packs20261118/movers/45/listening-2.mp3",
+      "sourceSHA256": "267472a085973a530721b95b10cd64711dba3646e9569ca1fb1545e67193b8ce",
+      "sha256": "fc81d2e73d3b1918c96cb6f887e31e6974e801946ced8a38efbbdaad39ff86e4",
+      "sourceBytes": 3591213,
+      "bytes": 2693421,
+      "duration": 224.365,
+      "status": "PASS"
+    },
+    {
+      "file": "packs20261118/movers/45/listening-3.mp3",
+      "sourceSHA256": "fdc161c6442062eb2529cbc444b2168cbbb0e9972277609cb0404d07a975f055",
+      "sha256": "e0de336edfa3161fa9c1b5fa20ea99eec5b799871c265a5d2b40f79e9450de70",
+      "sourceBytes": 4759725,
+      "bytes": 3569805,
+      "duration": 297.405,
+      "status": "PASS"
+    },
+    {
+      "file": "packs20261118/movers/45/listening-4.mp3",
+      "sourceSHA256": "100e7fc81b09eeb8fe07a6734b31165e72e87378820f7a897de4519398c83e89",
+      "sha256": "bc6f26a94598d12c9581279357cbc691e6b445e30a4bab5189f242ddf367ea1c",
+      "sourceBytes": 4374189,
+      "bytes": 3280653,
+      "duration": 273.3,
+      "status": "PASS"
+    },
+    {
+      "file": "packs20261118/movers/45/listening-5.mp3",
+      "sourceSHA256": "251c90c96492aa1cb495f7813e6d872c682acc860a5eeaecff5c9229ccd39fc1",
+      "sha256": "27ddfa29a4903934f530b68b910fc902ce736633249d136cfa259a615262277d",
+      "sourceBytes": 4506669,
+      "bytes": 3380013,
+      "duration": 281.57,
+      "status": "PASS"
+    },
+    {
+      "file": "packs20261118/movers/46/listening-1.mp3",
+      "sourceSHA256": "33666baf75aa9887c49291e4cbd30bdf5df9a9698697396b54b8873fbb2e6d4e",
+      "sha256": "32e2a843302dd1a7d2c7569aeed1aa22684e16178dc6583e2e2768e42e9718f8",
+      "sourceBytes": 4916781,
+      "bytes": 3687597,
+      "duration": 307.215,
+      "status": "PASS"
+    },
+    {
+      "file": "packs20261118/movers/46/listening-2.mp3",
+      "sourceSHA256": "a1f19d619ae94431c6bdcdc6815ddd2c68d3254530eb679bb1a3b40729f9bf64",
+      "sha256": "b6fe3a7e9c85f078a01dccaa70fa3f3836db3ee6a2340db4c55e0ba2fee18eb1",
+      "sourceBytes": 3559725,
+      "bytes": 2669805,
+      "duration": 222.395,
+      "status": "PASS"
+    },
+    {
+      "file": "packs20261118/movers/46/listening-3.mp3",
+      "sourceSHA256": "3ce52eac5c22b5c54b52c7b4a96cd4fa9930804302e4d5b02337cef515cd0c00",
+      "sha256": "f7074aa40a2e4450be0e3e6f706dfc9c8eaa79b630dce1c2b025c3585f11d6f1",
+      "sourceBytes": 4750125,
+      "bytes": 3562605,
+      "duration": 296.795,
+      "status": "PASS"
+    },
+    {
+      "file": "packs20261118/movers/46/listening-4.mp3",
+      "sourceSHA256": "a7457b4a925954904e8b222a20f0cea17d6f61cc1de0f82a6f10b0362abd149d",
+      "sha256": "56724a34f8c723fafe8cb67f9ef3d0eb67ef5a069039d289a76c727d2e54cfe2",
+      "sourceBytes": 4416813,
+      "bytes": 3312621,
+      "duration": 275.96,
+      "status": "PASS"
+    },
+    {
+      "file": "packs20261118/movers/46/listening-5.mp3",
+      "sourceSHA256": "20a4cbf79bc396824d2b1665c0cc921ab03a5ab9c86d52f71dd4f99121420cfb",
+      "sha256": "6e7641cec7933208ce04f514937032103b9e8743e4512682191e6b443877217c",
+      "sourceBytes": 4524333,
+      "bytes": 3393261,
+      "duration": 282.69,
+      "status": "PASS"
+    },
+    {
+      "file": "packs20261118/movers/47/listening-1.mp3",
+      "sourceSHA256": "6f94a65d9cded6bcc05914b46a40a648c9e4b602d3028e4a547d1b715fe7890a",
+      "sha256": "0e1ef0fd1207d608eabce0f69584747960be28c5eda0b9fdd40f709208dc3440",
+      "sourceBytes": 5046957,
+      "bytes": 3785229,
+      "duration": 315.345,
+      "status": "PASS"
+    },
+    {
+      "file": "packs20261118/movers/47/listening-2.mp3",
+      "sourceSHA256": "2434b973994caa0c6aeaa52e3c0369f9d5891ff32357d818cca8e76c7e65b9ff",
+      "sha256": "6934171c8253b4d8c071034ff9ced1c1a1849391729ab8172752a0ae989f7890",
+      "sourceBytes": 3649197,
+      "bytes": 2736909,
+      "duration": 227.985,
+      "status": "PASS"
+    },
+    {
+      "file": "packs20261118/movers/47/listening-3.mp3",
+      "sourceSHA256": "bdd11cac7c3c2275d90ac6b27e59df3ed72963e27337732039a066616adfd4ff",
+      "sha256": "c3c9201ae9b1b7934e8e22c6a4a2e0b1159a33ea7f47a8b7d1d0189f54f72001",
+      "sourceBytes": 4740525,
+      "bytes": 3555405,
+      "duration": 296.195,
+      "status": "PASS"
+    },
+    {
+      "file": "packs20261118/movers/47/listening-4.mp3",
+      "sourceSHA256": "7cd6a681edc49775e3326667aa617005d00d5e8619d1b3e2155aa91c6f63c566",
+      "sha256": "f02e007597e1d0b42a87a10ad3bf9a13006af0f6ca33ba262ce589e65dafb87a",
+      "sourceBytes": 4413741,
+      "bytes": 3310317,
+      "duration": 275.77,
+      "status": "PASS"
+    },
+    {
+      "file": "packs20261118/movers/47/listening-5.mp3",
+      "sourceSHA256": "5e55114abf03fb98b45810cc9938960927651a443242125412ed7afdca8cc57a",
+      "sha256": "1268ddeacb0f4aa32e79d4c321d6092dde36fffc146ffc1c39502f9fc286982c",
+      "sourceBytes": 4520877,
+      "bytes": 3390669,
+      "duration": 282.48,
+      "status": "PASS"
+    },
+    {
+      "file": "packs20261118/movers/48/listening-1.mp3",
+      "sourceSHA256": "bbdf628a316247d12dbb16d7039d815d880e57362dd5e668c510dba9a6674b37",
+      "sha256": "126d7546859d7ad9e5ee934743e05719c362f006503c3ac484fb21112c775d33",
+      "sourceBytes": 5076141,
+      "bytes": 3807117,
+      "duration": 317.175,
+      "status": "PASS"
+    },
+    {
+      "file": "packs20261118/movers/48/listening-2.mp3",
+      "sourceSHA256": "80bfcfa88b54ea6ea447dcee36c92fac6a2cc80c4c351c0eb594e0ddceea3835",
+      "sha256": "da20585e7b74dc3debd06474f647111f0f188e35ea8683be2ecd4e945beef75f",
+      "sourceBytes": 3554733,
+      "bytes": 2666061,
+      "duration": 222.095,
+      "status": "PASS"
+    },
+    {
+      "file": "packs20261118/movers/48/listening-3.mp3",
+      "sourceSHA256": "cadbc6655259f72afdc75834156b2618bc1f56e9daa043ca758bf4c285706dbd",
+      "sha256": "3b815f939280d904b2993c95bab03596bf50c35dea3dc7ec43cac5a4732932c5",
+      "sourceBytes": 4738605,
+      "bytes": 3553965,
+      "duration": 296.07,
+      "status": "PASS"
+    },
+    {
+      "file": "packs20261118/movers/48/listening-4.mp3",
+      "sourceSHA256": "5393db15ba18c365fdda87beebe2019c082469738052291c997aa3d2917c083a",
+      "sha256": "78b6a98e12e580581cfd80b527a18dae1431c5092ab6a0c70066de33dec70a02",
+      "sourceBytes": 4393773,
+      "bytes": 3295341,
+      "duration": 274.53,
+      "status": "PASS"
+    },
+    {
+      "file": "packs20261118/movers/48/listening-5.mp3",
+      "sourceSHA256": "040e1c959e9bfd56b3032ed67889158a06b1e8aa7b2dab5201736cccc0ae9a74",
+      "sha256": "259a331f4ea6dbc0861c71d481e844ad2f17d1cbdd7bc23657794610ca36e0c9",
+      "sourceBytes": 4520877,
+      "bytes": 3390669,
+      "duration": 282.47,
+      "status": "PASS"
+    },
+    {
+      "file": "packs20261118/movers/49/listening-1.mp3",
+      "sourceSHA256": "fea83481b6b31b1b3ba479570dd66b70087c3100fda2862176a1f3256e8989da",
+      "sha256": "f7cf1827e69fb447e8d38b9ea85d3ca5cf22c4c5393195bfadba5f032d72570b",
+      "sourceBytes": 5032365,
+      "bytes": 3774285,
+      "duration": 314.435,
+      "status": "PASS"
+    },
+    {
+      "file": "packs20261118/movers/49/listening-2.mp3",
+      "sourceSHA256": "138d7017652637279ac3fe74c21ee9ee261af330c20721ca5a1bdd9c51045ff2",
+      "sha256": "249e912d2dadeb6be34302a9dd9175033f52181117cab038e140d4acc291fcbf",
+      "sourceBytes": 3613485,
+      "bytes": 2710125,
+      "duration": 225.765,
+      "status": "PASS"
+    },
+    {
+      "file": "packs20261118/movers/49/listening-3.mp3",
+      "sourceSHA256": "ab0a4f1d6b3a02faac47792a57677c8f81da79cf259673ec8a38eb73609373f0",
+      "sha256": "3ed16207966e4b944d17a79df6dd4fb6a1ec458d62f123a29f827cd3f6a26dd8",
+      "sourceBytes": 4755885,
+      "bytes": 3566925,
+      "duration": 297.165,
+      "status": "PASS"
+    },
+    {
+      "file": "packs20261118/movers/49/listening-4.mp3",
+      "sourceSHA256": "667d608fe181750aa7f9178361be2d309f9a52bf84157b82fb2d11f8ee4f90cb",
+      "sha256": "4255a4f1da0b29b5b19ef360b71989e60b105641cffb99787caf800eafe2d8db",
+      "sourceBytes": 4420269,
+      "bytes": 3315213,
+      "duration": 276.19,
+      "status": "PASS"
+    },
+    {
+      "file": "packs20261118/movers/49/listening-5.mp3",
+      "sourceSHA256": "4a2f3a268fc201caf7028140d60158aaef07adf8301fa97729cbfb2add9c8f66",
+      "sha256": "a4883f34512af46f2207665a10191b4697ef04a0dcf64d81995cd5000b319ef0",
+      "sourceBytes": 4516653,
+      "bytes": 3387501,
+      "duration": 282.2,
+      "status": "PASS"
+    },
+    {
+      "file": "packs20261118/starters/40/listening-1.mp3",
+      "sourceSHA256": "389b286608884638e65de60d296d4ffffe7e0032e2797d52e90138370dce1bdb",
+      "sha256": "246f7808ea7826bc0d8520385e61b2dae8562faded2d707f6f2694d73e692348",
+      "sourceBytes": 4858797,
+      "bytes": 3644109,
+      "duration": 303.595,
+      "status": "PASS"
+    },
+    {
+      "file": "packs20261118/starters/40/listening-2.mp3",
+      "sourceSHA256": "e69efd238a1e3469ff4011e5c1df57014988430eb7fb55091cacc6207e742cb1",
+      "sha256": "02ba8d73f408c41f8f8ac72ba4d287d42bc155b518005752368571f930fc2c60",
+      "sourceBytes": 3671469,
+      "bytes": 2753613,
+      "duration": 229.39,
+      "status": "PASS"
+    },
+    {
+      "file": "packs20261118/starters/40/listening-3.mp3",
+      "sourceSHA256": "4a92cbcb6e2dcd2eb3e852cdc577a1375d7766c98cada90f360122f1753576d0",
+      "sha256": "9a512eaf599ee3cb8c39218ec1d6b5f2fbe384eadd1f1d80a513165b4f3792ea",
+      "sourceBytes": 4599597,
+      "bytes": 3449709,
+      "duration": 287.395,
+      "status": "PASS"
+    },
+    {
+      "file": "packs20261118/starters/40/listening-4.mp3",
+      "sourceSHA256": "84710529809e9683818543ca4502b8d636f70117689d11d9e3244cb99d4b1973",
+      "sha256": "18ff754f7704aabdc67ea33ffb89d561ed64b4060aa775d9d47ffff4fe7b3d55",
+      "sourceBytes": 4478253,
+      "bytes": 3358701,
+      "duration": 279.795,
+      "status": "PASS"
+    },
+    {
+      "file": "packs20261118/starters/41/listening-1.mp3",
+      "sourceSHA256": "3f88657b56b69f16f881a5a5d077e2d5eeaaf3d544b7907adc8b3f2f0afc8228",
+      "sha256": "b81b64934a12d304f94c0e5e0e83a73718796a86e454f804ecf9ffb28b115724",
+      "sourceBytes": 4891053,
+      "bytes": 3668301,
+      "duration": 305.605,
+      "status": "PASS"
+    },
+    {
+      "file": "packs20261118/starters/41/listening-2.mp3",
+      "sourceSHA256": "8a46a7d5ac2d8c5a97f1cc638bf011f649bcd0c8afaa6ba0dd2275a382eccd07",
+      "sha256": "c2440a3e9e0fc848e358f6c6a139822e357b2f694c71977535844fe2e5af3b9a",
+      "sourceBytes": 3550509,
+      "bytes": 2662893,
+      "duration": 221.81,
+      "status": "PASS"
+    },
+    {
+      "file": "packs20261118/starters/41/listening-3.mp3",
+      "sourceSHA256": "ae2c2575cbfb6f8e0c15ecb4a020631fa8db3717842aca89563f913c7471c7bf",
+      "sha256": "fecd85ce9564b6fbbafe36fa585744bdf007c7dceacf3715d12c3c528d9261c3",
+      "sourceBytes": 4569645,
+      "bytes": 3427245,
+      "duration": 285.515,
+      "status": "PASS"
+    },
+    {
+      "file": "packs20261118/starters/41/listening-4.mp3",
+      "sourceSHA256": "33109ba1077e36d4cad75348783be2e4993e79ad842cadc5a3b92fa49c4a6a45",
+      "sha256": "0f07f8520a23b344d9139a8000370611dcdcff1fe94acd0a294173f5e4e5c3fa",
+      "sourceBytes": 4451757,
+      "bytes": 3338829,
+      "duration": 278.155,
+      "status": "PASS"
+    },
+    {
+      "file": "packs20261118/starters/42/listening-1.mp3",
+      "sourceSHA256": "d475481f74b6a9f01bdcc430b30b9958b7844467814ed87cb84808896bd94913",
+      "sha256": "38c50b8a6d0e5ccec375bd1123f7cd6b39c475059b4750bbd035da875d22d94a",
+      "sourceBytes": 4897581,
+      "bytes": 3673197,
+      "duration": 306.015,
+      "status": "PASS"
+    },
+    {
+      "file": "packs20261118/starters/42/listening-2.mp3",
+      "sourceSHA256": "9fa3b61539f00bf781751f1e6c295881db87b38e186dd359bdc07d6519d22931",
+      "sha256": "296ac2d01a939e66110c796d55def0aeae7af28da1931f00a50bce06934bc68c",
+      "sourceBytes": 3657261,
+      "bytes": 2742957,
+      "duration": 228.49,
+      "status": "PASS"
+    },
+    {
+      "file": "packs20261118/starters/42/listening-3.mp3",
+      "sourceSHA256": "ad1a74b43c6109110cec326418c9b8d901c9fd509ed7f1891227374b83625255",
+      "sha256": "e2d69060b4d233aabfe1eb90b52f81a61fbc16b8eded7f0081c3ac06bc31485e",
+      "sourceBytes": 4633773,
+      "bytes": 3475341,
+      "duration": 289.515,
+      "status": "PASS"
+    },
+    {
+      "file": "packs20261118/starters/42/listening-4.mp3",
+      "sourceSHA256": "2bf07760258d5f82a7e82f44631701caa6f4b1025ac7f391df245f870f833422",
+      "sha256": "9b2f30454190ae191beee07911cf33b29ab2e70a6629c43bf5a93c2182942e2f",
+      "sourceBytes": 4470573,
+      "bytes": 3352941,
+      "duration": 279.315,
+      "status": "PASS"
+    },
+    {
+      "file": "packs20261118/starters/43/listening-1.mp3",
+      "sourceSHA256": "1a575e63152619d660f7711a493dc48dbe9263ad975673cd143621d7f9daf609",
+      "sha256": "1d65d51bae4489da2f0e039dd1f968d9932ac14dbad4b88eedeb2971981355d0",
+      "sourceBytes": 4893357,
+      "bytes": 3670029,
+      "duration": 305.745,
+      "status": "PASS"
+    },
+    {
+      "file": "packs20261118/starters/43/listening-2.mp3",
+      "sourceSHA256": "6384330666bf02324b1a75817ad9b66a4864a8265e6d128d4b5e36f29f04de05",
+      "sha256": "9f1c13a9e1e80ec168c089a4ff142b954e9599f3ad6f441be38ce1d5b6358c3b",
+      "sourceBytes": 3586605,
+      "bytes": 2689965,
+      "duration": 224.08,
+      "status": "PASS"
+    },
+    {
+      "file": "packs20261118/starters/43/listening-3.mp3",
+      "sourceSHA256": "a99c586e0bfe9de7ceb34a03aeb70cbe741b567f28b2b30f3954eeff22c72ebc",
+      "sha256": "0b7f67fcefd9e46b3626807fdda087c990b55eb9e5700cecd16cd4d66b00c751",
+      "sourceBytes": 4592301,
+      "bytes": 3444237,
+      "duration": 286.925,
+      "status": "PASS"
+    },
+    {
+      "file": "packs20261118/starters/43/listening-4.mp3",
+      "sourceSHA256": "5b2c704f57db27544f2038d1fb524ebb76037fb6a1f2f5adb34f5b951fec91ad",
+      "sha256": "ea42835f2c8cca8857bc357344b7ff9411686a1f6a7c87480916e225b65018da",
+      "sourceBytes": 4463661,
+      "bytes": 3347757,
+      "duration": 278.895,
+      "status": "PASS"
+    },
+    {
+      "file": "packs20261118/starters/44/listening-1.mp3",
+      "sourceSHA256": "c1771e6782467e921d2ad2e901cf9ac123199b173e0ba977c67e89ecc32beedd",
+      "sha256": "0f183aadcb40a1c45044cff06adf3ce4b5af40a90077833bca71f1a04dd0e0fe",
+      "sourceBytes": 4908717,
+      "bytes": 3681549,
+      "duration": 306.705,
+      "status": "PASS"
+    },
+    {
+      "file": "packs20261118/starters/44/listening-2.mp3",
+      "sourceSHA256": "6ffc16c863fe8263080fc16664b138a30f61939c83c02b2472360c37db97dbfd",
+      "sha256": "5041c515c9c292a9b6f70f307eb9934994e712eb8a3da691c6c2fdc10dd78304",
+      "sourceBytes": 3530157,
+      "bytes": 2647629,
+      "duration": 220.55,
+      "status": "PASS"
+    },
+    {
+      "file": "packs20261118/starters/44/listening-3.mp3",
+      "sourceSHA256": "767ad273927cff6a9a93c0a1f5db0f65498c69838cd1857667943ec51133e1f2",
+      "sha256": "df4b3c6f6eb9251b92988c23ce2853edc6e9b00406e5985e82dfeff15aa31737",
+      "sourceBytes": 4647597,
+      "bytes": 3485709,
+      "duration": 290.385,
+      "status": "PASS"
+    },
+    {
+      "file": "packs20261118/starters/44/listening-4.mp3",
+      "sourceSHA256": "929d9bd372e11481325a8573e4c2931f76e88925840b4514b2de46e2010c3371",
+      "sha256": "4a028b3afe002d7643ffadd514abda72a7fa66edea295de5a4d8335d027466dc",
+      "sourceBytes": 4475181,
+      "bytes": 3356397,
+      "duration": 279.615,
+      "status": "PASS"
+    },
+    {
+      "file": "packs20261118/starters/45/listening-1.mp3",
+      "sourceSHA256": "248e83bf16021091af21eeb399783decbedbb2647f953147cb3d4c4f1d16f00a",
+      "sha256": "19c665d26726b9dd910a0f6936b97135e7539de525c770fe1b406fd96dc9ac1a",
+      "sourceBytes": 4902189,
+      "bytes": 3676653,
+      "duration": 306.305,
+      "status": "PASS"
+    },
+    {
+      "file": "packs20261118/starters/45/listening-2.mp3",
+      "sourceSHA256": "701e7e52994027db1536eb10d96f01900e380a47fceba039f7fa419370baeaa4",
+      "sha256": "cb06586d82900877a938cdfa7add247889fa760416d35bc11005f563bf5bb532",
+      "sourceBytes": 3533229,
+      "bytes": 2649933,
+      "duration": 220.74,
+      "status": "PASS"
+    },
+    {
+      "file": "packs20261118/starters/45/listening-3.mp3",
+      "sourceSHA256": "4da10b0316a994ba1c5f0ff9f582a6173b2a2b0d8fc268ba0e5bdce9d506d694",
+      "sha256": "79fc3a04e35d99c3dabc7c163574eca9e3e486d5898c6a290005ca864ef4a199",
+      "sourceBytes": 4621485,
+      "bytes": 3466125,
+      "duration": 288.765,
+      "status": "PASS"
+    },
+    {
+      "file": "packs20261118/starters/45/listening-4.mp3",
+      "sourceSHA256": "12921c93ea8d41aab22729acf5a69228acfcd0b831600940cd49645437a0ca86",
+      "sha256": "42cb3ede44c850594a563cbec6b96a22c0b28aa714c80029e2560d65002dd6c5",
+      "sourceBytes": 4469037,
+      "bytes": 3351789,
+      "duration": 279.235,
+      "status": "PASS"
+    },
+    {
+      "file": "packs20261118/starters/46/listening-1.mp3",
+      "sourceSHA256": "b37cd838d4eead31ea6f6413dda3700d44231f3ff347248188b0318597dc621d",
+      "sha256": "3e1eca3737782616cdd0c10022f67b57e32817f88e4e636a0f05f0efc7d48327",
+      "sourceBytes": 4938285,
+      "bytes": 3703725,
+      "duration": 308.555,
+      "status": "PASS"
+    },
+    {
+      "file": "packs20261118/starters/46/listening-2.mp3",
+      "sourceSHA256": "2983676234178dbb6ac825fb860dfda3742aa4ffc75b851a00172d9546c7b544",
+      "sha256": "90ebbeed8d0f08ede47d38d40776fd3c13f03abd72a2fe87189526441c82c6d5",
+      "sourceBytes": 3807405,
+      "bytes": 2855565,
+      "duration": 237.87,
+      "status": "PASS"
+    },
+    {
+      "file": "packs20261118/starters/46/listening-3.mp3",
+      "sourceSHA256": "7bb3260f71feb9c8eb2d475295886b99d5e95a4ad8060851e3aee0eee9a5f1e8",
+      "sha256": "aa687375f6676c1cf192e4183b992bab08f4e2cd794b598435026c0f29f28b64",
+      "sourceBytes": 4651053,
+      "bytes": 3488301,
+      "duration": 290.615,
+      "status": "PASS"
+    },
+    {
+      "file": "packs20261118/starters/46/listening-4.mp3",
+      "sourceSHA256": "92111b36d1d7fa1e4ec2cec515b4275f78853ba2d16ff5ae46c581a0b5bedb58",
+      "sha256": "717b6a3c98e33c38487975951b460eb4115ad083fef40569d9fdaab8515ec843",
+      "sourceBytes": 4466349,
+      "bytes": 3349773,
+      "duration": 279.065,
+      "status": "PASS"
+    },
+    {
+      "file": "packs20261118/starters/47/listening-1.mp3",
+      "sourceSHA256": "4521b5af41eda6d6aa048d1e48be69c714a1499914bd54584d2fdc54218f2841",
+      "sha256": "684fc0e5f65a2572c4916558c69f0584b720cdda7cedee0f0418ea3de7cf1b95",
+      "sourceBytes": 4929837,
+      "bytes": 3697389,
+      "duration": 308.035,
+      "status": "PASS"
+    },
+    {
+      "file": "packs20261118/starters/47/listening-2.mp3",
+      "sourceSHA256": "762cd5d2dbd85ff810f2ebd8051c928a24034d993c0af5b0d3d4c57426e5a1ea",
+      "sha256": "cc18346a0b02a692bab3268f5c63abd62202f796bec6012a58ac0b01b659545e",
+      "sourceBytes": 3522093,
+      "bytes": 2641581,
+      "duration": 220.04,
+      "status": "PASS"
+    },
+    {
+      "file": "packs20261118/starters/47/listening-3.mp3",
+      "sourceSHA256": "b92dbde76ade2e35e3a004bfa0102b3111b1c75ad922f9f4970dedaa4144353a",
+      "sha256": "ede26e95b81c15b94b5e887b1c828ccf8991afb70af03c0f8baffb70d8083bd8",
+      "sourceBytes": 4616493,
+      "bytes": 3462381,
+      "duration": 288.455,
+      "status": "PASS"
+    },
+    {
+      "file": "packs20261118/starters/47/listening-4.mp3",
+      "sourceSHA256": "a935e6f38100bec13a4e03df1de1fa2dab9c328a7cf15d4417abfc7e31e7d240",
+      "sha256": "f6a5872ee857ebe0c83d23c0c8b4c375fd50e7691850a83b9a040e02f73042dc",
+      "sourceBytes": 4486701,
+      "bytes": 3365037,
+      "duration": 280.325,
+      "status": "PASS"
+    },
+    {
+      "file": "packs20261118/starters/48/listening-1.mp3",
+      "sourceSHA256": "896429261d3a4cf9c23ceef6d379f0c2066c3490e5d6f5851c2f904d76fedded",
+      "sha256": "188d366e5fcc4a486d50cd524bd238da5343add8b0b599aa8d403fd616abafdf",
+      "sourceBytes": 4848813,
+      "bytes": 3636621,
+      "duration": 302.965,
+      "status": "PASS"
+    },
+    {
+      "file": "packs20261118/starters/48/listening-2.mp3",
+      "sourceSHA256": "21407f7daf5e492e826b4500ab8fae7fc495e6255d95c0d3405d7652992c771d",
+      "sha256": "69dc5baaf754ac5f346dd74313c144cedb8ac97a14be875958ce3a5a257d8d42",
+      "sourceBytes": 3645741,
+      "bytes": 2734317,
+      "duration": 227.78,
+      "status": "PASS"
+    },
+    {
+      "file": "packs20261118/starters/48/listening-3.mp3",
+      "sourceSHA256": "57b5148044ef31a2acf03427bb08e610aa79f13b1fdf0ad059e408dec5a0f48a",
+      "sha256": "7f49248d9c524b979965fcec165fb4afcecfa73deb8e592c69ddca12c162ec3d",
+      "sourceBytes": 4576173,
+      "bytes": 3432141,
+      "duration": 285.925,
+      "status": "PASS"
+    },
+    {
+      "file": "packs20261118/starters/48/listening-4.mp3",
+      "sourceSHA256": "1bc78fe39c7d7857e0b2b8eb2d25884f58437e7bb3e281cf2cc1378718d21fed",
+      "sha256": "65619455430d059724321dcfaf2f7b934576cbd4b37646b5a05fc80607cdf40e",
+      "sourceBytes": 4474413,
+      "bytes": 3355821,
+      "duration": 279.575,
+      "status": "PASS"
+    },
+    {
+      "file": "packs20261118/starters/49/listening-1.mp3",
+      "sourceSHA256": "52b7ff21c243ce7e7096ae7c90ff621da7c03a03b1cf6f3d214264d24cebb93f",
+      "sha256": "e87dae617f5ab1247f469102976c38c7564b39364df8d6e815789da14e07dd1c",
+      "sourceBytes": 4899885,
+      "bytes": 3674925,
+      "duration": 306.145958,
+      "status": "PASS"
+    },
+    {
+      "file": "packs20261118/starters/49/listening-2.mp3",
+      "sourceSHA256": "f6b6024dc3bbcee56e821191cb272522b264c90c98eb07bd61f5d5b56003fa7e",
+      "sha256": "b2e2620a326cd9d91424ac7df5c38edb8f7171eaa6fc5e6e871f9a13e3e9c6ec",
+      "sourceBytes": 3562797,
+      "bytes": 2672109,
+      "duration": 222.59,
+      "status": "PASS"
+    },
+    {
+      "file": "packs20261118/starters/49/listening-3.mp3",
+      "sourceSHA256": "6b12c27493dc079fa11ce9eb4ac5c55cbb02abd4f3ccca529ad1856c7c2a17c0",
+      "sha256": "619287582a09d2523b6c25935d678e10ba27321ae071fe4c847190065200413a",
+      "sourceBytes": 4614573,
+      "bytes": 3460941,
+      "duration": 288.325,
+      "status": "PASS"
+    },
+    {
+      "file": "packs20261118/starters/49/listening-4.mp3",
+      "sourceSHA256": "c23be35c56d91f94f82fb3e1ad0cc273363190a6764b6178fb4d4a581e8a5f04",
+      "sha256": "aecd924637d1e3d3f60b45bbf3e7a3df1a117b4fb0af175d733bc38469d63e06",
+      "sourceBytes": 4481325,
+      "bytes": 3361005,
+      "duration": 280.005,
+      "status": "PASS"
+    },
+    {
+      "file": "packs20261118/ket/01/listening-1.mp3",
+      "sourceSHA256": "aeb84763c1b3260f30c9a7ec9442a3ef2a74d8797cf1b1e8f8f6f0e15a2ff63a",
+      "sha256": "a6b5105d04a18223047cd7ef5f0edce2dd0e10c2f9720d2fa70e6717fa0d02b1",
+      "sourceBytes": 5561517,
+      "bytes": 4171149,
+      "duration": 347.505,
+      "status": "PASS"
+    },
+    {
+      "file": "packs20261118/ket/01/listening-2.mp3",
+      "sourceSHA256": "3ddf7ce5940a4bfaafafab5b35adf3da988af74deaa267ad39f08fc36976f2ce",
+      "sha256": "a2c0f979cc6b618e7a159b379ab9d91c09b5bff49f2d8c65bca2e732ac51acc3",
+      "sourceBytes": 3542829,
+      "bytes": 2657133,
+      "duration": 221.34,
+      "status": "PASS"
+    },
+    {
+      "file": "packs20261118/ket/01/listening-3.mp3",
+      "sourceSHA256": "83437aee7b538dbb640b4dd0812c35fa1f4b5bccb8bf714c419b633557507da8",
+      "sha256": "addd815e31096064af8ec52936e546b94bbbdcd3b1f2d7548863374ed81477e4",
+      "sourceBytes": 3883053,
+      "bytes": 2912301,
+      "duration": 242.595,
+      "status": "PASS"
+    },
+    {
+      "file": "packs20261118/ket/01/listening-4.mp3",
+      "sourceSHA256": "ab0483cac23097638c492afe8ea2e67adb28f8763a8032b578f159b33667b025",
+      "sha256": "a9c8d89e8910a774d9c7b48446a1c7f4251ebbb1402b5e47f39ffb8af1d7fd75",
+      "sourceBytes": 5950125,
+      "bytes": 4462605,
+      "duration": 371.795,
+      "status": "PASS"
+    },
+    {
+      "file": "packs20261118/ket/01/listening-5.mp3",
+      "sourceSHA256": "4fd6b557eed345dd32d5b6b98cb0569f67da9504c3403b3b5891e56b02be63b7",
+      "sha256": "04a9793d40d40ef6838d8509ee08fffe30960d751a53d08f48958f24e53c922c",
+      "sourceBytes": 9312813,
+      "bytes": 6984621,
+      "duration": 581.975,
+      "status": "PASS"
+    },
+    {
+      "file": "packs20261118/ket/02/listening-1.mp3",
+      "sourceSHA256": "d43f0f7563628e17d96b351ad8780e3ef05cd8bc41efe2a33c4d80797268c7f4",
+      "sha256": "8c5834eaf4d3f9d2f0013c8c2c8cc061f2f915958e4098b3456cb47926f7d908",
+      "sourceBytes": 5395245,
+      "bytes": 4046445,
+      "duration": 337.12,
+      "status": "PASS"
+    },
+    {
+      "file": "packs20261118/ket/02/listening-2.mp3",
+      "sourceSHA256": "6018d0010d7a79c0224effc0c45678bf61ae5ee42d1542a71fc042e0e80d0feb",
+      "sha256": "fa18e586e6de7f32fd74e428fe32ba29a43b7f0652e98b6482f1187bcc8d2a1d",
+      "sourceBytes": 3664173,
+      "bytes": 2748141,
+      "duration": 228.93,
+      "status": "PASS"
+    },
+    {
+      "file": "packs20261118/ket/02/listening-3.mp3",
+      "sourceSHA256": "2e80ef8de6a9eba1e27c38896715fe3ae5bd5cd14e48e11361548b2e9a508235",
+      "sha256": "1d9d1f2d495eb0064eed6a42e0a247d07376f9a5413b8db2406c22fe3367d3cf",
+      "sourceBytes": 3585069,
+      "bytes": 2688813,
+      "duration": 223.97,
+      "status": "PASS"
+    },
+    {
+      "file": "packs20261118/ket/02/listening-4.mp3",
+      "sourceSHA256": "27b34289483309036dfd36ddeb19ee3de2e3f5cb1b4d2a79da9f1680f4444d46",
+      "sha256": "cf62198ecfb80fb8fc5594b8b77253488c7c74d4db1383e010da500475e6299e",
+      "sourceBytes": 5618733,
+      "bytes": 4214061,
+      "duration": 351.095,
+      "status": "PASS"
+    },
+    {
+      "file": "packs20261118/ket/02/listening-5.mp3",
+      "sourceSHA256": "9855769ef812032de97d95eb18257a1ab60140b210c069b9ee755d9076ee8b34",
+      "sha256": "79947f6977da757803771ca9771d18a4308e41a68091f50a4aea65c9b42cf801",
+      "sourceBytes": 9182637,
+      "bytes": 6886989,
+      "duration": 573.82,
+      "status": "PASS"
+    },
+    {
+      "file": "packs20261118/ket/03/listening-1.mp3",
+      "sourceSHA256": "700cfb04645a9d29ed12813ee525c481c0c990efaa2a8bbe0dc4865cf7bbf0cd",
+      "sha256": "18bdd46b08c75a81cd1eea9b3aa2d90a7636746be3e8ca42880f741aa128e11b",
+      "sourceBytes": 5581485,
+      "bytes": 4186125,
+      "duration": 348.765,
+      "status": "PASS"
+    },
+    {
+      "file": "packs20261118/ket/03/listening-2.mp3",
+      "sourceSHA256": "2d97979d03a0ed6217e5c8e8a572fa4d087bce04e12223d771641001143024c6",
+      "sha256": "a7341d9300e091009f4f16f72d799f2010853750f07fca6332914aad4794a163",
+      "sourceBytes": 3506733,
+      "bytes": 2630061,
+      "duration": 219.095,
+      "status": "PASS"
+    },
+    {
+      "file": "packs20261118/ket/03/listening-3.mp3",
+      "sourceSHA256": "4eb86c936bd7f603ff53e253bb26de676edb5f7687f1714bacf9926f3ad829e7",
+      "sha256": "209f6a1d4dbc3a04ca74e2db187f9d992ff25286d10f10216fdf6a361b5c2abe",
+      "sourceBytes": 3749037,
+      "bytes": 2811789,
+      "duration": 234.235,
+      "status": "PASS"
+    },
+    {
+      "file": "packs20261118/ket/03/listening-4.mp3",
+      "sourceSHA256": "e033d331358a8e2f8f7cf31c5fa82f4f9296b4bd5e1898a5cbfced116dd6ede7",
+      "sha256": "fadc4c65d26b3f54adac727ade5681e7ff70249ac2d6ea5c479ccbe48768f990",
+      "sourceBytes": 5958957,
+      "bytes": 4469229,
+      "duration": 372.36,
+      "status": "PASS"
+    },
+    {
+      "file": "packs20261118/ket/03/listening-5.mp3",
+      "sourceSHA256": "8cc4d8089ee46c50627d0466b3316b33f23dff06f1acb0df906459a9afb57fed",
+      "sha256": "b05e651de498fa83ea3c52843dc78cd0250e1da217d9e347b4c5ae6c39423f05",
+      "sourceBytes": 9200301,
+      "bytes": 6900237,
+      "duration": 574.925,
+      "status": "PASS"
+    },
+    {
+      "file": "packs20261118/ket/04/listening-1.mp3",
+      "sourceSHA256": "ed3729544aae76c9836fba73afcbb4d4ffe93ba5a947644893d6875d6baa8837",
+      "sha256": "79e67ceaee72f21dffa799c3e8b9abd1aa48fd23c394ade1a1e57be1456e687f",
+      "sourceBytes": 5508909,
+      "bytes": 4131693,
+      "duration": 344.225,
+      "status": "PASS"
+    },
+    {
+      "file": "packs20261118/ket/04/listening-2.mp3",
+      "sourceSHA256": "0b3d69f7d449905528d522b354f650a2864891b431bc81726703cd3405c40c7d",
+      "sha256": "583da4b8f580cf7759f8799ea8d14bb49dd367421e9734abdb198e87aab4a06d",
+      "sourceBytes": 3560493,
+      "bytes": 2670381,
+      "duration": 222.455,
+      "status": "PASS"
+    },
+    {
+      "file": "packs20261118/ket/04/listening-3.mp3",
+      "sourceSHA256": "a4f28aaccc60565d6de99d8a290b5f9120b69b5ec4a5f4a2c36debe5a5fc406d",
+      "sha256": "403a90fbfec0bfaa8658caaee7484789082b719683d8a0c0069e27a374c226ce",
+      "sourceBytes": 3881517,
+      "bytes": 2911149,
+      "duration": 242.5,
+      "status": "PASS"
+    },
+    {
+      "file": "packs20261118/ket/04/listening-4.mp3",
+      "sourceSHA256": "4654581dd56ce4d693e24e64501216bd64e7a57d0bff1f36edb043b4f73794de",
+      "sha256": "e9438d4d7be3f00c6ab554fd4db6af19322e0899b356242b86eecb340e3e5003",
+      "sourceBytes": 5851821,
+      "bytes": 4388877,
+      "duration": 365.66,
+      "status": "PASS"
+    },
+    {
+      "file": "packs20261118/ket/04/listening-5.mp3",
+      "sourceSHA256": "79062697a912cd2283813803f55d7e35b5f99d827cc7a08801903986f7a3cc2e",
+      "sha256": "b99a09891ba135bdddfff16733dbfb9cec9b351a5ae390d57eea3eeb1cc1f2bf",
+      "sourceBytes": 9031341,
+      "bytes": 6773517,
+      "duration": 564.365,
+      "status": "PASS"
+    },
+    {
+      "file": "packs20261118/ket/05/listening-1.mp3",
+      "sourceSHA256": "049e27fbedede60c49dca60b7caeb9a81b50268cdd652d0735181f940a75a6e5",
+      "sha256": "e76f05ab0ddecdc67b9af3fbab9b00751053de54ad44c8bf621f8b19925e7027",
+      "sourceBytes": 5671341,
+      "bytes": 4253517,
+      "duration": 354.38,
+      "status": "PASS"
+    },
+    {
+      "file": "packs20261118/ket/05/listening-2.mp3",
+      "sourceSHA256": "c541e9f6a68d608f0dbb93513155218e2f8d40439189e58d290526511802cc5f",
+      "sha256": "0df66263ff34f22d1406408d30ae59bd46abbe9ed101889581427006e0758114",
+      "sourceBytes": 3428781,
+      "bytes": 2571597,
+      "duration": 214.205,
+      "status": "PASS"
+    },
+    {
+      "file": "packs20261118/ket/05/listening-3.mp3",
+      "sourceSHA256": "3fbba51d531175940668dfa6b73f38db78da0d40649df7c3c2364f19f9891bd4",
+      "sha256": "65c5cdbe65142346c7587fdc5ac3e1ab8e56f81905e4e4c533c3b71ca537e017",
+      "sourceBytes": 3454893,
+      "bytes": 2591181,
+      "duration": 215.845,
+      "status": "PASS"
+    },
+    {
+      "file": "packs20261118/ket/05/listening-4.mp3",
+      "sourceSHA256": "af375ea461936fb61ceec89e9b576c6a63a35d623585f556a7adb789514fe98f",
+      "sha256": "26e9298cd6fd70cc73ee7ec39539b2c61fccf6cfdd18ecc6d430625ecd4aa46e",
+      "sourceBytes": 5912493,
+      "bytes": 4434381,
+      "duration": 369.445,
+      "status": "PASS"
+    },
+    {
+      "file": "packs20261118/ket/05/listening-5.mp3",
+      "sourceSHA256": "b488c8dae2b538bcae9191163fec142cfd14c2504fea1c4050043cecab3f672a",
+      "sha256": "dce4230accc3f6b873617e80af511df3c4e97102008490dbe8882418e0a089b1",
+      "sourceBytes": 9203757,
+      "bytes": 6902829,
+      "duration": 575.145,
+      "status": "PASS"
+    },
+    {
+      "file": "packs20261118/ket/06/listening-1.mp3",
+      "sourceSHA256": "4fb8a0e6aa2fc616e69676db798ae0bb1e03a19d376dfc06d4f14d6013306412",
+      "sha256": "40c4f0be6ff5b5d5ddd63726cabfe1c86bedb39250aa97754b09ff79ff96dbe3",
+      "sourceBytes": 5749293,
+      "bytes": 4311981,
+      "duration": 359.255,
+      "status": "PASS"
+    },
+    {
+      "file": "packs20261118/ket/06/listening-2.mp3",
+      "sourceSHA256": "3547307bfd67771fe7a09c0c6bdc9514ca59ff24d01e1746436cef161a3081ed",
+      "sha256": "d2e13d3ee61991b0ed63d65434990702606d9707b2dff9a1d1cfb80ac1b31e6a",
+      "sourceBytes": 3644205,
+      "bytes": 2733165,
+      "duration": 227.68,
+      "status": "PASS"
+    },
+    {
+      "file": "packs20261118/ket/06/listening-3.mp3",
+      "sourceSHA256": "5bbe2cc3e0ff51403509a8633abef162bab289c56ab0bc90b0c0c85d9b947926",
+      "sha256": "c1204ec089447bad3f4cc05b9549375699aeb9ac041b523117af73c18ef56381",
+      "sourceBytes": 3722925,
+      "bytes": 2792205,
+      "duration": 232.605,
+      "status": "PASS"
+    },
+    {
+      "file": "packs20261118/ket/06/listening-4.mp3",
+      "sourceSHA256": "beb406fe4261bc50a1d1280afee7443d3a1373497257f2f4087eea047340bf99",
+      "sha256": "3d9304ffdd12b83b98c519a01d08254a5ceeac455b59e996ef5a1a7ae0e414ae",
+      "sourceBytes": 5792301,
+      "bytes": 4344237,
+      "duration": 361.93,
+      "status": "PASS"
+    },
+    {
+      "file": "packs20261118/ket/06/listening-5.mp3",
+      "sourceSHA256": "7234c216503bf36647457571b2996ac23ccdd235e1a5e7e753cc7ada161838bb",
+      "sha256": "0afbcfada28a071a9b373fb6ca01e0da1fa1ba5dc573b95930f95b03ad6086b1",
+      "sourceBytes": 9086253,
+      "bytes": 6814701,
+      "duration": 567.8,
+      "status": "PASS"
+    },
+    {
+      "file": "packs20261118/ket/07/listening-1.mp3",
+      "sourceSHA256": "22aede4a94fd50b84c7f5919daaa5cc22f93b1e206ada79387715036bdae2ee0",
+      "sha256": "16ffc1c136780626c462f77a48b40c17e61c5828dec7277ffa1117be23c3b9f2",
+      "sourceBytes": 5705901,
+      "bytes": 4279437,
+      "duration": 356.53,
+      "status": "PASS"
+    },
+    {
+      "file": "packs20261118/ket/07/listening-2.mp3",
+      "sourceSHA256": "6e180446a526dbf257a9cc893e83c5d21ebb811fbd3450a97330e7f55e701870",
+      "sha256": "b45e4d2e8bfa327d0eaf7114159ced343d6be1701614b8fafc47fd43ca361373",
+      "sourceBytes": 3499821,
+      "bytes": 2624877,
+      "duration": 218.655,
+      "status": "PASS"
+    },
+    {
+      "file": "packs20261118/ket/07/listening-3.mp3",
+      "sourceSHA256": "8b1ffb97718349b299da466a9e9f35c52ca66ff3f78742001379557171b0f7a8",
+      "sha256": "fad35953eb504ee83e4f85feeb9581d69162050db405499ce8a2419cdf8489a9",
+      "sourceBytes": 3665709,
+      "bytes": 2749293,
+      "duration": 229.025,
+      "status": "PASS"
+    },
+    {
+      "file": "packs20261118/ket/07/listening-4.mp3",
+      "sourceSHA256": "985e456a7927c6ef18b2a8f7ff9c3e73fc0f8efc1ef1075a68fd6773a0427fb0",
+      "sha256": "dc7353598413cffb865fc2b2cb239b8b273402f73dd444e811f209fda4362579",
+      "sourceBytes": 5774253,
+      "bytes": 4330701,
+      "duration": 360.815,
+      "status": "PASS"
+    },
+    {
+      "file": "packs20261118/ket/07/listening-5.mp3",
+      "sourceSHA256": "3b3f0cbd0a9cf3e8b6d324e1ec239519a1674f7db90efb79d0259d075667f99a",
+      "sha256": "5b24e8e6bb857530663923db739865cefeabc12ed18b0319f4ff39478f76809b",
+      "sourceBytes": 9323565,
+      "bytes": 6992685,
+      "duration": 582.64,
+      "status": "PASS"
+    },
+    {
+      "file": "packs20261118/ket/08/listening-1.mp3",
+      "sourceSHA256": "41fb7c93bf09d9927185f0c3d134a7d49d20f15bc1367ee8f95e3ac68dd5e4f1",
+      "sha256": "3b68c2aa6152c0d6524e0b91cd118cc081314f247a74a6e605a813d9bb302b30",
+      "sourceBytes": 5574957,
+      "bytes": 4181229,
+      "duration": 348.36,
+      "status": "PASS"
+    },
+    {
+      "file": "packs20261118/ket/08/listening-2.mp3",
+      "sourceSHA256": "ce1a0d663d74468c00b30c4193d1c02c1e09a36fbe4afc453552029224251bca",
+      "sha256": "ff3fa8d030bfdb7883a0fbfb8a27693e51b0c89ef12be511632b95a0467c4a5d",
+      "sourceBytes": 3504813,
+      "bytes": 2628621,
+      "duration": 218.975,
+      "status": "PASS"
+    },
+    {
+      "file": "packs20261118/ket/08/listening-3.mp3",
+      "sourceSHA256": "71852b6f7d3e410e31752a8ca0042df49b7d26c5c8f14ea658ddf481de27c107",
+      "sha256": "eeb88d2afb90995a18cf9368536e4b92f009f10d00b684920cf5db37497e54f3",
+      "sourceBytes": 3710637,
+      "bytes": 2782989,
+      "duration": 231.835,
+      "status": "PASS"
+    },
+    {
+      "file": "packs20261118/ket/08/listening-4.mp3",
+      "sourceSHA256": "e258baef862fc8d6540389a42459cba2c594a7c45c159806a68ae50469870608",
+      "sha256": "dd45cec3d549dd49a50e0ded3a31c5663236373551d6f29e9ee51872571424e1",
+      "sourceBytes": 5862957,
+      "bytes": 4397229,
+      "duration": 366.355,
+      "status": "PASS"
+    },
+    {
+      "file": "packs20261118/ket/08/listening-5.mp3",
+      "sourceSHA256": "76156b66071b190381e6afd460bbc62f115bd10f9c8a83747c705a6904aaba5e",
+      "sha256": "f49dbb53d9068f501483eb7596b91acea8ab74fea960b92ad45e6e50812d9f22",
+      "sourceBytes": 9234477,
+      "bytes": 6925869,
+      "duration": 577.08,
+      "status": "PASS"
+    },
+    {
+      "file": "packs20261118/ket/09/listening-1.mp3",
+      "sourceSHA256": "3c0529f02974473807af0da6c2beb7bdcb7f831a4ba688c23df8f4ef29b503b3",
+      "sha256": "3ca6098519c00073935d33ecdc3ec9d94b3e76f006edc8abb24b3ad8933d92ba",
+      "sourceBytes": 5668653,
+      "bytes": 4251501,
+      "duration": 354.205,
+      "status": "PASS"
+    },
+    {
+      "file": "packs20261118/ket/09/listening-2.mp3",
+      "sourceSHA256": "cd082e7163df5a0dd40cecd6c554962a4ef2dd41017406738e9de5631a28d197",
+      "sha256": "e4bfe067d31d82eb1b279e37cced08ba4d2f72031a134e4457a0905b2cc2bede",
+      "sourceBytes": 3407661,
+      "bytes": 2555757,
+      "duration": 212.89,
+      "status": "PASS"
+    },
+    {
+      "file": "packs20261118/ket/09/listening-3.mp3",
+      "sourceSHA256": "4241b89c9721895692ec5be73f54b46a67f36046fc6b61449c89f7fc91182671",
+      "sha256": "e49118eeec3224ae27ba08a9798b60a669c256eba0c520bc9685ecbb501bcedb",
+      "sourceBytes": 3497133,
+      "bytes": 2622861,
+      "duration": 218.48,
+      "status": "PASS"
+    },
+    {
+      "file": "packs20261118/ket/09/listening-4.mp3",
+      "sourceSHA256": "dc6740b253265fdfc77a004c99d6b1b9464f3257e6154f329f80bf9f5b44f39c",
+      "sha256": "1ae0bc0fa21d85ecf37696a3057464b155d7266d9d00c5b9f159115224bb49b9",
+      "sourceBytes": 5745837,
+      "bytes": 4309389,
+      "duration": 359.02,
+      "status": "PASS"
+    },
+    {
+      "file": "packs20261118/ket/09/listening-5.mp3",
+      "sourceSHA256": "a30e9dea096e4a68e76c450d352d0fef039ad8c15b04e0409ff23dc110234d0d",
+      "sha256": "32e8d3a12bf7b2481c5739f5902c09f3ca99a5c7dd1e31cb0bb2e44937ae723a",
+      "sourceBytes": 9176109,
+      "bytes": 6882093,
+      "duration": 573.41,
+      "status": "PASS"
+    },
+    {
+      "file": "packs20261118/ket/10/listening-1.mp3",
+      "sourceSHA256": "4e8933dc9b3237c6bded01c32a8a00dd34b20edfa336677750cd222f8f62ce9f",
+      "sha256": "89052f999fb040ebe8ddb32dce20affcd8d02f1d2e45fc0af520087e02176d8f",
+      "sourceBytes": 5683245,
+      "bytes": 4262445,
+      "duration": 355.105958,
+      "status": "PASS"
+    },
+    {
+      "file": "packs20261118/ket/10/listening-2.mp3",
+      "sourceSHA256": "677e7fad025938427f89fbaf4fddf88994ae563467c726534fe245ef40ae6a01",
+      "sha256": "50b8f6288573c3138024b2836fac3d37af4ba4180239a4fd26af642d27019757",
+      "sourceBytes": 3639213,
+      "bytes": 2729421,
+      "duration": 227.36,
+      "status": "PASS"
+    },
+    {
+      "file": "packs20261118/ket/10/listening-3.mp3",
+      "sourceSHA256": "afee83f433851b857fd13835e66726f24ef471bbaaf4eb368fe8163e723f5a28",
+      "sha256": "e6b1a5ba7eade5f05a3d4641cd2bb946f9306e590eb8b31d919cfe9acfd2c7cb",
+      "sourceBytes": 3694893,
+      "bytes": 2771181,
+      "duration": 230.85,
+      "status": "PASS"
+    },
+    {
+      "file": "packs20261118/ket/10/listening-4.mp3",
+      "sourceSHA256": "8b39656ade5eef4e4febe63007fddaac78888d30ad54d12b726645b6618189c1",
+      "sha256": "4ae6f7f37781eacec9dbe0071421f7ddca9254a222ece8256257e9e33b0b56d1",
+      "sourceBytes": 5958957,
+      "bytes": 4469229,
+      "duration": 372.35,
+      "status": "PASS"
+    },
+    {
+      "file": "packs20261118/ket/10/listening-5.mp3",
+      "sourceSHA256": "ecec92f17b8e1e65e7fdd226573921ac270d775c2eb07942bd997c9feed8d4ce",
+      "sha256": "21798477b79cd8d62bfe462b35afe0a72e7a5f82eb259fa3f5600d98698ed065",
+      "sourceBytes": 9035949,
+      "bytes": 6776973,
+      "duration": 564.66,
+      "status": "PASS"
+    }
+  ],
+  "images": 480,
+  "webpVariants": 950,
+  "editorialCorrections": [
+    {
+      "exam": "starters-40",
+      "question": "r5-1",
+      "prompt": "What animal is near the pond?",
+      "answer": "frog"
+    }
+  ]
+}

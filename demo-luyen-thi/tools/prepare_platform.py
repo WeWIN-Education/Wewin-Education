@@ -150,11 +150,14 @@ for level,source in [('starters',starters),('movers',movers),('flyers',flyers)]:
         pub['readingCount']=sum(len(p['questions']) for p in e['reading'] if not p.get('manual'));pub['listeningCount']=sum(len(p['questions']) for p in e['listening'])
         public.append(pub);private.append(e)
 if (SITE/'ket.mjs').exists():
-    private.extend(module('ket.mjs'))
-    public.extend(e for e in json.loads((OUT/'exams-public.json').read_text(encoding='utf-8')) if e.get('levelKey')=='ket')
+    legacy_ket=module('ket.mjs');private.extend(legacy_ket);legacy_ket_ids={e['id'] for e in legacy_ket}
+    public.extend(e for e in json.loads((OUT/'exams-public.json').read_text(encoding='utf-8')) if e.get('id') in legacy_ket_ids)
 if (SITE/'flyers40.mjs').exists():
     private.extend(module('flyers40.mjs'))
     public.extend(e for e in json.loads((OUT/'exams-public.json').read_text(encoding='utf-8')) if e.get('id') in {f'flyers-{n}' for n in range(40,50)})
+if (SITE/'packs20261118.mjs').exists():
+    extra=module('packs20261118.mjs');extra_ids={e['id'] for e in extra};private.extend(extra)
+    public.extend(e for e in json.loads((OUT/'exams-public.json').read_text(encoding='utf-8')) if e.get('id') in extra_ids)
 (OUT/'exams-private.json').write_text(json.dumps(private,ensure_ascii=False),encoding='utf-8')
 (OUT/'exams-public.json').write_text(json.dumps(public,ensure_ascii=False),encoding='utf-8')
 (OUT/'artwork.json').write_text(json.dumps(artwork,ensure_ascii=False),encoding='utf-8')

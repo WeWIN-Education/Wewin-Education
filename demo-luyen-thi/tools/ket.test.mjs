@@ -13,7 +13,7 @@ import {ketMaterials,readKetMaterial} from '../server/ket-materials.mjs';
 import manifest from '../media-manifest.mjs';
 
 test('all ten KET papers contain every part, 55 answer-key-verified objective items and separate writing',async()=>{
- const ket=exams.filter(e=>e.levelKey==='ket');assert.equal(ket.length,10);assert.equal(allExams.length,70);
+ const ket=exams.filter(e=>e.levelKey==='ket'&&/^ket-\d{2}$/.test(e.id));assert.equal(ket.length,10);assert.equal(allExams.length,110);
  for(const e of ket){
   assert.equal(e.title,'Mock '+e.number);
   assert.equal(e.reading.length,7);assert.equal(e.listening.length,5);assert.equal(e.writingAssessment,'teacher');

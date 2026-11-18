@@ -120,7 +120,8 @@ for e in pub:
 for filename,add in [('exams-private.json',papers),('exams-public.json',pub)]:
     target=site/'generated'/filename
     old=json.loads(target.read_text(encoding='utf-8'))
-    target.write_text(json.dumps([e for e in old if e['levelKey']!='ket']+add,ensure_ascii=False),encoding='utf-8')
+    legacy_ids={f'ket-{n:02}' for n in range(1,11)}
+    target.write_text(json.dumps([e for e in old if e['id'] not in legacy_ids]+add,ensure_ascii=False),encoding='utf-8')
 old_module=(site/'public-data.mjs').read_text(encoding='utf-8')
 art=json.JSONDecoder().raw_decode(old_module.split('export const artwork = ',1)[1])[0]
 all_public=json.loads((site/'generated/exams-public.json').read_text(encoding='utf-8'))
