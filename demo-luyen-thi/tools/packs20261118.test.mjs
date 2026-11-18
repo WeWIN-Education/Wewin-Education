@@ -26,6 +26,7 @@ test('Thirty new papers grade correctly with source-aligned part counts and prot
    const spec=pub.listening[0].interaction;assert.equal(spec.names.length,7);assert.equal(spec.targets.length,6);
    for(const t of spec.targets)assert.equal(personAtPoint(spec,t.x*10,100+t.y*spec.imageHeight/100)?.id,t.id);
    const painting=pub.listening.at(-1).interaction;assert.ok(painting.example.color);assert.ok(!painting.regions.some(r=>r.path===painting.example.path));
+   assert.match(pub.listening.at(-1).instruction,/colour/);
    assert.ok(paintScene(pub.listening.at(-1),{}).includes('pointer-events:none'));
    for(const q of exam.listening.at(-1).questions)assert.ok(painting.regions.some(r=>r.id===q.answer.target));
   }

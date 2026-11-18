@@ -53,6 +53,15 @@ def sanitize(exam):
   for q in part['questions']:
    for field in ['answer','accepted','sample']:q.pop(field,None)
  return p
+def listening_instructions(exam):
+ for i,p in enumerate(exam['listening'],1):
+  if exam['levelKey']=='ket':
+   p['instruction']=('Listen and choose the correct picture (A, B or C).' if i==1 else 'Write one word or a number or a date or a time in each gap.' if i==2 else 'Match each person to the correct option. There are three extra options.' if i==5 else 'Listen and choose the correct answer (A, B or C).')
+  elif p.get('matchKey'):p['instruction']='Listen and draw lines. There is one example.'
+  elif p.get('painting'):p['instruction']='Listen and colour. There is one example.' if exam['levelKey']=='starters' else 'Listen, colour and write. There is one example.'
+  elif i==2:p['instruction']='Listen and write one word or a number. There is one example.'
+  elif exam['levelKey']=='movers' and i==3:p['instruction']='Listen and write a letter in each box. There is one example.'
+  else:p['instruction']='Listen and choose the correct picture. There is one example.'
 
 for level,root in [('Movers',args.movers),('Starters',args.starters)]:
  source=root/'Editable_Source';data=json.loads((source/'tests.json').read_text(encoding='utf-8'));assert len(data)==10
@@ -131,6 +140,7 @@ for level,root in [('Movers',args.movers),('Starters',args.starters)]:
   exam['readingCount']=25 if star else 29;exam['listeningCount']=20 if star else 25
   assert sum(len(p['questions']) for p in exam['reading'] if not p.get('manual'))==exam['readingCount']
   add_audio(exam,root/f'Audio/Listening/Test_{n}',f'Test_{n}_Part_{{part}}.mp3')
+  listening_instructions(exam)
   pub=sanitize(exam);p=pub['listening'][0];p.pop('matchKey');p['questions']=[]
   printed=[s.strip() for s in doc[1].get_text().split('Example:')[0].splitlines() if s.strip() in item['names']];assert len(printed)==7
   p['interaction']=dict(type='match',image=main_key,imageHeight=1000*main.height/main.width,names=[dict(id=s,label=s) for s in printed],targets=[dict(id=f'p{j+1}',x=x,y=y,rx=10,ry=21) for j,(x,y) in enumerate([(15,28),(49,28),(83,28),(15,77),(49,77),(83,77)])],example=dict(name=item['names'][example],target=f'p{example+1}'))
@@ -165,6 +175,7 @@ for t in data:
  append_part(exam,'listening',5,'Listen and match',[kq('listening',5,i,name,letter_options(options),i+20) for i,name in enumerate(people,1)],[paths[17]])
  add_audio(exam,ket/f'Audio/Listening/Mock_{num}',f'Mock_{num}_Part_{{part}}.mp3')
  dest=assets/exam['studentPdf'];dest.parent.mkdir(parents=True,exist_ok=True);shutil.copy2(ket/f'WeWIN_KET_Mock_{num}.pdf',dest)
+ listening_instructions(exam)
  papers.append(exam);public.append(sanitize(exam));print('Prepared',exam['id'],flush=True)
 
 def encode_image(job):
