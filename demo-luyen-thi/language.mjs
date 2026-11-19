@@ -1,5 +1,7 @@
 // Only literal interface copy is translated. Interpolated data and test content stay untouched.
 const pairs = [
+ ["Bạn đã tô","You have coloured"],
+ ["vật. Chọn Erase rồi chạm vào một vật để xóa trước khi tô vật khác.","objects. Erase one to change it."],
  ["Audio Listening của đề này đang chờ bổ sung.","The Listening audio for this test is awaiting upload."],
  ["Chưa có audio","Audio pending"],
  ["Lớp đang hoạt động có tên này đã tồn tại.","An active class with this name already exists."],

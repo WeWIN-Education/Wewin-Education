@@ -37,6 +37,7 @@ colour_regions=[
  {'id':'boy-hat','path':'M658 280 L749 237 L732 352 Z','cx':716,'cy':292}]
 hard_colour_regions=copy.deepcopy(colour_regions)
 hard_colour_regions[2]={'id':'bench-hat','path':'M842 542 Q868 531 889 564 L925 670 Q866 700 792 671 Z','cx':858,'cy':612}
+zoo_colour_regions=json.loads((SITE/'tools/zoo-paint-regions.json').read_text(encoding='utf-8'))
 def render(page,rect,relative):
     dest=SITE/'assets'/relative
     if not dest.exists():page.get_pixmap(matrix=fitz.Matrix(1.6,1.6),clip=fitz.Rect(rect),alpha=False).save(dest,jpg_quality=91)
@@ -120,7 +121,7 @@ for level,source in [('starters',starters),('movers',movers),('flyers',flyers)]:
                             for q,(_,label) in zip(part['questions'],qs):q['prompt']=label
                     if pi==4:
                         image=render(pages[6],pages[6].get_image_info()[1]['bbox'],f'platform/{e["id"]}-paint.jpg')
-                        regions=hard_colour_regions if e.get('difficulty')=='Hard' else colour_regions
+                        regions=hard_colour_regions if e.get('difficulty')=='Hard' else zoo_colour_regions if n==8 else colour_regions
                         part['interaction']={'type':'paint','image':image,'width':1000,'height':1500,'regions':regions,'paintCount':4 if level=='movers' else 3,'writeCount':1 if level=='movers' else 2}
                         for i,q in enumerate(p['questions']):
                             q['prompt']=f'Question {i+1}'
