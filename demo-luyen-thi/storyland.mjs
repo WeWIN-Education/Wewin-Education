@@ -766,12 +766,13 @@ export function createStorylandUI({initialStoryId = '', redraw = () => {}} = {})
     state.message = text('Đang tải bản thu âm…', 'Loading the recording…');
     cues = [];
     lastCue = null;
-    const source = story.audioSrc || `assets/storyland/audio/${encodeURIComponent(story.id)}.mp3`;
+    const verSuffix = catalog?.audioVersion ? `?v=${encodeURIComponent(catalog.audioVersion)}` : '';
+    const source = (story.audioSrc || `assets/storyland/audio/${encodeURIComponent(story.id)}.mp3`) + verSuffix;
     audio.src = source;
     audio.load();
     saveStore();
     try {
-      const cuesUrl = story.cuesSrc || `assets/storyland/audio/${encodeURIComponent(story.id)}.cues.json`;
+      const cuesUrl = (story.cuesSrc || `assets/storyland/audio/${encodeURIComponent(story.id)}.cues.json`) + verSuffix;
       const response = await fetch(cuesUrl);
       if (response.ok) {
         const raw = await response.json();
