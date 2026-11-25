@@ -1,4 +1,4 @@
-"""Regenerate all 50 WEWIN STORYLAND MP3s and word-level .cues.json using en-GB-RyanNeural (pitch -8Hz, rate -37%, 1.5x slower than -6%)."""
+"""Regenerate all 50 WEWIN STORYLAND MP3s and word-level .cues.json using en-GB-RyanNeural (pitch -8Hz, rate -6%)."""
 from __future__ import annotations
 
 import argparse
@@ -20,14 +20,13 @@ import tempfile
 ROOT = Path(__file__).resolve().parent.parent
 DATA_PATH = ROOT / 'storyland' / 'data.json'
 OUT_AUDIO_DIR = ROOT / 'assets' / 'storyland' / 'audio'
-CACHE_DIR = Path(os.environ.get('STORYLAND_TTS_CACHE', Path(tempfile.gettempdir()) / 'wewin-storyland-ryan-n04-slow15'))
+CACHE_DIR = Path(os.environ.get('STORYLAND_TTS_CACHE', Path(tempfile.gettempdir()) / 'wewin-storyland-ryan-n04'))
 
 VOICE = 'en-GB-RyanNeural'
 PITCH = '-8Hz'
-RATE = '-37%'
-AUDIO_VERSION = '20261125-ryan-n04-slow15'
+RATE = '-6%'
 SAMPLE_RATE = 24000
-SCENE_GAP_SEC = 0.88
+SCENE_GAP_SEC = 0.62
 TARGET_RMS = 0.125
 MAX_PEAK = 0.88
 BITRATE = '48k'
@@ -279,7 +278,7 @@ async def main() -> None:
         'pitch': PITCH,
         'rate': RATE,
         'bitrate': BITRATE,
-        'audioVersion': AUDIO_VERSION,
+        'audioVersion': '20261125-ryan-n04-normal',
         'stories': len(reports),
         'totalMB': round(total_bytes / (1024 * 1024), 2),
         'totalMinutes': round(total_dur / 60, 2),

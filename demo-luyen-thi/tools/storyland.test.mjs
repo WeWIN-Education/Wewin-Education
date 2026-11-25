@@ -370,7 +370,7 @@ test('StoryLand Smart Auto-Follow, Manual-Scroll Override, Resume-Follow, Seek, 
   await new Promise(r => setTimeout(r, 30));
   await ui.handleAction('storyland-open', {id: firstStory.id});
 
-  ui._audio.duration = Math.ceil(firstCues.cues[firstCues.cues.length - 1].end) + 5;
+  ui._audio.duration = 120;
   ui._audio.dispatchEvent('loadedmetadata');
 
   // Play & Pause/Resume
