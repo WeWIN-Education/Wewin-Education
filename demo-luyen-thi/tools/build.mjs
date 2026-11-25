@@ -15,6 +15,7 @@ const storylandData=JSON.parse(await readFile(resolve(root,'storyland/data.json'
 const storylandAssets=new Set([...Object.values(storylandData.assets),...Object.values(storylandData.assetMeta).flatMap(meta=>[meta.src360,meta.src2x].filter(Boolean))]);
 for(const file of storylandAssets){const relative=file.replace(/^assets\//,'');const destination=resolve(dist,'assets/storyland',relative);await mkdir(resolve(destination,'..'),{recursive:true});await cp(resolve(root,'assets/storyland',relative),destination);}
 await cp(resolve(root,'assets/storyland/audio'),resolve(dist,'assets/storyland/audio'),{recursive:true});
+await cp(resolve(root,'assets/storyland/robot-audio'),resolve(dist,'assets/storyland/robot-audio'),{recursive:true});
 await cp(resolve(root,'storyland'),resolve(dist,'storyland'),{recursive:true});
 const assets=new Set([...manifest.files,...allExams.flatMap(e=>[...e.audio,...(e.fullAudio?[e.fullAudio]:[]),...(e.studentPdf?[e.studentPdf]:[])]),...(allExams.some(e=>e.levelKey==='ket')?['ket/pdf/WeWIN_KET_All_10_Mock_Tests.pdf']:[]),'logo.png','favicon.png','design-20261024/education-pattern.svg']);
 for(const file of assets){const destination=resolve(dist,'assets',file);await mkdir(resolve(destination,'..'),{recursive:true});await cp(resolve(root,'assets',file),destination);}

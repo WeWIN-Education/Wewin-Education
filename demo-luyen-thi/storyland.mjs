@@ -66,7 +66,10 @@ function createSafeAudio() {
   };
 }
 
-export function createStorylandUI({initialStoryId = '', redraw = () => {}} = {}) {
+export function createStorylandUI({initialStoryId = '', redraw = () => {}, robot = false} = {}) {
+  const storageKey = robot ? 'wewin-storyland-robot-v1' : STORAGE_KEY;
+  const name = robot ? 'StoryLand Robot' : 'StoryLand';
+  const brand = robot ? 'WEWIN STORYLAND ROBOT' : 'WEWIN STORYLAND';
   let catalog = null;
   let loading = null;
   let loadError = '';
@@ -102,7 +105,7 @@ export function createStorylandUI({initialStoryId = '', redraw = () => {}} = {})
 
   function readStore() {
     try {
-      const value = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+      const value = JSON.parse(localStorage.getItem(storageKey) || '{}');
       return {
         saved: Array.isArray(value.saved) ? value.saved.filter(id => typeof id === 'string') : [],
         progress: value.progress && typeof value.progress === 'object' ? value.progress : {},
@@ -114,7 +117,7 @@ export function createStorylandUI({initialStoryId = '', redraw = () => {}} = {})
   }
 
   function saveStore() {
-    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state.store)); } catch { /* Storage quota or private mode */ }
+    try { localStorage.setItem(storageKey, JSON.stringify(state.store)); } catch { /* Storage quota or private mode */ }
   }
 
   function text(vi, en) { return getLanguage() === 'en' ? en : vi; }
@@ -300,7 +303,7 @@ export function createStorylandUI({initialStoryId = '', redraw = () => {}} = {})
       : `${filtered.length} ${text('câu chuyện', 'stories')}`;
 
     return `<section class="storyland-screen" aria-labelledby="storyland-title">
-      <header class="page-heading storyland-heading"><div><p class="page-overline">WEWIN STORYLAND</p><h1 id="storyland-title">${text('Thư viện truyện song ngữ', 'Bilingual Story Library')}</h1><p>${text('Nghe truyện tiếng Anh, đọc theo từng từ được tô sáng và khám phá nghĩa tiếng Việt qua từng bức tranh.', 'Listen to English stories, follow word-by-word highlighting, and explore Vietnamese translations through illustrated scenes.')}</p></div><div class="storyland-heading-badges"><span class="vocab-public">${text('Mở cho tất cả mọi người', 'Open to everyone')}</span><span class="storyland-library-count">${stories().length} ${text('truyện song ngữ', 'bilingual stories')}</span></div></header>
+      <header class="page-heading storyland-heading"><div><p class="page-overline">WEWIN STORYLAND</p><h1 id="storyland-title">${robot ? name : text('Thư viện truyện song ngữ', 'Bilingual Story Library')}</h1><p>${text('Nghe truyện tiếng Anh, đọc theo từng từ được tô sáng và khám phá nghĩa tiếng Việt qua từng bức tranh.', 'Listen to English stories, follow word-by-word highlighting, and explore Vietnamese translations through illustrated scenes.')}</p></div><div class="storyland-heading-badges"><span class="vocab-public">${text('Mở cho tất cả mọi người', 'Open to everyone')}</span><span class="storyland-library-count">${stories().length} ${text('truyện song ngữ', 'bilingual stories')}</span></div></header>
       <section class="storyland-feature" aria-label="${text('Câu chuyện nổi bật', 'Featured story')}">
         <div class="storyland-feature-copy"><span class="storyland-eyebrow">${text('NGHE · ĐỌC THEO · HỌC TỪ MỚI', 'LISTEN · READ ALONG · LEARN NEW WORDS')}</span><h2>${text('Khơi sáng trí tuệ.<br>Nuôi dưỡng tâm hồn.', 'Stories for the Mind.<br>Lessons for the Heart.')}</h2><p>${text('Mỗi câu chuyện đều có giọng đọc tiếng Anh chuẩn và tranh minh họa theo từng cảnh. Chạm vào bất kỳ từ nào để nghe ngay từ vị trí đó.', 'Every story features natural English narration and scene-by-scene artwork. Tap any word or scene to listen right from that spot.')}</p><div class="storyland-feature-actions"><button type="button" class="btn primary storyland-feature-cta" data-action="storyland-open" data-id="${esc(resume.id)}">${uiIcon('headphones')}<span>${progress ? text(`Tiếp tục: ${resume.titleEn}`, `Continue: ${resume.titleEn}`) : text('Bắt đầu nghe truyện', 'Start listening')}</span></button></div><div class="storyland-facts"><span><strong>${stories().length}</strong> ${text('câu chuyện', 'stories')}</span><span><strong>${totalScenes}</strong> ${text('cảnh minh họa', 'illustrated scenes')}</span><span><strong>${completed}</strong> ${text('đã hoàn thành', 'completed')}</span></div></div>
         <button type="button" class="storyland-feature-art" data-action="storyland-open" data-id="${esc(resume.id)}" data-fallback-label="${esc(resume.titleEn)}" aria-label="${text('Mở truyện', 'Open story')}: ${esc(resume.titleEn)} — ${esc(resume.titleVi)}">
@@ -368,7 +371,7 @@ export function createStorylandUI({initialStoryId = '', redraw = () => {}} = {})
       <header class="storyland-reader-header">
         <button type="button" class="storyland-back" data-action="storyland-back">${icon('back')}<span>${text('Thư viện truyện', 'Story library')}</span></button>
         <div class="storyland-reader-title">
-          <p class="page-overline">STORYLAND · <span class="storyland-inline-level">${esc(story.level)}</span> · ${esc(categoryLabel(story.category))}</p>
+          <p class="page-overline">${name.toUpperCase()} · <span class="storyland-inline-level">${esc(story.level)}</span> · ${esc(categoryLabel(story.category))}</p>
           <h1 id="storyland-reader-title" lang="en">${esc(story.titleEn)}</h1>
           <p lang="vi">${esc(story.titleVi)}</p>
         </div>
@@ -766,13 +769,16 @@ export function createStorylandUI({initialStoryId = '', redraw = () => {}} = {})
     state.message = text('Đang tải bản thu âm…', 'Loading the recording…');
     cues = [];
     lastCue = null;
-    const verSuffix = catalog?.audioVersion ? `?v=${encodeURIComponent(catalog.audioVersion)}` : '';
-    const source = (story.audioSrc || `assets/storyland/audio/${encodeURIComponent(story.id)}.mp3`) + verSuffix;
+    pendingSeek = null;
+    const version = robot ? catalog.robotAudioVersion : catalog.audioVersion;
+    const verSuffix = version ? `?v=${encodeURIComponent(version)}` : '';
+    const audioBase = `assets/storyland/${robot ? 'robot-audio' : 'audio'}/${encodeURIComponent(story.id)}`;
+    const source = (robot ? audioBase + '.mp3' : story.audioSrc || audioBase + '.mp3') + verSuffix;
     audio.src = source;
     audio.load();
     saveStore();
     try {
-      const cuesUrl = (story.cuesSrc || `assets/storyland/audio/${encodeURIComponent(story.id)}.cues.json`) + verSuffix;
+      const cuesUrl = (robot ? audioBase + '.cues.json' : story.cuesSrc || audioBase + '.cues.json') + verSuffix;
       const response = await fetch(cuesUrl);
       if (response.ok) {
         const raw = await response.json();
@@ -873,7 +879,7 @@ export function createStorylandUI({initialStoryId = '', redraw = () => {}} = {})
   function setRate(nextRate) {
     state.rate = normalizeRate(nextRate);
     audio.playbackRate = state.rate;
-    try { localStorage.setItem(`${STORAGE_KEY}-rate`, String(state.rate)); } catch { /* Ignore */ }
+    try { localStorage.setItem(`${storageKey}-rate`, String(state.rate)); } catch { /* Ignore */ }
     updatePlayer();
   }
 
@@ -987,8 +993,11 @@ export function createStorylandUI({initialStoryId = '', redraw = () => {}} = {})
     if (action === 'storyland-next') { seekScene(state.scene + 1, 0, {forceScroll: true}); return; }
   }
 
-  function setInitialStory(id) {
-    if (id) state.storyId = id;
+  async function restoreStory(id) {
+    if (id === state.storyId) return;
+    if (id && catalog) return openStory(id);
+    stop();
+    state.storyId = id;
   }
 
   function stop() {
@@ -1043,8 +1052,8 @@ export function createStorylandUI({initialStoryId = '', redraw = () => {}} = {})
     }
   });
 
-  try { state.rate = normalizeRate(localStorage.getItem(`${STORAGE_KEY}-rate`)); } catch { state.rate = 1; }
+  try { state.rate = normalizeRate(localStorage.getItem(`${storageKey}-rate`)); } catch { state.rate = 1; }
   audio.playbackRate = state.rate;
 
-  return {render, mount, handleInput, handleChange, handleAction, setInitialStory, params, stop, _audio: audio, _state: state};
+  return {render, mount, handleInput, handleChange, handleAction, restoreStory, params, stop, _audio: audio, _state: state};
 }

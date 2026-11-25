@@ -1,4 +1,4 @@
-"""Regenerate all 50 WEWIN STORYLAND MP3s and word-level .cues.json using en-GB-RyanNeural (pitch -8Hz, rate -6%)."""
+"""Regenerate StoryLand recordings and word cues. Use --robot for the slower edition."""
 from __future__ import annotations
 
 import argparse
@@ -113,8 +113,8 @@ def align_scene_words(scene_text: str, wb_events: list[dict], lead_trim_sec: flo
     return cues
 
 
-async def synth_scene(sem: asyncio.Semaphore, story_id: str, scene_idx: int, text: str) -> tuple[Path, Path]:
-    story_cache = CACHE_DIR / story_id
+async def synth_scene(sem: asyncio.Semaphore, story_id: str, scene_idx: int, text: str, *, rate: str, cache_dir: Path) -> tuple[Path, Path]:
+    story_cache = cache_dir / story_id
     story_cache.mkdir(parents=True, exist_ok=True)
     mp3_cache = story_cache / f'scene-{scene_idx:02d}.mp3'
     wb_cache = story_cache / f'scene-{scene_idx:02d}.wb.json'
@@ -126,7 +126,7 @@ async def synth_scene(sem: asyncio.Semaphore, story_id: str, scene_idx: int, tex
         last_err = None
         for attempt in range(4):
             try:
-                comm = edge_tts.Communicate(text, voice=VOICE, pitch=PITCH, rate=RATE, boundary='WordBoundary')
+                comm = edge_tts.Communicate(text, voice=VOICE, pitch=PITCH, rate=rate, boundary='WordBoundary')
                 audio_buf = bytearray()
                 wbs = []
                 async for chunk in comm.stream():
@@ -150,16 +150,16 @@ async def synth_scene(sem: asyncio.Semaphore, story_id: str, scene_idx: int, tex
         raise RuntimeError(f'Failed TTS for {story_id} scene {scene_idx}: {last_err}')
 
 
-async def process_story(sem: asyncio.Semaphore, story: dict) -> dict:
+async def process_story(sem: asyncio.Semaphore, story: dict, *, rate: str, scene_gap: float, cache_dir: Path, audio_dir: Path) -> dict:
     sid = story['id']
     scenes = story['scenes']
     scene_files = await asyncio.gather(*[
-        synth_scene(sem, sid, idx, sc['en']) for idx, sc in enumerate(scenes)
+        synth_scene(sem, sid, idx, sc['en'], rate=rate, cache_dir=cache_dir) for idx, sc in enumerate(scenes)
     ])
 
     pcm_parts: list[np.ndarray] = []
     all_cues: list[dict] = []
-    gap_samples = round(SCENE_GAP_SEC * SAMPLE_RATE)
+    gap_samples = round(scene_gap * SAMPLE_RATE)
     silence_gap = np.zeros(gap_samples, dtype=np.float32)
     cur_sample = 0
 
@@ -213,9 +213,9 @@ async def process_story(sem: asyncio.Semaphore, story: dict) -> dict:
             gain = MAX_PEAK / float(np.max(np.abs(full)))
         full *= gain
 
-    OUT_AUDIO_DIR.mkdir(parents=True, exist_ok=True)
-    out_mp3 = OUT_AUDIO_DIR / f'{sid}.mp3'
-    out_cues = OUT_AUDIO_DIR / f'{sid}.cues.json'
+    audio_dir.mkdir(parents=True, exist_ok=True)
+    out_mp3 = audio_dir / f'{sid}.mp3'
+    out_cues = audio_dir / f'{sid}.cues.json'
 
     subprocess.run([
         FFMPEG, '-nostdin', '-v', 'error', '-y',
@@ -248,9 +248,15 @@ async def process_story(sem: asyncio.Semaphore, story: dict) -> dict:
 
 async def main() -> None:
     parser = argparse.ArgumentParser()
+    parser.add_argument('--robot', action='store_true', help='Generate StoryLand Robot recordings at -37%%')
     parser.add_argument('--story', action='append', help='Specific story ID(s) to regenerate')
     parser.add_argument('--concurrency', type=int, default=10)
     args = parser.parse_args()
+    rate = '-37%' if args.robot else RATE
+    scene_gap = 0.88 if args.robot else SCENE_GAP_SEC
+    cache_dir = CACHE_DIR.with_name(CACHE_DIR.name + '-slow15') if args.robot else CACHE_DIR
+    audio_dir = OUT_AUDIO_DIR.with_name('robot-audio') if args.robot else OUT_AUDIO_DIR
+    version_key = 'robotAudioVersion' if args.robot else 'audioVersion'
 
     catalog = json.loads(DATA_PATH.read_text(encoding='utf-8'))
     stories = catalog['stories']
@@ -264,7 +270,7 @@ async def main() -> None:
     started = time.monotonic()
     reports = []
     for idx, story in enumerate(stories, 1):
-        res = await process_story(sem, story)
+        res = await process_story(sem, story, rate=rate, scene_gap=scene_gap, cache_dir=cache_dir, audio_dir=audio_dir)
         reports.append(res)
         print(
             f"[{idx}/{len(stories)}] {res['id']}: {res['durationSec']}s, {res['cues']}/{res['expectedWords']} words, {round(res['bytes']/1024, 1)} KB",
@@ -276,16 +282,16 @@ async def main() -> None:
     summary = {
         'voice': VOICE,
         'pitch': PITCH,
-        'rate': RATE,
+        'rate': rate,
         'bitrate': BITRATE,
-        'audioVersion': '20261125-ryan-n04-normal',
+        'audioVersion': '20261125-ryan-n04-slow15' if args.robot else '20261125-ryan-n04-normal',
         'stories': len(reports),
         'totalMB': round(total_bytes / (1024 * 1024), 2),
         'totalMinutes': round(total_dur / 60, 2),
         'elapsedSeconds': round(time.monotonic() - started, 1),
     }
     if not args.story:
-        catalog['audioVersion'] = summary['audioVersion']
+        catalog[version_key] = summary['audioVersion']
         DATA_PATH.write_text(json.dumps(catalog, ensure_ascii=False, separators=(',', ':')), encoding='utf-8')
     print('SUMMARY:', json.dumps(summary, ensure_ascii=False), flush=True)
 

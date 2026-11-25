@@ -337,6 +337,43 @@ test('StoryLand UI eliminates dropdowns, combines filters with empty state, and 
   }
 });
 
+test('StoryLand Robot deep links load the slow recordings and keep progress separate', async () => {
+  const catalog = JSON.parse(await readFile(resolve(root, 'storyland/data.json'), 'utf8'));
+  const story = catalog.stories[0];
+  const base = `assets/storyland/robot-audio/${story.id}`;
+  const version = `?v=${catalog.robotAudioVersion}`;
+  assert.ok(catalog.robotAudioVersion);
+  assert.notEqual(catalog.audioVersion, catalog.robotAudioVersion);
+  const requested = [];
+  globalThis.localStorage = {
+    store: new Map(),
+    getItem(key) { return this.store.get(key) ?? null; },
+    setItem(key, value) { this.store.set(key, value); },
+  };
+  globalThis.fetch = async url => {
+    requested.push(String(url));
+    const file = String(url).split('?')[0];
+    return {ok: true, json: async () => JSON.parse(await readFile(resolve(root, file), 'utf8'))};
+  };
+  let ready;
+  const loaded = new Promise(resolve => { ready = resolve; });
+  const robot = createStorylandUI({initialStoryId: story.id, robot: true, redraw: ready});
+  robot.render();
+  await loaded;
+  assert.match(robot.render(), /STORYLAND ROBOT/);
+  assert.equal(robot._audio.src, base + '.mp3' + version);
+  assert.ok(requested.includes(base + '.cues.json' + version));
+  assert.equal(robot._audio.playbackRate, 1);
+  const params = new URLSearchParams({screen: 'storyland-robot'});
+  robot.params(params);
+  assert.equal(params.get('story'), story.id);
+  await robot.handleAction('storyland-save', {id: story.id});
+  assert.ok(localStorage.getItem('wewin-storyland-robot-v1'));
+  assert.equal(localStorage.getItem('wewin-storyland-v1'), null);
+  const standard = createStorylandUI();
+  assert.deepEqual(standard._state.store.saved, []);
+});
+
 test('StoryLand Smart Auto-Follow, Manual-Scroll Override, Resume-Follow, Seek, Pause/Resume, and Error Fallbacks', async () => {
   const catalog = JSON.parse(await readFile(resolve(root, 'storyland/data.json'), 'utf8'));
   const firstStory = catalog.stories[0];
