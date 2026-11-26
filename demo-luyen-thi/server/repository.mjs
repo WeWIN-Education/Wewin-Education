@@ -40,6 +40,20 @@ export class Repository{
   params.push(limit,offset);
   return this.q(`SELECT a.id,a.exam_id,a.exam_version,a.created_at,a.submitted_at,a.owner_kind,u.nickname,u.username,u.role,a.result->>'total' AS total_score FROM practice_attempts a LEFT JOIN practice_users u ON u.id::text=a.owner_id AND a.owner_kind='user' WHERE ${conditions.join(' AND ')} ORDER BY COALESCE(a.submitted_at,a.created_at) DESC,a.id LIMIT $${params.length-1} OFFSET $${params.length}`,params);
  }
+ /** Admin-scope lean list for WeWIN Admin Panel hub (Bearer). */
+ async hubLearningActivity({q='',status='all',limit=50,offset=0}={}){
+  const params=[];
+  const conditions=['true'];
+  if(status==='submitted')conditions.push('a.submitted_at IS NOT NULL');
+  if(status==='draft')conditions.push('a.submitted_at IS NULL');
+  const needle=String(q||'').trim();
+  if(needle){
+   params.push('%'+needle.replace(/[%_]/g,'\\$&')+'%');
+   conditions.push(`(u.nickname ILIKE $${params.length} ESCAPE '\\' OR u.username ILIKE $${params.length} ESCAPE '\\' OR a.exam_id ILIKE $${params.length} ESCAPE '\\' OR a.id::text ILIKE $${params.length} ESCAPE '\\')`);
+  }
+  params.push(limit,offset);
+  return this.q(`SELECT a.id,a.exam_id,a.exam_version,a.created_at,a.submitted_at,a.owner_kind,u.nickname,u.username,u.role,a.result->>'total' AS total_score FROM practice_attempts a LEFT JOIN practice_users u ON u.id::text=a.owner_id AND a.owner_kind='user' WHERE ${conditions.join(' AND ')} ORDER BY COALESCE(a.submitted_at,a.created_at) DESC,a.id LIMIT $${params.length-1} OFFSET $${params.length}`,params);
+ }
  async leaderboard(exam){return this.q(`SELECT u.nickname,r.reading_score,r.listening_score,r.total_score,(a.result->'reading'->>'correct')::int AS reading_correct,(a.result->'reading'->>'total')::int AS reading_total,(a.result->'listening'->>'correct')::int AS listening_correct,(a.result->'listening'->>'total')::int AS listening_total,rank() OVER(ORDER BY r.total_score DESC) AS rank FROM practice_rankings r JOIN practice_users u ON u.id=r.student_id JOIN practice_attempts a ON a.id=r.attempt_id WHERE r.exam_id=$1 AND r.exam_version=$2 AND u.active=true ORDER BY r.total_score DESC,r.submitted_at ASC LIMIT 100`,[exam.id,exam.version]);}
  async mayTeach(teacher,student){return teacher.role==='admin'||!!(await this.q(`SELECT 1 FROM practice_enrollments e JOIN practice_classes c ON c.id=e.class_id WHERE e.student_id=$1 AND ${classScope('c','$2')} AND c.archived_at IS NULL LIMIT 1`,[student,teacher.id]))[0];}
  async staffData(user){

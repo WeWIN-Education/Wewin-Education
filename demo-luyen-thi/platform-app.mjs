@@ -268,7 +268,10 @@ window.addEventListener('popstate', async () => {
 });
 modal.addEventListener('cancel',event=>{if(session.user?.mustChangePassword)event.preventDefault();});
 try{session=await api('session');}catch(e){session={user:null,registered:false,databaseReady:false};if(!isPublicLearningScreen(screen))errorMessage=t('Results storage is temporarily unavailable. Please try again shortly.');}
-if(!isPublicLearningScreen(screen)&&(session.user?.role==='teacher'||session.user?.role==='admin')){staff=await api('staff').catch(()=>null);await Promise.all([loadActivity(),refreshAssignments()]);screen='staff';}
+if(!isPublicLearningScreen(screen)&&(session.user?.role==='teacher'||session.user?.role==='admin')){
+ staff=await api('staff').catch(()=>null);await Promise.all([loadActivity(),refreshAssignments()]);screen='staff';
+ const deepAttempt=initial.get('attempt');if(deepAttempt){try{selectedStaffAttempt=await api('attempt',{id:deepAttempt});staffSection='activity';}catch{}}
+}
 else if(screen==='exam'||screen==='result'){
  const attemptId=initial.get('attempt');if(attemptId&&session.registered){try{const data=await api('attempt',{id:attemptId});attempt=data.attempt;answers=attempt.answers;writing=attempt.writing;review=data.review;screen=attempt.submitted_at?'result':'exam';}catch{screen='intro';}}else screen='intro';
 }

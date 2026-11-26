@@ -11,6 +11,10 @@
     "api/practice.mjs": {
       "maxDuration": 60,
       "includeFiles": "server/**"
+    },
+    "api/hub/exam-attempts.mjs": {
+      "maxDuration": 30,
+      "includeFiles": "server/**,generated/**"
     }
   }
 }
