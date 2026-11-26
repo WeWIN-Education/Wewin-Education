@@ -70,6 +70,7 @@ test('the opaque tag frame can retain its own analytics cookie without touching 
     get() { throw new Error('Sandbox cookie access denied'); },
   });
   runInNewContext(source, {window, document, location: {origin}});
+  assert.equal(window.origin, origin);
   assert.equal(messages[0].data.type, 'exam-analytics-ready');
   receive({origin, source: parent, data: {type:'exam-analytics-config', measurementId, cookies:[['wewin_exam_ga','GA1.1.123.456']]}});
   assert.equal(document.cookie, 'wewin_exam_ga=GA1.1.123.456');

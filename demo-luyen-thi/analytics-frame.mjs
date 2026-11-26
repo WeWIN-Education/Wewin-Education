@@ -1,6 +1,9 @@
 (() => {
   const origin = 'https://exam.wewin.edu.vn';
   if (window.parent === window || window.origin !== 'null' || location.origin !== origin) return;
+  // The tag skips transport for a null JS origin. Expose this document's HTTPS
+  // URL origin to the tag without changing its browser-enforced sandbox origin.
+  Object.defineProperty(window, 'origin', {value: origin});
   const events = new Set(['page_view', 'exam_started', 'exam_completed', 'main_site_click']);
   let config, send;
 
