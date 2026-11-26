@@ -16,6 +16,7 @@ test('client renders overview, library, resumed draft, listening, result, histor
  let onFrameReady;
  const query = document.querySelector;
  document.querySelector = selector => selector === 'meta[name="ga-measurement-id"]' ? {content:'G-BHPHF3EMKF'} : query(selector);
+ document.getElementById = id => id === '__gaOptOutExtension' ? null : node(id);
  document.createElement = tag => {assert.equal(tag,'iframe');return frame;};
  document.body.append = () => onFrameReady({origin:'null',source:frame.contentWindow,data:{type:'exam-analytics-ready'}});
  globalThis.matchMedia=()=>({matches:false});globalThis.localStorage={getItem:()=>null,setItem(){}};globalThis.sessionStorage={getItem:()=>null,setItem(){}};

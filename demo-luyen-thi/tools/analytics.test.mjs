@@ -1,5 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import {readFile} from 'node:fs/promises';
+import {runInNewContext} from 'node:vm';
 import {createExamAnalytics} from '../analytics.mjs';
 
 const origin = 'https://exam.wewin.edu.vn';
@@ -54,4 +56,31 @@ test('local, preview, other domains and missing configuration do not send analyt
   }
   createExamAnalytics({origin, send}).page('dashboard', 'dashboard');
   assert.deepEqual(sent, []);
+});
+
+test('the opaque tag frame can retain its own analytics cookie without touching application cookies', async () => {
+  const source = await readFile(new URL('../analytics-frame.mjs', import.meta.url), 'utf8');
+  const messages = [];
+  const parent = {postMessage: (data, target) => messages.push({data, target})};
+  let receive, scripts = 0;
+  const window = {parent, origin: 'null', addEventListener: (_name, callback) => { receive = callback; }};
+  const document = {createElement: () => ({}), head: {append: () => scripts++}};
+  Object.defineProperty(document, 'cookie', {
+    configurable: true,
+    get() { throw new Error('Sandbox cookie access denied'); },
+  });
+  runInNewContext(source, {window, document, location: {origin}});
+  assert.equal(messages[0].data.type, 'exam-analytics-ready');
+  receive({origin, source: parent, data: {type:'exam-analytics-config', measurementId, cookies:[['wewin_exam_ga','GA1.1.123.456']]}});
+  assert.equal(document.cookie, 'wewin_exam_ga=GA1.1.123.456');
+  document.cookie = 'session=fixture; Max-Age=30';
+  document.cookie = 'wewin_exam_ga_BHPHF3EMKF=GS2.1.s123; Max-Age=60';
+  assert.equal(messages.length, 2);
+  assert.equal(messages[1].data.name, 'wewin_exam_ga_BHPHF3EMKF');
+  assert.doesNotMatch(document.cookie, /session=fixture/);
+  const params = {page_location:origin+'/',page_title:'WeWIN Exam',page_referrer:''};
+  receive({origin, source: parent, data: {type:'exam-analytics-event',event:'page_view',params}});
+  receive({origin, source: parent, data: {type:'exam-analytics-event',event:'exam_started',params}});
+  assert.equal(scripts, 1);
+  assert.equal(window.dataLayer.find(command => command[0]==='config')[2].send_page_view, false);
 });

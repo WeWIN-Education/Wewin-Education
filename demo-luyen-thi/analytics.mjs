@@ -23,15 +23,15 @@ function referrerOrigin(value) {
   return '';
 }
 
-// An anonymous, host-local browser identifier. It never depends on an account or attempt.
-function browserClientId() {
-  const key = 'wewin-exam-ga-client';
-  let id;
-  try { id = localStorage.getItem(key); } catch {}
-  if (/^\d{1,10}\.\d{10}$/.test(id || '')) return id;
-  id = crypto.getRandomValues(new Uint32Array(1))[0] + '.' + Math.floor(Date.now() / 1000);
-  try { localStorage.setItem(key, id); } catch {}
-  return id;
+const analyticsCookie = /^wewin_exam_ga(?:_[A-Z0-9]+)?$/;
+const cookieValue = /^[A-Za-z0-9.%$_-]{0,256}$/;
+const cookieLifetime = 63072000;
+
+function analyticsCookies() {
+  return (document.cookie || '').split(/;\s*/).flatMap(item => {
+    const [name, value] = item.split('=', 2);
+    return analyticsCookie.test(name) && cookieValue.test(value || '') ? [[name, value]] : [];
+  });
 }
 
 export function createExamAnalytics({origin, measurementId, referrer, send}) {
@@ -71,10 +71,18 @@ export function installExamAnalytics() {
   const measurementId = document.querySelector('meta[name="ga-measurement-id"]')?.content;
   let frame, ready = false;
   const pending = [];
+  function optedOut() {
+    return window['ga-disable-' + measurementId] === true ||
+      window._gaUserPrefs?.ioo?.() ||
+      document.documentElement.hasAttribute?.('data-google-analytics-opt-out') ||
+      document.getElementById?.('__gaOptOutExtension') ||
+      (document.cookie || '').split(/;\s*/).includes('AMP_TOKEN=$OPT_OUT');
+  }
 
   return createExamAnalytics({
     origin: location.origin, measurementId, referrer: document.referrer,
     send(event, params) {
+      if (optedOut()) return;
       const message = {type: 'exam-analytics-event', event, params};
       if (ready) {
         frame.contentWindow.postMessage(message, '*');
@@ -90,14 +98,20 @@ export function installExamAnalytics() {
       frame.setAttribute('sandbox', 'allow-scripts');
       frame.referrerPolicy = 'no-referrer';
       frame.src = '/analytics-frame.html';
-      function onReady(reply) {
-        if (reply.origin !== 'null' || reply.source !== frame.contentWindow || reply.data?.type !== 'exam-analytics-ready') return;
-        window.removeEventListener('message', onReady);
-        frame.contentWindow.postMessage({type: 'exam-analytics-config', measurementId, clientId: browserClientId()}, '*');
-        ready = true;
-        for (const item of pending.splice(0)) frame.contentWindow.postMessage(item, '*');
+      function onFrameMessage({origin, source, data}) {
+        if (origin !== 'null' || source !== frame.contentWindow || !data || optedOut()) return;
+        if (!ready && data.type === 'exam-analytics-ready') {
+          frame.contentWindow.postMessage({type: 'exam-analytics-config', measurementId, cookies: analyticsCookies()}, '*');
+          ready = true;
+          for (const item of pending.splice(0)) frame.contentWindow.postMessage(item, '*');
+        } else if (ready && data.type === 'exam-analytics-cookie') {
+          const {name, value, maxAge} = data;
+          if (analyticsCookie.test(name) && typeof value === 'string' && cookieValue.test(value) && Number.isInteger(maxAge)) {
+            document.cookie = `${name}=${value}; Max-Age=${Math.min(cookieLifetime, Math.max(0, maxAge))}; Path=/; Secure; SameSite=Lax`;
+          }
+        }
       }
-      window.addEventListener('message', onReady);
+      window.addEventListener('message', onFrameMessage);
       document.body.append(frame);
     },
   });
