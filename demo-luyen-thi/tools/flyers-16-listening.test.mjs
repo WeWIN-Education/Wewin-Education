@@ -32,7 +32,7 @@ test('Stored Mock 16 scores and first-attempt ranking are corrected once with an
   const owner={id:student.id,kind:'user'},exam=getExam('flyers-16'),old=structuredClone(exam);
   const oldLinks={Oliver:'p7',Robert:'p2',Isabel:'p3',Emma:'p6',Sophia:'p5'};
   old.listening[0].questions.forEach(q=>q.answer=oldLinks[q.prompt]);
-  const attempt=await repo.createAttempt(owner,exam),answers={l1:correctLinks,'r5-6':'divided the jobs'};
+  const {attempt}=await repo.createAttempt(owner,exam),answers={l1:correctLinks,'r5-6':'divided the jobs'};
   const previous=grade(old,answers);
   await repo.submit(attempt,owner,answers,{'r7-1':'Saved writing'},previous,true);
   const stored=await repo.attempt(attempt.id),corrected=correctedFlyers16Result(stored);

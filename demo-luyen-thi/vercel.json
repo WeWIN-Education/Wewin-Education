@@ -7,6 +7,15 @@
   "regions": [
     "sin1"
   ],
+  "headers": [
+    {
+      "source": "/analytics-frame.html",
+      "headers": [
+        {"key": "Content-Security-Policy", "value": "frame-ancestors 'self'; sandbox allow-scripts"},
+        {"key": "Referrer-Policy", "value": "no-referrer"}
+      ]
+    }
+  ],
   "functions": {
     "api/practice.mjs": {
       "maxDuration": 60,

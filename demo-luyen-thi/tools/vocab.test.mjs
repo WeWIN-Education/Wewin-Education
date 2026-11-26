@@ -10,7 +10,7 @@ function browser(search='?screen=vocab'){
  const add=(map,name,fn)=>map.set(name,[...(map.get(name)||[]),fn]);
  globalThis.document={documentElement:{dataset:{}},body:{dataset:{}},activeElement:null,hidden:false,querySelector:s=>s.startsWith('#')?node(s.slice(1)):null,querySelectorAll:()=>[],getElementById:node,addEventListener:(n,f)=>add(listeners,n,f),createElement(){throw Error('Unexpected lead gate on public Vocab');}};
  globalThis.window={history:{replaceState(){},pushState(){}},scrollTo(){},addEventListener:(n,f)=>add(windowListeners,n,f),dispatchEvent:e=>{for(const f of windowListeners.get(e.type)||[])f(e);}};
- globalThis.Audio=class{pause(){} removeAttribute(){} load(){} play(){return Promise.resolve();}};
+ globalThis.Audio=class{pause(){} removeAttribute(){} load(){} addEventListener(){} play(){return Promise.resolve();}};
  globalThis.localStorage={getItem:k=>storage.get(k)||null,setItem:(k,v)=>storage.set(k,v)};
  globalThis.sessionStorage={getItem:()=>null,setItem(){}};globalThis.matchMedia=()=>({matches:false});globalThis.location={search,href:'http://localhost/'+search};
  return {node,listeners,windowListeners,storage,async click(action,id){const el={dataset:{vocab:action,id},disabled:false};for(const f of listeners.get('click')||[])await f({target:{closest:s=>s==='[data-vocab]'?el:null},preventDefault(){}});await new Promise(r=>setTimeout(r,0));}};

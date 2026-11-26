@@ -10,20 +10,31 @@ test('client renders overview, library, resumed draft, listening, result, histor
  const root=node('app'),modal=node('modal'),audio=node('audio');audio.paused=true;audio.pause=()=>audio.paused=true;audio.play=async()=>audio.paused=false;audio.load=()=>{};audio.currentTime=0;
  root.querySelectorAll=selector=>selector==='[data-name],[data-person],[data-region]'?pictureRegions:[];
  globalThis.document={documentElement:{dataset:{}},body:{dataset:{}},activeElement:null,querySelector:selector=>selector.startsWith('#')?node(selector.slice(1)):null,querySelectorAll:()=>[],getElementById:node,addEventListener:(name,fn)=>{const list=listeners.get(name)||[];list.push(fn);listeners.set(name,list);}};
+ // The analytics frame is replaced by a local message receiver. No Google tag or requests are loaded.
+ const analyticsMessages = [], historyEntries = [];
+ const frame = {setAttribute(){},contentWindow:{postMessage:message=>analyticsMessages.push(message)}};
+ let onFrameReady;
+ const query = document.querySelector;
+ document.querySelector = selector => selector === 'meta[name="ga-measurement-id"]' ? {content:'G-BHPHF3EMKF'} : query(selector);
+ document.createElement = tag => {assert.equal(tag,'iframe');return frame;};
+ document.body.append = () => onFrameReady({origin:'null',source:frame.contentWindow,data:{type:'exam-analytics-ready'}});
  globalThis.matchMedia=()=>({matches:false});globalThis.localStorage={getItem:()=>null,setItem(){}};globalThis.sessionStorage={getItem:()=>null,setItem(){}};
- globalThis.location={search:'',href:'http://localhost/'};globalThis.window={history:{replaceState(){},pushState(){}},scrollTo(){},addEventListener(){},dispatchEvent(){}};
+ globalThis.location={search:'',href:'https://exam.wewin.edu.vn/',origin:'https://exam.wewin.edu.vn'};
+ globalThis.window={history:{replaceState(){},pushState(_state,_unused,url){historyEntries.push(url);}},scrollTo(){},addEventListener(name,fn){if(name==='message')onFrameReady=fn;},removeEventListener(){},dispatchEvent(){}};
  let user={id:'fixture-student',nickname:'Local QA Learner',role:'student',mustChangePassword:false};
  const e=allExams[0];let stored={id:'fixture-attempt',exam_id:e.id,exam_version:e.version,answers:{},writing:{},created_at:'2026-10-24T01:00:00Z',updated_at:'2026-10-24T01:00:00Z',submitted_at:null};
+ let started = false;
  globalThis.fetch=async(url,options={})=>{const p=new URL(url,'http://localhost').searchParams,resource=p.get('resource');calls.push(resource);let data;
   if(resource==='session')data={user,registered:true,databaseReady:true};
   else if(resource==='assignments')data={assignments:[]};
   else if(resource==='history')data={attempts:[stored]};
-  else if(resource==='attempts'||resource==='attempt')data={attempt:stored,review:null};
+  else if(resource==='attempts'){data={attempt:stored,created:!started};started=true;}
+  else if(resource==='attempt')data={attempt:stored,review:null};
   else if(resource==='leaderboard')data={entries:[]};
   else if(resource==='logout'){user=null;data={ok:true};}
   else if(resource==='staff')data={users:[{id:'fixture-student',nickname:'Local QA Learner',role:'student',active:true}],classes:[],enrollments:[]};
   else if(resource==='activity')data={activities:[{...stored,nickname:'Local QA Learner',username:'qa',role:'student',owner_kind:'user',total_score:stored.result?.total??null}]};
-  else if(resource==='submit'){stored={...stored,submitted_at:'2026-10-24T02:00:00Z',result:grade(getExam(stored.exam_id),{})};data={attempt:stored};}
+  else if(resource==='submit'){const completed=!stored.submitted_at;stored={...stored,submitted_at:'2026-10-24T02:00:00Z',result:grade(getExam(stored.exam_id),{})};data={attempt:stored,completed};}
   else if(resource==='draft')data={ok:true};
   else throw Error('Unexpected resource '+resource);
   return {ok:true,status:200,json:async()=>data};
@@ -33,10 +44,22 @@ test('client renders overview, library, resumed draft, listening, result, histor
  assert.match(root.innerHTML,/Local QA Learner/);assert.match(root.innerHTML,/Tiếp tục bài đang làm/);assert.match(root.innerHTML,/learning-sidebar/);assert.ok(!root.innerHTML.includes('NaN'));
  await click('catalog');assert.match(root.innerHTML,/id="catalog-search"/);assert.match(root.innerHTML,/test-row/);
  await click('library-level',{value:'flyers'});assert.match(root.innerHTML,/30 đề Flyers/);
+ assert.equal(historyEntries.length,1);
+ await click('open-test',{exam:e.id});
+ await click('start');
+ await click('start');
  await click('load-attempt',{id:stored.id});assert.equal(document.body.dataset.screen,'exam');assert.match(root.innerHTML,/exam-focus/);assert.match(root.innerHTML,/Đọc & Viết/);
  await click('ui-language');assert.match(root.innerHTML,/Your learning space/);assert.ok(root.innerHTML.includes(e.reading[0].questions[0].prompt));await click('ui-language');assert.match(root.innerHTML,/Không gian học tập/);
  await click('skill',{value:'listening'});assert.match(root.innerHTML,/audio-seek/);assert.match(root.innerHTML,/Draw lines/);
  await click('confirm-submit');assert.equal(document.body.dataset.screen,'result');assert.match(root.innerHTML,/kết quả của bạn/);assert.match(root.innerHTML,/Hoàn thành bài luyện/);assert.ok(!root.innerHTML.includes('NaN'));
+ await click('confirm-submit');
+ await click('load-attempt',{id:stored.id});
+ const link = {href:'https://wewin.edu.vn/?token=fixture-private'};
+ for(const fn of listeners.get('click')) await fn({target:{closest:selector=>selector==='a[href]'?link:null}});
+ const events = analyticsMessages.filter(message=>message.event);
+ assert.deepEqual(events.map(message=>message.event),['page_view','page_view','page_view','page_view','exam_started','page_view','exam_completed','main_site_click']);
+ assert.equal(events.at(-1).params.destination_host,'wewin.edu.vn');
+ assert.doesNotMatch(JSON.stringify(events),/fixture-private|fixture-attempt|fixture-student|Local QA Learner/);
  await click('my-history');assert.equal(document.body.dataset.screen,'history');assert.match(root.innerHTML,/Xem kết quả/);assert.match(root.innerHTML,/0<small>\/100/);
  // Staff rendering is exercised with a stubbed service; real role enforcement is covered by platform.test.mjs.
  assert.ok(calls.includes('submit'));assert.ok(calls.includes('history'));

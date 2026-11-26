@@ -32,6 +32,10 @@ Set `DATABASE_URL`, `OPENAI_API_KEY` and `LEAD_GATE_SECRET` as production secret
 
 Install with `npm ci`; run `npm test` and `npm run build`. Vercel deploys `dist/` and the two functions in `api/`. The build uses a client-file allowlist. Source answer modules, private JSON, server modules, teacher PDFs and secrets are excluded from static output. The API function bundles private scoring data separately.
 
+Set the public `GA_MEASUREMENT_ID` in the Production environment of `wewin-luyen-thi` and redeploy to enable GA4. The build writes it into the public HTML. Collection requires the exact origin `https://exam.wewin.edu.vn`. The isolated tag receives fixed page names and paths, origin-only external referrals, and allowlisted event fields. Vocab and each StoryLand edition count as one screen; changes within them, test parts, filters and dialogs do not count as new views. Sign-in and staff screens are excluded. Google Analytics reports can isolate Exam with `Host name = exam.wewin.edu.vn`.
+
+The app sends `exam_started` and `exam_completed` only for database-confirmed transitions, including assignments, and `main_site_click` for links to the main WEWIN website. The app uses an opaque sandbox for the tag because the shared stream enables Enhanced Measurement. Keep the tag out of the main document. Run `node --test tools/analytics.test.mjs` to check routing and payload rules without sending data to Google.
+
 For a new database run `npm run migrate` with a private `.env.local`, then `tools/bootstrap-admin.mjs` using the environment variables in that script. Do not rerun initial provisioning against an existing installation. Schema migration uses additive, idempotent DDL.
 
 This version requires its server API. Static files alone on cPanel do not provide accounts, marking, AI or registration verification. WordPress can link its “Luyện thi” menu to production. A cPanel migration requires an equivalent Node backend and private environment configuration.

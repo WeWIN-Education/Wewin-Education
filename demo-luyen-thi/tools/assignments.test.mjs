@@ -29,7 +29,7 @@ test('class ownership, assignment deadlines, independent attempts and class resu
   const report=await request('assignment&id='+id,{cookie:cookies.teacher});assert.equal(report.body.students.length,2);assert.ok(report.body.students.every(s=>s.attempt_id===null));
   const unrelated=await repo.createUser({username:'unenrolled',nickname:'Unenrolled',role:'student',passwordHash:hash,mustChange:false});const outsider=(await request('login',{data:{username:unrelated.username,password:'123'}})).cookie;
   assert.equal((await request('assignment-start&id='+id,{cookie:outsider,data:{}})).status,403);
-  const start=()=>request('assignment-start&id='+id,{cookie:cookies.student,data:{}});const starts=await Promise.all([start(),start()]);assert.equal(starts[0].status,200);assert.equal(starts[0].body.attempt.id,starts[1].body.attempt.id);const a=starts[0].body.attempt;
+  const start=()=>request('assignment-start&id='+id,{cookie:cookies.student,data:{}});const starts=await Promise.all([start(),start()]);assert.equal(starts[0].status,200);assert.deepEqual(starts.map(r=>r.body.created).sort(),[false,true]);assert.equal(starts[0].body.attempt.id,starts[1].body.attempt.id);const a=starts[0].body.attempt;
   const free=await request('attempts',{cookie:cookies.student,data:{examId:payload.examId}});assert.equal(free.status,200);assert.notEqual(free.body.attempt.id,a.id);assert.equal(free.body.attempt.assignment_id,null);
   const second=(await request('assignments',{cookie:cookies.teacher,data:{...payload,title:'Second independent assignment'}})).body.assignment;
   const a2=(await request('assignment-start&id='+second.id,{cookie:cookies.student,data:{}})).body.attempt;assert.notEqual(a2.id,a.id);assert.notEqual(a2.id,free.body.attempt.id);
