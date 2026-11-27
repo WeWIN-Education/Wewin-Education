@@ -11,6 +11,7 @@ const pages = new Map([
   ['history', ['/results', 'Results history']],
   ['board', ['/leaderboard', 'Leaderboard']],
   ['vocab', ['/vocab', 'Vocab']],
+  ['shadowing', ['/shadowing', 'Shadowing']],
   ['storyland', ['/storyland', 'StoryLand']],
   ['storyland-robot', ['/storyland-robot', 'StoryLand Robot']],
 ]);

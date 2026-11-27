@@ -3,6 +3,7 @@ import {displayCode,matchesSearch} from './search.mjs';
 import {renderClassManagement,renderStudentAssignments,teacherForm,newClassForm,enrollForm,assignmentForm,assignmentExamField,assignmentReport,classDate,renameClassForm,moveStudentForm,removalConfirmation} from './assignments-ui.mjs';
 import {createVocabUI} from './vocab.mjs';
 import {createStorylandUI} from './storyland.mjs';
+import {createShadowing} from './shadowing.mjs';
 import {createGuestSessionGuard} from './guest-session.mjs';
 import {t,ui,getLanguage,onLanguageChange,setLanguage} from './language.mjs';
 import {renderScoreCards,renderLeaderboard} from './results-ui.mjs';
@@ -29,7 +30,8 @@ const storylandEditions = new Map(['storyland', 'storyland-robot'].map(edition =
  redraw: () => { if (screen === edition) render(); },
  robot: edition === 'storyland-robot',
 })]));
-const isPublicLearningScreen = value => value === 'vocab' || storylandEditions.has(value);
+const shadowing = createShadowing();
+const isPublicLearningScreen = value => value === 'vocab' || value === 'shadowing' || storylandEditions.has(value);
 let attempt=null,answers={},writing={},selectedName='',tool='colour',color='blue',wordArea='',undo=[],audioSource='',draftTimer=null,pendingDraft=null,category='all',query='',limit=6,boardLevel='starters',boardExam='starters-01',boardEntries=[],history=[],staff=null,staffStudent='',staffAttempts=[],selectedStaffAttempt=null,review=null,errorMessage='',busy=false,saveMessage=t('Saved on this device'),gatePromise,reviewTimer=null;
 let historyAvailable=true,catalogSearchTimer=null;
 let classAssignments=[],assignmentsAvailable=true,staffSection='classes';
@@ -63,9 +65,10 @@ function render(){
  replaceRoute = false;
  analytics.page(screen, route);
  const error=ui`<p id="screen-error" class="screen-error" role="alert" ${errorMessage?'':'hidden'}>${esc(errorMessage)}</p>`;
- const content=screen==='catalog'?error+libraryLayout({category,query,results:catalogResults(),attempts:history,user:session.user,available:historyAvailable}):ui`<div class="platform-shell">${error}${screen==='vocab'?vocab.render():storyland?storyland.render():screen==='assignments'?renderStudentAssignments({rows:classAssignments,exams:allExams,available:assignmentsAvailable}):screen==='intro'?introView():screen==='exam'?examView():screen==='result'?resultView():screen==='staff'?staffView():screen==='login'?loginView():dashboardView()}</div>`;
+ const content=screen==='catalog'?error+libraryLayout({category,query,results:catalogResults(),attempts:history,user:session.user,available:historyAvailable}):ui`<div class="platform-shell">${error}${screen==='vocab'?vocab.render():screen==='shadowing'?'<div id="shadowing-root"></div>':storyland?storyland.render():screen==='assignments'?renderStudentAssignments({rows:classAssignments,exams:allExams,available:assignmentsAvailable}):screen==='intro'?introView():screen==='exam'?examView():screen==='result'?resultView():screen==='staff'?staffView():screen==='login'?loginView():dashboardView()}</div>`;
  root.innerHTML=renderShell({screen,category,session,exams:allExams,attempts:history,available:historyAvailable,content,footer:footer()});
  enhanceSelects(root);enhanceListSearch(root);storyland?.mount(root);
+ if(screen==='shadowing')shadowing.mount(root);
  if(focusId){const control=byId(focusId);if(control?.classList?.contains('combo-input'))control.dataset.restoreFocus='true';control?.focus({preventScroll:true});}
  if(focusData)[...root.querySelectorAll('[data-action],[data-vocab]')].find(el=>Object.entries(focusData).every(([key,value])=>el.dataset[key]===value))?.focus({preventScroll:true});
  syncAudio();if(screen==='exam'&&currentPart().interaction)bindPictureInteractions(root,{part:currentPart(),selectName,connect,region:selectRegion});
@@ -99,7 +102,7 @@ window.addEventListener('wewin-guest-expired',event=>expireGuest(event.detail?.r
 for(const event of ['pointerdown','pointermove','keydown','input','wheel'])document.addEventListener(event,()=>guestGuard.noteActivity(),{passive:true});
 window.addEventListener('focus',()=>guestGuard.check());
 document.addEventListener('visibilitychange',()=>{if(!document.hidden)guestGuard.check();});
-function navigate(next,{replace=false}={}){replaceRoute=replace;clearTimeout(reviewTimer);if(next!=='vocab')vocab.stop();if(next!==screen)storylandEditions.get(screen)?.stop();errorMessage='';screen=next;render();if(!session.registered&&!isPublicLearningScreen(next)&&next!=='login')openGuestRegistration();window.scrollTo({top:0,behavior:'instant'});if(document.documentElement.dataset.input==='keyboard')byId('main-content')?.focus({preventScroll:true});}
+function navigate(next,{replace=false}={}){replaceRoute=replace;clearTimeout(reviewTimer);if(next!=='vocab')vocab.stop();if(next!=='shadowing')shadowing.stop();if(next!==screen)storylandEditions.get(screen)?.stop();errorMessage='';screen=next;render();if(!session.registered&&!isPublicLearningScreen(next)&&next!=='login')openGuestRegistration();window.scrollTo({top:0,behavior:'instant'});if(document.documentElement.dataset.input==='keyboard')byId('main-content')?.focus({preventScroll:true});}
 async function refreshAssignments(){if(!session.user){classAssignments=[];assignmentsAvailable=true;return;}try{classAssignments=(await api('assignments')).assignments;assignmentsAvailable=true;}catch{assignmentsAvailable=false;}}
 async function refreshHistory(){if(!session.registered||session.user&&session.user.role!=='student'){history=[];historyAvailable=true;return;}try{history=(await api('history')).attempts;historyAvailable=true;}catch{historyAvailable=false;}await refreshAssignments();}
 function introView(){const count=exam.reading.filter(p=>p.manual).length;return ui`<div class="intro-grid"><section class="intro-picture">${image(exam.cover,exam.title)}</section><section class="intro-copy"><div class="eyebrow">${examLabel(exam)}</div><h1>${esc(exam.title)}</h1><p>Practise Reading & Listening with pictures and audio.</p><div class="intro-stats"><div class="intro-stat">${icon('book')}<strong>Reading</strong><small>${exam.readingCount} automatically marked questions</small></div><div class="intro-stat">${icon('headphones')}<strong>Listening</strong><small>${exam.listeningCount} questions</small></div></div><div class="instructions"><p>You can pause and listen again.</p><p>${exam.levelKey==='ket'?'Reading & Writing: 60 minutes · Listening: approximately 30 minutes.':'Answer the questions, draw lines and colour in the picture.'}</p><p>Your first submitted attempt is used for the student leaderboard.</p>${count?ui`<p>Open writing is assessed separately. ${exam.writingAssessment==='teacher'?'Your two writing tasks are saved for teacher assessment.':session.user?.role==='student'?'AI feedback is available after you submit.':'Please contact WeWIN to access AI Writing assessment.'}</p>`:''}</div>${button(busy?t('Opening your attempt…'):t('Start practice'),'start','primary full',busy?'disabled':'')}<p class="small muted">${exam.levelKey==='ket'?'See your Reading & Listening practice score after submitting.':'See your score and shields after submitting your practice.'}</p></section></div>`;}
@@ -190,6 +193,7 @@ document.addEventListener('click',async event=>{const el=event.target.closest('[
  if(action==='ui-language'){setLanguage(getLanguage()==='vi'?'en':'vi');return;}
  if(action==='vocab'){await vocab.open();navigate('vocab');return;}
  if(action==='storyland'){navigate('storyland');return;}
+ if(action==='shadowing'){navigate('shadowing');return;}
  if(action.startsWith('storyland-')){await storylandEditions.get(screen)?.handleAction(action,el.dataset);return;}
  if(action==='my-assignments'){await refreshAssignments();navigate('assignments');return;}
  if(action==='refresh-assignments'){el.disabled=true;await refreshAssignments();render();return;}
@@ -274,18 +278,24 @@ document.addEventListener('submit',async event=>{const form=event.target;if(!['l
  }catch(e){if(error)error.textContent=t(e.message);else notify(e);}finally{if(submit?.isConnected)submit.disabled=false;}
 });
 window.addEventListener('wewin-signin',showLogin);
+window.addEventListener('pageshow', event => {
+ if (event.persisted && screen === 'shadowing') render();
+});
 window.addEventListener('wewin-vocab',async()=>{await vocab.open();navigate('vocab');});
 window.addEventListener('popstate', async () => {
  const p = new URLSearchParams(location.search), next = p.get('screen');
  if (next !== screen) {
   storylandEditions.get(screen)?.stop();
   if (screen === 'vocab') vocab.stop();
+  if (screen === 'shadowing') shadowing.stop();
  }
  if (next === 'vocab') {
   replaceRoute = true;
   screen = next;
   await vocab.open(p.get('game'), p.get('unit'));
   render();
+ } else if (next === 'shadowing') {
+  navigate(next,{replace:true});
  } else if (storylandEditions.has(next)) {
   replaceRoute = true;
   screen = next;
