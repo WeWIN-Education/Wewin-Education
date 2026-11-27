@@ -59,10 +59,10 @@ function youtubeApi() {
 export function createShadowing() {
   const recordedRecognizer = createRecordedRecognizer();
   const recordedMode = useRecordedSpeech(globalThis.navigator) || !(globalThis.SpeechRecognition || globalThis.webkitSpeechRecognition);
-  let host, shell, player, playerTimer, ready = false, playerError = false, playbackRate = 1, playing = false;
-  let index = 0, whole = false, translation = true, selectedCue = null, animation = null, highlightedWord, auto = false, autoTimer;
+  let host, shell, player, playerTimer, ready = false, loadingPlayer = false, playerError = false, playbackRate = 1, playing = false;
+  let index = 0, whole = false, translation = true, selectedCue = null, animation = null, highlightedWord, auto = false, autoTimer, awaitingNext = false;
   let state = 'idle', recording, captureScope, recordTimer, recordStarted, recordLimit, transcript = '', issue = '';
-  let recordingUrl, result;
+  const takes = new Map();
   let checkingRecording = '';
   let scores = {};
   try {
@@ -73,18 +73,27 @@ export function createShadowing() {
   const busy = () => state !== 'idle';
   const selected = () => cues[index];
   const show = selector => shell?.querySelector(selector);
-  const clearAuto = () => { auto = false; clearTimeout(autoTimer); };
+  const takeKey = () => whole ? 'whole' : index;
+  const clearAuto = () => { auto = awaitingNext = false; clearTimeout(autoTimer); };
+
+  function saveTake(key, take) {
+    const old = takes.get(key);
+    if (old?.recordingUrl) URL.revokeObjectURL(old.recordingUrl);
+    takes.set(key, take);
+  }
 
   function resultMarkup() {
+    const {result, recordingUrl, text = '', issue: takeIssue} = takes.get(takeKey()) || {};
     const labels = {correct: copy('Đúng', 'Correct'), incorrect: copy('Sai khác', 'Different'), missing: copy('Thiếu', 'Missing'), extra: copy('Thừa', 'Extra')};
     const replay = recordingUrl ? `<div class="shadow-replay"><strong>${copy('Nghe giọng của bạn', 'Your recording')}</strong><audio controls preload="metadata" src="${esc(recordingUrl)}" aria-label="${copy('Bản ghi của bạn', 'Your recording')}"></audio></div>` : '';
-    if (!result) return replay;
+    if (!result) return `${takeIssue && !issue ? `<p class="shadow-error">${esc(takeIssue)}</p>` : ''}${replay}`;
     return `<section class="shadow-result" aria-label="${copy('Kết quả đối chiếu', 'Match result')}">
-      <div class="shadow-result-top"><div><h3>${copy('Mức khớp nội dung', 'Content match')}</h3><p>${copy('Điểm dựa trên từ trình duyệt nhận ra, không phải điểm phát âm.', 'This score measures the words recognised by your browser. It is not a pronunciation score.')}</p></div><strong role="status">${result.score}%</strong></div>
+      <div class="shadow-result-top"><div><h3>${copy('Kết quả luyện nói', 'Speaking result')}</h3><p>${copy('Điểm so sánh các từ nghe được với lời mẫu, không đánh giá phát âm.', 'This score compares the words heard with the sample. It does not assess pronunciation.')}</p></div><strong role="status">${result.score}%</strong></div>
       <dl class="shadow-stats">${Object.entries(labels).map(([key, value]) => `<div><dt>${value}</dt><dd>${result.counts[key]}${key === 'correct' ? '/' + result.total : ''}</dd></div>`).join('')}</dl>
       <div class="shadow-alignment" lang="en">${result.results.map(item => `<span class="shadow-word-result is-${item.status}" title="${labels[item.status]}">${esc(item.expected || item.actual)}${item.status === 'incorrect' ? `<del>${esc(item.actual)}</del>` : ''}${item.status !== 'correct' ? `<small lang="${getLanguage()}">${labels[item.status]}</small>` : ''}</span>`).join('')}</div>
-      <p class="shadow-heard"><strong>${copy('Máy nghe được', 'Recognised words')}</strong><br><span lang="en">${esc(transcript)}</span></p>
+      <p class="shadow-heard"><strong>${copy('Máy nghe được', 'Words heard')}</strong><br><span lang="en">${esc(text)}</span></p>
       ${replay}
+      ${awaitingNext ? `<div class="shadow-review-next"><p>${copy('Xem lại kết quả rồi bấm tiếp tục khi bạn sẵn sàng.', 'Review your result, then continue when you are ready.')}</p>${button(copy('Tiếp tục luyện', 'Continue practice'), 'continue', '', 'primary')}</div>` : ''}
     </section>`;
   }
 
@@ -106,8 +115,8 @@ export function createShadowing() {
     const micLabel = ({
       starting: copy('Đang mở micro…', 'Opening microphone…'),
       recording: copy('Dừng ghi âm', 'Stop recording'),
-      processing: checkingRecording || copy('Đang đối chiếu…', 'Checking words…'),
-    })[state] || (result || recordingUrl ? copy('Ghi âm lại', 'Record again') : copy('Ghi âm', 'Record'));
+      processing: copy('Đang chấm…', 'Checking…'),
+    })[state] || (takes.has(takeKey()) ? copy('Ghi âm lại', 'Record again') : copy('Ghi âm', 'Record'));
     deck.innerHTML = `
       <div class="shadow-mode" role="group" aria-label="${copy('Chế độ luyện', 'Practice mode')}">
         ${button(copy('Từng đoạn', 'By clip'), 'clip', `aria-pressed="${!whole}" ${busy() ? 'disabled' : ''}`)}
@@ -121,9 +130,7 @@ export function createShadowing() {
         <p class="shadow-live" lang="en" ${state === 'recording' || state === 'processing' ? '' : 'hidden'}>${esc(transcript)}</p>
         <p class="shadow-checking" role="status" ${checkingRecording ? '' : 'hidden'}>${esc(checkingRecording)}</p>
         <p class="shadow-error" role="alert" ${issue ? '' : 'hidden'}>${esc(issue)}</p>
-        ${canRecord ? `<p class="shadow-note">${recordedMode ? copy('Điện thoại chấm sau khi dừng ghi. Lần đầu cần tải bộ nhận dạng khoảng 54 MB. Giọng nói được xử lý ngay trên thiết bị.', 'Your device scores the recording after you stop. First use needs a download of about 54 MB. Speech is processed on your device.') :
-          copy('Trình duyệt có thể dùng dịch vụ nhận dạng của hãng. Nếu dịch vụ không trả chữ, Exam chấm lại từ bản ghi ngay trên thiết bị.', 'Your browser may use its speech recognition service. If it returns no words, Exam checks the recording on your device.')}</p>` :
-          `<p class="shadow-note">${copy('Để ghi âm, hãy mở bằng trình duyệt hỗ trợ micro như Chrome, Edge hoặc Safari.', 'To record, use a browser with microphone support, such as Chrome, Edge or Safari.')}</p>`}
+        ${canRecord ? '' : `<p class="shadow-note">${copy('Bạn có thể nghe mẫu ở đây. Để ghi âm, hãy mở trang bằng Chrome, Edge hoặc Safari.', 'You can listen here. To record, open this page in Chrome, Edge or Safari.')}</p>`}
       </div>
       <div class="shadow-actions">
         ${button(copy('Đoạn trước', 'Previous clip'), 'previous', busy() || index === 0 ? 'disabled' : '')}
@@ -134,11 +141,12 @@ export function createShadowing() {
       <div class="shadow-shortcuts">${whole ? '' : button(auto ? copy('Tắt luyện tự động', 'Stop auto-practice') : copy('Luyện tự động', 'Auto-practice'), 'auto', `aria-pressed="${auto}" ${!auto && (!ready || !canRecord || busy()) ? 'disabled' : ''}`)}
         <small>${copy('Phím tắt R nghe lại · M ghi/dừng · ← → đổi đoạn', 'R replay · M record/stop · ← → change clip')}</small>
       </div>
-      ${resultMarkup()}`;
-    show('.shadow-load').hidden = ready;
-    show('.shadow-load-text').textContent = playerError ? copy('Không mở được trình phát nhúng. Bạn có thể mở video trên YouTube.', 'The embedded player could not load. You can watch on YouTube.') :
+      ${!busy() ? resultMarkup() : ''}`;
+    show('.shadow-load').hidden = ready || !!player;
+    show('.shadow-load-text').textContent = loadingPlayer ? copy('Đang mở video…', 'Opening video…') :
+      playerError ? copy('Chưa mở được video. Bạn có thể thử lại hoặc mở video gốc.', 'The video did not open. Try again or open the original video.') :
       copy('Mở video để nghe từng đoạn hội thoại.', 'Load the video to listen to the dialogue clips.');
-    show('[data-shadow="load"]').disabled = Boolean(player && !playerError);
+    show('[data-shadow="load"]').disabled = loadingPlayer;
     show('.shadow-speed').disabled = !ready || busy();
     show('.shadow-speed').value = String(playbackRate);
     show('.shadow-source').href = videoUrl + '&t=' + Math.floor(selected().start) + 's';
@@ -148,19 +156,12 @@ export function createShadowing() {
     }
   }
 
-  function clearReplay() {
-    if (recordingUrl) URL.revokeObjectURL(recordingUrl);
-    recordingUrl = null;
-    result = null;
-    transcript = '';
-  }
-
   function settleClip() {
     selectedCue = null;
     cancelAnimationFrame(animation);
     highlightedWord?.classList.remove('is-current');
     player?.pauseVideo?.();
-    if (auto) autoTimer = setTimeout(() => { if (auto) beginRecording(); }, 250);
+    if (auto && !awaitingNext) autoTimer = setTimeout(() => { if (auto && !awaitingNext) beginRecording(); }, 250);
   }
 
   function tick() {
@@ -181,9 +182,11 @@ export function createShadowing() {
   }
 
   async function loadPlayer() {
+    if (ready || loadingPlayer) return;
     const container = shell;
     if (playerError) { player?.destroy?.(); player = null; }
     playerError = false;
+    loadingPlayer = true;
     show('.shadow-load-text').textContent = copy('Đang mở video…', 'Loading video…');
     show('[data-shadow="load"]').disabled = true;
     function fail() {
@@ -191,7 +194,11 @@ export function createShadowing() {
       clearTimeout(playerTimer);
       clearAuto();
       ready = false;
+      loadingPlayer = false;
       playerError = true;
+      player?.destroy?.();
+      player = null;
+      show('.shadow-video').replaceChildren();
       renderParts();
     }
     try {
@@ -203,12 +210,14 @@ export function createShadowing() {
       embed.referrerPolicy = 'strict-origin-when-cross-origin';
       embed.allow = 'autoplay; encrypted-media; fullscreen; picture-in-picture';
       embed.allowFullscreen = true;
+      show('.shadow-load').hidden = true;
       show('.shadow-video').replaceChildren(embed);
       playerTimer = setTimeout(fail, 12000);
       player = new yt.Player(embed, {events: {
         onReady() {
           if (shell !== container || playerError) return;
           clearTimeout(playerTimer);
+          loadingPlayer = false;
           ready = true;
           renderParts();
         },
@@ -224,7 +233,7 @@ export function createShadowing() {
         onAutoplayBlocked() {
           if (shell !== container) return;
           clearAuto();
-          issue = copy('Trình duyệt chặn phát tự động. Hãy bấm Phát trực tiếp trên video.', 'Playback was blocked. Press Play on the video.');
+          issue = copy('Hãy bấm Phát trên video để nghe mẫu.', 'Press Play on the video to listen.');
           renderParts();
         },
       }});
@@ -243,7 +252,6 @@ export function createShadowing() {
 
   function select(i, seek = true) {
     if (busy() || i < 0 || i >= cues.length) return;
-    if (i !== index) clearReplay();
     index = i;
     issue = '';
     selectedCue = null;
@@ -255,10 +263,23 @@ export function createShadowing() {
     renderParts();
   }
 
+  function next() {
+    if (busy() || index >= cues.length - 1) return;
+    const resume = auto && awaitingNext;
+    if (resume) {
+      awaitingNext = false;
+      select(index + 1, false);
+      listen();
+      show('[data-shadow="next"]')?.focus({preventScroll: true});
+    } else {
+      clearAuto();
+      select(index + 1);
+    }
+  }
+
   function captureError(code) {
-    if (['NotAllowedError', 'not-allowed', 'service-not-allowed'].includes(code)) return copy('Micro hoặc nhận dạng giọng nói chưa được cấp quyền. Hãy kiểm tra quyền của trang.', 'Microphone or speech recognition permission is missing. Check the site permissions.');
-    if (code === 'network') return copy('Nhận dạng giọng nói bị gián đoạn. Hãy kiểm tra mạng rồi thử lại.', 'Speech recognition was interrupted. Check your connection and try again.');
-    return copy('Không thu được âm thanh. Hãy kiểm tra micro rồi thử lại.', 'Audio could not be recorded. Check the microphone and try again.');
+    if (code === 'NotAllowedError' || code === 'not-allowed') return copy('Hãy cho phép dùng micro để ghi âm.', 'Allow microphone access to record.');
+    return copy('Chưa ghi âm được. Hãy kiểm tra micro rồi thử lại.', 'Recording did not start. Check the microphone and try again.');
   }
 
   async function beginRecording() {
@@ -266,7 +287,8 @@ export function createShadowing() {
     clearTimeout(autoTimer);
     if (ready) player.pauseVideo();
     selectedCue = null;
-    clearReplay();
+    awaitingNext = false;
+    transcript = '';
     issue = '';
     state = 'starting';
     const scope = new AbortController();
@@ -318,41 +340,42 @@ export function createShadowing() {
   async function finishRecording(reference = whole ? fullText : selected().text) {
     if (state !== 'recording') return;
     const scope = captureScope;
+    const key = takeKey();
     state = 'processing';
     clearInterval(recordTimer);
     renderParts();
     try {
       const out = await recording.stop();
       if (scope.signal.aborted) return;
-      if (out.audio.size) recordingUrl = URL.createObjectURL(out.audio);
       transcript = pickRecognition(reference, out.segments) || transcript.trim();
       if (!transcript && out.audio.size) {
-        checkingRecording = copy('Đang chuẩn bị nhận dạng bản ghi…', 'Preparing recording recognition…');
+        checkingRecording = copy('Đang chuẩn bị chấm. Lần đầu có thể lâu hơn.', 'Getting your result ready. The first try may take a little longer.');
         renderParts();
         try {
           transcript = await recordedRecognizer.transcribe(out.audio, {
             signal: scope.signal,
             onStatus() {
-              checkingRecording = copy('Đang nghe lại bản ghi để chấm…', 'Transcribing your recording…');
+              checkingRecording = copy('Đang chấm phần bạn vừa đọc…', 'Checking what you just read…');
               renderParts();
             },
           });
           if (scope.signal.aborted) return;
         } catch {
           if (scope.signal.aborted) return;
-          issue = copy('Bản ghi vẫn nghe lại được. Thiết bị chưa chạy được bộ nhận dạng. Kiểm tra kết nối rồi thử lại.', 'Your recording is still available. The recognizer could not run. Check your connection and try again.');
+          issue = copy('Chưa chấm được lần này. Bạn vẫn có thể nghe lại bản ghi rồi thử lại.', 'We could not score this try. You can still play back your recording and try again.');
         }
       }
-      if (!transcript) {
-        issue ||= copy('Bộ nhận dạng không trả về từ nào. Bạn có thể nghe lại bản ghi rồi thử lại.', 'The recognizer returned no words. Play back your recording and try again.');
+      const result = transcript ? gradeShadowing(reference, transcript) : null;
+      if (!result) {
+        issue ||= copy('Chưa nghe được từ nào để chấm. Bạn có thể nghe lại bản ghi rồi thử lại.', 'We did not hear enough to score. Play back your recording and try again.');
         clearAuto();
       } else {
-        result = gradeShadowing(reference, transcript);
-        scores[whole ? 'whole' : index] = result.score;
+        scores[key] = result.score;
         try { localStorage.setItem(storageKey, JSON.stringify(scores)); } catch {}
-        if (auto && index < cues.length - 1) autoTimer = setTimeout(() => { if (auto) { select(index + 1, false); listen(); } }, 1200);
+        if (auto && index < cues.length - 1) awaitingNext = true;
         else clearAuto();
       }
+      saveTake(key, {result, text: transcript, issue, recordingUrl: out.audio.size ? URL.createObjectURL(out.audio) : ''});
     } catch {
       if (!scope.signal.aborted) { clearAuto(); issue = captureError('audio-capture'); }
     } finally {
@@ -371,10 +394,14 @@ export function createShadowing() {
     switch (target.dataset.shadow) {
       case 'load': loadPlayer(); break;
       case 'listen': listen(); break;
-      case 'word': clearAuto(); listen(cueWords[index][Number(target.dataset.index)].start); break;
+      case 'word':
+        if (!awaitingNext) clearAuto();
+        listen(cueWords[index][Number(target.dataset.index)].start);
+        break;
       case 'record': if (state === 'recording') finishRecording(); else beginRecording(); break;
       case 'previous': clearAuto(); select(index - 1); break;
-      case 'next': clearAuto(); select(index + 1); break;
+      case 'next':
+      case 'continue': next(); break;
       case 'select': clearAuto(); select(Number(target.dataset.index)); break;
       case 'translation': translation = !translation; target.setAttribute('aria-pressed', String(translation)); renderParts(); break;
       case 'clip':
@@ -382,7 +409,6 @@ export function createShadowing() {
         if (busy()) return;
         clearAuto();
         whole = target.dataset.shadow === 'whole';
-        clearReplay();
         issue = '';
         renderParts();
         break;
@@ -416,11 +442,12 @@ export function createShadowing() {
     else if (!busy() && ['r', 'arrowleft', 'arrowright'].includes(key)) {
       event.preventDefault();
       if (key === 'r') listen();
-      else { clearAuto(); select(index + (key === 'arrowleft' ? -1 : 1)); }
+      else if (key === 'arrowright') next();
+      else { clearAuto(); select(index - 1); }
     }
   }
 
-  function stop() {
+  function stop({keepTakes = false} = {}) {
     if (!shell) return;
     document.removeEventListener('keydown', keyboard);
     window.removeEventListener('pagehide', stop);
@@ -435,29 +462,33 @@ export function createShadowing() {
     checkingRecording = '';
     cancelAnimationFrame(animation);
     highlightedWord = null;
-    clearReplay();
+    transcript = '';
+    if (!keepTakes) {
+      for (const take of takes.values()) if (take.recordingUrl) URL.revokeObjectURL(take.recordingUrl);
+      takes.clear();
+    }
     player?.destroy?.();
     player = null;
     shell = host = null;
-    ready = playing = playerError = false;
+    ready = loadingPlayer = playing = playerError = false;
     selectedCue = null;
   }
 
   function mount(root) {
     const slot = root.querySelector('#shadowing-root');
     if (!slot || slot === host) return;
-    stop();
+    stop({keepTakes: true});
     host = slot;
     host.innerHTML = `<section class="shadowing" aria-labelledby="shadowing-title">
-      <header class="shadow-heading"><div><h1 id="shadowing-title">Shadowing</h1><p>${copy('Nghe câu mẫu, nhắc lại và xem những từ trình duyệt nhận ra.', 'Listen, repeat, and see which words your browser recognises.')}</p></div>
+      <header class="shadow-heading"><div><h1 id="shadowing-title">Shadowing</h1><p>${copy('Nghe mẫu, nhắc lại và xem kết quả từng từ.', 'Listen, repeat, and check each word.')}</p></div>
       <span class="shadow-badge">${copy('Bài thử · A1', 'Pilot lesson · A1')}</span></header>
       <div class="shadow-grid">
         <div class="shadow-main">
           <section class="shadow-player" aria-labelledby="shadow-video-title">
-            <header><h2 id="shadow-video-title">${copy('Học tiếng Anh cùng Gogo · Tập 1', 'Learn English with Gogo · Episode 1')}</h2><a class="shadow-source" href="${videoUrl}" rel="noopener noreferrer" target="_blank">YouTube ↗</a></header>
+            <header><h2 id="shadow-video-title">${copy('Học tiếng Anh cùng Gogo · Tập 1', 'Learn English with Gogo · Episode 1')}</h2></header>
             <div class="shadow-media"><div class="shadow-video"></div><div class="shadow-load"><p class="shadow-load-text"></p>${button(copy('Mở video mẫu', 'Load sample video'), 'load', '', 'primary')}</div></div>
             <div class="shadow-video-tools"><label>${copy('Tốc độ', 'Speed')} <select class="shadow-speed" disabled><option value=".5">0.5×</option><option value=".75">0.75×</option><option value="1">1×</option><option value="1.25">1.25×</option></select></label>
-            <span>${copy('Thời điểm tô sáng từng từ là ước lượng.', 'Word highlighting uses estimated timing.')}</span></div>
+            <a class="shadow-source" href="${videoUrl}" rel="noopener noreferrer" target="_blank">${copy('Video gốc trên YouTube', 'Original video on YouTube')}</a></div>
           </section>
           <section class="shadow-studio" aria-label="${copy('Phòng luyện nói', 'Speaking studio')}"></section>
         </div>

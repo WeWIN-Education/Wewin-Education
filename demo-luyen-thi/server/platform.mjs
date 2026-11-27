@@ -31,7 +31,7 @@ export function createPlatformHandler({getRepository=productionRepository,ai=ass
    if(!user&&guestAccess.reason&&guestAccess.reason!=='unavailable')res.setHeader('Set-Cookie',guestCookie(req));
    const sessionInfo=()=>({user:safeUser(user),registered:!!user||!!guest,accessType:user?'account':guest?'guest':'none',guest:user?null:guest,guestStatus:guestAccess.reason,databaseReady:!!repo,aiReady:!!process.env.OPENAI_API_KEY});
    if(req.method==='GET'&&resource==='session')return send(200,sessionInfo());
-   if(!repo)throw new ApiError(503,'Account and result storage is being configured. Please try again later.','DATABASE_UNAVAILABLE');
+   if(!repo)throw new ApiError(503,'Accounts and results are temporarily unavailable. Please try again later.','DATABASE_UNAVAILABLE');
    if(!['GET','POST'].includes(req.method))throw new ApiError(405,'Method not allowed.');
    const input=req.method==='POST'?(csrf(req),await body(req)):{};
    if(resource==='login'&&req.method==='POST'){
@@ -80,7 +80,7 @@ export function createPlatformHandler({getRepository=productionRepository,ai=ass
    }
    if(resource==='writing'&&req.method==='POST'){
     requireUser(user,['student']);const attempt=await repo.attempt(id);if(attempt?.owner_id!==user.id||!attempt.submitted_at)throw new ApiError(403,'Submit your own attempt before requesting writing feedback.');const exam=getExam(attempt.exam_id);if(exam.writingAssessment==='teacher')throw new ApiError(422,'KET writing is saved for teacher assessment.');if(!writingPart(exam))throw new ApiError(422,'This test has no open writing task.');
-    if(!process.env.OPENAI_API_KEY&&ai===assessWriting)throw new ApiError(503,'AI Writing is not configured. Your writing is saved.');
+    if(!process.env.OPENAI_API_KEY&&ai===assessWriting)throw new ApiError(503,'Writing feedback is not available right now. Your writing is saved.');
     let review=await repo.reviewForAttempt(id);
     if(review?.status==='completed')return send(200,{review});
     if(!review){const maximum=Number(await repo.setting('daily_ai_limit'))||10;const day=new Date().toISOString().slice(0,10);if(!await repo.limit('writing:'+user.id+':'+day,maximum,86400))throw new ApiError(429,'Your daily AI Writing limit has been reached.');review=await repo.newReview(attempt,writingHash(exam,attempt.writing),process.env.AI_WRITING_MODEL||'gpt-5.6-terra');}

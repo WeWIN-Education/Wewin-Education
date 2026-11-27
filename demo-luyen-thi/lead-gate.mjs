@@ -56,7 +56,7 @@ export function requireLeadAccess(){
       if(!response.ok||data.registered!==true){if(data.errors)errors(data.errors);throw new Error(data.message||t('Chưa gửi được thông tin. Vui lòng thử lại.'));}
       // Recheck the server cookie before enabling the exam interface.
       const check=await fetch('/api/lead',{cache:'no-store',credentials:'same-origin'});
-      if(!check.ok||(await check.json()).registered!==true)throw new Error(t('Trình duyệt chưa lưu được xác nhận đăng ký. Vui lòng cho phép cookie của trang và thử lại.'));
+      if(!check.ok||(await check.json()).registered!==true)throw new Error(t('Chưa xác nhận được đăng ký. Hãy thử lại.'));
       unlock();
     }catch(error){dialog.querySelector('#lead-submit-error').textContent=error.name==='TimeoutError'?t('Kết nối đang chậm. Thông tin vẫn được giữ; vui lòng thử lại.'):t(error.message);}
     finally{busy=false;if(!finished){if(languageControl)languageControl.disabled=false;button.disabled=false;button.removeAttribute('aria-busy');button.textContent=t('Hoàn tất và mở bài luyện');}}

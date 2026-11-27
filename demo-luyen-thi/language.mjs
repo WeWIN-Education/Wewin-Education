@@ -1,5 +1,10 @@
 // Only literal interface copy is translated. Interpolated data and test content stay untouched.
 const pairs = [
+ ["Kiểm tra kết nối mạng rồi thử lại.", "Check your internet connection and try again."],
+ ["Có lỗi xảy ra. Hãy thử lại.", "Something went wrong. Please try again."],
+ ["Chưa mở được tài khoản và kết quả. Hãy thử lại sau.", "Accounts and results are temporarily unavailable. Please try again later."],
+ ["Đã lưu trên máy này. Kết nối mạng để lưu tiến độ.", "Saved here. Reconnect to save your progress."],
+ ["Chưa xem được nhận xét bài viết. Bài của bạn đã được lưu.", "Writing feedback is not available right now. Your writing is saved."],
  ["Bạn đã tô","You have coloured"],
  ["vật. Chọn Erase rồi chạm vào một vật để xóa trước khi tô vật khác.","objects. Erase one to change it."],
  ["Audio Listening của đề này đang chờ bổ sung.","The Listening audio for this test is awaiting upload."],
@@ -532,8 +537,8 @@ const pairs = [
   "Attempts by students in your assigned classes."
  ],
  [
-  "Thời gian hiển thị theo giờ Việt Nam. Gồm mốc bắt đầu và nộp bài đã lưu.",
-  "Times are shown in Vietnam time. Includes saved start and submission times."
+  "Giờ bắt đầu và nộp bài theo giờ Việt Nam.",
+  "Start and submission times are shown in Vietnam time."
  ],
  [
   "Tất cả học sinh",
@@ -644,8 +649,8 @@ const pairs = [
   "Password (default: 123)"
  ],
  [
-  "Lớp học và hạn mức AI",
-  "Classes and AI limits"
+  "Lớp học và lượt nhận xét bài viết",
+  "Classes and writing review limits"
  ],
  [
   "Tên lớp",
@@ -668,8 +673,8 @@ const pairs = [
   "Enrol student"
  ],
  [
-  "Lượt AI / học sinh / ngày",
-  "AI reviews per student per day"
+  "Lượt nhận xét bài viết mỗi ngày cho mỗi học viên",
+  "Writing reviews per student per day"
  ],
  [
   "Lưu hạn mức",
@@ -1060,8 +1065,8 @@ const pairs = [
   "Guest"
  ],
  [
-  "Thời gian hiển thị theo giờ Việt Nam. Gồm mốc bắt đầu và nộp bài được hệ thống lưu.",
-  "Times are shown in Vietnam time. Includes saved start and submission times."
+  "Giờ bắt đầu và nộp bài theo giờ Việt Nam.",
+  "Start and submission times are shown in Vietnam time."
  ],
  [
   "Đang tải nhật ký…",
@@ -1072,8 +1077,8 @@ const pairs = [
   "Submitting your details…"
  ],
  [
-  "Trình duyệt chưa lưu được xác nhận đăng ký. Vui lòng cho phép cookie của trang và thử lại.",
-  "Registration was not saved in your browser. Allow site cookies and try again."
+  "Chưa xác nhận được đăng ký. Hãy thử lại.",
+  "We could not confirm your registration. Please try again."
  ],
  [
   "Tài khoản hoặc mật khẩu không đúng.",
@@ -1208,8 +1213,8 @@ const pairs = [
   "Listen from the start"
  ],
  [
-  "Kết quả đang được tải. Vui lòng thử lại sau.",
-  "Results storage is temporarily unavailable. Please try again shortly."
+  "Chưa tải được kết quả. Vui lòng thử lại sau.",
+  "Could not load your results. Please try again shortly."
  ],
  [
   "Chọn",

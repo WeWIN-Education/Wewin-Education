@@ -397,7 +397,7 @@ export function createStorylandUI({initialStoryId = '', redraw = () => {}, robot
             <figcaption>
               <div>
                 <strong id="storyland-scene-caption">${text('Cảnh', 'Scene')} ${state.scene + 1} / ${story.scenes.length}</strong>
-                <span>${story.category === 'WEWIN Original' ? 'WEWIN Original' : text('Minh họa WEWIN STORYLAND · Tỷ lệ gốc', 'WEWIN STORYLAND illustration · Original ratio')}</span>
+                <span>${story.category === 'WEWIN Original' ? 'WEWIN Original' : text('Tranh minh họa', 'Story illustration')}</span>
               </div>
               <div class="storyland-picture-nav">
                 <button type="button" class="storyland-scene-skip" data-action="storyland-previous" aria-label="${text('Cảnh trước', 'Previous scene')}" ${state.scene <= 0 ? 'disabled' : ''}>${icon('left')}</button>
@@ -452,7 +452,7 @@ export function createStorylandUI({initialStoryId = '', redraw = () => {}, robot
         <button type="button" class="storyland-scene-skip" data-action="storyland-previous" aria-label="${text('Về cảnh trước', 'Go to previous scene')}" ${state.scene <= 0 ? 'disabled' : ''}>${icon('left')}</button>
         <button type="button" class="storyland-play" data-action="storyland-play" aria-label="${audio.paused ? text('Phát truyện', 'Play story') : text('Tạm dừng truyện', 'Pause story')}">${icon(audio.paused ? 'play' : 'pause')}</button>
         <button type="button" class="storyland-scene-skip" data-action="storyland-next" aria-label="${text('Đến cảnh tiếp theo', 'Go to next scene')}" ${state.scene >= story.scenes.length - 1 ? 'disabled' : ''}>${icon('right')}</button>
-        <span class="storyland-player-hint">${cues.length ? text('Đang đồng bộ từng từ với giọng đọc', 'Word-by-word sync active') : text('Nghe & chuyển cảnh', 'Audio ready')}</span>
+        <span class="storyland-player-hint">${cues.length ? text('Đọc theo từ được tô sáng', 'Read along with the highlighted words') : text('Nghe & chuyển cảnh', 'Audio ready')}</span>
       </div>
     </section>`;
   }
