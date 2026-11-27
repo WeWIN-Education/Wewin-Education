@@ -1,9 +1,15 @@
 export function canRecordShadowing() {
-  return Boolean(globalThis.navigator?.mediaDevices?.getUserMedia &&
-    globalThis.MediaRecorder && (globalThis.SpeechRecognition || globalThis.webkitSpeechRecognition));
+  return Boolean(globalThis.navigator?.mediaDevices?.getUserMedia && globalThis.MediaRecorder);
 }
 
-export async function startShadowingCapture({signal, onText, onError}) {
+export function useRecordedSpeech(device) {
+  // On mobile the recorder and the native recognizer can compete for the mic.
+  return Boolean(device?.userAgentData?.mobile ||
+    /Android|iPhone|iPad|iPod/i.test(device?.userAgent || '') ||
+    (device?.platform === 'MacIntel' && device.maxTouchPoints > 1));
+}
+
+export async function startShadowingCapture({signal, onText, onError, liveRecognition = true}) {
   const stream = await navigator.mediaDevices.getUserMedia({audio: {echoCancellation: true, noiseSuppression: true}});
   const release = () => stream.getTracks().forEach(track => track.stop());
   if (signal.aborted) {
@@ -36,40 +42,43 @@ export async function startShadowingCapture({signal, onText, onError}) {
     recorder.onerror = () => onError('audio-capture');
 
     const Recognition = globalThis.SpeechRecognition || globalThis.webkitSpeechRecognition;
-    speech = new Recognition();
-    speech.lang = 'en-US';
-    speech.continuous = true;
-    speech.interimResults = true;
-    speech.maxAlternatives = 5;
-    speech.onresult = event => {
-      current.length = event.results.length;
-      for (let i = event.resultIndex; i < event.results.length; i++) {
-        const result = event.results[i];
-        current[i] = Array.from(result, option => option.transcript.trim()).filter(Boolean);
-      }
-      if (!signal.aborted) onText([...segments, ...current.filter(Boolean)].map(options => options[0]).join(' '));
-    };
-    speech.onerror = ({error}) => {
-      if (!closing && error !== 'no-speech' && error !== 'aborted') {
-        closing = true;
-        finishSpeech();
-        onError(error);
-      }
-    };
-    speech.onend = () => {
-      commit();
-      if (closing || signal.aborted) {
-        finishSpeech();
-      } else {
-        restart = setTimeout(() => {
-          if (!closing && !signal.aborted) {
-            try { speech.start(); } catch { onError('network'); }
-          }
-        }, 180);
-      }
-    };
     recorder.start(250);
-    speech.start();
+    if (liveRecognition && Recognition) speech = new Recognition();
+    else finishSpeech();
+    if (speech) {
+      speech.lang = 'en-US';
+      speech.continuous = true;
+      speech.interimResults = true;
+      speech.maxAlternatives = 5;
+      speech.onresult = event => {
+        current.length = event.results.length;
+        for (let i = event.resultIndex; i < event.results.length; i++) {
+          const result = event.results[i];
+          current[i] = Array.from(result, option => option.transcript.trim()).filter(Boolean);
+        }
+        if (!signal.aborted) onText([...segments, ...current.filter(Boolean)].map(options => options[0]).join(' '));
+      };
+      speech.onerror = ({error}) => {
+        if (!closing && error !== 'no-speech' && error !== 'aborted') {
+          closing = true;
+          finishSpeech();
+          // A failed recognizer must not cut off the independent recording.
+        }
+      };
+      speech.onend = () => {
+        commit();
+        if (closing || signal.aborted) {
+          finishSpeech();
+        } else {
+          restart = setTimeout(() => {
+            if (!closing && !signal.aborted) {
+              try { speech.start(); } catch { closing = true; finishSpeech(); }
+            }
+          }, 180);
+        }
+      };
+      try { speech.start(); } catch { closing = true; finishSpeech(); }
+    }
   } catch (error) {
     abort();
     signal.removeEventListener('abort', abort);
@@ -80,7 +89,7 @@ export async function startShadowingCapture({signal, onText, onError}) {
     async stop() {
       closing = true;
       clearTimeout(restart);
-      try { speech.stop(); } catch { finishSpeech(); }
+      try { speech?.stop(); } catch { finishSpeech(); }
       if (recorder.state !== 'inactive') recorder.stop();
       let deadline;
       try {
@@ -90,7 +99,7 @@ export async function startShadowingCapture({signal, onText, onError}) {
       } finally {
         clearTimeout(deadline);
         signal.removeEventListener('abort', abort);
-        try { speech.abort(); } catch {}
+        try { speech?.abort(); } catch {}
         release();
         chunks = [];
       }

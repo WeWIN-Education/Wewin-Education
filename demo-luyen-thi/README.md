@@ -42,7 +42,7 @@ This version requires its server API. Static files alone on cPanel do not provid
 
 ## Local verification
 
-The Shadowing pilot is available from the learning menu at `?screen=shadowing`. It embeds YouTube video `tuW5ZOpz79o` and provides three short timed clips. Browser speech recognition and MediaRecorder drive the per-clip and full-sample practice modes. The site saves scores in local storage and releases each replay when replaced or when the learner leaves. No voice file or transcript is submitted to Exam's backend. `node --test tools/shadowing.test.mjs` checks scoring, recognition restarts and microphone cleanup.
+The Shadowing pilot is available from the learning menu at `?screen=shadowing`. It embeds YouTube video `tuW5ZOpz79o` and provides three short timed clips. Mobile devices record first, then transcribe in a Web Worker using a locally served Whisper model. Desktop browsers can use live Web Speech recognition and fall back to the same model if they receive no words. The model downloads only when needed (about 54 MB on first use). The site saves scores in local storage and releases each replay when replaced or when the learner leaves. No voice file or transcript is submitted to Exam's backend. `node --test tools/shadowing.test.mjs` checks scoring, capture on mobile, recognition restarts and microphone cleanup.
 
 `npm run dev` starts an isolated PostgreSQL-compatible fixture database at http://127.0.0.1:8780. Accounts: `local.admin`, `local.teacher`, `local.student`; password `Local-Test-2026!`. Google submissions and AI are explicitly simulated locally, without production records. `--production-services` explicitly opts into configured real services.
 

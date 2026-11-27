@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {gradeShadowing, pickRecognition, transcriptLines} from '../shadowing-score.mjs';
-import {startShadowingCapture} from '../shadowing-capture.mjs';
+import {startShadowingCapture, useRecordedSpeech} from '../shadowing-capture.mjs';
 
 test('shadowing aligns spoken words without speaker labels, splitting around abbreviations', () => {
   assert.deepEqual(transcriptLines('Tony: Hello, Dr. Brown. How are you?\nJenny: I am fine.'), [
@@ -59,6 +59,18 @@ test('recording merges speech sessions and releases the microphone after stoppin
   assert.deepEqual(result.segments,[['Hello'],['Tony']]);
   assert.equal(result.audio.size,7);
   assert.equal(trackStops,1);
+  const mobileCapture = await startShadowingCapture({signal:new AbortController().signal,liveRecognition:false,onError:code=>assert.fail(code)});
+  const mobile = await mobileCapture.stop();
+  assert.equal(starts,2,'Recording on mobile must not start native speech recognition');
+  assert.equal(mobile.audio.size,7);
+  assert.deepEqual(mobile.segments,[]);
+});
+
+test('phone browsers and iPad desktop mode transcribe after recording', () => {
+  assert.equal(useRecordedSpeech({userAgent:'Mozilla/5.0 (Linux; Android 14)'}),true);
+  assert.equal(useRecordedSpeech({userAgent:'Mozilla/5.0 (iPhone; CPU iPhone OS 18_0)'}),true);
+  assert.equal(useRecordedSpeech({platform:'MacIntel',maxTouchPoints:5}),true);
+  assert.equal(useRecordedSpeech({userAgent:'Mozilla/5.0 (Windows NT 10.0)'}),false);
 });
 
 test('a late microphone grant is closed after navigation cancels recording', async t => {

@@ -8,9 +8,10 @@ if(basename(dist)!=='dist'||resolve(dist,'..')!==resolve(root))throw new Error('
 await rm(dist,{recursive:true,force:true});await mkdir(dist,{recursive:true});
 const files=['combobox.mjs','combobox.css','search.mjs','assignments-ui.mjs','assignments.css','vocab-audio.mjs','vocab.mjs','vocab-catalog.mjs','vocab.css','storyland.mjs','storyland.css','guest-session.mjs','language.mjs','language.css','hero-mascot.css','shields.mjs','results-ui.mjs','index.html','styles.css','lead-gate.css','refresh.css','platform.css','learning.css','learning-color.css','learning-ui.mjs','learning-shell.mjs','library.mjs','theme.mjs','lead-fields.mjs','lead-gate.mjs','catalog.mjs','public-data.mjs','media.mjs','media-manifest.mjs','client-api.mjs','picture-ui.mjs','platform-app.mjs','bootstrap.mjs'];
 for(const name of files)await cp(resolve(root,name),resolve(dist,name));
-for (const name of ['analytics.mjs', 'analytics-frame.html', 'analytics-frame.mjs', 'shadowing.mjs', 'shadowing-score.mjs', 'shadowing-capture.mjs', 'shadowing.css']) {
+for (const name of ['analytics.mjs', 'analytics-frame.html', 'analytics-frame.mjs', 'shadowing.mjs', 'shadowing-score.mjs', 'shadowing-capture.mjs', 'shadowing-asr.mjs', 'shadowing-asr-worker.mjs', 'shadowing.css']) {
   await cp(resolve(root, name), resolve(dist, name));
 }
+await cp(resolve(root, 'assets/shadowing-model'), resolve(dist, 'assets/shadowing-model'), {recursive: true});
 const analyticsId = process.env.GA_MEASUREMENT_ID?.trim() || '';
 if (analyticsId && !/^G-[A-Z0-9]+$/.test(analyticsId)) throw new Error('Invalid GA_MEASUREMENT_ID');
 const indexPath = resolve(dist, 'index.html');

@@ -72,7 +72,7 @@
 .shadow-model .is-current { background: var(--gold-light); color: #6c4b0c; border-radius: 3px; }
 .shadow-note { font-size: 13px; }
 .shadow-voice, .shadow-heard, .shadow-live { overflow-wrap: anywhere; }
-.shadow-live, .shadow-clock, .shadow-error { margin: 8px 0; }
+.shadow-live, .shadow-clock, .shadow-error, .shadow-checking { margin: 8px 0; }
 .shadow-clock { font-weight: 700; color: var(--danger); }
 .shadow-error { background: var(--danger-bg); color: var(--danger); padding: 8px 10px; border-radius: 8px; }
 .shadow-actions { margin-top: 12px; }

@@ -1,0 +1,3 @@
+# Preserve the upstream ASR runtime, model and license files byte for byte.
+shadowing-model/runtime/** -text -diff
+shadowing-model/whisper-tiny.en/** -text -diff

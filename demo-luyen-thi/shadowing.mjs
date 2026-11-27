@@ -1,7 +1,8 @@
 import {getLanguage} from './language.mjs';
 import {escapeHTML as esc} from './learning-ui.mjs';
 import {gradeShadowing, pickRecognition} from './shadowing-score.mjs';
-import {canRecordShadowing, startShadowingCapture} from './shadowing-capture.mjs';
+import {canRecordShadowing, startShadowingCapture, useRecordedSpeech} from './shadowing-capture.mjs';
+import {createRecordedRecognizer} from './shadowing-asr.mjs';
 
 const videoId = 'tuW5ZOpz79o';
 const videoUrl = 'https://www.youtube.com/watch?v=' + videoId;
@@ -56,10 +57,13 @@ function youtubeApi() {
 }
 
 export function createShadowing() {
+  const recordedRecognizer = createRecordedRecognizer();
+  const recordedMode = useRecordedSpeech(globalThis.navigator) || !(globalThis.SpeechRecognition || globalThis.webkitSpeechRecognition);
   let host, shell, player, playerTimer, ready = false, playerError = false, playbackRate = 1, playing = false;
   let index = 0, whole = false, translation = true, selectedCue = null, animation = null, highlightedWord, auto = false, autoTimer;
   let state = 'idle', recording, captureScope, recordTimer, recordStarted, recordLimit, transcript = '', issue = '';
   let recordingUrl, result;
+  let checkingRecording = '';
   let scores = {};
   try {
     const saved = JSON.parse(globalThis.localStorage?.getItem(storageKey) || '{}');
@@ -102,7 +106,7 @@ export function createShadowing() {
     const micLabel = ({
       starting: copy('Đang mở micro…', 'Opening microphone…'),
       recording: copy('Dừng ghi âm', 'Stop recording'),
-      processing: copy('Đang đối chiếu…', 'Checking words…'),
+      processing: checkingRecording || copy('Đang đối chiếu…', 'Checking words…'),
     })[state] || (result || recordingUrl ? copy('Ghi âm lại', 'Record again') : copy('Ghi âm', 'Record'));
     deck.innerHTML = `
       <div class="shadow-mode" role="group" aria-label="${copy('Chế độ luyện', 'Practice mode')}">
@@ -115,9 +119,11 @@ export function createShadowing() {
         <p class="shadow-model" lang="en">${prompt}</p>
         <p class="shadow-clock" ${state === 'recording' ? '' : 'hidden'}></p>
         <p class="shadow-live" lang="en" ${state === 'recording' || state === 'processing' ? '' : 'hidden'}>${esc(transcript)}</p>
+        <p class="shadow-checking" role="status" ${checkingRecording ? '' : 'hidden'}>${esc(checkingRecording)}</p>
         <p class="shadow-error" role="alert" ${issue ? '' : 'hidden'}>${esc(issue)}</p>
-        ${canRecord ? `<p class="shadow-note">${copy('Trình duyệt có thể gửi giọng nói tới dịch vụ nhận dạng của hãng. Bản ghi nghe lại chỉ tồn tại trong trang này.', 'Your browser may send speech to its recognition provider. Your replay is kept only while this page is open.')}</p>` :
-          `<p class="shadow-note">${copy('Để ghi âm và chấm, hãy mở trên Chrome, Edge hoặc Safari có hỗ trợ nhận dạng giọng nói.', 'To record and score, use Chrome, Edge or Safari with speech recognition support.')}</p>`}
+        ${canRecord ? `<p class="shadow-note">${recordedMode ? copy('Điện thoại chấm sau khi dừng ghi. Lần đầu cần tải bộ nhận dạng khoảng 54 MB. Giọng nói được xử lý ngay trên thiết bị.', 'Your device scores the recording after you stop. First use needs a download of about 54 MB. Speech is processed on your device.') :
+          copy('Trình duyệt có thể dùng dịch vụ nhận dạng của hãng. Nếu dịch vụ không trả chữ, Exam chấm lại từ bản ghi ngay trên thiết bị.', 'Your browser may use its speech recognition service. If it returns no words, Exam checks the recording on your device.')}</p>` :
+          `<p class="shadow-note">${copy('Để ghi âm, hãy mở bằng trình duyệt hỗ trợ micro như Chrome, Edge hoặc Safari.', 'To record, use a browser with microphone support, such as Chrome, Edge or Safari.')}</p>`}
       </div>
       <div class="shadow-actions">
         ${button(copy('Đoạn trước', 'Previous clip'), 'previous', busy() || index === 0 ? 'disabled' : '')}
@@ -271,6 +277,7 @@ export function createShadowing() {
     try {
       const started = await startShadowingCapture({
         signal: scope.signal,
+        liveRecognition: !recordedMode,
         onText(value) {
           if (scope.signal.aborted) return;
           transcript = value;
@@ -319,8 +326,25 @@ export function createShadowing() {
       if (scope.signal.aborted) return;
       if (out.audio.size) recordingUrl = URL.createObjectURL(out.audio);
       transcript = pickRecognition(reference, out.segments) || transcript.trim();
+      if (!transcript && out.audio.size) {
+        checkingRecording = copy('Đang chuẩn bị nhận dạng bản ghi…', 'Preparing recording recognition…');
+        renderParts();
+        try {
+          transcript = await recordedRecognizer.transcribe(out.audio, {
+            signal: scope.signal,
+            onStatus() {
+              checkingRecording = copy('Đang nghe lại bản ghi để chấm…', 'Transcribing your recording…');
+              renderParts();
+            },
+          });
+          if (scope.signal.aborted) return;
+        } catch {
+          if (scope.signal.aborted) return;
+          issue = copy('Bản ghi vẫn nghe lại được. Thiết bị chưa chạy được bộ nhận dạng. Kiểm tra kết nối rồi thử lại.', 'Your recording is still available. The recognizer could not run. Check your connection and try again.');
+        }
+      }
       if (!transcript) {
-        issue ||= copy('Chưa nhận ra lời nói rõ ràng. Hãy nghe mẫu rồi thử lại.', 'No clear speech was recognised. Listen and try again.');
+        issue ||= copy('Bộ nhận dạng không trả về từ nào. Bạn có thể nghe lại bản ghi rồi thử lại.', 'The recognizer returned no words. Play back your recording and try again.');
         clearAuto();
       } else {
         result = gradeShadowing(reference, transcript);
@@ -334,6 +358,7 @@ export function createShadowing() {
     } finally {
       if (!scope.signal.aborted) {
         state = 'idle';
+        checkingRecording = '';
         recording = null;
         captureScope = null;
         renderParts();
@@ -403,9 +428,11 @@ export function createShadowing() {
     clearTimeout(playerTimer);
     clearInterval(recordTimer);
     captureScope?.abort();
+    recordedRecognizer.stop();
     captureScope = recording = null;
     state = 'idle';
     issue = '';
+    checkingRecording = '';
     cancelAnimationFrame(animation);
     highlightedWord = null;
     clearReplay();
